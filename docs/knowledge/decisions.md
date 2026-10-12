@@ -1,7 +1,37 @@
 # Decisions
 
-Record durable project decisions with their dates, rationale, and links to the work item that established them. Mark a decision superseded rather than deleting it.
+Record dated decisions and rationale; link to authoritative detail. Mark superseded decisions instead of
+removing history.
 
-## Decisions
+## 2026-10-12 — Standalone SDK and copied-project consumption
 
-No project decisions have been recorded here yet.
+The framework belongs to c4-sdk, with its authoritative implementation plan here. ts-db Pages consumes a
+reviewed project snapshot by copy, with provenance and consumer-owned content outside the copied tree.
+There is no npm packaging or publishing in this implementation; publishing remains a later open item.
+See [repository and copy workflow](../plans/implementation.md#2-repository-structure-and-copy-based-consumption).
+
+## 2026-10-12 — Pure domain rules, thin hooks and dumb views
+
+Pure TypeScript functions own model validity, navigation, projection and other domain decisions. Hooks
+integrate framework lifecycle and effects through ports; views receive presentation props and callbacks.
+This keeps the business rules testable without React or a browser. See
+[component architecture](../plans/implementation.md#4-mandatory-view-hook-and-container-architecture).
+
+## 2026-10-12 — Vertical slices with three test layers
+
+Build usable paths through data, domain, hooks and presentation. Each slice carries meaningful unit tests,
+fast-check properties and Playwright journeys; browser and visual checks begin with the first screen.
+See [slice sequence](../plans/implementation.md#10-vertical-implementation-slices) and
+[verification](../plans/implementation.md#11-verification-knowledge-and-open-decisions). These are future
+implementation requirements, not test results for the documentation-only planning task.
+
+## 2026-10-12 — Independent showcase and project memory
+
+The showcase in `demos/git-at-any-scale/` uses architecture JSON and STE100/plain write-ups based on the
+Cursor article. Source-documented facts, inferred decomposition and illustrative deployment stay explicit.
+The existing ts-db architecture conversion remains a separate consumer milestone. See
+[showcase and consumer milestones](../plans/implementation.md#9-showcase-and-consumer-milestones).
+
+The scaffold already ported ts-db's Markdown knowledge-store pattern. Keep its index, dated decisions,
+gotchas and glossary, but record c4-sdk knowledge rather than importing ts-db history. This planning task
+populates those decisions; [its brief](../../agent-work/items/implementation-plan/brief.md) defines scope.
