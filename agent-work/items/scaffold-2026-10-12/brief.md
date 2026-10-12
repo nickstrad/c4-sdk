@@ -1,6 +1,6 @@
 # Work item: scaffold-2026-10-12
 
-Status: in progress
+Status: reviewed PASS; pending push
 
 Owner: coordinator and scaffold builder
 
@@ -31,9 +31,9 @@ Establish practical coordination, event reporting, experiment, script, and durab
 
 ## Acceptance criteria
 
-- [ ] Instructions are adapted to this repository and AGENTS.md / CLAUDE.md use the documented sync protocol.
-- [ ] Task brief, claims, and review records have usable templates and a concrete scaffold mission record.
-- [ ] Shared git-common-dir event logging and archive protocols are documented; helper rejects malformed input and safely publishes complete immutable events.
-- [ ] Experiment board, findings template, reusable script index, and knowledge skeleton are present.
-- [ ] The event helper check passes in an isolated repository with concurrent worktree writers.
-- [ ] Only scaffolding files are included in the reviewed change; `kickoff-brief.md` remains untouched.
+- [x] Instructions are adapted to this repository and AGENTS.md / CLAUDE.md use the documented sync protocol.
+- [x] Task brief, claims, and review records have usable templates and a concrete scaffold mission record.
+- [x] Shared git-common-dir event logging and archive protocols are documented; helper rejects malformed input and safely publishes complete immutable events.
+- [x] Experiment board, findings template, reusable script index, and knowledge skeleton are present.
+- [x] The event helper check passes in an isolated repository with concurrent worktree writers.
+- [x] Only scaffolding files are included in the reviewed change; `kickoff-brief.md` remains untouched.
