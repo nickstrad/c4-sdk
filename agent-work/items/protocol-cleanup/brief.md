@@ -1,6 +1,6 @@
 # Protocol cleanup
 
-Owner: lead. Branch: main. Status: in progress.
+Owner: lead. Branch: main. Status: complete; reviewed, publication pending.
 
 ## Goal and scope
 
