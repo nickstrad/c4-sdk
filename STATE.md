@@ -1,6 +1,6 @@
 # C4 SDK planning state
 
-Updated: 2026-10-12 UTC. Status: **Active revision; independent review pending.**
+Updated: 2026-10-12 UTC. Status: **Revised plan committed; independent review in progress.**
 
 ## Current workspace and authorization
 
@@ -8,10 +8,10 @@ Updated: 2026-10-12 UTC. Status: **Active revision; independent review pending.*
 - Active branch/worktree: `plan/c4-react`, `/tmp/c4-sdk-plan`.
 - Baseline scaffold: `486db29babd40f0b2780e3eac448a5189ea0fd00`.
 - Initial plan commit: `3fb8227b08f171d2b2281c6065d829c851a71d8c`, local, not yet pushed.
-- Current edits apply Nick's restart instructions. Plan only: commit/push authorized; no SDK build or merge.
+- Revision commit `a0eefc0` applies Nick's restart instructions. Plan only: commit/push authorized; no SDK build or merge.
 - Main checkout's unrelated `kickoff-brief.md` remains untouched. This STATE is mirrored there for restart.
 - ts-db pointer worktree `/tmp/tsdb-c4-react-plan`, branch `plan/c4-react`, still at published
-  `031731e9380ec889450b5fb9dda2349b976ca945`. Relocation pointer not yet written.
+  `031731e9380ec889450b5fb9dda2349b976ca945`. Relocation pointer drafted locally; not committed/pushed.
 
 ## Latest rules now incorporated
 
@@ -45,11 +45,11 @@ components and illustrative deployment. Code-level demo uses generic/source-grou
 - `concurrency_audit`: read-only planning suggestions received; no files edited. Integrated ownership,
   serialization and nonvisual-test recommendations. Coordinator retains final plan design.
 - Previous `/root/review_plan` review of initial plan was interrupted on Nick's STOP. No verdict claimed.
-- Initial JSON/link/whitespace validation passed (10 elements, 8 relationships, 2 diagrams). Recheck current
-  revision before commit. No runtime unit/property/Playwright tests run for this docs-only task.
+- Current JSON/link/whitespace and AGENTS/CLAUDE overlap validation passed (10 elements, 8 relationships,
+  2 diagrams). No runtime unit/property/Playwright tests run for this docs-only task.
 - Event publication failed again due read-only Git common directory; skipped under Nick's exception.
-- Next: validate current docs, commit revised plan/protocol, independent exact-commit review, fix/re-review,
-  record actual verdict, push/verify c4-sdk branch, replace ts-db plan with relocation pointer and push it.
+- `/root/final_plan_review` is reviewing exact revision `a0eefc0` read-only. Verdict pending.
+- Next: address review, record actual verdict, push/verify c4-sdk branch, then commit/push ts-db pointer.
 - Keep STATE current through those steps. Implementation starts only with a later authorized build session.
 
 ## Environment and work protocol
@@ -102,7 +102,7 @@ The original brief requires:
 - Unit tests plus fast-check properties for logic in addition to Playwright.
 - Lean heavily on pure business/domain functions independent of framework logic; thin hooks plus dumb
   views should enforce this division.
-- Latest testing/model/concurrency/state/delegation refinements are listed at the top and still pending.
+- Latest testing/model/concurrency/state/delegation refinements are incorporated as listed at the top; review is pending.
 
 ### Earlier, separate language research history
 
@@ -132,4 +132,3 @@ Nick explicitly allowed skipping the log-event step if it fails. Do not revive t
 - Conversions preserve planned/current distinctions, mapping inventories and documented-read path fidelity;
   libsqlite3 is not an independent running container, measurements are historical observations, and a point
   read does not prove a hard wall-clock bound.
-

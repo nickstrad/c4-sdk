@@ -27,10 +27,12 @@ of scope. The existing scaffold task's ownership and review records are preserve
 - Checked local Markdown links and heading anchors across the plan, knowledge pages and task records.
 - `git diff --check` passed. No repository formatter is configured or claimed.
 - No product code changed; runtime unit/property/Playwright suites were not run for this plan-only edit.
-  The plan requires all three throughout implementation, beginning in C4-01.
+  The plan requires Playwright throughout visual slices, unit/property tests for logic, and appropriate
+  direct validation for nonvisual work.
 - Start-event publication failed because the Git common directory is read-only in the sandbox. Skipped
   under the user's instruction; no event publication is claimed.
-- Independent exact-commit review remains pending.
+- Revised plan JSON, Markdown links/anchors, whitespace and unchanged AGENTS/CLAUDE overlap checked.
+- Independent reviewer is inspecting revision a0eefc0; verdict remains pending.
 
 ## Scope changes and coordination
 
