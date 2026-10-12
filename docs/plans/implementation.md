@@ -14,8 +14,9 @@ test commands in this plan are future additions, not commands claimed to exist t
 
 Deliver a working showcase under `demos/git-at-any-scale/`, based on the Cursor post read for this update,
 and support ts-db's GitHub Pages application by copying this project into ts-db. **There is no npm package,
-package tarball, registry publication or workspace-package distribution in this implementation.** Normal npm
-installation of third-party dependencies remains necessary. Publishing is a later open decision.
+package tarball, registry publication or workspace-package distribution during C4-01–10.** Normal npm
+installation of third-party dependencies remains necessary. The closing [productionization phase](productionization.md) now plans licensing and npm release
+scaffolding after C4-10; the former publishing-parked decision is superseded.
 
 JSON is the architecture-content contract. Zod validates runtime input. React components express all seven
 C4 diagram types through presentation and composition, with no project content hard-coded into SDK JSX.
@@ -135,7 +136,7 @@ The future copy operation has these steps:
    originate in c4-sdk and are re-copied; local fork edits are not the default maintenance path.
 
 The source license/attribution accompanies the copy. No publishing, npm versioning or release automation is
-required. The authoritative plan stays here; ts-db retains only a relocation pointer and consumer-specific
+required for C4-01–10; those become closing-phase deliverables in [productionization](productionization.md). The authoritative plan stays here; ts-db retains only a relocation pointer and consumer-specific
 instructions. Implement this workflow in the copy-consumer slice, not in this documentation update.
 
 ## 3. JSON contract
@@ -1088,7 +1089,7 @@ until durable findings and changed terminology have been recorded and its brief/
 | Copy pulls project-private state | Export reviewed tracked files only; no .git, credentials, local data, dependencies or artifacts |
 | CSS/worker URLs break under Pages | Explicit subpath production-build Playwright gate in every affected slice and in copied consumer |
 | Effect is installed but not needed in domain | Keep it at an adapter boundary only when justified; do not build parallel state machines or expose it in source API |
-| npm packaging/publishing later | Open item after source-copy consumers work: namespace, license, exports, semver, peer deps, worker/CSS bundling and migration from copies. No packaging/publishing work now |
+| Closing productionization phase | After C4-10, execute [P-01–P-06](productionization.md): MIT, stable API, dual modules/declarations, npm scaffolding and tested README. This supersedes parking publishing; actual registry publication is a separate release action |
 | Site hosting/deployment | Build and validate artifacts now when implementing; deployment requires its own explicit task/authority |
 
 ## 12. This planning update
@@ -1103,3 +1104,10 @@ syntax/references, confirm coverage of the user's requirements, and request inde
 exact plan commit. The future unit/property/Playwright requirements apply to the relevant build slices; they
 are not test results claimed for this documentation-only edit. Event publication was denied by the sandbox;
 it is skipped under the user's earlier instruction, with no fabricated event or review verdict.
+
+## 13. Final productionization phase
+
+The [productionization plan](productionization.md) is the closing phase after C4-10, not parallel
+implementation. It plans all six release requirements and explicit concurrent items. The copied ts-db
+consumer remains supported. This update authorizes documentation only; finish the current plan before
+implementing release scaffolding.

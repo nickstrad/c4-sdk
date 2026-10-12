@@ -7,7 +7,7 @@ removing history.
 
 The framework belongs to c4-sdk, with its authoritative implementation plan here. ts-db Pages consumes a
 reviewed project snapshot by copy, with provenance and consumer-owned content outside the copied tree.
-There is no npm packaging or publishing in this implementation; publishing remains a later open item.
+There is no npm packaging or publishing in this implementation; publishing was initially parked; that part is superseded by the closing-phase decision below.
 See [repository and copy workflow](../plans/implementation.md#2-repository-structure-and-copy-based-consumption).
 
 ## 2026-10-12 — Pure domain rules, thin hooks and dumb views
@@ -43,3 +43,11 @@ particularly difficult problem, and Luna can own tightly scoped production work.
 batches, disjoint claims and serial integration gates. The coordinator maintains root `STATE.md` for every
 session and handoff; builders report item-local state. See [protocol](../../AGENTS.md) and
 [implementation slices](../plans/implementation.md#10-vertical-implementation-slices).
+
+## 2026-10-12 — Final productionization now planned
+
+Nick superseded the publishing-parked note. After C4-10, the [closing phase](../plans/productionization.md)
+plans MIT licensing, npm metadata/exports/release driver, stable public API, ESM/CJS builds, declarations
+and a README tested against the packed artifact. Planning is authorized now; implementation waits for the
+current plan to finish. Actual registry publication remains a separate explicit release action. The copied
+ts-db consumer stays supported.

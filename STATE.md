@@ -1,6 +1,18 @@
 # C4 SDK planning state
 
-Updated: 2026-10-12 UTC. Status: **Planning complete; reviewed plan published. No implementation started.**
+Updated: 2026-10-12 UTC. Status: **Final productionization plan written; review pending. No implementation started.**
+
+## Current task: final productionization plan
+
+Nick requests a closing plan covering MIT LICENSE, npm metadata/exports/release Makefile, stable public API,
+CommonJS plus ESM, bundled declarations and a complete real-API README. This supersedes the earlier
+publishing-parked note. Implementation waits until C4-10 finishes. Actual publication is not requested now.
+Written `docs/plans/productionization.md`, integrated it as implementation §13, updated knowledge and task
+records. P-01 contract; P-02 packed consumers concurrent with P-03 licensing; P-04 README concurrent with
+P-05 release driver; P-06 final rehearsal. New docs-only claims: agent-work/items/productionization-plan.
+Read-only release_advice agent provided compatibility/consumer acceptance advice. Current review pending.
+Next: validate docs, exact-commit review, record verdict, push plan branch, refresh this main-checkout mirror.
+Previous implementation-plan completion below is historical, not a claim this new task is already reviewed.
 
 ## Current workspace and authorization
 
@@ -27,7 +39,7 @@ Updated: 2026-10-12 UTC. Status: **Planning complete; reviewed plan published. N
 
 Authoritative plan: `docs/plans/implementation.md`. Includes all seven types, complete FFI JSON example,
 pure domain / thin hooks / dumb views, navigation, legend, safe Plain/STE docs, runtime validation,
-React Flow/ELK adapters, Cursor demo and ts-db copy consumer. No npm packaging/publication now.
+React Flow/ELK adapters, Cursor demo and ts-db copy consumer. Release scaffolding is now planned as the closing phase after C4-10; no implementation/publication now.
 Knowledge index/decisions/glossary populated. AGENTS now contains model/concurrency/testing/state protocol.
 CLAUDE unchanged: shared branch/commit sections were not changed. Task brief/claims own all these docs.
 
@@ -96,8 +108,7 @@ The original brief requires:
 - Framework/SDK owns `github.com/nickstrad/c4-sdk`, cloned at `/root/Software/c4-sdk`; existing scaffold is
   being set up separately. Make this an **implementation plan for that repository**.
 - Plan document itself lives in c4-sdk, not ts-db.
-- ts-db GitHub Pages consumes it by copying the project in (crude copy). No npm packaging or publishing
-  now; publishing is a later open item.
+- ts-db GitHub Pages consumes it by copying the project in (crude copy). No npm packaging during C4-01–10; superseded in scope by the new closing release-scaffolding plan.
 - Include a showcase under c4-sdk `demos/` based on https://cursor.com/blog/git-at-any-scale. Fetch/read
   the post first. Model it using JSON diagrams plus STE100 write-ups.
 - Port ts-db's `docs/knowledge` durable-memory pattern.

@@ -15,6 +15,7 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 - [STATE.md](../../STATE.md) is the current session handoff; reconcile it with Git at restart.
 
 - [Implementation plan](../plans/implementation.md) defines vertical slices, SDK boundaries and consumer milestones.
+- [Final productionization phase](../plans/productionization.md) closes the implementation plan after C4-10.
 - [`README.md`](../../README.md) describes the SDK, demo, and existing npm commands.
 - [`agent-work/COORDINATION.md`](../../agent-work/COORDINATION.md) tracks current coordinated tasks.
 - [`docs/haiku-experiments.md`](../haiku-experiments.md) tracks bounded experiments and findings.
