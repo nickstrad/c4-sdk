@@ -16,9 +16,17 @@ Use the branch and worktree assigned to the task. Before editing, read the task'
 
 Make one logical change per commit. Use `<area>: <imperative summary>` for the subject, such as `docs: add agent coordination scaffold`. Keep generated output and unrelated local files out of commits.
 
-## Side quests and experiments
+## Side quests
 
-Side quests are read-only or scratch-only investigations against the product tree. Give each one an `sq-NN-short-name` ID and track it on [`docs/haiku-experiments.md`](docs/haiku-experiments.md). The coordinator owns the shared board; a quest builder owns its unique finding and any scripts explicitly claimed for that quest. Findings live at `docs/haiku-experiments/findings/sq-NN-short-name.md` and use [`docs/haiku-experiments/findings/TEMPLATE.md`](docs/haiku-experiments/findings/TEMPLATE.md). If work needs to change product files, track it as an implementation work item under `agent-work/items/` with explicit path ownership instead of treating it as a side quest. Record evidence and reproduction steps in the finding.
+Work has two forms: regular work items under `agent-work/items/` and side quests with `sq-NN-short-name` IDs. Side quests are read-only or scratch-only investigations against the product tree. Track ownership and status in `agent-work/COORDINATION.md`; the coordinator owns shared status edits. A quest builder owns its unique finding at `agent-work/side-quests/sq-NN-short-name.md` and explicitly claimed, indexed work scripts. Use [`agent-work/side-quests/TEMPLATE.md`](agent-work/side-quests/TEMPLATE.md), record the question, why it matters, done criteria, evidence, exact reproduction commands, negative results and limits. Use a branch named `sq-NN-short-name`. Product changes require a regular work item with explicit path ownership.
+
+## Restart state
+
+Every planning or work effort must maintain a `STATE.md` checkpoint. Read the relevant checkpoint at session start and after compaction, before acting. The brief identifies its path and owner: use the existing plan checkpoint, or `agent-work/items/<id>/STATE.md` for independent work. A side quest may use `agent-work/side-quests/<sq-id>/STATE.md`. Do not overwrite another effort’s checkpoint or create competing authoritative copies.
+
+Keep the checkpoint current as work, decisions, scope, blockers, validation or commits change, and always update it before compaction, pause, handoff or session end. Record the goal and latest user instructions, current status, branch/worktree and relevant SHAs, owned paths, completed work, evidence, open questions/blockers, and concrete next steps. Link authoritative briefs, plans, claims and reviews. A restarting session must be able to continue from this file without the prior chat. Distinguish pending work from authorization; a checkpoint never grants permission to resume paused work or land changes.
+
+The root `STATE.md` for the c4 plans is managed separately. Coordinate with its owner; unrelated tasks maintain their own scoped checkpoints.
 
 ## Shared agent event log
 
@@ -34,4 +42,4 @@ Read [`docs/knowledge/index.md`](docs/knowledge/index.md) before planning reposi
 
 ## Instruction-file sync protocol
 
-`AGENTS.md` is the source of truth for coordination, work ownership, experiments, event reporting, and project knowledge. `CLAUDE.md` is for Claude Code repository conventions and environment-specific commands. The files are deliberately disjoint except for the two sections titled “Branch and worktree etiquette” and “Commit style.” Keep those sections textually identical in both files whenever either changes; put every other topic in only its designated file. Do not make either file a summary or symlink of the other.
+`AGENTS.md` is the source of truth for coordination, work ownership, side quests, restart state, event reporting, and project knowledge. `CLAUDE.md` is for Claude Code repository conventions and environment-specific commands. The files are deliberately disjoint except for the two sections titled “Branch and worktree etiquette” and “Commit style.” Keep those sections textually identical in both files whenever either changes; put every other topic in only its designated file. Do not make either file a summary or symlink of the other.

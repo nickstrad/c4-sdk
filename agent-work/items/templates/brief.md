@@ -6,6 +6,8 @@ Owner: <coordinator or builder>
 
 Branch/worktree: <branch and worktree path>
 
+State checkpoint: <path to STATE.md and its owner; read at start and update before handoff>
+
 ## Goal
 
 <Describe the user-visible or repository outcome.>

@@ -14,7 +14,7 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 
 - [`README.md`](../../README.md) describes the SDK, demo, and existing npm commands.
 - [`agent-work/COORDINATION.md`](../../agent-work/COORDINATION.md) tracks current coordinated tasks.
-- [`docs/haiku-experiments.md`](../haiku-experiments.md) tracks bounded experiments and findings.
+- [Side quests](../../AGENTS.md#side-quests) defines bounded investigations and their findings.
 
 ## Maintenance
 
