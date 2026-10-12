@@ -10,3 +10,7 @@ This file is the current human-maintained view of coordinated work. Detailed tas
 Update the row when ownership, branch, status, or review changes. Do not record a PASS until a reviewer has inspected the exact commit and written the verdict in that task's `review.md`.
 
 Build authorized 2026-10-12 by `build-kickoff.md`. Coordinator is landing the reviewed plan and will dispatch C4-01 first. Root restart checkpoint: `STATE.md`.
+
+| C4-01 | Open runtime JSON context with test harness | Sol builder | `item/c4-01-context` `/tmp/c4-sdk-c4-01` | Dispatched | Pending |
+
+Plan merge `3524a26`: independent Sol review PASS. Build coordinator owns root STATE and integrations.

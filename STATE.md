@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-12. Status: BUILD AUTHORIZED, landing reviewed plan before C4-01.
+Updated: 2026-10-12. Status: BUILD AUTHORIZED; plan merge reviewed, C4-01 dispatched.
 
 ## Authorization and current work
 
@@ -10,13 +10,13 @@ Root coordinator owns this checkpoint, shared coordination, manifests during int
 
 ## Plan and sequence
 
-Authoritative plan: docs/plans/implementation.md, reviewed payload 340baa4, published plan branch 6491825. Main prior to plan merge: 967d573. Merge reconciles AGENTS with side-quest-only protocol; state lifecycle unified under root coordinator. Pending independent merge-resolution review.
+Authoritative plan: docs/plans/implementation.md, reviewed payload 340baa4, published plan branch 6491825. Main prior to plan merge: 967d573. Merge reconciles AGENTS with side-quest-only protocol; state lifecycle unified under root coordinator. Independent Sol build_reviewer PASS on merge3524a26.
 
 Batches: A 01; B 02 + 08a; C 03 + Astra04 + 09a after contracts/dependencies preflight; D 05 then06 then07; E 08 +09; F10. Integrate in plan order. Sol default builders/reviewers; Astra only04; Luna high08a. Every item has exact ownership, tests and independent review before landing.
 
 ## Validation and next actions
 
-Plan already independently reviewed. Merge-resolution validation/review pending. No implementation tests yet. Next: finish plan merge, independent Sol review, push; create C4-01 worktree and item records, dispatch Sol. Visual slices require Playwright plus actual desktop/mobile screenshot inspection; logic requires unit/fast-check. Keep this checkpoint current at each dispatch/landing. Event writes previously denied; Nick permits skipping if unavailable.
+Plan and merge reviewed; git diff --check passed. No implementation tests yet. C4-01 builder branch item/c4-01-context at /tmp/c4-sdk-c4-01; brief/claims/checkpoint created there, Sol builder next. Next: receive C4-01 commit, Sol review, inspect visual evidence, land/push; dispatch02+08a. Visual slices require Playwright plus actual desktop/mobile screenshot inspection; logic requires unit/fast-check. Keep this checkpoint current at each dispatch/landing. Event writes previously denied; Nick permits skipping if unavailable.
 
 ## Source evidence and history
 
