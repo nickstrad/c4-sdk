@@ -1,0 +1,28 @@
+# Project knowledge
+
+This is the entry point to durable c4-sdk knowledge. Read it before planning work, then open the page that matches the question. Keep these pages short, dated, and linked to the authoritative work item or finding.
+
+## Pages
+
+| Page | Contents |
+| --- | --- |
+| [decisions.md](decisions.md) | Decisions and the rationale behind them |
+| [gotchas.md](gotchas.md) | Tooling, environment, and behavior traps |
+| [glossary.md](glossary.md) | Terms used in this repository's work process |
+
+## Project orientation
+
+- [`README.md`](../../README.md) describes the SDK, demo, and existing npm commands.
+- [`agent-work/COORDINATION.md`](../../agent-work/COORDINATION.md) tracks current coordinated tasks.
+- [`docs/haiku-experiments.md`](../haiku-experiments.md) tracks bounded experiments and findings.
+
+## Maintenance
+
+1. Read this index at orientation time.
+2. Record durable lessons after a decision, landing, review, or debugging session that another contributor might otherwise repeat.
+3. Date new entries (`YYYY-MM-DD`) and link instead of duplicating authoritative detail.
+4. Mark superseded entries with a date and a link to the replacement; do not erase useful history.
+5. Update this index whenever pages are added, moved, or removed.
+6. Never store credentials, tokens, private runtime data, or unreviewed generated dumps.
+
+The repository has no configured formatter. Check `package.json` before claiming formatting validation or adding a formatter.

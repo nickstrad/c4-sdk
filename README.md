@@ -20,3 +20,10 @@ A C4-diagram framework/SDK (React components + library) and a demo app that cons
 - `npm run dev` — dev server
 - `npm run build` — typecheck (`tsc -b`) and production build
 - `npm run lint` — oxlint
+
+## Working with agents
+
+- [`AGENTS.md`](AGENTS.md) describes coordination, task ownership, experiments, and durable project knowledge.
+- [`CLAUDE.md`](CLAUDE.md) contains repository conventions for Claude Code.
+- [`agent-work/COORDINATION.md`](agent-work/COORDINATION.md) is the current work status; [`agent-work/event-log.md`](agent-work/event-log.md) explains shared event reporting.
+- [`work-scripts/INDEX.md`](work-scripts/INDEX.md) lists reusable investigation and maintenance scripts.
