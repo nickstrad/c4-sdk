@@ -32,7 +32,9 @@ of scope. The existing scaffold task's ownership and review records are preserve
 - Start-event publication failed because the Git common directory is read-only in the sandbox. Skipped
   under the user's instruction; no event publication is claimed.
 - Revised plan JSON, Markdown links/anchors, whitespace and unchanged AGENTS/CLAUDE overlap checked.
-- Independent reviewer is inspecting revision a0eefc0; verdict remains pending.
+- Independent review PASS on 340baa4183c9dfbc0fbc935cb8552d7f0312ec72 after checkpoint corrections.
+- c4-sdk reviewed payload and ts-db relocation pointer pushed; remote SHAs verified.
+- Final administrative records update review/state only; no implementation or main merge.
 
 ## Scope changes and coordination
 

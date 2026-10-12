@@ -1,17 +1,17 @@
 # C4 SDK planning state
 
-Updated: 2026-10-12 UTC. Status: **Revised plan committed; independent review in progress.**
+Updated: 2026-10-12 UTC. Status: **Planning complete; reviewed plan published. No implementation started.**
 
 ## Current workspace and authorization
 
 - Repository: https://github.com/nickstrad/c4-sdk; main checkout `/root/Software/c4-sdk`.
 - Active branch/worktree: `plan/c4-react`, `/tmp/c4-sdk-plan`.
 - Baseline scaffold: `486db29babd40f0b2780e3eac448a5189ea0fd00`.
-- Initial plan commit: `3fb8227b08f171d2b2281c6065d829c851a71d8c`, local, not yet pushed.
-- Revision commit `a0eefc0` applies Nick's restart instructions. Plan only: commit/push authorized; no SDK build or merge.
+- Initial plan commit: `3fb8227b08f171d2b2281c6065d829c851a71d8c`, now published in branch history.
+- Revision `a0eefc0` plus checkpoint correction `340baa4` apply Nick's restart instructions. Plan only: commit/push authorized; no SDK build or merge.
 - Main checkout's unrelated `kickoff-brief.md` remains untouched. This STATE is mirrored there for restart.
-- ts-db pointer worktree `/tmp/tsdb-c4-react-plan`, branch `plan/c4-react`, still at published
-  `031731e9380ec889450b5fb9dda2349b976ca945`. Relocation pointer drafted locally; not committed/pushed.
+- ts-db pointer worktree `/tmp/tsdb-c4-react-plan`, branch `plan/c4-react`, published at
+  `187f4f9d03b06f032b3916159664728fa5b1c863`. The old plan is now only a relocation pointer.
 
 ## Latest rules now incorporated
 
@@ -48,8 +48,12 @@ components and illustrative deployment. Code-level demo uses generic/source-grou
 - Current JSON/link/whitespace and AGENTS/CLAUDE overlap validation passed (10 elements, 8 relationships,
   2 diagrams). No runtime unit/property/Playwright tests run for this docs-only task.
 - Event publication failed again due read-only Git common directory; skipped under Nick's exception.
-- `/root/final_plan_review` is reviewing exact revision `a0eefc0` read-only. Verdict pending.
-- Next: address review, record actual verdict, push/verify c4-sdk branch, then commit/push ts-db pointer.
+- `/root/final_plan_review` returned PASS on `340baa4183c9dfbc0fbc935cb8552d7f0312ec72`;
+  initial checkpoint/whitespace nits were corrected. See the task review record.
+- Reviewed c4-sdk payload and ts-db pointer were pushed; both remote SHAs verified with git ls-remote.
+  This administrative completion record follows the reviewed payload; use git log for its own SHA.
+- Next work, only after build authorization: C4-01 brief/claims and first working context. Plan defines
+  later concurrency; no active builders or pending plan review remain. No main merge occurred.
 - Keep STATE current through those steps. Implementation starts only with a later authorized build session.
 
 ## Environment and work protocol
@@ -102,7 +106,7 @@ The original brief requires:
 - Unit tests plus fast-check properties for logic in addition to Playwright.
 - Lean heavily on pure business/domain functions independent of framework logic; thin hooks plus dumb
   views should enforce this division.
-- Latest testing/model/concurrency/state/delegation refinements are incorporated as listed at the top; review is pending.
+- Latest testing/model/concurrency/state/delegation refinements are incorporated as listed at the top and independently reviewed.
 
 ### Earlier, separate language research history
 

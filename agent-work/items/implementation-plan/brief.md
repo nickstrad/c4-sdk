@@ -1,6 +1,6 @@
 # Work item: implementation-plan
 
-Status: in progress
+Status: complete — plan reviewed and published
 
 Owner: c4-sdk-plan (coordinator and plan author)
 
