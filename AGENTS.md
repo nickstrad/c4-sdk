@@ -16,6 +16,24 @@ Use the branch and worktree assigned to the task. Before editing, read the task'
 
 Make one logical change per commit. Use `<area>: <imperative summary>` for the subject, such as `docs: add agent coordination scaffold`. Keep generated output and unrelated local files out of commits.
 
+## Planning, models and concurrent execution
+
+Plans live in `docs/plans/` in this repository. Prefer vertical slices that deliver usable behavior.
+Use Sol by default, Astra only with a specific particularly difficult problem in the brief, and Luna
+(high effort) for well-defined, tightly scoped work. This applies to planned production items as well as
+investigations; do not infer that Luna always means a side quest. Reviewers remain independent of builders.
+
+Every plan must explicitly list what can run concurrently, prerequisites, shared-file owners and integration
+order. Builders use separate branches/worktrees with exact Owns/Reads claims reserved before dispatch.
+Worktrees do not make edits to a common schema, entry point or lockfile independent. Serialize shared
+changes; if new overlap appears, stop the affected overlap and revise claims. Integrate approved items one
+at a time, rerun affected checks on the combined tree, and re-review semantic conflict resolutions.
+
+Playwright validates visual slices throughout implementation. New or changed domain logic requires unit
+and fast-check property tests. Nonvisual items use the validation most helpful for their output; do not
+invent UI work to satisfy a browser-test checkbox. Keep business rules in pure functions and framework
+integration in thin hooks/adapters, with props-only views.
+
 ## Side quests
 
 Work has two forms: regular work items under `agent-work/items/` and side quests with `sq-NN-short-name` IDs. Side quests are read-only or scratch-only investigations against the product tree. Track ownership and status in `agent-work/COORDINATION.md`; the coordinator owns shared status edits. A quest builder owns its unique finding at `agent-work/side-quests/sq-NN-short-name.md` and explicitly claimed, indexed work scripts. Use [`agent-work/side-quests/TEMPLATE.md`](agent-work/side-quests/TEMPLATE.md), record the question, why it matters, done criteria, evidence, exact reproduction commands, negative results and limits. Use a branch named `sq-NN-short-name`. Product changes require a regular work item with explicit path ownership.
@@ -26,7 +44,7 @@ Every planning or work effort must maintain a `STATE.md` checkpoint. Read the re
 
 Keep the checkpoint current as work, decisions, scope, blockers, validation or commits change, and always update it before compaction, pause, handoff or session end. Record the goal and latest user instructions, current status, branch/worktree and relevant SHAs, owned paths, completed work, evidence, open questions/blockers, and concrete next steps. Link authoritative briefs, plans, claims and reviews. A restarting session must be able to continue from this file without the prior chat. Distinguish pending work from authorization; a checkpoint never grants permission to resume paused work or land changes.
 
-The root `STATE.md` for the c4 plans is managed separately. Coordinate with its owner; unrelated tasks maintain their own scoped checkpoints.
+The build coordinator owns root `STATE.md`, coordination and knowledge-index updates. Concurrent builders maintain item-local checkpoints and report deltas; unrelated tasks must not overwrite the shared handoff.
 
 ## Shared agent event log
 

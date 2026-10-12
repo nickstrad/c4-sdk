@@ -12,6 +12,9 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 
 ## Project orientation
 
+- [STATE.md](../../STATE.md) is the current session handoff; reconcile it with Git at restart.
+
+- [Implementation plan](../plans/implementation.md) defines vertical slices, SDK boundaries and consumer milestones.
 - [`README.md`](../../README.md) describes the SDK, demo, and existing npm commands.
 - [`agent-work/COORDINATION.md`](../../agent-work/COORDINATION.md) tracks current coordinated tasks.
 - [Side quests](../../AGENTS.md#side-quests) defines bounded investigations and their findings.
@@ -23,6 +26,7 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 3. Date new entries (`YYYY-MM-DD`) and link instead of duplicating authoritative detail.
 4. Mark superseded entries with a date and a link to the replacement; do not erase useful history.
 5. Update this index whenever pages are added, moved, or removed.
-6. Never store credentials, tokens, private runtime data, or unreviewed generated dumps.
+6. Keep project memory in Markdown here; do not use the environment kb CLI or a separate database for it.
+7. Never store credentials, tokens, private runtime data, or unreviewed generated dumps.
 
 The repository has no configured formatter. Check `package.json` before claiming formatting validation or adding a formatter.
