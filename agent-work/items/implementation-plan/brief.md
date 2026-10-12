@@ -16,6 +16,7 @@ showcase, durable knowledge and continuous three-layer testing.
 
 ### Owns
 
+- `AGENTS.md` (coordination additions only), `STATE.md`
 - `docs/plans/implementation.md`
 - `docs/knowledge/index.md`, `docs/knowledge/decisions.md`, `docs/knowledge/glossary.md`
 - `agent-work/items/implementation-plan/`
@@ -35,10 +36,20 @@ showcase, durable knowledge and continuous three-layer testing.
 - [x] Pure domain functions separated from React/framework effects; thin hooks and props-only views.
 - [x] Vertical slices with unit, fast-check and Playwright evidence throughout.
 - [x] Existing knowledge skeleton is adapted and populated without importing ts-db history.
-- [x] Prior schema/example, seven types, navigation and model assignments retained coherently.
+- [x] Prior schema/example, seven types, navigation and model assignments updated to Nick's Sol-default rule.
+
+- [x] Concurrent batches, isolated worktrees and exact ownership gates explicitly defined.
+- [x] Mandatory STATE.md maintenance added to the work protocol.
+- [x] Nonvisual work uses appropriate validation rather than artificial browser journeys.
 
 ## Validation
 
 Markdown/link/reference checks; JSON example checks; independent review of the exact commit. No runtime
 suite or visual-validation claim for this documentation-only task. Commit and push responsibility is
 assigned to this coordinator by the continuing user request.
+
+## Resumed scope — 2026-10-12
+
+Apply Sol-default assignments, justified Astra exceptions, bounded Luna work, explicit concurrent batches,
+nonvisual validation rules and mandatory STATE.md maintenance. Coordinator owns synthesis; planning
+subagents are read-only. No product implementation or main-branch merge.

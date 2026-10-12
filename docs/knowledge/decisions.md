@@ -19,8 +19,8 @@ This keeps the business rules testable without React or a browser. See
 
 ## 2026-10-12 — Vertical slices with three test layers
 
-Build usable paths through data, domain, hooks and presentation. Each slice carries meaningful unit tests,
-fast-check properties and Playwright journeys; browser and visual checks begin with the first screen.
+Build usable paths through data, domain, hooks and presentation. Logic changes carry meaningful unit tests and fast-check properties; visual slices carry Playwright
+journeys beginning with the first screen. Nonvisual work uses appropriate validation without artificial UI.
 See [slice sequence](../plans/implementation.md#10-vertical-implementation-slices) and
 [verification](../plans/implementation.md#11-verification-knowledge-and-open-decisions). These are future
 implementation requirements, not test results for the documentation-only planning task.
@@ -35,3 +35,11 @@ The existing ts-db architecture conversion remains a separate consumer milestone
 The scaffold already ported ts-db's Markdown knowledge-store pattern. Keep its index, dated decisions,
 gotchas and glossary, but record c4-sdk knowledge rather than importing ts-db history. This planning task
 populates those decisions; [its brief](../../agent-work/items/implementation-plan/brief.md) defines scope.
+
+## 2026-10-12 — Dispatch, concurrency and maintained state
+
+Nick's updated rule supersedes the initial Astra-heavy, serial draft: Sol is the default, Astra requires a
+particularly difficult problem, and Luna can own tightly scoped production work. The plan names concurrent
+batches, disjoint claims and serial integration gates. The coordinator maintains root `STATE.md` for every
+session and handoff; builders report item-local state. See [protocol](../../AGENTS.md) and
+[implementation slices](../plans/implementation.md#10-vertical-implementation-slices).

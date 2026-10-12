@@ -12,6 +12,8 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 
 ## Project orientation
 
+- [STATE.md](../../STATE.md) is the current session handoff; reconcile it with Git at restart.
+
 - [Implementation plan](../plans/implementation.md) defines vertical slices, SDK boundaries and consumer milestones.
 - [`README.md`](../../README.md) describes the SDK, demo, and existing npm commands.
 - [`agent-work/COORDINATION.md`](../../agent-work/COORDINATION.md) tracks current coordinated tasks.

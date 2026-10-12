@@ -4,6 +4,7 @@ Updated: 2026-10-12
 
 ## Owned paths
 
+- `AGENTS.md` (coordination additions only), `STATE.md`
 - `docs/plans/implementation.md`
 - `docs/knowledge/index.md`, `docs/knowledge/decisions.md`, `docs/knowledge/glossary.md`
 - `agent-work/items/implementation-plan/`
@@ -11,7 +12,7 @@ Updated: 2026-10-12
 
 ## Read-only paths
 
-Scaffold application, manifests, configs, instructions, other task records, and ts-db source material.
+Scaffold application, manifests, configs, CLAUDE.md, other task records, and ts-db source material.
 
 ## Changes made
 
@@ -35,3 +36,9 @@ of scope. The existing scaffold task's ownership and review records are preserve
 
 User moved the plan and SDK into c4-sdk, required copied-project consumption and a Cursor showcase,
 and specified pure logic plus unit/property/browser testing and vertical slices. No build authorized.
+
+## Resumed scope — 2026-10-12
+
+Apply Sol-default assignments, justified Astra exceptions, bounded Luna work, explicit concurrent batches,
+nonvisual validation rules and mandatory STATE.md maintenance. Coordinator owns synthesis; planning
+subagents are read-only. No product implementation or main-branch merge.

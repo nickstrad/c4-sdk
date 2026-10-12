@@ -21,7 +21,8 @@ JSON is the architecture-content contract. Zod validates runtime input. React co
 C4 diagram types through presentation and composition, with no project content hard-coded into SDK JSX.
 A reader can drill into detail, inspect explanations, use breadcrumbs/Back, and open diagram/element URLs.
 All business rules should live in pure functions, with hooks providing the framework integration and dumb
-views displaying the results. Every slice carries unit tests, fast-check properties and Playwright checks.
+views displaying the results. Logic changes carry unit tests and fast-check properties; visual slices carry Playwright checks throughout.
+Nonvisual items use the validation that proves their deliverable, without artificial UI work.
 
 Non-goals: a visual editor, collaborative authoring, a backend database, source reverse engineering,
 executing user React/MDX from JSON, full UML, runtime telemetry, implementing the Cursor storage system,
@@ -922,47 +923,109 @@ The coordinator begins the next agreed slice in a later build session. Each slic
 through JSON/domain logic, hooks, views, demo content and tests as needed. Do not build all models, then all
 hooks, then all screens. Thin cross-cutting setup is included in the first working screen.
 
-Follow c4-sdk's `AGENTS.md`: create `agent-work/items/<slice>/brief.md`, `claims.md` and `review.md`; claim
-exact files before editing, review an exact commit independently, then land only with merge authority.
-Update relevant durable knowledge in the same slice. One logical slice commit and independent review;
-NITS/FAIL return to its builder. Branches use `item/c4-01-context` and isolated worktrees. Coordinate any
-manifest/lockfile changes; no concurrent edits to shared entry points.
+### Dispatch and ownership protocol
 
-Model mapping: **Opus 5.5 ↔ Astra (`gpt-6-astra`)** for schema/API semantics, ownership, navigation,
-concurrency and reviews; **Sonnet ↔ Sol (`gpt-6.1-sol`)** for bounded assembly/content work once contracts
-are fixed. **Haiku ≥5.5 ↔ Luna (`gpt-6-luna`, high)** is limited to read-only/scratch side quests with unique
-findings, independent top-tier review and explicit human landing approval. No production slice below is
-assigned to the experiment tier. Every production slice has a different top-tier reviewer from its builder.
+Port ts-db's brief → build → independent review → land protocol, with its agent-work records and isolated
+worktrees, rather than copying its old model restrictions. Follow this repo's `AGENTS.md`:
 
-The table identifies path families; each brief must expand these into exact file claims. Successive vertical
-slices may evolve the same module after its previous owner has landed. Default execution is sequential;
-parallelise only explicitly disjoint sub-work with no pending interface dependency. Do not invent disjoint
-ownership by splitting tightly coupled schema, hook and screen work across agents.
+1. Coordinator creates `agent-work/items/<id>/{brief,claims,review}.md`, listing prerequisites, acceptance,
+   builder/reviewer, exact Owns/Reads paths and permitted concurrent peers. Record branch/base SHA/worktree
+   in `agent-work/COORDINATION.md`. Assign one owner to each shared file before dispatch.
+2. Builder works on `item/c4-NN-slug` in its own worktree, for example `/tmp/c4-sdk-work/c4-NN-slug`.
+   It edits only Owns paths; discovery of a shared contract change returns to the coordinator for a claim
+   change and serialization. Worktrees isolate checkouts, not conflicting changes to the same file.
+3. Each vertical item includes its meaningful tests and a logical commit. Independent reviewer inspects
+   the exact commit against acceptance and ownership and returns PASS/NITS/FAIL. Fix and re-review NITS/FAIL.
+4. Only coordinator integrates approved commits, in the batch order below, when landing is authorized.
+   Rebase onto the latest landed prerequisite; rerun affected checks on the combined tree. Semantic conflict
+   resolution requires review of the resulting commit, not reuse of a pre-conflict PASS.
+5. Coordinator alone updates shared STATE, coordination board and knowledge index. Builders return knowledge
+   notes in their own task records; coordinator reconciles them at integration. Poll events/status during
+   concurrent work and maintain the agreed stopping point. An event or review never grants merge authority.
 
-| Slice / builder | User-visible increment and scope | Unit and fast-check evidence | Playwright evidence required before review |
+**Sol (`gpt-6.1-sol`) is the default builder and reviewer.** Use Astra (`gpt-6-astra`) only when the brief
+explains a particularly difficult problem; C4-04 qualifies because compound coordinates, asynchronous
+measurement and worker cancellation interact. Luna (`gpt-6-luna`, high effort) handles well-defined,
+tightly scoped work, including C4-08a below. Luna is not confined to scratch work by this plan; explicit
+experiment-specific approval requirements still apply to tasks actually designated experiments. Equivalent
+family labels are Sonnet, Opus 5.5 and Haiku ≥5.5 respectively. Every reviewer is independent of its builder;
+C4-04 has an Astra reviewer. Escalate other reviews only for a concrete difficult finding.
+
+Each item brief expands the table's path families into exact claims. Most items are vertical slices;
+C4-08a and C4-09a are bounded nonvisual prerequisites with direct validation. They exist because their
+outputs are independently useful, not to separate all business logic from its UI implementation.
+
+| Slice / builder | User-visible increment and scope | Unit and fast-check evidence | Browser or other acceptance evidence |
 | --- | --- | --- | --- |
-| C4-01 — open a JSON context, Astra/Opus | From the existing scaffold, add minimal source SDK boundary, runtime schema decoder, pure indexes/diagnostics, a fixed-layout context view, legend and short Plain/STE write-up. Load a small Cursor context from `demos/git-at-any-scale/`. Own exact files in domain/schema/ports/react plus demo entry and test configs; add test scripts in this slice | Unit: good/bad input and diagnostic paths. Properties: ID/reference validation, input immutability and projection preserves declared membership | Launch demo; valid JSON renders labelled elements/key/docs; invalid JSON gives a useful error. Inspect first desktop and mobile screenshots. No placeholder-only acceptance |
-| C4-02 — drill and return, Astra/Opus | Add container view, pure route/transition rules, shared navigation hook and dumb controls. Extend the Cursor demo with one real detail view. Canonical Up and actual Back work from URLs | Unit: detail/Inspect/Up/Back and invalid routes. Properties: route codec round trips; parent forest terminates; transition sequences preserve valid selection | Click and keyboard drill, inspect linked node, reload deep element URL, Back/Forward and Up without history; verify focus restoration and base URL |
+| C4-01 — open a JSON context, Sol/Sonnet | From the existing scaffold, add minimal source SDK boundary, runtime schema decoder, pure indexes/diagnostics, a fixed-layout context view, legend and short Plain/STE write-up. Load a small Cursor context from `demos/git-at-any-scale/`. Own exact files in domain/schema/ports/react plus demo entry and test configs; add test scripts and initial copy-consumer test discovery in this slice | Unit: good/bad input and diagnostic paths. Properties: ID/reference validation, input immutability and projection preserves declared membership | Launch demo; valid JSON renders labelled elements/key/docs; invalid JSON gives a useful error. Inspect first desktop and mobile screenshots. No placeholder-only acceptance |
+| C4-02 — drill and return, Sol/Sonnet | Add container view, pure route/transition rules, shared navigation hook and dumb controls. Extend the Cursor demo with one real detail view. Canonical Up and actual Back work from URLs. Before parallel dispatch, fix the scene/layout-port and documentation-slot contracts needed by C4-03/04; include those small seams in this working viewer | Unit: detail/Inspect/Up/Back and invalid routes. Properties: route codec round trips; parent forest terminates; transition sequences preserve valid selection | Click and keyboard drill, inspect linked node, reload deep element URL, Back/Forward and Up without history; verify focus restoration and base URL |
 | C4-03 — explain a component, Sol/Sonnet | Add component presentation from existing contracts, selectable rich docs, sources, terms and review state. Introduce only explicitly inferred Cursor components; use dumb views and pure document/legend selectors | Unit: doc selection, empty states, source filtering. Properties: selection cannot return another element's docs; status/legend coverage remains consistent across generated views | Inspect component, switch Plain/STE, follow safe source links, reject unsafe content, use keyboard and responsive docs sheet; review screenshots |
 | C4-04 — navigate a readable nested diagram, Astra/Opus | Add compound auto-layout and viewport adapter to the existing viewer; groups, labels and nested boundary edges work. Own scene geometry rules, ELK worker port/adapter, measurement hook and canvas containers | Unit: coordinate transforms and timeout/fallback. Properties: finite geometry, bounded nesting, endpoint/membership preservation; deterministic input for pinned engine | Real worker at demo base path; nested edges/long labels readable; rapid navigation cannot publish stale layout; resize/zoom and reduced motion; screenshots at two widths |
-| C4-05 — follow a dynamic story, Astra/Opus | Add interaction AST/rules, pure step selectors, hooks/controls and communication view. Extend Cursor scenarios with source-linked steps; do not hard-code scenario execution in components | Unit: repeated/reversed interactions, sequence/parallel semantics. Properties: IDs/order preserved, valid active interactions and no invented total order for parallel branches | Step forward/back, load step URL, inspect participants, change diagrams mid-step; verify numbered overlays and text alternative |
-| C4-06 — inspect a deployment instance, Astra/Opus | Add environment/instance rules, nested deployment presentation and link to logical element detail. Add a clearly illustrative Cursor deployment | Unit: instanceOf, parent/environment mismatches. Properties: replicas keep distinct IDs, cycle rejection, no cross-environment leakage | Expand/collapse infrastructure, select distinct replicas, drill to logical detail and return to the right instance; visual review of nesting |
-| C4-07 — finish seven-type coverage, Astra/Opus | Add landscape entry and selected code-symbol view. Use grounded ts-db code or a generic fixture for code, not fabricated Cursor internals. Document each named React wrapper | Unit: code membership/relationships and landscape scopes. Properties: all seven projections retain visible endpoints; symbol/member IDs do not collide | Navigate landscape to system; render class/function/table fixtures with accessible members; run browser matrix over all seven kinds |
+| C4-05 — follow a dynamic story, Sol/Sonnet | Add interaction AST/rules, pure step selectors, hooks/controls and communication view. Extend Cursor scenarios with source-linked steps; do not hard-code scenario execution in components | Unit: repeated/reversed interactions, sequence/parallel semantics. Properties: IDs/order preserved, valid active interactions and no invented total order for parallel branches | Step forward/back, load step URL, inspect participants, change diagrams mid-step; verify numbered overlays and text alternative |
+| C4-06 — inspect a deployment instance, Sol/Sonnet | Add environment/instance rules, nested deployment presentation and link to logical element detail. Add a clearly illustrative Cursor deployment | Unit: instanceOf, parent/environment mismatches. Properties: replicas keep distinct IDs, cycle rejection, no cross-environment leakage | Expand/collapse infrastructure, select distinct replicas, drill to logical detail and return to the right instance; visual review of nesting |
+| C4-07 — finish seven-type coverage, Sol/Sonnet | Add landscape entry and selected code-symbol view. Use grounded ts-db code or a generic fixture for code, not fabricated Cursor internals. Document each named React wrapper | Unit: code membership/relationships and landscape scopes. Properties: all seven projections retain visible endpoints; symbol/member IDs do not collide | Navigate landscape to system; render class/function/table fixtures with accessible members; run browser matrix over all seven kinds |
+| C4-08a — source ledger, Luna/Haiku ≥5.5 (high) | After C4-01, inventory the Cursor article into a source ledger and glossary draft under `demos/git-at-any-scale/content/research/`; distinguish source statements, inference and unknowns. No runtime JSON or SDK edits | Validate section links, inventory completeness and provenance classifications against the article; no new logic means no artificial property tests | Nonvisual: source-fidelity review and Markdown/link validation; no new browser journey required |
 | C4-08 — finish the independent showcase, Sol/Sonnet | Complete `demos/git-at-any-scale/` JSON, STE/plain texts, key, guided path and source ledger using working SDK features. No demo-specific renderer branches. Own demo content/docs and corresponding tests | Unit: content inventory, links and review metadata. Properties: generated catalog selections always resolve without changing framework state across datasets | End-to-end reading journeys, fresh-load links and narrow-screen layout; inspect final screenshots; record STE review and source-fidelity review |
-| C4-09 — consume the copied project in ts-db, Astra/Opus | Implement copy/provenance workflow and isolated copy-consumer fixture; convert current/FFI content for ts-db Pages. c4-sdk owns generic copier/consumer tests and guides; a separately claimed ts-db task owns `pages/` content/copy/provenance. No npm packaging | Unit: manifest scope, checksums and base URL. Properties: repeat copy idempotent, unmanaged files preserved, source deletion affects only managed files; original domain suite runs on copied source | Serve copied production build at `/ts-db/`; load both datasets; deep reload/worker/CSS/font/docs checks; re-copy version and preserve consumer content |
-| C4-10 — harden the complete reader, Astra/Opus | Resolve measured limits, accessibility, lifecycle/error cases and source API docs across both consumers. No large feature backlog hidden in a final test-only task | Full unit/property regression, stress fixtures, replay shrunk failures; enforce no forbidden domain imports | Run complete suite on supported browsers, keyboard/axe and production builds; verify resource-limit errors and worker cleanup; inspect final visual evidence and publish an acceptance report, not a site |
+| C4-09a — validate project-copy policy, Sol/Sonnet | After C4-02, implement pure copy-manifest policy and scratch filesystem adapter in `work-scripts/node/copy-project/`, with isolated tests in `tests/copy-consumer/policy/`. No app, SDK, root configuration or consumer content changes | Unit and properties: idempotence, reject local edits, preserve unmanaged files, delete only managed paths; test actual scratch files and invalid manifests | Nonvisual: run validation against temporary source/consumer trees. Use established test discovery; coordinator pre-registers helper in work-scripts INDEX before dispatch |
+| C4-09 — consume the copied project in ts-db, Sol/Sonnet | Use C4-09a copy policy to complete the copy/provenance workflow and isolated production consumer fixture; convert current/FFI content for ts-db Pages. c4-sdk owns generic copier/consumer tests and guides; a separately claimed ts-db task owns `pages/` content/copy/provenance. No npm packaging | Unit: manifest scope, checksums and base URL. Properties: repeat copy idempotent, unmanaged files preserved, source deletion affects only managed files; original domain suite runs on copied source | Serve copied production build at `/ts-db/`; load both datasets; deep reload/worker/CSS/font/docs checks; re-copy version and preserve consumer content |
+| C4-10 — harden the complete reader, Sol/Sonnet | Resolve measured limits, accessibility, lifecycle/error cases and source API docs across both consumers. No large feature backlog hidden in a final test-only task | Full unit/property regression, stress fixtures, replay shrunk failures; enforce no forbidden domain imports | Run complete suite on supported browsers, keyboard/axe and production builds; verify resource-limit errors and worker cleanup; inspect final visual evidence and publish an acceptance report, not a site |
 
-Dependencies are C4-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 by default. C4-08 content drafting
-can run alongside earlier work only on separately claimed files and fixed schema; its acceptance waits for
-working features. The ts-db copy lands separately under that repo's rules and does not grant c4-sdk agents
-permission to edit unclaimed ts-db paths. C4-09 can stop after the isolated consumer if cross-repo landing
-authority is absent, but must report the actual ts-db milestone as incomplete.
+### Explicit concurrency and integration gates
 
-**Playwright is used throughout, not reserved for C4-10.** Every slice starts/extends a runnable browser
-journey and reviews screenshots whenever presentation changes. Unit tests and fast-check properties for
-new or changed domain logic are equally mandatory. Later slices retain earlier journeys as regression
-checks. If a slice introduces no new domain rule (for example a prose-only correction), rerun the relevant
-existing logic/property checks rather than manufacturing implementation-mirroring tests.
+Every plan in this repo must name concurrent items, dependencies, disjoint ownership and integration order;
+“parallel where possible” alone is not a concurrency plan. This plan permits the following batches:
+
+| Batch | May run concurrently | Prerequisites / integration gate |
+| --- | --- | --- |
+| A | C4-01 alone | First working context plus test harness; review and land before B |
+| B | C4-02 and C4-08a | Both read landed C4-01. C4-08a owns research Markdown only; C4-02 owns navigation/container feature and runtime demo JSON. Integrate 02 then 08a |
+| C | C4-03, C4-04 and C4-09a | Land 02 first and inspect its contracts. 03 owns component/document feature; 04 owns layout/canvas feature; 09a owns copy helper/policy tests. Integrate 03, 04, then 09a with combined regression checks |
+| D | C4-05, then C4-06, then C4-07 (serial) | Land 03/04 before 05. These evolve shared diagram unions/dispatch/route semantics, so they are not advertised as concurrent |
+| E | C4-08 and C4-09 | All feature slices through 07 plus 08a/09a landed. 08 owns Cursor content/demo acceptance; 09 owns copy integration and ts-db content in separate claimed repo/worktree. Integrate 08 then 09 |
+| F | C4-10 alone | Both consumers integrated; validate the combined tree and report remaining limits |
+
+Batch C ownership is a required preflight, not an assumption that these interfaces already exist:
+
+- C4-03: component schema/projection/wrapper, documentation selectors/hooks/views, component fixtures and
+  its unit/property/browser tests. It owns the diagram schema dispatcher and source export entry during
+  this batch. It uses the existing canvas and changes no geometry/worker/canvas modules.
+- C4-04: scene geometry validation, ELK worker/client, layout hook and canvas adapter, layout fixtures and
+  its tests. It consumes C4-02's scene/layout ports and changes no model/schema/navigation/docs modules.
+  Coordinator pre-assigns the renderer's existing layout seam to 04. No new public exports are required.
+- C4-09a: copy-policy helper directory and isolated policy tests only. It uses existing test discovery and
+  existing Node APIs; it does not add dependencies or modify the manifest/lockfile.
+- C4-03 and 04 use separate test datasets rather than both editing `continuity.json`. Their Playwright
+  suites load those datasets through the same working viewer. C4-08 later consolidates final showcase data.
+
+Before batch C, coordinator serially installs/pins any dependencies required by 03/04 and claims the
+manifest, lockfile, test/build configs and work-scripts index. Review that setup and rerun build/harness
+checks before releasing builders; it is an integration substep of those slices, not an unowned edit.
+If preflight reveals a missing shared contract, amend and review C4-02 first, or serialize 03 then 04.
+Never promise concurrent edits to one schema file, public barrel, demo catalog, root entry or lockfile.
+The integration review verifies actual exact-file claims, not just these directory descriptions.
+
+In batch E, 08 changes only Cursor JSON/content and `tests/browser/showcase/`; 09 changes copy guides,
+helper integration and `tests/copy-consumer/integration/`, with ts-db files in a separate task. Root build
+configuration changes for copying belong to 09; 08 consumes the landed demo build contract without editing
+it. If either needs a shared change, coordinator serializes that change before their acceptance runs.
+The ts-db task remains subject to ts-db's own protocol and landing authority; report its milestone
+incomplete if only the isolated consumer can be completed. Neither this plan nor a cross-repo test grants
+permission to edit unclaimed paths or merge either main branch.
+
+### Tests and checkpoint maintenance
+
+**Playwright is used throughout visual slices, not reserved for C4-10.** Add or extend runnable journeys
+and inspect screenshots when presentation changes. New/changed pure logic needs unit tests and fast-check
+properties. A nonvisual item uses schema, content, link, unit/property or other validation that proves its
+output; it does not need a fake screen or browser journey. Rerun affected existing browser tests if a
+nonvisual change can alter browser behavior. Later slices retain earlier checks as regression coverage.
+
+Maintain root `STATE.md` throughout every planning and build session. Read it at restart, reconcile it with
+Git and task records, and update it at dispatch, decisions/scope changes, review/integration milestones and
+before pause, handoff or completion. Record requirements, branch/worktree/SHAs, claims, active agents,
+changes, validation actually run, pending reviews, blockers and exact next actions. Coordinator owns the
+shared file; concurrent builders maintain item-local state and report deltas. Do not mistake historical
+status for current authorization. `docs/knowledge/` holds durable lessons; STATE is the current handoff.
 
 ## 11. Verification, knowledge and open decisions
 
@@ -1037,6 +1100,6 @@ Pages. The existing scaffolding work and other agents' claims remain untouched.
 
 Validation for this update: check Markdown whitespace, verify local document links and worked JSON
 syntax/references, confirm coverage of the user's requirements, and request independent review of the
-exact plan commit. The future unit/property/Playwright requirements are part of every build slice; they
+exact plan commit. The future unit/property/Playwright requirements apply to the relevant build slices; they
 are not test results claimed for this documentation-only edit. Event publication was denied by the sandbox;
 it is skipped under the user's earlier instruction, with no fabricated event or review verdict.

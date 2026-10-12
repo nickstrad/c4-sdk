@@ -16,6 +16,36 @@ Use the branch and worktree assigned to the task. Before editing, read the task'
 
 Make one logical change per commit. Use `<area>: <imperative summary>` for the subject, such as `docs: add agent coordination scaffold`. Keep generated output and unrelated local files out of commits.
 
+## Planning, models and concurrent execution
+
+Plans live in `docs/plans/` in this repository. Prefer vertical slices that deliver usable behavior.
+Use Sol by default, Astra only with a specific particularly difficult problem in the brief, and Luna
+(high effort) for well-defined, tightly scoped work. This applies to planned production items as well as
+investigations; do not infer that Luna always means a side quest. Reviewers remain independent of builders.
+
+Every plan must explicitly list what can run concurrently, prerequisites, shared-file owners and integration
+order. Builders use separate branches/worktrees with exact Owns/Reads claims reserved before dispatch.
+Worktrees do not make edits to a common schema, entry point or lockfile independent. Serialize shared
+changes; if new overlap appears, stop the affected overlap and revise claims. Integrate approved items one
+at a time, rerun affected checks on the combined tree, and re-review semantic conflict resolutions.
+
+Playwright validates visual slices throughout implementation. New or changed domain logic requires unit
+and fast-check property tests. Nonvisual items use the validation most helpful for their output; do not
+invent UI work to satisfy a browser-test checkbox. Keep business rules in pure functions and framework
+integration in thin hooks/adapters, with props-only views.
+
+## Maintained state and handoffs
+
+Maintain root `STATE.md` during every planning and work session, including documentation-only work. Read
+it first on restart, reconcile it with Git and task records, and update it at dispatch, changed decisions,
+review/integration milestones and before pausing, handing off or finishing. Include current requirements,
+branch/worktree/commit, ownership and agents, work completed, checks actually run, pending reviews,
+blockers and exact next actions. Historical notes must not look like current status or authorization.
+
+The coordinator owns shared STATE, coordination and knowledge-index updates. Concurrent builders maintain
+item-local checkpoints and send deltas to the coordinator; they must not overwrite shared handoff files.
+Record durable lessons separately in `docs/knowledge/`. State is a handoff, not merge approval.
+
 ## Side quests and experiments
 
 Side quests are read-only or scratch-only investigations against the product tree. Give each one an `sq-NN-short-name` ID and track it on [`docs/haiku-experiments.md`](docs/haiku-experiments.md). The coordinator owns the shared board; a quest builder owns its unique finding and any scripts explicitly claimed for that quest. Findings live at `docs/haiku-experiments/findings/sq-NN-short-name.md` and use [`docs/haiku-experiments/findings/TEMPLATE.md`](docs/haiku-experiments/findings/TEMPLATE.md). If work needs to change product files, track it as an implementation work item under `agent-work/items/` with explicit path ownership instead of treating it as a side quest. Record evidence and reproduction steps in the finding.
