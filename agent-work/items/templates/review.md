@@ -1,7 +1,9 @@
 # Review: <id>
 
-Status: pending | pass | nits | fail  
-Reviewer: <name or agent>  
+Status: pending | pass | nits | fail
+
+Reviewer: <name or agent>
+
 Reviewed commit: <full SHA>
 
 ## Acceptance criteria

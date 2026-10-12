@@ -28,7 +28,7 @@ Updated: 2026-10-12
 - `bash work-scripts/bash/log-event-check.sh` — PASS: malformed input rejection; six event types; 100 concurrent linked-worktree writes; complete publication; literal data handling; archive publish, idempotence, and collision refusal.
 - `bash -n work-scripts/bash/log-event.sh work-scripts/bash/archive-events.sh work-scripts/bash/log-event-check.sh` — PASS.
 - `node --experimental-strip-types work-scripts/node/runtime-info.ts` — PASS on Node v22.23.2.
-- `git diff --check` — PASS for tracked changes.
+- The lead's `git show --check` found trailing hard-break spaces in Markdown templates. The follow-up removes them; `git diff --check 82ddc44` — PASS across the full change from baseline.
 - `kickoff-brief.md` remains unmodified and untracked. Git metadata is read-only in the managed workspace; branch creation and access to the live common-dir inbox were unavailable.
 
 ## Scope changes and coordination

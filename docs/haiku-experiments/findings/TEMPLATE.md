@@ -1,7 +1,9 @@
 # Finding: sq-NN-short-name — <question>
 
-Date: YYYY-MM-DD  
-Owner: <agent>  
+Date: YYYY-MM-DD
+
+Owner: <agent>
+
 Branch: `sq-NN-short-name`
 
 ## Answer

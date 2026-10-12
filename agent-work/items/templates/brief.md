@@ -1,7 +1,9 @@
 # Work item: <id>
 
-Status: proposed | ready | in progress | review | landed | stopped  
-Owner: <coordinator or builder>  
+Status: proposed | ready | in progress | review | landed | stopped
+
+Owner: <coordinator or builder>
+
 Branch/worktree: <branch and worktree path>
 
 ## Goal

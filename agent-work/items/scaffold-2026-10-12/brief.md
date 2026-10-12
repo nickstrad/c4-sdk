@@ -1,7 +1,9 @@
 # Work item: scaffold-2026-10-12
 
-Status: in progress  
-Owner: coordinator and scaffold builder  
+Status: in progress
+
+Owner: coordinator and scaffold builder
+
 Branch/worktree: `main` (branch creation was not permitted by the workspace)
 
 ## Goal
