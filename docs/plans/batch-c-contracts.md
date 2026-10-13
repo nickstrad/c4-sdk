@@ -26,11 +26,11 @@ Callers own generation and AbortSignal cancellation on navigation, replacement, 
 
 | Item | Owns after preflight | Prerequisite |
 | --- | --- | --- |
-| C4-03 | model/schema/architecture/scene projection/groups; documentation selectors/hooks/views/contracts; component wrappers/public barrel; dedicated documentation styles | Reviewed preflight |
-| C4-04 | geometry/layout/LayoutPort; DiagramCanvas; useDiagramLayout/useDiagramRenderer/useViewerSession; dedicated canvas styles; worker/engine adapters | Reviewed preflight |
+| C4-03 | model/schema/architecture/scene projection/groups; documentation selectors, useContext/documentation hooks, DocumentationView/contracts; a new separate ComponentDiagram container/public barrel; dedicated documentation styles | Reviewed preflight |
+| C4-04 | geometry/layout/LayoutPort; ArchitectureViewer RenderDiagram composition/error fallback and DiagramCanvas; useDiagramLayout/useDiagramRenderer/useViewerSession; dedicated canvas styles; worker/engine adapters | Reviewed preflight |
 | C4-09a | Pure copy-policy helper and scratch filesystem tests | Reviewed preflight; concurrent with 03/04 |
 | Coordinator | Shared manifest/lock/config/entry gates, root status and c4.css | Serialized changes |
 
-Integrate approved 03, then 04; independent 09a may land when approved. C4-09 consumer integration follows 07; rerun affected combined checks. Exact item claims refine paths before dispatch. Stop overlapping edits until claims are revised. Dedicated styles import through their owned modules. 03 uses existing Base UI primitives for its responsive Sheet with SDK-local styles/imports and no app alias. Generic kind labels already support component labels without changing04 canvas.
+Integrate approved 03, then 04, then 09a. C4-09 consumer integration follows 07; rerun affected combined checks. Exact item claims refine paths before dispatch. Stop overlapping edits until claims are revised. ArchitectureViewer.tsx belongs to 04 for async rendering, accessible relationship-list error fallback and viewport composition. 03 adds ComponentDiagram in a new separate container file; responsive document state flows through existing documentationProps via useContext, so 03 does not edit ArchitectureViewer. Dedicated styles import through their owned modules. 03 uses existing Base UI primitives for its responsive Sheet with SDK-local styles/imports and no app alias. Generic kind labels already support component labels without changing04 canvas.
 
 04 must verify Vite-emitted literal worker URLs under production /c4-preview/; C4-09 repeats the consumer gate under /ts-db/. Resource URLs/native hashes retain host base. Installed dependencies do not imply engine or consumer acceptance.
