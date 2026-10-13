@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; batch B02+08a dispatched.
+Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; C4-02 PASS and integrating; C4-08a PASS queued next.
 
 ## Authorization and current work
 
@@ -20,7 +20,9 @@ Batches: A 01; B 02 + 08a; C 03 + Astra04 + 09a after contracts/dependencies pre
 
 Plan merge3524a26 PASS, pushedae1014d. C4-01 reviewed commit45b7d3e3a708385a5f72d1806965fb2792b4d3aa PASS by independent Sol build_reviewer after geometry fix; landed and pushed as main541e41a. Builder worktree /tmp/c4-sdk-c4-01 branch item/c4-01-context. Checks25unit/hook+5properties(4×150,geometry300), typecheck/lint(existing button warning), both builds. Browser12journeys covered by full8pass plus affected6pass after locator/zoom fixes. Actual desktop/mobile/200zoom screenshots inspected, artifacts in worktree test-results and test-results-final. Review independently reran unit/property checks; no further browser rerun needed for numerical geometry fix.
 
-Current: Sol c4_02_builder at /tmp/c4-sdk-c4-02 item/c4-02-navigation; Luna-high c4_08a_builder at /tmp/c4-sdk-c4-08a item/c4-08a-sources, both base541e41a. Item briefs/checkpoints created in worktrees; builders reserve exact claims. Next: review02 and08a independently, integrate02 then08a. Brief drafts at /tmp/c4-02-dispatch-notes.md and /tmp/c4-08a-dispatch-notes.md. Integrate02 then08a. No later item active yet. Preflight draft /tmp/c4-preflight-brief.md. Registry checked React Flow12.12.0,ELK0.12.0,react-markdown10.1.0; compatible React peer requirements; dependencies not yet installed. C4-02 exact79aa4ce85cc960698a47e2021c289d77f0b17fa9 committed, independent Sol review NITS; builder fixing native destination anchors, hook/container division and catalog switching that guessed a context diagram before successful load. Reviewer independently reran37unit/hooks+9properties and inspected final screenshots. Re-review required after fixes. Final typecheck,37unit/hooks,9properties,20browser checks PASS; final desktop/mobile/200zoom screenshots inspected after manual triangle and midpoint-label fixes. Root earlier browser runs also passed20; no active preview servers. Child final browser escalation succeeded this time. Batch C preflight must add and review group model/schema/projection contracts serially, because the current scene seam has no groups and C4-04 cannot edit those modules concurrently with03. C4-08a builder completed source-ledger commit88fb8af; checkpoint closeout committedc7d65b4, independent Sol build_reviewer PASS on exactc7d65b4 (source fidelity, 11 article anchors, local links and scope checked). Integrate only after02.
+Current: C4-02 reviewed commit363a16e684a54c7877f6bdc68d4674eab53921c2 PASS by independent Sol build_reviewer after three NITS fixes (native links, thin containers, declared-default catalog routing). Integrated to main without conflicts; combined-tree typecheck,43 unit/hooks and10 properties PASS after refreshing stale local dependencies (lockfile unchanged). Final typecheck,43 unit/hooks,10 properties,24 production browser tests PASS; desktop/mobile/200% screenshots inspected. A real failed-request revival after Back/Forward was fixed using originating route snapshot identity and regression tested.
+
+C4-08a reviewed exactc7d65b4 PASS (source fidelity,11 article anchors,local links,scope); integrate next after02. Batch C remains gated on serial reviewed shared group/schema/projection, measurement and routed-geometry contracts plus dependency setup. Preflight draft /tmp/c4-preflight-brief.md; later drafts /tmp/c4-03-brief.md,/tmp/c4-04-brief.md,/tmp/c4-09a-brief.md. Registry checked React Flow12.12.0,ELK0.12.0,react-markdown10.1.0, compatible React peers; not installed yet. New useDiagramRenderer/useViewerSession hooks belong04 during batch C. No later builder active.
 
 Browser-localhost sandbox EPERM: root approved standalone `npm run test:browser` works; child escalations stalled. Have root run browser gates if approval stalls. Do not duplicate live test servers. Common Git event publication denied; Nick permits skipping. Root owns shared STATE/coordination/knowledge index; builders own item-local state/claims. User kickoff files remain untracked.
 
@@ -102,3 +104,7 @@ Nick explicitly allowed skipping the log-event step if it fails. Do not revive t
 - Conversions preserve planned/current distinctions, mapping inventories and documented-read path fidelity;
   libsqlite3 is not an independent running container, measurements are historical observations, and a point
   read does not prove a hard wall-clock bound.
+
+## Hardening follow-up
+
+The dependency refresh reported 7 high-severity npm audit findings. Triage actual advisories during C4-10; no automatic or force upgrade was applied.

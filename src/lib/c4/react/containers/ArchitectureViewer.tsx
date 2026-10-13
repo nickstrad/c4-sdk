@@ -1,12 +1,44 @@
 import type { ValidatedArchitecture } from '../../domain/model'
-import { useContext } from '../hooks/useContext'
+import type { LayoutPort } from '../../ports/layout'
+import type { RoutePort } from '../../ports/route'
+import type { DocumentationSlot } from '../contracts/views'
+import { useContext, useDiagramKind } from '../hooks/useContext'
+import { useNavigation, useRoutePort } from '../hooks/useNavigation'
+import { useDiagramRenderer } from '../hooks/useDiagramRenderer'
+import { useViewerSession } from '../hooks/useViewerSession'
+import { DiagramCanvas } from './DiagramCanvas'
 import { ContextView } from '../views/ContextView'
+import { NavigationView } from '../views/NavigationView'
 import { DocumentationView } from '../views/DocumentationView'
 import { DiagnosticView } from '../views/DiagnosticView'
 import { Legend } from '../views/Legend'
-export interface ArchitectureViewerProps { readonly validatedBundle: ValidatedArchitecture; readonly diagramId?: string }
-export function SystemContext({ validatedBundle, diagramId = validatedBundle.bundle.defaultDiagramId }: ArchitectureViewerProps) {
-  const { contextProps, documentationProps, projected } = useContext(validatedBundle, diagramId)
-  return <div className="c4-sdk">{contextProps ? <><div className="c4-viewer-grid"><div><ContextView {...contextProps} /><Legend {...contextProps.scene.diagram.legend} /></div><DocumentationView {...documentationProps} /></div></> : <DiagnosticView diagnostics={projected.diagnostics} />}</div>
+import type { SceneInput } from '../../domain/scene'
+export interface ArchitectureViewerProps {
+  readonly validatedBundle: ValidatedArchitecture; readonly diagramId?: string
+  readonly routePort?: RoutePort; readonly layoutPort?: LayoutPort; readonly documentationSlot?: DocumentationSlot
 }
-export const ArchitectureViewer = SystemContext
+function RenderDiagram({ input, context, layoutPort }: { input: SceneInput; context: ReturnType<typeof useContext>; layoutPort?: LayoutPort }) {
+  const { projected, canvasProps } = useDiagramRenderer(input, context, layoutPort)
+  if (!projected.ok || !canvasProps) return <DiagnosticView diagnostics={projected.diagnostics} />
+  const scene = projected.value
+  return <><ContextView scene={scene} onDiagramSelect={context.canvasActions.onDiagramSelect} canvasSlot={<DiagramCanvas {...canvasProps} />} /><Legend {...scene.diagram.legend} /></>
+}
+export function ArchitectureViewer({ validatedBundle, diagramId, routePort, layoutPort, documentationSlot }: ArchitectureViewerProps) {
+  const port = useRoutePort(routePort)
+  const navigation = useNavigation(validatedBundle, port, diagramId)
+  const context = useContext(validatedBundle, navigation.route, navigation.navigate, navigation.detail)
+  const sessionProps = useViewerSession(navigation.route, validatedBundle.bundle.revision)
+  return <div {...sessionProps} className="c4-sdk">
+    <NavigationView {...navigation.viewProps} />
+    <p className="c4-sr-only" aria-live="polite">{navigation.diagramTitle}</p>
+    {navigation.diagnostics.length ? <><DiagnosticView diagnostics={navigation.diagnostics} /><a {...navigation.recovery}>Open diagram</a></> : context.input.ok ? <div className="c4-viewer-grid"><div><RenderDiagram input={context.input.value} context={context} layoutPort={layoutPort} /></div>{documentationSlot ? documentationSlot(context.documentationProps) : <DocumentationView {...context.documentationProps} />}</div> : <DiagnosticView diagnostics={context.input.diagnostics} />}
+  </div>
+}
+export function SystemContext(props: ArchitectureViewerProps) {
+  const diagnostics = useDiagramKind(props.validatedBundle, props.diagramId, 'context')
+  return diagnostics.length ? <DiagnosticView diagnostics={diagnostics} /> : <ArchitectureViewer {...props} />
+}
+export function ContainerDiagram(props: ArchitectureViewerProps) {
+  const diagnostics = useDiagramKind(props.validatedBundle, props.diagramId, 'container')
+  return diagnostics.length ? <DiagnosticView diagnostics={diagnostics} /> : <ArchitectureViewer {...props} />
+}
