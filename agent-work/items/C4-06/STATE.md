@@ -1,8 +1,8 @@
 # C4-06 checkpoint
 
-Updated 2026-10-13 16:59 UTC. Implementation complete and validation passed; independent fresh review remains pending. Builder c4_06_astra_fresh, branch `item/c4-06-deployment`, worktree `/tmp/c4-sdk-c4-06`, exact base `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`. Coordinator explicitly assigned Astra after Sol quota exhaustion. No agent reuse.
+Updated 2026-10-13 17:01 UTC. Implementation complete and validation passed; independent fresh review remains pending. Builder c4_06_astra_fresh, branch `item/c4-06-deployment`, worktree `/tmp/c4-sdk-c4-06`, exact base `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`. Coordinator explicitly assigned Astra after Sol quota exhaustion. No agent reuse.
 
-Scope and acceptance: [brief](brief.md), [claims](claims.md), [review](review.md), normative plan C4-06. Root STATE/coordination remain coordinator-owned. Implementation commit: `233a698`. Knowledge analysis is complete: durable physical-projection and asynchronous-focus lessons are recorded in docs/knowledge/gotchas.md and indexed. No reusable script was justified; temporary fixture construction commands were one-off work. Knowledge SHA and final cleanup follow. Coordinator owns independent review, integration and push.
+Scope and acceptance: [brief](brief.md), [claims](claims.md), [review](review.md), normative plan C4-06. Root STATE/coordination remain coordinator-owned. Implementation commit: `233a698`. Knowledge analysis is complete: durable physical-projection and asynchronous-focus lessons are recorded in docs/knowledge/gotchas.md and indexed. No reusable script was justified; temporary fixture construction commands were one-off work. Knowledge commit: `8ce2ffa`. This final checkpoint commit follows both; the coordinator should review the resulting branch HEAD. Coordinator owns independent review, integration and push.
 
 ## Delivered behavior
 
@@ -29,4 +29,4 @@ Scope and acceptance: [brief](brief.md), [claims](claims.md), [review](review.md
 
 Browser lease is released; all owned browser runners exited. Fresh worktree needed existing locked dependencies (`tsc` initially absent); no dependency/config changes. KB search325 returned no useful worktree setup guidance; feedback recorded. Event publication skipped under coordinator's documented Nick exception. A combined escalated edit/test call delayed tool completion until approximately16:53; later browser commands were direct approved npm invocations.
 
-Next: commit indexed knowledge lessons separately, record both SHAs, clean worktree. Fresh independent reviewer checks exact final commit; root lands only PASS. No push/merge by builder.
+Next: remove this clean worktree immediately after committing this checkpoint (verify git worktree list if interrupted). The branch and commits remain durable. No further builder work or reuse is authorized; send any independent review findings to a new agent/worktree. Fresh independent reviewer checks exact final commit; root lands only PASS. No push/merge by builder.
