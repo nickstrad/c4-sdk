@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 13:05 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 is merged locally to `main` at `f27b3811f970445ea92982820793dadceb24a8d6`; push is the next action. C4-04 and C4-09a were already landed and pushed.
+Updated: 2026-10-13 13:15 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and its independent PASS review are merged and pushed; current `main` is `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`. C4-06 is assigned to a fresh Astra builder in `/tmp/c4-sdk-c4-06`, branch `item/c4-06-deployment`, from this pushed main.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -45,11 +45,15 @@ Native ELK worker uses elk-api workerFactory and worker importing elk-worker.min
 
 Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, provisional cancelled254.2ms; this exceeds target and C4-10 must tune/report. No2second claim. Large bundles and existing lint warning tracked.
 
-## C4-05 — landed, push pending
+## C4-05 — landed and pushed
 
 Plan seat is Sol/Sonnet. Prior builders made uncommitted implementation changes in `/tmp/c4-sdk-c4-05` on `item/c4-05-dynamic` (base `dd2faf8`); neither committed nor completed review. A fresh Codex Sol builder passed typecheck, 114 unit/hooks, 23 properties and the initial dynamic browser 4/4 (55.1s) across desktop/mobile. Screenshots are in `/tmp/c4-05-dynamic-evidence`. Root inspected them and found the mobile step selector collapsed to roughly 8px and wrapped one character per line. The builder fixed owned CSS and added a >180px assertion, but then its Sol usage limit hit until Oct18; browser result for the CSS fix was not recorded. The earlier production build and pre-fix browser run passed. No Playwright/preview/Chromium process remains at 08:46 UTC, so the earlier process is not hung and cannot be killed. Rerun owned dynamic plus context/navigation production suites after transferring latest sources into a fresh agent's own worktree.
 
-Root prepared review brief `/tmp/c4-05-review-brief.md`. Fresh Astra builder completed on `item/c4-05-dynamic-astra` from base `c715e1d` in its own worktree, then cleaned it. Commits: `18d9545` implementation, `bca3d25` indexed knowledge, `c8c403e` checkpoint. Fresh Luna reviewer independently reviewed exact `c8c403e`, passed typecheck, unit/hooks 114/114, properties 23/23, and dynamic production browser 4/4 on desktop and Pixel 7 mobile. Both builder and reviewer inspected screenshots and confirmed the mobile selector fix. Review record `9330f58` is PASS. The context/navigation 200%-zoom mobile S3 click timeout is a pre-existing defect: identical unchanged test at base `c715e1d` and current payload failed the same line in 31.2/31.4s with the same clipped-node evidence. It is recorded as a follow-up limitation, not a C4-05 blocker. All C4-05 commits and review record were merged to `main` at `f27b3811f970445ea92982820793dadceb24a8d6`; push pending. Next assign C4-06 in a new worktree/context.
+Root prepared review brief `/tmp/c4-05-review-brief.md`. Fresh Astra builder completed on `item/c4-05-dynamic-astra` from base `c715e1d` in its own worktree, then cleaned it. Commits: `18d9545` implementation, `bca3d25` indexed knowledge, `c8c403e` checkpoint. Fresh Luna reviewer independently reviewed exact `c8c403e`, passed typecheck, unit/hooks 114/114, properties 23/23, and dynamic production browser 4/4 on desktop and Pixel 7 mobile. Both builder and reviewer inspected screenshots and confirmed the mobile selector fix. Review record `9330f58` is PASS. The context/navigation 200%-zoom mobile S3 click timeout is a pre-existing defect: identical unchanged test at base `c715e1d` and current payload failed the same line in 31.2/31.4s with the same clipped-node evidence. It is recorded as a follow-up limitation, not a C4-05 blocker. All C4-05 commits and review record were merged in `f27b3811f970445ea92982820793dadceb24a8d6`, state/coord updated in `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`, and pushed to `origin/main`. C4-06 is now active in a new agent/worktree.
+
+## C4-06 — fresh builder active
+
+Fresh Astra builder `/root/c4_06_astra_fresh` is assigned in `/tmp/c4-sdk-c4-06`, branch `item/c4-06-deployment`, based on pushed `main` `14ac790`. It owns the deployment domain/schema/scene/navigation slice, clearly hypothetical deployment fixture and tests, plus item-local claims and STATE. It must commit implementation, then a separate post-work knowledge update if useful, update its checkpoint, and clean its own worktree. Independent review must use another new agent/worktree against the exact final SHA before root lands. Source browser lease and shared config remain coordinator-owned.
 
 ## Other worktrees and next actions
 
