@@ -23,3 +23,7 @@ Use codec-derived anchors for diagram destinations and intercept only ordinary p
 ### 2026-10-13 — Serialize Vitest processes in one checkout
 
 Running unit and property commands concurrently can race while Vitest clears node_modules/.vitest-cache, causing ENOTEMPTY before tests start. Run these suites sequentially in the same checkout, or use genuinely separate dependency/cache directories. The preflight integration property suite passed; only the unit startup needed a rerun. See [preflight review](../../agent-work/items/C4-preflight/review.md).
+
+### 2026-10-13 — Document selection and responsive portals
+
+Key document choice by architecture ID/revision plus diagram/element; derive sources and terms from the active document with pure selectors. Filter parser-decoded Markdown URLs, not just raw source text. The responsive Base UI dialog portal needs its own `c4-sdk` CSS scope. Validate fixed overlays with viewport screenshots and bounding-box checks: full-page screenshots can stitch a fixed dialog at the current scroll offset. See [C4-03 review](../../agent-work/items/C4-03/review.md).

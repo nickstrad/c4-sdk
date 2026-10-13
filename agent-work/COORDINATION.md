@@ -14,9 +14,9 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 
 | C4-preflight | c4_02_builder (Sol) + lead dependencies | item/c4-preflight /tmp/c4-sdk-preflight | Complete | Independent Sol PASS0c4d865; landedf4f7321 |
 
-| C4-03 | c4_03_builder (Sol) | item/c4-03-components /tmp/c4-sdk-c4-03 | Building component/docs slice | Independent Sol review pending |
+| C4-03 | c4_03_builder (Sol) | item/c4-03-components /tmp/c4-sdk-c4-03 | Complete | Independent Sol PASS5bb3750; landed1139a64 |
 | C4-04 | c4_04_builder (Astra) | item/c4-04-layout /tmp/c4-sdk-c4-04 | Building compound layout/canvas | Independent Astra review pending |
-| C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Built8fce8d4; independent copy_policy_reviewer (Sol) reviewing | Verdict pending; land after03/04 |
+| C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Complete; held for03/04 | Independent Sol PASS8fce8d4; record5216e93; land after03/04 |
 
 ## Queued batches
 
