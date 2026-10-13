@@ -73,6 +73,8 @@ Reusable scripts belong under `work-scripts/bash/` or `work-scripts/node/`. Read
 ## Durable project knowledge
 
 Read [`docs/knowledge/index.md`](docs/knowledge/index.md) before planning repository work. Record durable decisions, gotchas, and terminology in the appropriate page, dated and linked to the authoritative work item or finding. Keep the index current and never store secrets or private runtime data.
+Project knowledge lives in this repo's markdown only; the `kb` CLI is for VM/environment
+knowledge (the box-level store at `/root/Raw/knowledge`), never for project knowledge.
 
 ## Instruction-file sync protocol
 
