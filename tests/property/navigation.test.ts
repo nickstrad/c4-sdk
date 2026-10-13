@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 import fc from 'fast-check'
 import fixture from '../../fixtures/navigation.json'
 import { decodeArchitecture } from '../../src/lib/c4/schema/decode'
-import { breadcrumbs, formatRoute, parseRoute, transition, validateRoute } from '../../src/lib/c4/domain/navigation'
+import { breadcrumbs, formatRoute, parseRoute, relatedTargets, transition, validateRoute } from '../../src/lib/c4/domain/navigation'
 const opts = { seed: 4022026, numRuns: 200 }
 const id = fc.stringMatching(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,30}$/)
 it('generated route identities round trip through the one codec', () => {
@@ -66,5 +66,19 @@ it('generated system/container scopes accept their own detail and reject cross-s
     const invalidDetail = decodeArchitecture(crossed); expect(invalidDetail.ok).toBe(false); expect(invalidDetail.diagnostics.some(item => item.code === 'invalid-detail')).toBe(true)
     const corrupt: any = structuredClone(input); corrupt.model.elements[1].parentId = `c${numbers[1]}`
     const invalidParent = decodeArchitecture(corrupt); expect(invalidParent.ok).toBe(false); expect(invalidParent.diagnostics.some(item => item.code === 'invalid-parent')).toBe(true)
+  }), opts)
+})
+it('generated related links resolve only the diagram and selected member declarations within this dataset', () => {
+  fc.assert(fc.property(fc.array(fc.nat({ max: 100 }), { maxLength: 12 }), fc.nat({ max: 100 }), fc.nat({ max: 100 }), (choices, diagramChoice, memberChoice) => {
+    const diagramIndex = diagramChoice % 2; const memberIndex = memberChoice % 3
+    const links = choices.map((choice, i) => ({ diagramId: fixture.diagrams[choice % 2].id, label: `Link ${i}` }))
+    const input = { ...fixture, diagrams: fixture.diagrams.map(diagram => ({ ...diagram, related: links.slice(0, 2), nodes: diagram.nodes.map((node, i) => ({ ...node, related: i === memberIndex ? links.slice(2) : [] })) })) }
+    const decoded = decodeArchitecture(input); expect(decoded.ok).toBe(true); if (!decoded.ok) return
+    const diagram = input.diagrams[diagramIndex]
+    const route = { architectureId: fixture.id, diagramId: diagram.id, elementId: diagram.nodes[memberIndex].elementId }
+    expect(relatedTargets(decoded.value.index, route)).toEqual(links)
+    expect(relatedTargets(decoded.value.index, { ...route, elementId: undefined })).toEqual(links.slice(0, 2))
+    expect(relatedTargets(decoded.value.index, { ...route, architectureId: 'foreign' })).toEqual([])
+    for (const target of relatedTargets(decoded.value.index, route)) expect(validateRoute(decoded.value.index, { architectureId: fixture.id, ...target })).toEqual([])
   }), opts)
 })

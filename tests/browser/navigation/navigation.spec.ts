@@ -1,10 +1,11 @@
+import { readFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 const context = '#/architectures/cursor-continuity/diagrams/context'
 const containers = '#/architectures/cursor-continuity/diagrams/containers'
 test('drill, explicit Inspect, canonical Up and actual Back/Forward restore route and focus', async ({ page }, info) => {
   await page.goto('./')
-  const linked = page.getByRole('button', { name: 'Open detail for Continuity', exact: true })
+  const linked = page.getByRole('link', { name: 'Open detail for Continuity', exact: true })
   await linked.waitFor()
   await page.getByRole('button', { name: 'Inspect Continuity', exact: true }).click()
   await expect(page.locator('.c4-documentation h2')).toHaveText('Continuity')
@@ -21,7 +22,7 @@ test('drill, explicit Inspect, canonical Up and actual Back/Forward restore rout
   await expect(page).toHaveURL(new RegExp(`${containers}$`))
   await page.goForward()
   await expect(page.locator('.c4-documentation h2')).toHaveText('Local Git repository')
-  await page.getByRole('button', { name: 'Up', exact: true }).click()
+  await page.getByRole('link', { name: 'Up', exact: true }).click()
   await expect(page).toHaveURL(new RegExp(`${context}/elements/continuity$`))
   await expect(linked).toBeFocused()
   await expect(page.locator('.c4-documentation h2')).toHaveText('Continuity')
@@ -36,11 +37,11 @@ test('fresh deep element reload, invalid routes and safe Back fallback work unde
   await page.goto(`./${containers}/elements/developer`)
   await expect(page.getByLabel('Resource diagnostics')).toContainText('not in this diagram')
   await expect(page.locator('.c4-node')).toHaveCount(0)
-  await page.getByRole('button', { name: 'Open diagram', exact: true }).click()
+  await page.getByRole('link', { name: 'Open diagram', exact: true }).click()
   await expect(page.locator('.c4-node')).toHaveCount(3)
   await page.goto(`./#/architectures/cursor-continuity/diagrams/missing`)
   await expect(page.getByLabel('Resource diagnostics')).toContainText('Not Found')
-  await page.getByRole('button', { name: 'Open diagram', exact: true }).click()
+  await page.getByRole('link', { name: 'Open diagram', exact: true }).click()
   await expect(page.locator('.c4-node')).toHaveCount(3)
   await page.goto('./#/architectures/unknown/diagrams/context')
   await expect(page.getByLabel('Resource diagnostics')).toContainText('unknown architecture')
@@ -57,14 +58,14 @@ test('Back after reload follows the visited cross-link rather than canonical Up'
   })
   await page.goto('./')
   await page.getByRole('button', { name: 'Inspect Git developer', exact: true }).click()
-  await page.getByRole('button', { name: 'Container cross-link', exact: true }).click()
+  await page.getByRole('link', { name: 'Container cross-link', exact: true }).click()
   await expect(page.locator('.c4-documentation h2')).toHaveText('Local Git repository')
   await page.reload(); await expect(page.locator('.c4-documentation h2')).toHaveText('Local Git repository')
   await page.getByRole('button', { name: 'Back', exact: true }).click()
   await expect(page).toHaveURL(/diagrams\/context\/elements\/developer$/)
   await expect(page.locator('.c4-documentation h2')).toHaveText('Git developer')
   await page.goForward(); await expect(page.locator('.c4-documentation h2')).toHaveText('Local Git repository')
-  await page.getByRole('button', { name: 'Up', exact: true }).click()
+  await page.getByRole('link', { name: 'Up', exact: true }).click()
   await expect(page).toHaveURL(/diagrams\/context\/elements\/continuity$/)
 })
 test('container keyboard, reduced motion and 200 percent zoom remain readable', async ({ page }, info) => {
@@ -77,4 +78,74 @@ test('container keyboard, reduced motion and 200 percent zoom remain readable', 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: info.outputPath('containers-zoom.png'), fullPage: true })
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
+})
+
+test('native detail, Up and breadcrumb hrefs preserve desktop new-tab and keyboard behavior', async ({ page, context: browserContext }, info) => {
+  // Hypothetical status fixture proves switching a node to a native link retains status notation.
+  await page.route('**/diagrams/continuity.json', async route => {
+    const response = await route.fetch(); const input = await response.json()
+    input.model.elements.find((element: { id: string }) => element.id === 'continuity').status = 'planned'
+    input.diagrams[0].legend.entries.push({ id: 'planned', label: 'Planned', description: 'Hypothetical test notation', swatch: { tone: 'default', stroke: 'dashed' } })
+    await route.fulfill({ response, json: input })
+  })
+  await page.goto('./')
+  const linked = page.getByRole('link', { name: 'Open detail for Continuity', exact: true })
+  await expect(linked).toHaveAttribute('href', containers)
+  expect(await linked.evaluate(node => getComputedStyle(node).borderTopStyle)).toBe('dashed')
+  const priorUrl = page.url()
+  if (info.project.name.startsWith('desktop')) {
+    const [tab] = await Promise.all([browserContext.waitForEvent('page'), linked.click({ modifiers: ['Control'] })])
+    await expect(tab).toHaveURL(new RegExp(`${containers}$`))
+    await expect(tab.getByRole('heading', { name: 'Continuity: logical containers', exact: true }).first()).toBeVisible()
+    expect(page.url()).toBe(priorUrl)
+    await tab.close()
+  }
+  await linked.focus(); await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(new RegExp(`${containers}$`))
+  const up = page.getByRole('link', { name: 'Up', exact: true })
+  await expect(up).toHaveAttribute('href', `${context}/elements/continuity`)
+  await expect(page.getByRole('link', { name: 'Continuity and its collaborators', exact: true })).toHaveAttribute('href', `${context}/elements/continuity`)
+  await up.focus(); await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(new RegExp(`${context}/elements/continuity$`))
+  await expect(linked).toBeFocused()
+})
+test('delayed catalog replacement publishes only declared non-context defaults and failure preserves Back/Forward', async ({ page }) => {
+  const source = JSON.parse(readFileSync('fixtures/navigation.json', 'utf8'))
+  const dataset = (id: string, defaultId: string, label: string) => {
+    const bundle = structuredClone(source)
+    bundle.id = id; bundle.defaultDiagramId = defaultId
+    bundle.diagrams[1].id = defaultId; bundle.diagrams[1].title = `${label} container view`
+    bundle.diagrams[0].nodes[1].detail = { diagramId: defaultId }
+    bundle.model.elements.find((element: { id: string }) => element.id === 'server').name = `${label} server`
+    return bundle
+  }
+  const alpha = dataset('alpha', 'alpha-detail', 'Alpha'); const beta = dataset('beta', 'beta-detail', 'Beta')
+  let releaseBeta!: () => void; const gate = new Promise<void>(resolve => { releaseBeta = resolve })
+  await page.route('**/catalog.json', route => route.fulfill({ json: { entries: [{ id: 'alpha', title: 'Alpha', url: 'diagrams/alpha.json' }, { id: 'beta', title: 'Beta', url: 'diagrams/beta.json' }, { id: 'invalid', title: 'Broken replacement', url: 'diagrams/broken.json' }] } }))
+  await page.route('**/diagrams/alpha.json', route => route.fulfill({ json: alpha }))
+  await page.route('**/diagrams/beta.json', async route => { await gate; await route.fulfill({ json: beta }) })
+  await page.route('**/diagrams/broken.json', route => { const broken = structuredClone(alpha); broken.model.relationships[0].targetId = 'missing'; return route.fulfill({ json: broken }) })
+  await page.goto('./')
+  await expect(page).toHaveURL(/architectures\/alpha\/diagrams\/alpha-detail$/)
+  await page.getByRole('button', { name: 'Inspect Alpha server', exact: true }).click()
+  const alphaUrl = page.url()
+  await page.getByLabel('Architecture resource').selectOption({ label: 'Beta' })
+  await expect(page.getByRole('status')).toContainText('Loading architecture')
+  expect(page.url()).toBe(alphaUrl)
+  await expect(page.locator('.c4-documentation h2')).toHaveText('Alpha server')
+  releaseBeta()
+  await expect(page).toHaveURL(/architectures\/beta\/diagrams\/beta-detail$/)
+  await expect(page.getByRole('heading', { name: 'Beta container view', exact: true }).first()).toBeVisible()
+  const betaUrl = page.url(); const betaDepth = await page.evaluate(() => history.state.c4Viewer.depth)
+  await page.getByLabel('Architecture resource').selectOption({ label: 'Broken replacement' })
+  await expect(page.getByText('Resource rejected. The last valid architecture remains visible.', { exact: true })).toBeVisible()
+  expect(page.url()).toBe(betaUrl)
+  expect(await page.evaluate(() => history.state.c4Viewer.depth)).toBe(betaDepth)
+  await expect(page.getByRole('heading', { name: 'Beta container view', exact: true }).first()).toBeVisible()
+  await page.goBack()
+  await expect(page).toHaveURL(alphaUrl)
+  await expect(page.locator('.c4-documentation h2')).toHaveText('Alpha server')
+  await page.goForward()
+  await expect(page).toHaveURL(betaUrl)
+  await expect(page.getByRole('heading', { name: 'Beta container view', exact: true }).first()).toBeVisible()
 })

@@ -47,3 +47,23 @@ export function transition(index: ModelIndex, route: Route, action: NavigationAc
   const diagnostics = validateRoute(index, next)
   return diagnostics.length ? { ok: false, diagnostics } : { ok: true, value: { type: 'push', route: next }, diagnostics: [] }
 }
+
+export function relatedTargets(index: ModelIndex, route: Route): readonly import('./model').Link[] {
+  if (route.architectureId !== index.bundle.id) return []
+  const diagram = index.diagrams[route.diagramId]
+  return [...(diagram?.related ?? []), ...(diagram?.nodes.find(node => node.elementId === route.elementId)?.related ?? [])]
+}
+export function detailTarget(index: ModelIndex, route: Route, elementId: string): Target | undefined {
+  return route.architectureId === index.bundle.id ? index.diagrams[route.diagramId]?.nodes.find(member => member.elementId === elementId)?.detail : undefined
+}
+export function recoveryTarget(index: ModelIndex, route: Route): Target {
+  return { diagramId: index.diagrams[route.diagramId]?.id ?? index.bundle.defaultDiagramId }
+}
+export function catalogRouteDiagnostics(catalog: { readonly entries: readonly { readonly id: string }[] } | undefined, architectureId?: string): readonly Diagnostic[] {
+  return architectureId && catalog && !catalog.entries.some(entry => entry.id === architectureId) ? failure(`Not Found: unknown architecture "${architectureId}".`, '$.route.architectureId').diagnostics : []
+}
+export interface LinkGesture { readonly button: number; readonly altKey: boolean; readonly ctrlKey: boolean; readonly metaKey: boolean; readonly shiftKey: boolean; readonly defaultPrevented: boolean }
+/** Native navigation owns modified clicks and alternate mouse buttons. */
+export function isOrdinaryLinkActivation(event: LinkGesture): boolean {
+  return event.button === 0 && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.defaultPrevented
+}

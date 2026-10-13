@@ -118,3 +118,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
   })
   return diagnostics
 }
+
+export function diagramKindDiagnostics(index: ModelIndex, diagramId: string, kind: import('./model').Diagram['kind']): readonly Diagnostic[] {
+  return index.diagrams[diagramId]?.kind === kind ? [] : [{ code: 'diagram-kind', severity: 'error', path: '$.diagramId', message: `Expected a ${kind} diagram.` }]
+}

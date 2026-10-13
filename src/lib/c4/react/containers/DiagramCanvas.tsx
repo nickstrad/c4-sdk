@@ -12,10 +12,12 @@ export function DiagramCanvas({ markerId: arrowId, scene, nodes, onDiagramSelect
           </g>)}
         </svg>
         {nodes.map(node => <div key={node.element.id} className="c4-node-shell" style={{ left: node.x, top: node.y, width: node.width, height: node.height }}>
-          <button data-element-id={node.element.id} className={`c4-node c4-tone-${node.tone} c4-stroke-${node.stroke}`} onClick={node.onSelect} aria-pressed={node.selected} aria-label={`${node.hasDetail ? 'Open detail for' : 'Inspect'} ${node.element.name}`}>
-            <span className="c4-node-kind">{node.element.kind === 'person' ? '● ' : ''}{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}{node.hasDetail ? ' · Open detail →' : ''}</small>
-          </button>
-          {node.hasDetail && <button className="c4-inspect" onClick={node.onInspect} aria-label={`Inspect ${node.element.name}`}>Inspect</button>}
+          {node.detail ? <a {...node.detail} data-element-id={node.element.id} className={`c4-node c4-tone-${node.tone} c4-stroke-${node.stroke}`} data-selected={node.selected} aria-label={`Open detail for ${node.element.name}`}>
+            <span className="c4-node-kind">{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText} · Open detail →</small>
+          </a> : <button data-element-id={node.element.id} className={`c4-node c4-tone-${node.tone} c4-stroke-${node.stroke}`} onClick={node.onSelect} aria-pressed={node.selected} aria-label={`Inspect ${node.element.name}`}>
+            <span className="c4-node-kind">{node.element.kind === 'person' ? '● ' : ''}{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}</small>
+          </button>}
+          {node.detail && <button className="c4-inspect" onClick={node.onInspect} aria-label={`Inspect ${node.element.name}`}>Inspect</button>}
         </div>)}
       </div>
     </div>

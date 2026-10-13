@@ -1,6 +1,6 @@
 # Claims C4-02
 
-Builder: c4_02_builder (Sol). Branch item/c4-02-navigation; worktree /tmp/c4-sdk-c4-02; base 541e41a. Status: build complete and validated; awaiting independent review.
+Builder: c4_02_builder (Sol). Branch item/c4-02-navigation; worktree /tmp/c4-sdk-c4-02; base 541e41a. Status: independent Sol NITS on79aa4ce fixed and validated; re-review pending. No preflight work.
 
 ## Owns (exact paths)
 
@@ -48,6 +48,12 @@ Builder: c4_02_builder (Sol). Branch item/c4-02-navigation; worktree /tmp/c4-sdk
 
 - `agent-work/items/C4-02/review.md` (pending scaffold only; reviewer owns actual verdict)
 - `agent-work/items/C4-02/brief.md` (prewritten coordinator brief; included unchanged)
+
+- `src/lib/c4/react/hooks/useCatalogViewer.ts`
+- `src/lib/c4/react/hooks/useViewerSession.ts`
+- `src/lib/c4/react/hooks/useDiagramRenderer.ts`
+- `tests/hooks/catalogNavigation.test.tsx`
+- `tests/unit/boundaries.test.ts`
 
 ## Reads
 
