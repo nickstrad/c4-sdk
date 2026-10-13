@@ -9,8 +9,8 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 | Implementation plan | Planning agent / build lead | plan/c4-react → main | Complete | Payload PASS340baa4; merge PASS3524a26; pushedae1014d |
 | C4-01 | c4_01_builder (Sol) | item/c4-01-context /tmp/c4-sdk-c4-01 | Complete | Independent Sol PASS45b7d3e; landed541e41a |
 
-| C4-02 | c4_02_builder (Sol) | item/c4-02-navigation /tmp/c4-sdk-c4-02 | Dispatched | Pending |
-| C4-08a | c4_08a_builder (Luna high) | item/c4-08a-sources /tmp/c4-sdk-c4-08a | In review | Sol reviewingc7d65b4; integration waits02 |
+| C4-02 | c4_02_builder (Sol) | item/c4-02-navigation /tmp/c4-sdk-c4-02 | In review | Sol NITS79aa4ce; builder correcting native links, controller hooks and catalog default routing |
+| C4-08a | c4_08a_builder (Luna high) | item/c4-08a-sources /tmp/c4-sdk-c4-08a | Reviewed | Independent Sol PASSc7d65b4; integration waits02 |
 
 ## Queued batches
 
