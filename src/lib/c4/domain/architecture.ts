@@ -31,9 +31,10 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
   reference(sets.diagrams, bundle.defaultDiagramId, '$.defaultDiagramId')
   bundle.model.elements.forEach((item, i) => {
     const path = `$.model.elements[${i}]`; refs(item, path)
-    if (item.kind === 'container') {
+    if (item.kind === 'container' || item.kind === 'component') {
       reference(sets.elements, item.parentId, `${path}.parentId`)
-      if (bundle.model.elements.find(element => element.id === item.parentId)?.kind !== 'softwareSystem') error('invalid-parent', `${path}.parentId`, 'A container belongs to a software system.')
+      const requiredParent = item.kind === 'component' ? 'container' : 'softwareSystem'
+      if (bundle.model.elements.find(element => element.id === item.parentId)?.kind !== requiredParent) error('invalid-parent', `${path}.parentId`, `A ${item.kind} belongs to a ${requiredParent}.`)
     }
     if (item.status === 'mixed' && item.plannedNotes.length === 0) error('mixed-notes', `${path}.plannedNotes`, 'Mixed status requires planned notes.')
   })
@@ -51,15 +52,19 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
     const path = `$.diagrams[${i}]`; refs(diagram, path)
     reference(sets.elements, diagram.scopeId, `${path}.scopeId`)
     const scope = bundle.model.elements.find(item => item.id === diagram.scopeId)
-    if (scope && scope.kind !== 'softwareSystem') error('invalid-scope', `${path}.scopeId`, 'Context/container scope must be a software system.')
+    if (scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
     const members = new Set<string>(); const edges = new Set<string>()
     diagram.nodes.forEach((node, j) => {
       reference(sets.elements, node.elementId, `${path}.nodes[${j}].elementId`)
       if (members.has(node.elementId)) error('duplicate-member', `${path}.nodes[${j}].elementId`, 'Element occurs twice in this view.')
       members.add(node.elementId)
       const element = bundle.model.elements.find(item => item.id === node.elementId)
-      if (diagram.kind === 'context' && element?.kind === 'container') error('invalid-member', `${path}.nodes[${j}].elementId`, 'Context members must be persons or software systems.')
+      if (diagram.kind === 'context' && (element?.kind === 'container' || element?.kind === 'component')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Context members must be persons or software systems.')
       if (diagram.kind === 'container' && element?.kind === 'container' && element.parentId !== diagram.scopeId && !element.tags.includes('external')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Supporting containers outside the scope must be tagged external.')
+      if (diagram.kind === 'container' && element?.kind === 'component') error('invalid-member', `${path}.nodes[${j}].elementId`, 'Container views cannot include components.')
+      if (diagram.kind === 'component' && element?.kind === 'component' && element.parentId !== diagram.scopeId && !element.tags.includes('external')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Supporting components outside the scope must be tagged external.')
+      if (diagram.kind === 'component' && element && element.kind !== 'component' && element.kind !== 'person' && !element.tags.includes('external')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Supporting systems and containers must be tagged external in a component view.')
+      if (diagram.kind === 'component' && element?.id === diagram.scopeId) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Component view shows contents of its scope, not the scoped container.')
       if (diagram.kind === 'container' && element?.id === diagram.scopeId) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Container view shows contents of its scope, not the scoped system.')
       if (diagram.layout?.mode === 'manual' && !node.position) error('missing-position', `${path}.nodes[${j}].position`, 'Manual layout requires every position.')
       if (diagram.layout?.mode !== 'manual' && node.position) error('partial-layout', `${path}.nodes[${j}].position`, 'Auto layout does not accept fixed positions. Use manual mode.')
@@ -110,7 +115,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
         checkTarget(member.detail, `${memberPath}.detail`)
         const destination = bundle.diagrams.find(item => item.id === member.detail?.diagramId)
         const element = bundle.model.elements.find(item => item.id === member.elementId)
-        if (destination && !(diagram.kind === 'context' && element?.kind === 'softwareSystem' && destination.kind === 'container' && destination.scopeId === member.elementId)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (system context to its container view).')
+        if (destination && !(diagram.kind === 'context' && element?.kind === 'softwareSystem' && destination.kind === 'container' && destination.scopeId === member.elementId || diagram.kind === 'container' && element?.kind === 'container' && destination.kind === 'component' && destination.scopeId === member.elementId)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (system context to containers, or container to components).')
       }
     })
     const visited = new Set<string>(); let current: typeof diagram | undefined = diagram

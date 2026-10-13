@@ -19,3 +19,5 @@ export type { LayoutPort, LayoutRequest, LayoutResponse } from './ports/layout'
 export type { SceneInput } from './domain/scene'
 export type { ArchitectureViewerProps } from './react/containers/ArchitectureViewer'
 export type { DocumentationSlot, DocumentationViewProps } from './react/contracts/views'
+
+export { ComponentDiagram } from './react/containers/ComponentDiagram'

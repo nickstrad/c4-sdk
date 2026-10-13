@@ -14,8 +14,12 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 
 | C4-preflight | c4_02_builder (Sol) + lead dependencies | item/c4-preflight /tmp/c4-sdk-preflight | Complete | Independent Sol PASS0c4d865; landedf4f7321 |
 
+| C4-03 | c4_03_builder (Sol) | item/c4-03-components /tmp/c4-sdk-c4-03 | Complete | Independent Sol PASS5bb3750; landed1139a64 |
+| C4-04 | c4_04_builder (Astra) | item/c4-04-layout /tmp/c4-sdk-c4-04 | Diagnosing production worker; browser lease04 | Astra layout_reviewer preliminary read-only inspection; final exact review pending |
+| C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Complete; held for03/04 | Independent Sol PASS8fce8d4; record5216e93; land after03/04 |
+
 ## Queued batches
 
-B: C4-02 +08a after01. C:03 +Astra04 +09a after02 with contract/dependency preflight. D:05→06→07. E:08+09. F:10. Exact claims and integration order follow the plan. 02 and08a complete; serial batch C preflight next.
+B: C4-02 +08a after01. C:03 +Astra04 +09a after02 with contract/dependency preflight. D:05→06→07. E:08+09. F:10. Exact claims and integration order follow the plan. Batch C active from3ea5789 after reviewed preflight. Integrate03→04→09a. Root grants the shared browser-port lease and owns existing context/navigation regression specs.
 
 Common-dir event publication failed read-only filesystem; skipped under Nick’s existing exception. This table and item checkpoints are the current status record; no event was fabricated.
