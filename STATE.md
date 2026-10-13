@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; C4-02 PASS and integrating; C4-08a PASS queued next.
+Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; C4-02 landed0561126; C4-08a PASS and integrating.
 
 ## Authorization and current work
 
@@ -20,9 +20,9 @@ Batches: A 01; B 02 + 08a; C 03 + Astra04 + 09a after contracts/dependencies pre
 
 Plan merge3524a26 PASS, pushedae1014d. C4-01 reviewed commit45b7d3e3a708385a5f72d1806965fb2792b4d3aa PASS by independent Sol build_reviewer after geometry fix; landed and pushed as main541e41a. Builder worktree /tmp/c4-sdk-c4-01 branch item/c4-01-context. Checks25unit/hook+5properties(4×150,geometry300), typecheck/lint(existing button warning), both builds. Browser12journeys covered by full8pass plus affected6pass after locator/zoom fixes. Actual desktop/mobile/200zoom screenshots inspected, artifacts in worktree test-results and test-results-final. Review independently reran unit/property checks; no further browser rerun needed for numerical geometry fix.
 
-Current: C4-02 reviewed commit363a16e684a54c7877f6bdc68d4674eab53921c2 PASS by independent Sol build_reviewer after three NITS fixes (native links, thin containers, declared-default catalog routing). Integrated to main without conflicts; combined-tree typecheck,43 unit/hooks and10 properties PASS after refreshing stale local dependencies (lockfile unchanged). Final typecheck,43 unit/hooks,10 properties,24 production browser tests PASS; desktop/mobile/200% screenshots inspected. A real failed-request revival after Back/Forward was fixed using originating route snapshot identity and regression tested.
+Current: C4-02 landed and pushed0561126; reviewed commit363a16e684a54c7877f6bdc68d4674eab53921c2 PASS by independent Sol build_reviewer after three NITS fixes (native links, thin containers, declared-default catalog routing). Integrated to main without conflicts; combined-tree typecheck,43 unit/hooks and10 properties PASS after refreshing stale local dependencies (lockfile unchanged). Final typecheck,43 unit/hooks,10 properties,24 production browser tests PASS; desktop/mobile/200% screenshots inspected. A real failed-request revival after Back/Forward was fixed using originating route snapshot identity and regression tested.
 
-C4-08a reviewed exactc7d65b4 PASS (source fidelity,11 article anchors,local links,scope); integrate next after02. Batch C remains gated on serial reviewed shared group/schema/projection, measurement and routed-geometry contracts plus dependency setup. Preflight draft /tmp/c4-preflight-brief.md; later drafts /tmp/c4-03-brief.md,/tmp/c4-04-brief.md,/tmp/c4-09a-brief.md. Registry checked React Flow12.12.0,ELK0.12.0,react-markdown10.1.0, compatible React peers; not installed yet. New useDiagramRenderer/useViewerSession hooks belong04 during batch C. No later builder active.
+C4-08a reviewed exactc7d65b4 PASS (source fidelity,11 article anchors,local links,scope); integrated after02 without conflicts; committing and pushing now. Batch C remains gated on serial reviewed shared group/schema/projection, measurement and routed-geometry contracts plus dependency setup. Preflight draft /tmp/c4-preflight-brief.md; later drafts /tmp/c4-03-brief.md,/tmp/c4-04-brief.md,/tmp/c4-09a-brief.md. Registry checked React Flow12.12.0,ELK0.12.0,react-markdown10.1.0, compatible React peers; not installed yet. New useDiagramRenderer/useViewerSession hooks belong04 during batch C. No later builder active.
 
 Browser-localhost sandbox EPERM: root approved standalone `npm run test:browser` works; child escalations stalled. Have root run browser gates if approval stalls. Do not duplicate live test servers. Common Git event publication denied; Nick permits skipping. Root owns shared STATE/coordination/knowledge index; builders own item-local state/claims. User kickoff files remain untracked.
 
