@@ -16,7 +16,7 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 
 | C4-03 | c4_03_builder (Sol) | item/c4-03-components /tmp/c4-sdk-c4-03 | Building component/docs slice | Independent Sol review pending |
 | C4-04 | c4_04_builder (Astra) | item/c4-04-layout /tmp/c4-sdk-c4-04 | Building compound layout/canvas | Independent Astra review pending |
-| C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Building pure copy policy | Independent Sol review pending; land after03/04 |
+| C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Built8fce8d4; independent copy_policy_reviewer (Sol) reviewing | Verdict pending; land after03/04 |
 
 ## Queued batches
 
