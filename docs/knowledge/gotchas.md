@@ -27,3 +27,11 @@ Running unit and property commands concurrently can race while Vitest clears nod
 ### 2026-10-13 — Document selection and responsive portals
 
 Key document choice by architecture ID/revision plus diagram/element; derive sources and terms from the active document with pure selectors. Filter parser-decoded Markdown URLs, not just raw source text. The responsive Base UI dialog portal needs its own `c4-sdk` CSS scope. Validate fixed overlays with viewport screenshots and bounding-box checks: full-page screenshots can stitch a fixed dialog at the current scroll offset. See [C4-03 review](../../agent-work/items/C4-03/review.md).
+
+## 2026-10-13 — production layout and native focus
+
+[C4-04](../../agent-work/items/C4-04/review.md) verified the native Vite worker with ELK's `elk-api` workerFactory and `elk-worker.min.js`. Importing elk.bundled inside a native worker chooses an incompatible embedded-worker branch, despite passing Node checks. ELK `edge.container` defines route coordinate origin even when the edge remains in root.edges.
+
+React Flow's readonly wrapper needs scoped pointer-events:auto on native interactive children. Do not pan on pointer focus between down and click. Native focus may temporarily scroll the wrapper before React Flow resets scroll; calculate keyboard visibility/pan from scene geometry, viewport and logical client dimensions rather than transient DOM rectangles. Clear pointer guards on capture-phase keyboard events after release outside.
+
+Hidden natural-size probes must not satisfy visible-label tests. Ignore unchanged ResizeObserver size snapshots to avoid layout loops. Actual200-node/400-edge worker timing was4109.2ms on4sharedvCPU; C4-10 must assess the2second target rather than infer it from smaller tests.

@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. BUILD AUTHORIZED. Main `ae84a1e` pushed; C4-03 landed. C4-04 is in production regression; C4-09a passed review and is held for integration order. The mission continues through C4-10.
+Updated: 2026-10-13. BUILD AUTHORIZED. Main includes reviewed C4-04; combined checks PASS; C4-09a passed review and is held for integration order. The mission continues through C4-10.
 
 ## Authorization and ownership
 
@@ -29,27 +29,21 @@ Order: A01; B02+08a; C03+04+09a; D05→06→07; E08+09; F10. Integrate03→04→
 
 C4-03 merged without conflicts; root combined-tree typecheck,57 unit/hooks and18 properties passed. Root adapted baseline context/navigation tests for responsive Sheet and changed deferred-kind unit assertion to code. Rich docs choice keys include dataset/revision/diagram/element; sources/terms follow selected document. Mobile fixed dialog validated with viewport capture plus bounds, because full-page stitching can mislead. Knowledge recorded in `docs/knowledge/gotchas.md`.
 
-## Active C4-04
+## C4-04 review and integration
 
-Builder `/root/c4_04_builder` (Astra), branch `item/c4-04-layout`, worktree `/tmp/c4-sdk-c4-04`. Initial clean checkpoint `148cec8`; root merged reviewed main `f4fd31a` as `9470fd0` without conflicts. Follow-up fixes are currently uncommitted. **C4-04 alone owns the browser lease** (ports4173/4174).
+Astra builder `/root/c4_04_builder` completed exact `0b45a9b1ccef209e28a060ab1a9719a3b502d7c5`; independent Astra `/root/layout_reviewer` PASS. Review record `f94f234`; merged without conflicts. Combined-tree typecheck,70unit/hooks,21properties PASS before push. Browser lease free.
 
-Independent Astra `/root/layout_reviewer` completed preliminary read-only inspection, not final approval. Resume it for final exact-SHA review once builder commits and combined evidence passes. Review brief `/tmp/c4-04-review-brief.md`.
+Independent 70 unit/hooks,21 properties,8 targeted production desktop/mobile browser journeys and both builds/typechecks PASS. Builder final affected20/20 PASS after fixing two failures in earlier full37/2/1 run. Do not describe the earlier full run as clean. Artifacts: `/tmp/c4-04-final-affected-evidence`, `/tmp/c4-04-zoom-final-evidence`, `/tmp/c4-04-production-evidence`; earlier failure/diagnostic directories preserved in item STATE.
 
-Initial actual production failure was `TypeError: o is not a constructor` in worker-BSAxLgq6.js:24; evidence `/tmp/c4-04-worker-startup-failure`. Node tests had hidden ELK's bundled fake-worker environment branch. Fixed source uses installed `elk-api` with official workerFactory plus native `elk-worker.min.js` inside Vite worker. Real production worker now succeeds under `/c4-preview/` and terminates on cancellation/completion.
+Native ELK worker uses elk-api workerFactory and worker importing elk-worker.min.js. Manual authored positions remain exact; labels avoid collisions; edge.container sets local route origin. Output validation, cancellation, bounded geometry cache, font/resize measurement and host-slot session restoration reviewed. Focus pan uses absoluteScene+RFviewport/client dimensions because ReactFlow resets temporary native scroll; pointer down must not pan before click. Root shared CSS heading wrap and canvas-scoped assertions included in reviewed payload. See item STATE/review for full evidence.
 
-Preliminary findings addressed in code, awaiting formal review: exact authored manual0/negative coordinates; distant group bounds; measured manual relationship labels; ELK edge.container-relative coordinate translation; bounded output counts/IDs/routes before mapping/cache; natural-size/font/resize invalidation; host-slot session isolation and dataset remount restoration. A real pointer bug from React Flow's readonly wrapper was fixed with scoped pointer-events:auto, tested with ordinary clicks (no forceclick).
-
-Latest evidence: 68 combined unit/hooks and21 properties pass (including30 seeded real ELK compound graphs and150 manual-coordinate cases); typecheck/build pass. Owned production layout suite **13 passed,1 intentional mobile benchmark skip**. Evidence preserved `/tmp/c4-04-production-evidence`; root inspected desktop/mobile1:1 focus and fit overview. 200nodes/400edges rendered; completed worker4109.2ms, provisional cancelled254.2ms on4vCPU Linux host. This exceeds the target and is an observation, not a guaranteed budget; C4-10 must tune/report it.
-
-First full regression completed34PASS/5FAIL/1SKIP, preserved `/tmp/c4-04-full-regression-first`. Builder fixed pending-layout navigation heading restoration (new hooktest;69 unit/hooks PASS), pointerdown focus pan beforeclick, and CSSzoom viewport coordinate scaling. Original context/navigation browser tests rerun session54006; owned zoom hit-center regression to follow. Report actual baseline failures to root for coordinated edits. Root owns context/navigation baseline specs and has scoped the context relationship-label assertion to `.c4-flow-canvas` so hidden measurement probes cannot satisfy it. Root also scoped native-link status assertions to the actual canvas link and fixed sharedCSS diagram heading child sizing/wrapping at200% zoom; all recorded inclaims. Root enabled explicit webServer stdout/stderr piping in04's `playwright.config.ts`; these exact edits are recorded in04claims and must enter final review/commit. Builder additionally owns `tests/hooks/navigation.test.tsx` by explicit grant.
-
-A standalone escalated diagnostic heredoc stalled557seconds after sandbox Chromium EPERM; builder was interrupted/resumed to recover. Use approved `npm run test:browser` and owned diagnostic specs. If a new approval stalls, report command/session promptly so root can inspect and run a scoped command. Do not silently wait indefinitely.
+Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, provisional cancelled254.2ms; this exceeds target and C4-10 must tune/report. No2second claim. Large bundles and existing lint warning tracked.
 
 ## Other worktrees and next actions
 
 - C4-03 `/tmp/c4-sdk-c4-03`, branch `item/c4-03-components`: complete/clean; payload `5bb3750`, record `35fa16c`, already landed. Reviewer `/root/components_reviewer` Sol PASS. Final Sheet artifact in `test-results-sheet-viewport/.../component-docs-sheet-viewport.png`.
 - C4-09a `/tmp/c4-sdk-c4-09a`, branch `item/c4-09a-copy-policy`: clean at `5216e93`, ready but held until04. Independent `/root/copy_policy_reviewer` Sol PASS exact `8fce8d4`. Trusted/exclusively owned trees; no multi-file crash atomicity. Single external provenance file option supports pages/c4-sdk-source.json. C4-09 must verify tracked reviewed source inventory.
-- Root must finish04 fixes/regression, get independent Astra PASS on final SHA, merge/push04, then merge/push09a with combined checks. Re-review semantic conflict resolutions.
+- Root must finish combined checks/push04, then merge/push09a with combined checks. Re-review semantic conflict resolutions.
 - Dispatch serial05,06,07 with exact claims based on landed tree. Drafts `/tmp/c4-05-brief.md`, `/tmp/c4-06-brief.md`, `/tmp/c4-07-brief.md`.05 explicitly preserves partial-order parallel semantics; no zipped branch barriers or fabricated execution order.
 - Later08+09 concurrent, then10. Drafts `/tmp/c4-08-brief.md`, `/tmp/c4-09-brief.md`, `/tmp/c4-10-brief.md`. Root read all seven pinned Mermaid sources and FFI README flows; prep notes `/tmp/c4-09-source-preparation.md`. Terminal counterparts and full implementation/source conversion review remain09 work.
 - C4-10 should assess mobile documentation discoverability (Open explanation currently below canvas+legend), production bundle audit exposure and measured layout target.
