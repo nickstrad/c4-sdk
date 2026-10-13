@@ -1,3 +1,4 @@
+import { validateScenario } from './scenario'
 import { validateGroups } from './groups'
 import type { ArchitectureBundle, Diagnostic, ModelIndex, References } from './model'
 
@@ -50,9 +51,9 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
   })
   bundle.diagrams.forEach((diagram, i) => {
     const path = `$.diagrams[${i}]`; refs(diagram, path)
-    reference(sets.elements, diagram.scopeId, `${path}.scopeId`)
+    if (diagram.scopeId) reference(sets.elements, diagram.scopeId, `${path}.scopeId`)
     const scope = bundle.model.elements.find(item => item.id === diagram.scopeId)
-    if (scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
+    if (diagram.kind !== 'dynamic' && scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
     const members = new Set<string>(); const edges = new Set<string>()
     diagram.nodes.forEach((node, j) => {
       reference(sets.elements, node.elementId, `${path}.nodes[${j}].elementId`)
@@ -81,6 +82,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
         if (!relationship.technology) warning('missing-protocol', edgePath, `Relationship "${relationship.label}" has no protocol or technology.`)
       }
     })
+    if (diagram.kind === 'dynamic') diagnostics.push(...validateScenario(diagram, buildIndex(bundle), path))
     diagnostics.push(...validateGroups(diagram.groups ?? [], diagram.nodes.map(node => node.elementId), `${path}.groups`))
     ids(diagram.legend.entries, `${path}.legend.entries`)
     const required = new Set<string>(diagram.kind === 'context' ? ['accent'] : [])

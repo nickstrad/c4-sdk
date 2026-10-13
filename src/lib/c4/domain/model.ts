@@ -30,7 +30,10 @@ interface DiagramBase extends References {
 export interface ContextDiagram extends DiagramBase { readonly kind: 'context' }
 export interface ContainerDiagram extends DiagramBase { readonly kind: 'container' }
 export interface ComponentDiagram extends DiagramBase { readonly kind: 'component' }
-export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram
+export interface InteractionStep { readonly kind: 'interaction'; readonly id: Id; readonly relationshipId: Id; readonly direction: 'forward' | 'reverse'; readonly label: string }
+export type Step = InteractionStep | { readonly kind: 'sequence'; readonly id: Id; readonly children: readonly Step[] } | { readonly kind: 'parallel'; readonly id: Id; readonly branches: readonly Step[] }
+export interface DynamicDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'dynamic'; readonly scopeId?: Id; readonly scenario: Step }
+export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram | DynamicDiagram
 export interface Document {
   readonly sourceIds: readonly Id[]
   readonly id: Id; readonly title: string; readonly plain: string

@@ -1,0 +1,1407 @@
+{
+  "schemaVersion": 1,
+  "id": "dynamic-fixture",
+  "title": "Continuity: external context",
+  "revision": "dynamic-draft-1",
+  "defaultDiagramId": "push",
+  "sources": [
+    {
+      "id": "article",
+      "title": "Git at any scale \u00b7 Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale",
+      "revision": "2026-08-18",
+      "notes": "Context abstraction from the article; not a deployment specification."
+    },
+    {
+      "id": "consensus",
+      "title": "Consensus \u00b7 Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale#consensus",
+      "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
+    },
+    {
+      "id": "replication",
+      "title": "Replication \u00b7 Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale#replication",
+      "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
+    },
+    {
+      "id": "compaction",
+      "title": "Compaction \u00b7 Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale#compaction",
+      "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
+    }
+  ],
+  "documents": [
+    {
+      "id": "overview",
+      "title": "An external view",
+      "plain": "This small context interprets the article\u2019s system boundaries. It omits internal storage and replication details.",
+      "ste": {
+        "text": "This diagram shows the system and its users. It does not show internal parts.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "user-doc",
+      "title": "Git user",
+      "plain": "Developers use Git operations to exchange repository changes. The person is a context abstraction.",
+      "ste": {
+        "text": "The developer sends and receives repository changes.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "system-doc",
+      "title": "Continuity",
+      "plain": "Cursor describes Continuity as a Git storage system. Its write-ahead log is the source of truth.",
+      "ste": {
+        "text": "Continuity stores repository changes in a write-ahead log.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "storage-doc",
+      "title": "Object storage",
+      "plain": "The article identifies S3 as the production object store. The context shows this as an external dependency.",
+      "ste": {
+        "text": "The object store holds the write-ahead log.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "container-overview",
+      "title": "Logical container view",
+      "plain": "This is an inferred C4 decomposition of the article\u2019s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.",
+      "ste": {
+        "text": "This view shows logical parts. The server uses a local Git repository and S3 storage. The boundaries are inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-doc",
+      "title": "Continuity server (inferred boundary)",
+      "plain": "The article describes servers preparing reference transactions and accessing the WAL. This diagram groups those responsibilities into one inferred application container.",
+      "ste": {
+        "text": "The server prepares reference transactions and uses the WAL. This application boundary is inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "repository-doc",
+      "title": "Local Git repository",
+      "plain": "The article describes a normal Git repository on NVMe as a warm cache. The datastore container is a logical abstraction; the article does not describe it as a separate service.",
+      "ste": {
+        "text": "The local Git repository acts as a cache. The datastore boundary is inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "replica-role",
+      "title": "Replica role (inferred)",
+      "plain": "This logical role checks freshness before serving. Gossip helps catch-up; it is not a correctness requirement.",
+      "ste": {
+        "text": "Check freshness before you serve a read. Gossip helps the replica.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ]
+    },
+    {
+      "id": "push-doc",
+      "title": "Push: durable publication",
+      "plain": "Original abstraction: WAL persistence and local preparation precede CAS publication. Branches keep independent order; boundaries are inferred.",
+      "ste": {
+        "text": "Store the WAL entry. Prepare the references. Publish the index. Then acknowledge the push.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "consensus"
+      ]
+    },
+    {
+      "id": "read-current-doc",
+      "title": "Read: freshness already matches",
+      "plain": "A conditional freshness check guards serving. This successful 304 path is separate from catch-up.",
+      "ste": {
+        "text": "Check freshness. If the index is unchanged, serve the read.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ]
+    },
+    {
+      "id": "read-catch-up-doc",
+      "title": "Read: catch up before serving",
+      "plain": "The 200 path receives the new index and catches up before serving. It does not depend on gossip delivery.",
+      "ste": {
+        "text": "Get the new index. Get missing data. Catch up before you serve the read.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ]
+    },
+    {
+      "id": "compaction-doc",
+      "title": "Compaction: reuse compacted packs",
+      "plain": "Only the primary compacts; replicas follow the WAL and reuse the result. Role boundaries are inferred.",
+      "ste": {
+        "text": "The primary compacts the data. The replica gets the compacted packs.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "compaction"
+      ]
+    },
+    {
+      "id": "gossip-doc",
+      "title": "Gossip: optional catch-up notification",
+      "plain": "Gossip accelerates catch-up. Lost notifications do not remove conditional freshness checks on read paths.",
+      "ste": {
+        "text": "Gossip helps catch-up. A read still needs a freshness check.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ]
+    }
+  ],
+  "model": {
+    "elements": [
+      {
+        "id": "developer",
+        "kind": "person",
+        "name": "Git developer",
+        "description": "Exchanges repository changes.",
+        "status": "existing",
+        "docIds": [
+          "user-doc"
+        ]
+      },
+      {
+        "id": "continuity",
+        "kind": "softwareSystem",
+        "name": "Continuity",
+        "description": "Provides consistent Git storage.",
+        "status": "existing",
+        "docIds": [
+          "system-doc"
+        ]
+      },
+      {
+        "id": "storage",
+        "kind": "softwareSystem",
+        "name": "S3 object storage",
+        "description": "Stores the durable write-ahead log.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "docIds": [
+          "storage-doc"
+        ]
+      },
+      {
+        "id": "server",
+        "kind": "container",
+        "parentId": "continuity",
+        "name": "Continuity server",
+        "description": "Prepares reference transactions and uses the WAL.",
+        "technology": "Git tooling",
+        "containerType": "application",
+        "status": "existing",
+        "docIds": [
+          "server-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "repository",
+        "kind": "container",
+        "parentId": "continuity",
+        "name": "Local Git repository",
+        "description": "Warm repository cache on local disk.",
+        "technology": "Git / NVMe",
+        "containerType": "datastore",
+        "status": "existing",
+        "docIds": [
+          "repository-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "replica",
+        "kind": "container",
+        "parentId": "continuity",
+        "technology": "Git tooling",
+        "name": "Replica role",
+        "description": "Inferred role of a server serving reads. Not an additional production inventory claim.",
+        "status": "existing",
+        "docIds": [
+          "replica-role"
+        ],
+        "sourceIds": [
+          "replication"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "git",
+        "sourceId": "developer",
+        "targetId": "continuity",
+        "label": "Pushes and fetches changes",
+        "technology": "Git protocol",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "wal",
+        "sourceId": "continuity",
+        "targetId": "storage",
+        "label": "Stores and reads the WAL",
+        "technology": "S3 API",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "server-local",
+        "sourceId": "server",
+        "targetId": "repository",
+        "label": "Prepares reference transactions",
+        "technology": "Local Git operations",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "server-wal",
+        "sourceId": "server",
+        "targetId": "storage",
+        "label": "Persists and verifies WAL entries",
+        "technology": "S3 API",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "client-server",
+        "sourceId": "developer",
+        "targetId": "server",
+        "label": "Exchanges Git operations",
+        "technology": "Git protocol",
+        "status": "existing",
+        "sourceIds": [
+          "consensus"
+        ]
+      },
+      {
+        "id": "replica-storage",
+        "sourceId": "replica",
+        "targetId": "storage",
+        "label": "Checks and reads WAL data",
+        "technology": "S3 API",
+        "status": "existing",
+        "sourceIds": [
+          "replication"
+        ]
+      },
+      {
+        "id": "server-replica",
+        "sourceId": "server",
+        "targetId": "replica",
+        "label": "Notifies about WAL changes",
+        "technology": "UDP gossip",
+        "status": "existing",
+        "sourceIds": [
+          "replication"
+        ]
+      },
+      {
+        "id": "client-replica",
+        "sourceId": "developer",
+        "targetId": "replica",
+        "label": "Requests and receives repository data",
+        "technology": "Git protocol",
+        "status": "existing",
+        "sourceIds": [
+          "replication"
+        ]
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Continuity and its collaborators",
+      "status": "existing",
+      "scopeId": "continuity",
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "continuity",
+          "detail": {
+            "diagramId": "containers"
+          }
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "git",
+          "displayNumber": 1
+        },
+        {
+          "relationshipId": "wal",
+          "displayNumber": 2
+        }
+      ],
+      "docIds": [
+        "overview"
+      ],
+      "sourceIds": [
+        "article"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        }
+      ]
+    },
+    {
+      "id": "containers",
+      "kind": "container",
+      "title": "Continuity: logical containers",
+      "status": "existing",
+      "scopeId": "continuity",
+      "parent": {
+        "diagramId": "context",
+        "elementId": "continuity"
+      },
+      "nodes": [
+        {
+          "elementId": "server",
+          "position": {
+            "x": 40,
+            "y": 260
+          }
+        },
+        {
+          "elementId": "repository",
+          "position": {
+            "x": 650,
+            "y": 130
+          }
+        },
+        {
+          "elementId": "storage",
+          "position": {
+            "x": 650,
+            "y": 460
+          }
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "server-local"
+        },
+        {
+          "relationshipId": "server-wal"
+        }
+      ],
+      "docIds": [
+        "container-overview"
+      ],
+      "sourceIds": [
+        "article"
+      ],
+      "layout": {
+        "mode": "manual",
+        "direction": "LR"
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "container",
+            "label": "Logical container",
+            "description": "An inferred application or datastore boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          }
+        ]
+      },
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        }
+      ]
+    },
+    {
+      "id": "push",
+      "kind": "dynamic",
+      "title": "Push: durable publication",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "server"
+        },
+        {
+          "elementId": "repository"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "client-server",
+          "displayNumber": 99
+        },
+        {
+          "relationshipId": "server-local"
+        },
+        {
+          "relationshipId": "server-wal"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "push-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "receive-push",
+            "relationshipId": "client-server",
+            "direction": "forward",
+            "label": "Receive the push"
+          },
+          {
+            "kind": "parallel",
+            "id": "durable-preparation",
+            "branches": [
+              {
+                "kind": "sequence",
+                "id": "wal-branch",
+                "children": [
+                  {
+                    "kind": "interaction",
+                    "id": "persist-wal",
+                    "relationshipId": "server-wal",
+                    "direction": "forward",
+                    "label": "Persist the WAL entry"
+                  }
+                ]
+              },
+              {
+                "kind": "sequence",
+                "id": "local-branch",
+                "children": [
+                  {
+                    "kind": "interaction",
+                    "id": "write-local",
+                    "relationshipId": "server-local",
+                    "direction": "forward",
+                    "label": "Write the local pack"
+                  },
+                  {
+                    "kind": "interaction",
+                    "id": "prepare-references",
+                    "relationshipId": "server-local",
+                    "direction": "forward",
+                    "label": "Prepare reference changes"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "interaction",
+            "id": "publish-cas",
+            "relationshipId": "server-wal",
+            "direction": "forward",
+            "label": "Publish the WAL index with CAS"
+          },
+          {
+            "kind": "interaction",
+            "id": "commit-local",
+            "relationshipId": "server-local",
+            "direction": "forward",
+            "label": "Commit local references"
+          },
+          {
+            "kind": "interaction",
+            "id": "ack-push",
+            "relationshipId": "client-server",
+            "direction": "reverse",
+            "label": "Acknowledge the push"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "push-doc"
+      ],
+      "sourceIds": [
+        "consensus"
+      ],
+      "related": [
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        },
+        {
+          "label": "Return to containers",
+          "diagramId": "containers"
+        }
+      ]
+    },
+    {
+      "id": "read-current",
+      "kind": "dynamic",
+      "title": "Read: freshness already matches",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "replica"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "client-replica"
+        },
+        {
+          "relationshipId": "replica-storage"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "read-current-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "request-current",
+            "relationshipId": "client-replica",
+            "direction": "forward",
+            "label": "Request repository data"
+          },
+          {
+            "kind": "interaction",
+            "id": "check-current",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Check expected ETag"
+          },
+          {
+            "kind": "interaction",
+            "id": "unchanged-index",
+            "relationshipId": "replica-storage",
+            "direction": "reverse",
+            "label": "Return unchanged status (304)"
+          },
+          {
+            "kind": "interaction",
+            "id": "serve-current",
+            "relationshipId": "client-replica",
+            "direction": "reverse",
+            "label": "Serve repository data"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "read-current-doc"
+      ],
+      "sourceIds": [
+        "replication"
+      ],
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        },
+        {
+          "label": "Return to containers",
+          "diagramId": "containers"
+        }
+      ]
+    },
+    {
+      "id": "read-catch-up",
+      "kind": "dynamic",
+      "title": "Read: catch up before serving",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "replica"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "client-replica"
+        },
+        {
+          "relationshipId": "replica-storage"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "read-catch-up-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "request-stale",
+            "relationshipId": "client-replica",
+            "direction": "forward",
+            "label": "Request repository data"
+          },
+          {
+            "kind": "interaction",
+            "id": "check-stale",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Check expected ETag"
+          },
+          {
+            "kind": "interaction",
+            "id": "new-index",
+            "relationshipId": "replica-storage",
+            "direction": "reverse",
+            "label": "Return the new index (200)"
+          },
+          {
+            "kind": "interaction",
+            "id": "fetch-missing",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Fetch missing WAL data"
+          },
+          {
+            "kind": "interaction",
+            "id": "receive-missing",
+            "relationshipId": "replica-storage",
+            "direction": "reverse",
+            "label": "Receive missing data and catch up"
+          },
+          {
+            "kind": "interaction",
+            "id": "serve-caught-up",
+            "relationshipId": "client-replica",
+            "direction": "reverse",
+            "label": "Serve after catch-up"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "read-catch-up-doc"
+      ],
+      "sourceIds": [
+        "replication"
+      ],
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        },
+        {
+          "label": "Return to containers",
+          "diagramId": "containers"
+        }
+      ]
+    },
+    {
+      "id": "compaction",
+      "kind": "dynamic",
+      "title": "Compaction: reuse compacted packs",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "server"
+        },
+        {
+          "elementId": "repository"
+        },
+        {
+          "elementId": "storage"
+        },
+        {
+          "elementId": "replica"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "server-local"
+        },
+        {
+          "relationshipId": "server-wal"
+        },
+        {
+          "relationshipId": "replica-storage"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "compaction-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "compact-primary",
+            "relationshipId": "server-local",
+            "direction": "forward",
+            "label": "Compact on the primary role"
+          },
+          {
+            "kind": "interaction",
+            "id": "publish-compacted",
+            "relationshipId": "server-wal",
+            "direction": "forward",
+            "label": "Store compaction result in the WAL"
+          },
+          {
+            "kind": "interaction",
+            "id": "download-compacted",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Download already-compacted packs"
+          },
+          {
+            "kind": "interaction",
+            "id": "receive-compacted",
+            "relationshipId": "replica-storage",
+            "direction": "reverse",
+            "label": "Receive compaction result"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "compaction-doc"
+      ],
+      "sourceIds": [
+        "compaction"
+      ],
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        },
+        {
+          "label": "Return to containers",
+          "diagramId": "containers"
+        }
+      ]
+    },
+    {
+      "id": "gossip",
+      "kind": "dynamic",
+      "title": "Gossip: optional catch-up notification",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "server"
+        },
+        {
+          "elementId": "replica"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "server-replica"
+        },
+        {
+          "relationshipId": "replica-storage"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "gossip-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "notify-replica",
+            "relationshipId": "server-replica",
+            "direction": "forward",
+            "label": "Send optional catch-up metadata"
+          },
+          {
+            "kind": "interaction",
+            "id": "gossip-catch-up",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Catch up from WAL when notification arrives"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "gossip-doc"
+      ],
+      "sourceIds": [
+        "replication"
+      ],
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        },
+        {
+          "label": "Read: freshness already matches",
+          "diagramId": "read-current"
+        },
+        {
+          "label": "Read: catch up before serving",
+          "diagramId": "read-catch-up"
+        },
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Return to containers",
+          "diagramId": "containers"
+        }
+      ]
+    }
+  ]
+}

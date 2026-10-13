@@ -13,6 +13,8 @@ import { ContextView } from '../views/ContextView'
 import { NavigationView } from '../views/NavigationView'
 import { DocumentationView } from '../views/DocumentationView'
 import { DiagnosticView } from '../views/DiagnosticView'
+import { StepControlsView } from '../views/StepControlsView'
+import { StepListView } from '../views/StepListView'
 import { Legend } from '../views/Legend'
 import type { SceneInput } from '../../domain/scene'
 export interface ArchitectureViewerProps {
@@ -23,6 +25,7 @@ function RenderDiagram({ input, context, layoutPort, session }: { input: SceneIn
   const { projected, canvasProps, measurementRef } = useDiagramRenderer(input, context, layoutPort)
   const pending = projected.diagnostics.some(diagnostic => diagnostic.code === 'layout-pending')
   return <>
+    {context.dynamic && <StepControlsView {...context.dynamic} />}
     <MeasurementRack input={input} measurementRef={measurementRef} />
     {pending && projected.ok && <p role="status">Updating diagram layout…</p>}
     {projected.ok && canvasProps ? <>
@@ -32,6 +35,7 @@ function RenderDiagram({ input, context, layoutPort, session }: { input: SceneIn
       {pending ? <p role="status">Arranging diagram…</p> : <DiagnosticView diagnostics={projected.diagnostics} />}
       <DiagramFallback ready={!pending} input={input} nodeActions={context.canvasActions.nodeActions} />
     </>}
+    {context.dynamic && <StepListView {...context.dynamic} />}
     <Legend {...input.diagram.legend} />
   </>
 }
