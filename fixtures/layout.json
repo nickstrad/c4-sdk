@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "id": "layout-lab",
+  "title": "Compound layout laboratory",
+  "revision": "compound-1",
+  "defaultDiagramId": "context",
+  "sources": [
+    {
+      "id": "article",
+      "title": "Git at any scale \u00b7 Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale",
+      "revision": "2026-08-18",
+      "notes": "Context abstraction from the article; not a deployment specification."
+    }
+  ],
+  "documents": [
+    {
+      "id": "overview",
+      "title": "An external view",
+      "plain": "This small context interprets the article\u2019s system boundaries. It omits internal storage and replication details.",
+      "ste": {
+        "text": "This diagram shows the system and its users. It does not show internal parts.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "user-doc",
+      "title": "Git user",
+      "plain": "Developers use Git operations to exchange repository changes. The person is a context abstraction.",
+      "ste": {
+        "text": "The developer sends and receives repository changes.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "system-doc",
+      "title": "Continuity",
+      "plain": "Cursor describes Continuity as a Git storage system. Its write-ahead log is the source of truth.",
+      "ste": {
+        "text": "Continuity stores repository changes in a write-ahead log.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "storage-doc",
+      "title": "Object storage",
+      "plain": "The article identifies S3 as the production object store. The context shows this as an external dependency.",
+      "ste": {
+        "text": "The object store holds the write-ahead log.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "container-overview",
+      "title": "Logical container view",
+      "plain": "This is an inferred C4 decomposition of the article\u2019s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.",
+      "ste": {
+        "text": "This view shows logical parts. The server uses a local Git repository and S3 storage. The boundaries are inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-doc",
+      "title": "Continuity server (inferred boundary)",
+      "plain": "The article describes servers preparing reference transactions and accessing the WAL. This diagram groups those responsibilities into one inferred application container.",
+      "ste": {
+        "text": "The server prepares reference transactions and uses the WAL. This application boundary is inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "repository-doc",
+      "title": "Local Git repository",
+      "plain": "The article describes a normal Git repository on NVMe as a warm cache. The datastore container is a logical abstraction; the article does not describe it as a separate service.",
+      "ste": {
+        "text": "The local Git repository acts as a cache. The datastore boundary is inferred.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    }
+  ],
+  "model": {
+    "elements": [
+      {
+        "id": "developer",
+        "kind": "person",
+        "name": "Git developer",
+        "description": "Exchanges repository changes through a long-lived collaboration workflow that must remain readable inside nested boundaries.",
+        "status": "planned",
+        "docIds": [
+          "user-doc"
+        ]
+      },
+      {
+        "id": "continuity",
+        "kind": "softwareSystem",
+        "name": "Continuity",
+        "description": "Provides consistent Git storage.",
+        "status": "existing",
+        "docIds": [
+          "system-doc"
+        ]
+      },
+      {
+        "id": "storage",
+        "kind": "softwareSystem",
+        "name": "S3 object storage",
+        "description": "Stores the durable write-ahead log.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "docIds": [
+          "storage-doc"
+        ]
+      },
+      {
+        "id": "server",
+        "kind": "container",
+        "parentId": "continuity",
+        "name": "Continuity server",
+        "description": "Prepares reference transactions and uses the WAL.",
+        "technology": "Git tooling",
+        "containerType": "application",
+        "status": "existing",
+        "docIds": [
+          "server-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "repository",
+        "kind": "container",
+        "parentId": "continuity",
+        "name": "Local Git repository",
+        "description": "Warm repository cache on local disk.",
+        "technology": "Git / NVMe",
+        "containerType": "datastore",
+        "status": "existing",
+        "docIds": [
+          "repository-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "git",
+        "sourceId": "developer",
+        "targetId": "continuity",
+        "label": "Pushes and fetches changes across nested collaboration and delivery boundaries",
+        "technology": "Git protocol",
+        "status": "planned",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "wal",
+        "sourceId": "continuity",
+        "targetId": "storage",
+        "label": "Stores and reads the WAL",
+        "technology": "S3 API",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "server-local",
+        "sourceId": "server",
+        "targetId": "repository",
+        "label": "Prepares reference transactions",
+        "technology": "Local Git operations",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      },
+      {
+        "id": "server-wal",
+        "sourceId": "server",
+        "targetId": "storage",
+        "label": "Persists and verifies WAL entries",
+        "technology": "S3 API",
+        "status": "existing",
+        "sourceIds": [
+          "article"
+        ]
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Nested services and cross-boundary dependencies",
+      "status": "existing",
+      "scopeId": "continuity",
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "continuity",
+          "detail": {
+            "diagramId": "containers"
+          }
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "git",
+          "displayNumber": 1
+        },
+        {
+          "relationshipId": "wal",
+          "displayNumber": 2
+        }
+      ],
+      "docIds": [
+        "overview"
+      ],
+      "sourceIds": [
+        "article"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "boundary",
+            "label": "Boundary and planned changes",
+            "description": "A dashed boundary has planned changes.",
+            "swatch": {
+              "shape": "boundary",
+              "tone": "default",
+              "stroke": "dashed"
+            }
+          }
+        ]
+      },
+      "groups": [
+        {
+          "id": "inner",
+          "label": "Nested collaboration boundary with a long readable label",
+          "status": "planned",
+          "parentGroupId": "continuity",
+          "memberIds": [
+            "developer"
+          ]
+        },
+        {
+          "id": "continuity",
+          "label": "Outer delivery boundary",
+          "status": "mixed",
+          "memberIds": [
+            "continuity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "containers",
+      "kind": "container",
+      "title": "Continuity: logical containers",
+      "status": "existing",
+      "scopeId": "continuity",
+      "parent": {
+        "diagramId": "context",
+        "elementId": "continuity"
+      },
+      "nodes": [
+        {
+          "elementId": "server",
+          "position": {
+            "x": 40,
+            "y": 260
+          }
+        },
+        {
+          "elementId": "repository",
+          "position": {
+            "x": 650,
+            "y": 130
+          }
+        },
+        {
+          "elementId": "storage",
+          "position": {
+            "x": 650,
+            "y": 460
+          }
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "server-local"
+        },
+        {
+          "relationshipId": "server-wal"
+        }
+      ],
+      "docIds": [
+        "container-overview"
+      ],
+      "sourceIds": [
+        "article"
+      ],
+      "layout": {
+        "mode": "manual",
+        "direction": "LR"
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "container",
+            "label": "Logical container",
+            "description": "An inferred application or datastore boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

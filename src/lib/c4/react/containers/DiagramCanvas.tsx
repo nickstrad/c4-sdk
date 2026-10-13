@@ -1,25 +1,41 @@
-// Replaceable canvas/layout adapter reserved for C4-04; shared schema/navigation remain outside this file.
+import { ReactFlow, Controls, ControlButton, Background } from '@xyflow/react'
+import { useCanvasViewport } from '../hooks/useDiagramRenderer'
 import type { DiagramCanvasProps } from '../contracts/views'
-export function DiagramCanvas({ markerId: arrowId, scene, nodes, onDiagramSelect }: DiagramCanvasProps) {
-  return (
-    <div className="c4-canvas-scroll" role="region" aria-label={`${scene.diagram.kind.charAt(0).toUpperCase() + scene.diagram.kind.slice(1)} diagram canvas`} tabIndex={0}>
-      <div className="c4-canvas" style={{ width: scene.width, height: scene.height }} onClick={event => { if (event.target === event.currentTarget) onDiagramSelect() }}>
-        <svg className="c4-connections" width={scene.width} height={scene.height} aria-hidden="true">
-          <defs><marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker></defs>
-          {scene.edges.map(edge => <g key={edge.relationship.id}>
-            <line x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} stroke="currentColor" strokeWidth="2" strokeDasharray={edge.stroke === 'dashed' ? '7 5' : undefined} markerEnd={`url(#${arrowId})`} />
-            <foreignObject x={edge.labelX - 135} y={edge.labelY} width="270" height="68"><div className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.technology}</small></div></foreignObject>
-          </g>)}
-        </svg>
-        {nodes.map(node => <div key={node.element.id} className="c4-node-shell" style={{ left: node.x, top: node.y, width: node.width, height: node.height }}>
-          {node.detail ? <a {...node.detail} data-element-id={node.element.id} className={`c4-node c4-tone-${node.tone} c4-stroke-${node.stroke}`} data-selected={node.selected} aria-label={`Open detail for ${node.element.name}`}>
-            <span className="c4-node-kind">{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText} · Open detail →</small>
-          </a> : <button data-element-id={node.element.id} className={`c4-node c4-tone-${node.tone} c4-stroke-${node.stroke}`} onClick={node.onSelect} aria-pressed={node.selected} aria-label={`Inspect ${node.element.name}`}>
-            <span className="c4-node-kind">{node.element.kind === 'person' ? '● ' : ''}{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}</small>
-          </button>}
-          {node.detail && <button className="c4-inspect" onClick={node.onInspect} aria-label={`Inspect ${node.element.name}`}>Inspect</button>}
-        </div>)}
-      </div>
-    </div>
-  )
+import type { SceneInput } from '../../domain/scene'
+import type { RefObject } from 'react'
+import type { CanvasSession } from '../hooks/useViewerSession'
+import { relativeGeometry } from '../../adapters/layout/elk-output'
+import { nodeId } from '../../adapters/layout/elk-input'
+import { CanvasNode } from '../views/CanvasNode'
+import type { FlowNode } from '../views/CanvasNode'
+import { CanvasGroup } from '../views/CanvasGroup'
+import type { FlowGroup } from '../views/CanvasGroup'
+import { CanvasEdge } from '../views/CanvasEdge'
+import type { FlowEdge } from '../views/CanvasEdge'
+import '@xyflow/react/dist/style.css'
+import '../../styles/canvas.css'
+const nodeTypes = { c4Node: CanvasNode, c4Group: CanvasGroup }
+const edgeTypes = { c4Edge: CanvasEdge }
+export function DiagramCanvas({ markerId, scene, nodes, onDiagramSelect, session }: DiagramCanvasProps & { session: CanvasSession }) {
+  const geometry = relativeGeometry(scene)
+  const flowNodes: (FlowNode | FlowGroup)[] = [
+    ...geometry.groups.map(item => ({ id: item.id, parentId: item.parentId, position: item.position, type: 'c4Group' as const, data: { group: item.group }, width: item.group.width, height: item.group.height, style: { width: item.group.width, height: item.group.height }, selectable: false, focusable: false, zIndex: -1 })),
+    ...geometry.nodes.map((item, i) => ({ id: item.id, parentId: item.parentId, position: item.position, type: 'c4Node' as const, data: { node: nodes[i] }, width: item.node.width, height: item.node.height, style: { width: item.node.width, height: item.node.height }, focusable: false })),
+  ]
+  const edges: FlowEdge[] = scene.edges.map(edge => ({ id: `edge:${edge.relationship.id}`, source: nodeId(edge.relationship.sourceId), target: nodeId(edge.relationship.targetId), type: 'c4Edge', data: { edge, markerId }, focusable: false, selectable: false, zIndex: 1 }))
+  const viewport = useCanvasViewport(session)
+  return <div className="c4-flow-canvas c4-canvas-scroll" role="region" aria-label={`${scene.diagram.kind.charAt(0).toUpperCase() + scene.diagram.kind.slice(1)} diagram canvas`} data-layout-ready="true" tabIndex={0} onFocusCapture={viewport.onFocusCapture} onKeyDown={viewport.onKeyDown}>
+    <ReactFlow<FlowNode | FlowGroup, FlowEdge> nodes={flowNodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} nodesDraggable={false} nodesConnectable={false} edgesReconnectable={false} elementsSelectable={false} nodesFocusable={false} edgesFocusable={false} deleteKeyCode={null} panOnScroll zoomOnScroll={false} zoomOnDoubleClick={false} minZoom={0.2} maxZoom={2} onInit={viewport.onInit} onMoveEnd={(_, viewport) => session.onViewport(viewport)} onPaneClick={onDiagramSelect} proOptions={{ hideAttribution: true }}>
+      <svg className="c4-marker-defs" aria-hidden="true"><defs><marker id={markerId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker></defs></svg>
+      <Controls showInteractive={false} fitViewOptions={{ maxZoom: 1, padding: 0.15 }}><ControlButton onClick={viewport.onActualSize} aria-label="Actual size">1:1</ControlButton></Controls><Background />
+    </ReactFlow>
+  </div>
+}
+/** Props-only natural-size replicas. No canvas dimensions or transforms enter measurement. */
+export function MeasurementRack({ input, measurementRef }: { input: SceneInput; measurementRef: RefObject<HTMLDivElement | null> }) {
+  return <div ref={measurementRef} className="c4-measurements" aria-hidden="true">
+    {input.nodes.map(node => { const detail = input.diagram.nodes.find(member => member.elementId === node.element.id)?.detail; return <div key={node.element.id} data-measure-kind="node" data-measure-id={node.element.id} className="c4-measure-node" style={{ width: input.diagram.nodes.find(member => member.elementId === node.element.id)?.size?.width ?? 260 }}><div className="c4-node-probe"><span className="c4-node-kind">{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}{detail ? ' · Open detail →' : ''}</small></div>{detail && <div className="c4-measure-inspect">Inspect</div>}</div> })}
+    {input.edges.map(edge => <div key={edge.relationship.id} data-measure-kind="edge" data-measure-id={edge.relationship.id} className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.technology}{edge.relationship.technology ? ' · ' : ''}{edge.relationship.status}</small></div>)}
+    {input.groups.map(group => <div key={group.id} data-measure-kind="group" data-measure-id={group.id} className="c4-group-label"><strong>{group.label}</strong><small>{group.status === 'mixed' ? 'Existing + planned changes' : group.status} boundary</small></div>)}
+  </div>
 }

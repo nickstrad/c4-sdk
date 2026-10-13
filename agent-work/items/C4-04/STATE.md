@@ -1,0 +1,11 @@
+# C4-04 checkpoint
+
+2026-10-13 02:38 UTC: implementation/debugging on item/c4-04-layout in /tmp/c4-sdk-c4-04, base 3ea5789. Authorized full build; Codex-only until Twin confirms Claude reset. Scope [brief](brief.md), [claims](claims.md), independent [review](review.md) pending. Builder has no merge/push authority. All changes uncommitted; preserve them.
+
+Implemented sorted namespaced ELK input, absolute output and identity reattachment, worker termination/cache/timeout, measured second pass, React Flow native nodes/edges/groups, fallback, viewport/focus host sessions and dedicated fixture/tests. Root dependency install confirmed. Browser lease belongs04; no other preview runner. Existing hook navigation test granted by root and added to claims. Common event writer skipped under Nick exception.
+
+Validation so far: typecheck passed before latest additions; 61 unit/hooks and17 property tests passed (30 seeded actual ELK compound cases). Production build emits worker under /c4-preview/assets/worker-*.js. Initial browser run session65830 failed real worker startup; fallback/cancellation journeys passed. Actual worker startup message still needs capture. Standalone node/browser diagnostic failed sandbox Chromium EPERM; escalation tool hung557 seconds then was interrupted by coordinator. No runtime shim or false acceptance made.
+
+Queued preliminary Astra findings (not formal review): elk.bundled worker environment branch differs from Node, likely startup cause; manual authored0/negative positions must stay exact and distant boundaries must not expand to origin; manual edge labels must honor measurements; worker geometry must reject duplicate/extra records and bound payload/points before caching; font changes need bounded new measurement generations. Parent has reviewed03 on mainf4fd31a and will merge into04 at clean checkpoint. Browser specs then need responsive documentation Sheet helper.
+
+Next: inspect/finish owned runner; capture worker ErrorEvent detail via normal production test, fix worker packaging; address preliminary defects; commit clean checkpoint for root prerequisite merge; run focused+combined browser evidence and inspect screenshots; exact independent Astra review remains pending.

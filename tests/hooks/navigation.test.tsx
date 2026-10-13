@@ -1,11 +1,13 @@
 import { act, render, screen, cleanup, waitFor, fireEvent } from '@testing-library/react'
-import { afterEach, expect, it } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import fixture from '../../fixtures/navigation.json'
 import { decodeArchitecture } from '../../src/lib/c4/schema/decode'
 import { ArchitectureViewer } from '../../src/lib/c4/react/containers/ArchitectureViewer'
 import { formatRoute } from '../../src/lib/c4/domain/navigation'
 import type { Route } from '../../src/lib/c4/domain/navigation'
 import type { RoutePort } from '../../src/lib/c4/ports/route'
+import { fixedLayout } from '../../src/lib/c4/domain/layout'
+import type { LayoutPort } from '../../src/lib/c4/ports/layout'
 import { createHashRoutePort } from '../../src/lib/c4/adapters/router/hash'
 const decoded = decodeArchitecture(fixture); if (!decoded.ok) throw new Error('fixture')
 const architecture = decoded.value
@@ -16,10 +18,22 @@ function port() {
   const fake: RoutePort = { getSnapshot: () => snapshot, subscribe: listener => { listeners.add(listener); return () => { listeners.delete(listener) } }, push: update, replace: update, back: () => { snapshot = { hash: formatRoute({ architectureId: fixture.id, diagramId: 'context', elementId: 'developer' }), canGoBack: false }; listeners.forEach(listener => listener()) } }
   return { fake, writes, listeners }
 }
-afterEach(cleanup)
+const layoutPort: LayoutPort = { layout: async request => ({ generation: request.generation, result: fixedLayout(request.scene) }) }
+beforeEach(() => {
+  vi.stubGlobal('ResizeObserver', class {
+    constructor(privateCallback: ResizeObserverCallback) { this.callback = privateCallback }
+    callback: ResizeObserverCallback
+    observe(target: Element) { this.callback([{ target, contentRect: { width: 800, height: 600 } } as ResizeObserverEntry], this as unknown as ResizeObserver) }
+    unobserve() {} disconnect() {}
+  })
+  vi.stubGlobal('DOMMatrixReadOnly', class { m22 = 1 })
+  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function(this: HTMLElement) { return parseFloat(this.style.width) || 800 })
+  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(function(this: HTMLElement) { return parseFloat(this.style.height) || 600 })
+})
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.restoreAllMocks() })
 it('shared controller follows route-port changes, restores parent focus and unsubscribes', async () => {
   const { fake, writes, listeners } = port()
-  const view = render(<ArchitectureViewer validatedBundle={architecture} routePort={fake} />)
+  const view = render(<ArchitectureViewer layoutPort={layoutPort} validatedBundle={architecture} routePort={fake} />)
   act(() => { screen.getByRole('link', { name: 'Open detail for Continuity' }).click() })
   await waitFor(() => expect(screen.getByRole('heading', { name: 'Continuity: logical containers', level: 1 })).toBeTruthy())
   act(() => { screen.getByRole('link', { name: 'Up' }).click() })
@@ -43,16 +57,16 @@ it('hash adapter restores same-tab viewer Back availability on recreation and ne
 it('documentation slot is props-only and route selection cannot leak between bundle revisions', () => {
   const { fake } = port()
   const slot = (props: any) => <aside>{props.selection.title}:{props.mode}</aside>
-  const view = render(<ArchitectureViewer validatedBundle={architecture} routePort={fake} documentationSlot={slot} />)
+  const view = render(<ArchitectureViewer layoutPort={layoutPort} validatedBundle={architecture} routePort={fake} documentationSlot={slot} />)
   act(() => { screen.getByRole('button', { name: 'Inspect Git developer' }).click() })
   expect(screen.getByText('Git developer:plain')).toBeTruthy()
   const other = decodeArchitecture({ ...fixture, id: 'other', revision: 'new' }); if (!other.ok) throw new Error('fixture')
-  view.rerender(<ArchitectureViewer validatedBundle={other.value} routePort={fake} documentationSlot={slot} />)
+  view.rerender(<ArchitectureViewer layoutPort={layoutPort} validatedBundle={other.value} routePort={fake} documentationSlot={slot} />)
   expect(screen.getByText('Continuity and its collaborators:plain')).toBeTruthy()
 })
 it('destination hrefs preserve native modified clicks and use the route port for ordinary activation', () => {
   const { fake, writes } = port()
-  render(<ArchitectureViewer validatedBundle={architecture} routePort={fake} />)
+  render(<ArchitectureViewer layoutPort={layoutPort} validatedBundle={architecture} routePort={fake} />)
   const detail = screen.getByRole('link', { name: 'Open detail for Continuity' })
   expect(detail.getAttribute('href')).toBe(formatRoute({ architectureId: fixture.id, diagramId: 'containers' }))
   fireEvent.click(detail, { ctrlKey: true }); fireEvent.click(detail, { metaKey: true }); fireEvent.click(detail, { shiftKey: true }); fireEvent.click(detail, { button: 1 })

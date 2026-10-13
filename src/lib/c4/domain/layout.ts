@@ -41,7 +41,7 @@ export function fixedLayout(input: SceneInput): Result<Scene> {
   const height = Math.max(350, ...nodes.map(node => node.y + node.height + 40))
   const geometry = [width, height, ...nodes.flatMap(node => [node.x, node.y, node.width, node.height]), ...edges.flatMap(edge => [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY])]
   if (!geometry.every(Number.isFinite)) return failure('$.layout', 'Canvas geometry is not finite. Reduce member coordinates or increase very small member sizes.')
-  return { ok: true, value: { diagram, kindLabel: input.kindLabel, groups: [], nodes, edges, width, height, statusText: input.statusText }, diagnostics: [] }
+  return { ok: true, value: { architectureId: input.architectureId, revision: input.revision, diagram, kindLabel: input.kindLabel, groups: [], nodes, edges, width, height, statusText: input.statusText }, diagnostics: [] }
 }
 
 /** A layout adapter changes geometry only; it cannot alter validated data or ancestry. */
@@ -54,6 +54,11 @@ export function validateLayout(input: SceneInput, result: Result<Scene>): Result
   const nodes = same(input.nodes.map(node => node.element.id), scene.nodes.map(node => node.element.id)) && scene.nodes.every((node, i) => node.element === input.nodes[i]?.element && node.kindLabel === input.nodes[i]?.kindLabel && node.tone === input.nodes[i]?.tone && node.stroke === input.nodes[i]?.stroke && node.statusText === input.nodes[i]?.statusText && node.parentGroupId === input.nodes[i]?.parentGroupId && bounds(node) && (!node.labelBounds || bounds(node.labelBounds)))
   const groups = scene.groups ?? []
   const groupIdentity = same(input.groups.map(group => group.id), groups.map(group => group.group.id)) && groups.every((group, i) => group.group === input.groups[i] && group.parentGroupId === input.groups[i]?.parentGroupId && bounds(group) && (!group.labelBounds || bounds(group.labelBounds)))
+  const contains = (outer: Bounds, inner: Bounds) => inner.x >= outer.x - 0.001 && inner.y >= outer.y - 0.001 && inner.x + inner.width <= outer.x + outer.width + 0.001 && inner.y + inner.height <= outer.y + outer.height + 0.001
+  const containment = [...scene.nodes, ...groups].every(item => {
+    const parent = item.parentGroupId ? groups.find(group => group.group.id === item.parentGroupId) : undefined
+    return !item.parentGroupId || !!parent && contains(parent, item)
+  }) && groups.every(group => !group.labelBounds || contains(group, group.labelBounds))
   const edges = same(input.edges.map(edge => edge.relationship.id), scene.edges.map(edge => edge.relationship.id)) && scene.edges.every((edge, i) => {
     const relationship = input.edges[i]?.relationship
     const endpoints = edge.relationship === relationship && edge.source === scene.nodes.find(node => node.element.id === relationship?.sourceId) && edge.target === scene.nodes.find(node => node.element.id === relationship?.targetId)
@@ -61,7 +66,7 @@ export function validateLayout(input: SceneInput, result: Result<Scene>): Result
     const sections = !edge.sections || edge.sections.length > 0 && edge.sections.every(section => point(section.startPoint) && point(section.endPoint) && (section.bendPoints ?? []).every(point)) && edge.sections[0].startPoint.x === edge.x1 && edge.sections[0].startPoint.y === edge.y1 && edge.sections.at(-1)!.endPoint.x === edge.x2 && edge.sections.at(-1)!.endPoint.y === edge.y2
     return edge.number === input.edges[i]?.number && edge.stroke === input.edges[i]?.stroke && endpoints && scalars && sections && (!edge.labelBounds || bounds(edge.labelBounds))
   })
-  if (scene.diagram !== input.diagram || scene.statusText !== input.statusText || (scene.kindLabel !== undefined && scene.kindLabel !== input.kindLabel) || !nodes || !groupIdentity || !edges || !Number.isFinite(scene.width) || !Number.isFinite(scene.height) || scene.width <= 0 || scene.height <= 0) return { ok: false, diagnostics: [{ code: 'layout', path: '$.layout', severity: 'error', message: 'Layout must preserve validated data, member/edge/group order, endpoints and ancestry with finite positive bounds and routed points.' }] }
+  if (scene.diagram !== input.diagram || scene.statusText !== input.statusText || (scene.kindLabel !== undefined && scene.kindLabel !== input.kindLabel) || !nodes || !groupIdentity || !containment || !edges || !Number.isFinite(scene.width) || !Number.isFinite(scene.height) || scene.width <= 0 || scene.height <= 0) return { ok: false, diagnostics: [{ code: 'layout', path: '$.layout', severity: 'error', message: 'Layout must preserve validated data, member/edge/group order, endpoints and ancestry with finite positive bounds and routed points.' }] }
   return result
 }
 
@@ -70,4 +75,28 @@ export function lookupMeasuredSize(values: Readonly<Partial<Record<string, impor
   if (!Object.hasOwn(values, id)) return undefined
   const size = values[id]
   return size && Number.isFinite(size.width) && Number.isFinite(size.height) && size.width > 0 && size.height > 0 ? size : undefined
+}
+
+/** Manual positions remain authored; boundaries are derived around their descendants. */
+export function manualLayout(input: SceneInput, measures?: { readonly nodeSizes: Readonly<Partial<Record<string, import('./geometry').Size>>>; readonly groupLabelSizes?: Readonly<Partial<Record<string, import('./geometry').Size>>> }): Result<Scene> {
+  const diagram = { ...input.diagram, nodes: input.diagram.nodes.map(member => ({ ...member, size: lookupMeasuredSize(measures?.nodeSizes ?? {}, member.elementId) ?? member.size })) }
+  const placed = fixedLayout({ ...input, diagram, groups: [] })
+  if (!placed.ok) return placed
+  const nodes = placed.value.nodes.map((node, i) => ({ ...node, parentGroupId: input.nodes[i].parentGroupId }))
+  const byId = new Map<string, import('./geometry').SceneGroup>()
+  const place = (id: string): import('./geometry').SceneGroup => {
+    const saved = byId.get(id); if (saved) return saved
+    const group = input.groups.find(g => g.id === id)!
+    const children: Bounds[] = [...nodes.filter(node => node.parentGroupId === id), ...input.groups.filter(child => child.parentGroupId === id).map(child => place(child.id))]
+    const label = lookupMeasuredSize(measures?.groupLabelSizes ?? {}, id) ?? { width: 260, height: 52 }
+    const x = Math.min(40, ...children.map(child => child.x)) - 32
+    const y = Math.min(100, ...children.map(child => child.y)) - label.height - 32
+    const width = Math.max(x + label.width + 64, ...children.map(child => child.x + child.width + 32)) - x
+    const height = Math.max(y + label.height + 96, ...children.map(child => child.y + child.height + 32)) - y
+    const result = { group, parentGroupId: group.parentGroupId, x, y, width, height, labelBounds: { x: x + 16, y: y + 16, ...label } }
+    byId.set(id, result); return result
+  }
+  const groups = input.groups.map(group => place(group.id))
+  const edges = placed.value.edges.map(edge => ({ ...edge, source: nodes.find(node => node.element.id === edge.relationship.sourceId)!, target: nodes.find(node => node.element.id === edge.relationship.targetId)! }))
+  return validateLayout(input, { ok: true, diagnostics: [], value: { ...placed.value, diagram: input.diagram, nodes, groups, edges, width: Math.max(placed.value.width, ...groups.map(group => group.x + group.width + 40)), height: Math.max(placed.value.height, ...groups.map(group => group.y + group.height + 40)) } })
 }
