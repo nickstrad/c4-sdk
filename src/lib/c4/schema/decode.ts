@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { ArchitectureBundle, Diagnostic, Result, ValidatedArchitecture } from '../domain/model'
+import type { ArchitectureBundle, Diagnostic, Result, Step, ValidatedArchitecture } from '../domain/model'
 import { buildIndex, validateArchitecture } from '../domain/architecture'
 
 const id = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/)
@@ -17,11 +17,13 @@ const relationship = z.strictObject({ id, sourceId: id, targetId: id, label: tex
 const swatch = z.strictObject({ shape: z.enum(['person', 'box', 'database', 'boundary', 'line']).optional(), tone: z.enum(['default', 'external', 'accent', 'muted']), stroke: z.enum(['solid', 'dashed', 'dotted']), arrow: z.enum(['none', 'forward']).optional() })
 const legend = z.strictObject({ title: text, entries: z.array(z.strictObject({ id, label: text, description: text, swatch })).max(100) })
 const groups = z.array(z.strictObject({ id, label: text, memberIds: ids, status, parentGroupId: id.optional() })).max(5000).default([])
-const diagram = z.strictObject({ id, kind: z.enum(['context', 'container', 'component']), parent: target.optional(), related: links, groups, title: text, status, scopeId: id,
+const diagramBase = z.strictObject({ id, kind: z.enum(['context', 'container', 'component']), parent: target.optional(), related: links, groups, title: text, status, scopeId: id,
   nodes: z.array(z.strictObject({ elementId: id, detail: target.optional(), related: links, position: z.strictObject({ x: z.number().finite(), y: z.number().finite() }).optional(), size: z.strictObject({ width: z.number().finite().positive().max(2000), height: z.number().finite().positive().max(2000) }).optional() })).max(5000),
   edges: z.array(z.strictObject({ relationshipId: id, displayNumber: z.number().int().positive().optional() })).max(10_000), legend,
   layout: z.strictObject({ mode: z.enum(['manual', 'auto']), direction: z.enum(['TB', 'LR']), spacing: z.number().finite().positive().max(500).optional() }).optional(), ...references,
 })
+const step: z.ZodType<Step> = z.lazy(() => z.discriminatedUnion('kind', [z.strictObject({ kind: z.literal('interaction'), id, relationshipId: id, direction: z.enum(['forward', 'reverse']), label: text }), z.strictObject({ kind: z.literal('sequence'), id, children: z.array(step).min(1).max(1000) }), z.strictObject({ kind: z.literal('parallel'), id, branches: z.array(step).min(1).max(1000) })]))
+const diagram = z.discriminatedUnion('kind', [diagramBase.extend({ kind: z.literal('context') }), diagramBase.extend({ kind: z.literal('container') }), diagramBase.extend({ kind: z.literal('component') }), diagramBase.extend({ kind: z.literal('dynamic'), scopeId: id.optional(), scenario: step })])
 const document = z.strictObject({ id, title: text, plain: body, ste: z.strictObject({ text: body, issue: text, reviewStatus: z.enum(['draft', 'reviewed']), reviewer: text.optional(), reviewedAt: z.iso.date().optional() }), termIds: ids, sourceIds: ids })
 // Shape-only editor schema; runtime additionally checks safe resource URLs and all references.
 const source = z.strictObject({ id, title: text, url: z.string().min(1).max(2000), revision: text.optional(), path: text.optional(), notes: text.optional() })
@@ -41,21 +43,22 @@ export function isSafeResourceUrl(value: string): boolean {
   }
   return /^[a-zA-Z0-9._~-]+(?:\/[a-zA-Z0-9._~-]+)*(?:[?#][a-zA-Z0-9._~!$&'()*+,;=:@%/?#-]*)?$/.test(value) && !value.split(/[/?#]/).some(part => part === '..' || part === '.') && !value.includes('%')
 }
-function boundedTree(value: unknown, depth = 0, ancestors = new Set<unknown>()): boolean {
-  if (depth > 32) return false
+function boundedTree(value: unknown, depth = 0, ancestors = new Set<unknown>(), maxDepth = 32): boolean {
+  if (depth > maxDepth) return false
   if (!value || typeof value !== 'object') return true
   if (ancestors.has(value)) return false
   const next = new Set(ancestors); next.add(value)
-  return Object.values(value).every(child => boundedTree(child, depth + 1, next))
+  // Scenario AST32 semantic levels require object+array layers; ordinary JSON keeps depth32.
+  return Object.entries(value).every(([key, child]) => boundedTree(child, depth + 1, next, key === 'scenario' && 'kind' in value && value.kind === 'dynamic' ? 96 : maxDepth))
 }
 function freeze<T>(value: T): T {
   if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value) }
   return value
 }
 export function decodeArchitecture(input: unknown): Result<ValidatedArchitecture> {
-  if (!boundedTree(input)) return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$', severity: 'error', message: 'Input exceeds depth 32 or contains a cycle.' }] }
+  if (!boundedTree(input)) return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$', severity: 'error', message: 'Input exceeds JSON depth 32 (96 within a dynamic scenario) or contains a cycle.' }] }
   const parsed = domainSchema.safeParse(input)
-  if (!parsed.success) return { ok: false, diagnostics: parsed.error.issues.map(issue => ({ code: 'schema', path: '$' + issue.path.map(part => typeof part === 'number' ? `[${part}]` : `.${String(part)}`).join(''), severity: 'error', message: issue.code === 'unrecognized_keys' ? `Unsupported fields: ${issue.keys.join(', ')}. Supported views are context, container and component; later diagram kinds are not yet supported.` : issue.message })) }
+  if (!parsed.success) return { ok: false, diagnostics: parsed.error.issues.map(issue => ({ code: 'schema', path: '$' + issue.path.map(part => typeof part === 'number' ? `[${part}]` : `.${String(part)}`).join(''), severity: 'error', message: issue.code === 'unrecognized_keys' ? `Unsupported fields: ${issue.keys.join(', ')}. Supported views are context, container, component and dynamic; later diagram kinds are not yet supported.` : issue.message })) }
   const bundle = parsed.data
   const diagnostics: Diagnostic[] = validateArchitecture(bundle)
   bundle.sources.forEach((item, i) => {

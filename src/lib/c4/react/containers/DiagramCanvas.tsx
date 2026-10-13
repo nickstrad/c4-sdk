@@ -16,13 +16,13 @@ import '@xyflow/react/dist/style.css'
 import '../../styles/canvas.css'
 const nodeTypes = { c4Node: CanvasNode, c4Group: CanvasGroup }
 const edgeTypes = { c4Edge: CanvasEdge }
-export function DiagramCanvas({ markerId, scene, nodes, onDiagramSelect, session }: DiagramCanvasProps & { session: CanvasSession }) {
+export function DiagramCanvas({ markerId, scene, nodes, onDiagramSelect, session, overlays }: DiagramCanvasProps & { session: CanvasSession }) {
   const geometry = relativeGeometry(scene)
   const flowNodes: (FlowNode | FlowGroup)[] = [
     ...geometry.groups.map(item => ({ id: item.id, parentId: item.parentId, position: item.position, type: 'c4Group' as const, data: { group: item.group }, width: item.group.width, height: item.group.height, style: { width: item.group.width, height: item.group.height }, selectable: false, focusable: false, zIndex: -1 })),
     ...geometry.nodes.map((item, i) => ({ id: item.id, parentId: item.parentId, position: item.position, type: 'c4Node' as const, data: { node: nodes[i] }, width: item.node.width, height: item.node.height, style: { width: item.node.width, height: item.node.height }, focusable: false })),
   ]
-  const edges: FlowEdge[] = scene.edges.map(edge => ({ id: `edge:${edge.relationship.id}`, source: nodeId(edge.relationship.sourceId), target: nodeId(edge.relationship.targetId), type: 'c4Edge', data: { edge, markerId }, focusable: false, selectable: false, zIndex: 1 }))
+  const edges: FlowEdge[] = scene.edges.map(edge => ({ id: `edge:${edge.relationship.id}`, source: nodeId(edge.relationship.sourceId), target: nodeId(edge.relationship.targetId), type: 'c4Edge', data: { edge, markerId, overlays: overlays?.filter(item => item.relationshipId === edge.relationship.id) }, focusable: false, selectable: false, zIndex: 1 }))
   const viewport = useCanvasViewport(session, scene)
   return <div className="c4-flow-canvas c4-canvas-scroll" role="region" aria-label={`${scene.diagram.kind.charAt(0).toUpperCase() + scene.diagram.kind.slice(1)} diagram canvas`} data-layout-ready="true" tabIndex={0} onFocusCapture={viewport.onFocusCapture} onPointerDownCapture={viewport.onPointerDownCapture} onPointerUpCapture={viewport.onPointerUpCapture} onPointerCancel={viewport.onPointerCancel} onKeyDownCapture={viewport.onKeyDownCapture} onKeyDown={viewport.onKeyDown}>
     <ReactFlow<FlowNode | FlowGroup, FlowEdge> nodes={flowNodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} nodesDraggable={false} nodesConnectable={false} edgesReconnectable={false} elementsSelectable={false} nodesFocusable={false} edgesFocusable={false} deleteKeyCode={null} panOnScroll zoomOnScroll={false} zoomOnDoubleClick={false} minZoom={0.2} maxZoom={2} onInit={viewport.onInit} onMoveEnd={(_, viewport) => session.onViewport(viewport)} onPaneClick={onDiagramSelect} proOptions={{ hideAttribution: true }}>

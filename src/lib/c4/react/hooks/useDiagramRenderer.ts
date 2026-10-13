@@ -11,7 +11,7 @@ export function useDiagramRenderer(input: SceneInput, context: ReturnType<typeof
   const measurement = useDiagramMeasurements(input)
   // Legacy custom ports need not implement measured requests. The built-in engine always does.
   const projected = useDiagramLayout(input, port, layoutPort ? undefined : measurement.measurements)
-  return { projected, measurementRef: measurement.ref, canvasProps: projected.ok ? { markerId: context.markerId, scene: projected.value, onDiagramSelect: context.canvasActions.onDiagramSelect, nodes: projected.value.nodes.map(node => ({ ...node, ...context.canvasActions.nodeActions(node.element.id) })) } : undefined }
+  return { projected, measurementRef: measurement.ref, canvasProps: projected.ok ? { markerId: context.markerId, overlays: context.dynamic?.overlays, scene: projected.value, onDiagramSelect: context.canvasActions.onDiagramSelect, nodes: projected.value.nodes.map(node => ({ ...node, ...context.canvasActions.nodeActions(node.element.id) })) } : undefined }
 }
 
 /** Browser viewport effects stay outside the props-only node/edge/group views. */

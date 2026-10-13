@@ -10,7 +10,8 @@ const child = { ...root, diagramId: 'containers' }
 describe('route and transition rules', () => {
   it('round trips and rejects malformed, unknown and nonmember routes', () => {
     expect(parseRoute(formatRoute({ ...child, elementId: 'server' }))).toMatchObject({ ok: true, value: { ...child, elementId: 'server' } })
-    for (const hash of ['#/oops', '#/architectures/%GG/diagrams/context', '#/architectures/a/diagrams/context?step=x', '#/architectures/a/diagrams/%2F']) expect(parseRoute(hash).ok).toBe(false)
+    for (const hash of ['#/oops', '#/architectures/%GG/diagrams/context', '#/architectures/a/diagrams/context?step=x&step=y', '#/architectures/a/diagrams/%2F']) expect(parseRoute(hash).ok).toBe(false)
+    expect(validateRoute(index, { ...root, stepId: 'x' })[0].path).toBe('$.route.stepId')
     expect(validateRoute(index, { ...root, diagramId: 'constructor' })[0].path).toBe('$.route.diagramId')
     expect(validateRoute(index, { ...root, elementId: 'server' })[0].path).toBe('$.route.elementId')
     expect(validateRoute(index, { ...root, architectureId: 'other' })[0].path).toBe('$.route.architectureId')

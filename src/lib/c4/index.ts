@@ -21,3 +21,7 @@ export type { ArchitectureViewerProps } from './react/containers/ArchitectureVie
 export type { DocumentationSlot, DocumentationViewProps } from './react/contracts/views'
 
 export { ComponentDiagram } from './react/containers/ComponentDiagram'
+
+export { DynamicDiagram } from './react/containers/DynamicDiagram'
+export { precedence, scenarioItems, selectInteractions } from './domain/scenario'
+export type { Step, InteractionStep } from './domain/model'
