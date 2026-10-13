@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. BUILD AUTHORIZED. Main includes reviewed C4-04; combined checks PASS; C4-09a passed review and is held for integration order. The mission continues through C4-10.
+Updated: 2026-10-13. BUILD AUTHORIZED. Main includes reviewed C4-04; combined checks PASS; C4-09a landed713e5df; combined typecheck,106unit/hooks,21properties PASS. The mission continues through C4-10.
 
 ## Authorization and ownership
 
@@ -25,7 +25,7 @@ Order: A01; B02+08a; C03+04+09a; D05→06→07; E08+09; F10. Integrate03→04→
 | C4-08a | Sol PASS `c7d65b4`; landed `9849515` | Cursor source fidelity,11 article anchors/local links, original glossary/ledger |
 | Preflight | Sol PASS `0c4d865`; landed `f4f7321`, reconciled/pushed `3ea5789` | 52 unit/hooks,15 properties,24 browser; groups/projection/measurement/geometry contracts; pinned dependencies |
 | C4-03 | Sol PASS `5bb3750`; record `35fa16c`; landed `1139a64`, pushed `944530f` | Independent57 unit/hooks+18 properties/typecheck; baseline24+component2+mobile viewport1 browser through affected reruns; source/screenshot review |
-| C4-09a | Sol PASS `8fce8d4`; review record `5216e93`; **not landed** | Builder88 unit/hooks+15 properties; reviewer36 focused/400FC plus symlink/tampered-plan refusal cases |
+| C4-09a | Sol PASS `8fce8d4`; review record `5216e93`; merged after04 | Builder88 unit/hooks+15 properties; reviewer36 focused/400FC plus symlink/tampered-plan refusal cases |
 
 C4-03 merged without conflicts; root combined-tree typecheck,57 unit/hooks and18 properties passed. Root adapted baseline context/navigation tests for responsive Sheet and changed deferred-kind unit assertion to code. Rich docs choice keys include dataset/revision/diagram/element; sources/terms follow selected document. Mobile fixed dialog validated with viewport capture plus bounds, because full-page stitching can mislead. Knowledge recorded in `docs/knowledge/gotchas.md`.
 
@@ -42,8 +42,8 @@ Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, prov
 ## Other worktrees and next actions
 
 - C4-03 `/tmp/c4-sdk-c4-03`, branch `item/c4-03-components`: complete/clean; payload `5bb3750`, record `35fa16c`, already landed. Reviewer `/root/components_reviewer` Sol PASS. Final Sheet artifact in `test-results-sheet-viewport/.../component-docs-sheet-viewport.png`.
-- C4-09a `/tmp/c4-sdk-c4-09a`, branch `item/c4-09a-copy-policy`: clean at `5216e93`, ready but held until04. Independent `/root/copy_policy_reviewer` Sol PASS exact `8fce8d4`. Trusted/exclusively owned trees; no multi-file crash atomicity. Single external provenance file option supports pages/c4-sdk-source.json. C4-09 must verify tracked reviewed source inventory.
-- Root must finish combined checks/push04, then merge/push09a with combined checks. Re-review semantic conflict resolutions.
+- C4-09a `/tmp/c4-sdk-c4-09a`, branch `item/c4-09a-copy-policy`: clean at `5216e93`, merged after04. Independent `/root/copy_policy_reviewer` Sol PASS exact `8fce8d4`. Trusted/exclusively owned trees; no multi-file crash atomicity. Single external provenance file option supports pages/c4-sdk-source.json. C4-09 must verify tracked reviewed source inventory.
+- Root pushed04 atfc3d43b and merged09a; combined typecheck,106unit/hooks,21properties PASS; push09a and dispatch05. Re-review semantic conflict resolutions.
 - Dispatch serial05,06,07 with exact claims based on landed tree. Drafts `/tmp/c4-05-brief.md`, `/tmp/c4-06-brief.md`, `/tmp/c4-07-brief.md`.05 explicitly preserves partial-order parallel semantics; no zipped branch barriers or fabricated execution order.
 - Later08+09 concurrent, then10. Drafts `/tmp/c4-08-brief.md`, `/tmp/c4-09-brief.md`, `/tmp/c4-10-brief.md`. Root read all seven pinned Mermaid sources and FFI README flows; prep notes `/tmp/c4-09-source-preparation.md`. Terminal counterparts and full implementation/source conversion review remain09 work.
 - C4-10 should assess mobile documentation discoverability (Open explanation currently below canvas+legend), production bundle audit exposure and measured layout target.
