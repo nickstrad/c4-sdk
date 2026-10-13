@@ -1,0 +1,17 @@
+# Batch C contract and dependency preflight
+
+Authorized integration substep of C4-02/03/04. Lead owns dependency setup and status; Sol implements narrow shared contracts, independent Sol reviews exact commit before batch C. Codex seats only until Twin confirms Claude reset.
+
+Read root STATE, AGENTS, plan sections 3/6/10, item02. Add explicit reviewed seams so C4-03 component/docs and C4-04 layout/canvas can proceed with disjoint claims.
+
+Own: src/lib/c4/domain/{model,architecture,scene,layout,geometry,groups}.ts; src/lib/c4/schema/decode.ts; src/lib/c4/ports/layout.ts; src/lib/c4/react/contracts/views.ts; src/lib/c4/react/views/ContextView.tsx; src/lib/c4/react/containers/DiagramCanvas.tsx; tests/unit/preflight.test.ts; tests/property/preflight.test.ts; docs/plans/batch-c-contracts.md; agent-work/items/C4-preflight/{brief,claims,review,STATE}.md. Existing scene types may re-export geometry for backwards compatibility; no existing UI module changes unless lead approves exact claim. Lead owns package.json/package-lock.json/work-scripts/INDEX.md/root STATE/COORDINATION. No feature runtime datasets.
+
+Acceptance:
+- Group contract per plan: id,label,memberIds,status,parentGroupId?, diagram groups optional or decoder default[]; validate IDs, visibility, direct membership uniqueness, reference/cycle/depth bounds. Pure group validation with exact diagnostic paths; no browser/schema dependencies in domain.
+- SceneInput includes architectureId and revision from index.bundle for cache isolation and preserves groups; geometry output types move to04-owned geometry.ts (scene.ts may re-export) and declare absolute coordinates, bounds,parent identity,routed edge section/points,label bounds. Define exact invariants in contract doc. Empty/default group data must preserve existing fixtures and tests. Current fixed layout must reject nonempty groups with actionable unsupported diagnostic, never silently drop groups before04 lands.
+- LayoutPort request supports optional measured sizes for node/edge label IDs and measurement revision. Existing ports/tests remain source compatible. Define pinned engine/cache identity(bundle revision+diagram+settings+dimensions), two-pass policy, generation/abort/timeout ownership.04 implements worker/lifecycle not this step.
+- Geometry type modules and layout.ts ownership04; model/schema/architecture/scene projection03. DocumentationView/contracts, docs styles03; canvas/layout styles04. Shared CSS stays lead-owned unless split into dedicated files imported by respective modules. Documentation responsive Sheet03 must use existing @base-ui/react primitive and SDK-local style, no app alias.
+- Unit and fast-check evidence for groups: valid forests preserved and immutable, duplicate memberships/IDs/missing refs/cycles/depth rejection. Typecheck/unit/property regressions. Existing visual behavior unchanged; validate harness and builds after dependencies installed; do not claim grouped rendering acceptance.
+- Define separate fixture strategy03/04 via existing catalog prop injection in browser tests (no shared demo catalog/continuity edits). Reserve worker bundling under production /c4-preview/ and later /ts-db/.
+- Make current diagram kind labels generic in ContextView and DiagramCanvas during preflight (preserve context/container labels). Component support in03 must not require an edit to04-owned canvas just to fix an accessible kind label.
+- README contract describes source compatibility and next ownership gates. Update ownSTATE before handoff, exact commit review pending. No root state edits.

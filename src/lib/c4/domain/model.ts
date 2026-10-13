@@ -16,12 +16,14 @@ export interface Relationship extends References {
   readonly plannedNotes: readonly string[]
 }
 export interface Member { readonly elementId: Id; readonly detail?: Target; readonly related: readonly Link[]; readonly position?: { readonly x: number; readonly y: number }; readonly size?: { readonly width: number; readonly height: number } }
+export interface Group { readonly id: Id; readonly label: string; readonly memberIds: readonly Id[]; readonly status: Status; readonly parentGroupId?: Id }
 export interface EdgeRef { readonly relationshipId: Id; readonly displayNumber?: number }
 export interface Swatch { readonly shape?: 'person' | 'box' | 'database' | 'boundary' | 'line'; readonly tone: 'default' | 'external' | 'accent' | 'muted'; readonly stroke: 'solid' | 'dashed' | 'dotted'; readonly arrow?: 'none' | 'forward' }
 export interface LegendEntry { readonly id: Id; readonly label: string; readonly description: string; readonly swatch: Swatch }
 export interface LegendSpec { readonly title: string; readonly entries: readonly LegendEntry[] }
 interface DiagramBase extends References {
   readonly id: Id; readonly parent?: Target; readonly related: readonly Link[]; readonly title: string; readonly status: Status
+  readonly groups?: readonly Group[]
   readonly scopeId: Id; readonly nodes: readonly Member[]; readonly edges: readonly EdgeRef[]
   readonly legend: LegendSpec; readonly layout?: { readonly mode: 'manual' | 'auto'; readonly direction: 'TB' | 'LR'; readonly spacing?: number }
 }

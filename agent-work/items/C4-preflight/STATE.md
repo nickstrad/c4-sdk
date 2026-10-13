@@ -1,0 +1,11 @@
+# C4-preflight checkpoint
+
+Goal: serial batch C contracts per [brief.md](brief.md), authorized root integration substep after C4-02 PASS/land0561126 and08a land9849515. Builder Sol; item/c4-preflight at /tmp/c4-sdk-preflight; base9849515. Exact paths [claims.md](claims.md). Review [review.md](review.md), pending. No main/merge/push authority.
+
+2026-10-13: orientation complete; exact claims reserved before editing. Extra README.md and tests/unit/architecture.test.ts approved by root. Coordinator installed exact @xyflow/react12.12.0, elkjs0.12.0, react-markdown10.1.0 and owns only manifest/lock/index concurrently in this worktree. Install exit0 with531 packages; baseline7high audit findings left for10 by root, no force upgrades. Npm checks may now run. Root commits its three paths separately; builder stages only owned paths.
+
+Implemented: normalized strict groups, pure bounded forest validation with precise paths, frozen SceneInput architecture/revision/ancestry and presentation metadata, absolute geometry split/reexports, optional measurement protocol and own-key helper, identity/presentation-preserving geometry validation, honest unsupported-groups fixed adapter, group legend warnings, generic diagram labels. Added unit/property coverage and contract/README ownership and worker/cache/lifecycle documentation. No engine/compound UI implementation.
+
+Evidence: dependency setup11f6b698b45072e4f007ef7df2808fee25db96f6 independently PASS. Latest typecheck/build PASS;52 unit/hooks and15 fast-check properties PASS; lint only existing button Fast Refresh warning; git diff --check PASS. Production browser24 PASS (1.1m), including keyboard/axe/zoom under /c4-preview/. Desktop/mobile containers screenshots inspected via view_image: unchanged readable labels, separated edges, mobile scroll with wrapping key/docs. One mistaken test:property script invocation was corrected to existing test:prop and passed.
+
+Next: commit only claimed paths and hand exact SHA to independent review. Review remains pending. No main/merge/push authority. Existing hooks reserved04; root shared status untouched. Shared event publication skipped under Nick read-only common-Git exception. Codex-only; no Claude calls.

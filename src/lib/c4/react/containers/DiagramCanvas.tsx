@@ -2,7 +2,7 @@
 import type { DiagramCanvasProps } from '../contracts/views'
 export function DiagramCanvas({ markerId: arrowId, scene, nodes, onDiagramSelect }: DiagramCanvasProps) {
   return (
-    <div className="c4-canvas-scroll" role="region" aria-label={`${scene.diagram.kind === 'context' ? 'Context' : 'Container'} diagram canvas`} tabIndex={0}>
+    <div className="c4-canvas-scroll" role="region" aria-label={`${scene.diagram.kind.charAt(0).toUpperCase() + scene.diagram.kind.slice(1)} diagram canvas`} tabIndex={0}>
       <div className="c4-canvas" style={{ width: scene.width, height: scene.height }} onClick={event => { if (event.target === event.currentTarget) onDiagramSelect() }}>
         <svg className="c4-connections" width={scene.width} height={scene.height} aria-hidden="true">
           <defs><marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" /></marker></defs>

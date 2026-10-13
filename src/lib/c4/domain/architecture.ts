@@ -1,3 +1,4 @@
+import { validateGroups } from './groups'
 import type { ArchitectureBundle, Diagnostic, ModelIndex, References } from './model'
 
 function keyed<T extends { readonly id: string }>(items: readonly T[]): Readonly<Record<string, T>> {
@@ -75,8 +76,11 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
         if (!relationship.technology) warning('missing-protocol', edgePath, `Relationship "${relationship.label}" has no protocol or technology.`)
       }
     })
+    diagnostics.push(...validateGroups(diagram.groups ?? [], diagram.nodes.map(node => node.elementId), `${path}.groups`))
     ids(diagram.legend.entries, `${path}.legend.entries`)
     const required = new Set<string>(diagram.kind === 'context' ? ['accent'] : [])
+    if (diagram.groups?.length) required.add('boundary')
+    if (diagram.groups?.some(group => group.status !== 'existing')) required.add('dashed')
     diagram.nodes.forEach(node => {
       const element = bundle.model.elements.find(item => item.id === node.elementId)
       if (element) required.add(element.kind === 'person' ? 'person' : element.tags.includes('external') ? 'external' : 'box')
