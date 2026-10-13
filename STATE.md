@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 22:20 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged locally; C4-06 merge is `f5f0a03`, and push is pending. C4-07 is next and must start in a new fresh-context agent/worktree.
+Updated: 2026-10-13 22:30 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed; current main is `11913f0`. C4-07 is active in a fresh Sonnet headless session and isolated worktree.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -59,7 +59,7 @@ Per `/root/c4-lead-c4-06-verdict.md`, the Twin-dispatched standalone Muse Wonder
 
 ## C4-07 — dispatch next
 
-The C4-06 PASS releases serial slice C4-07. Use a new fresh-context Sonnet builder (the paired Sol/Sonnet seat), in its own worktree, with the current plan and `/tmp/c4-07-brief.md`; builder owns item-local STATE/claims and commits. The Codex weekly pool was reported nearly exhausted by Twin during the C4-06 review; check provider gauges before dispatch and preserve the cross-company fresh-review gate. Worktree and builder outcome must be recorded here before compaction.
+The C4-06 PASS releases serial slice C4-07. Fresh Sonnet headless builder launched in worktree `/tmp/c4-sdk-c4-07` on `item/c4-07-seven-types`, base `11913f0`, session ID `72915`. Prompt points to `/tmp/c4-07-brief.md` and requires exact path claims, item-local STATE, full browser matrix, separate knowledge/script assessment and commits, and worktree cleanup; permission mode is `acceptEdits`. No merge/push by builder. Codex weekly usage was reported nearly exhausted by Twin during the C4-06 review; Claude reset has passed; Muse just completed the independent review. Recheck all gauges before the later cross-company reviewer dispatch. Builder owns item-local STATE/claims and commits.
 
 ## Other worktrees and next actions
 
