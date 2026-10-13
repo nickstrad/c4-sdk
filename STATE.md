@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 21:50 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and its independent PASS review are merged and pushed. `main` includes the latest global three-CLI protocol and local C4-06 coordination update; push is pending reconciliation. C4-06 builder completed in its own worktree; exact branch HEAD is `be53937187cf8cb3fbe99fd114ee1440f763f2a7`.
+Updated: 2026-10-13 22:10 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed. C4-07 is next and must start in a new fresh-context agent/worktree.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -51,11 +51,11 @@ Plan seat is Sol/Sonnet. Prior builders made uncommitted implementation changes 
 
 Root prepared review brief `/tmp/c4-05-review-brief.md`. Fresh Astra builder completed on `item/c4-05-dynamic-astra` from base `c715e1d` in its own worktree, then cleaned it. Commits: `18d9545` implementation, `bca3d25` indexed knowledge, `c8c403e` checkpoint. Fresh Luna reviewer independently reviewed exact `c8c403e`, passed typecheck, unit/hooks 114/114, properties 23/23, and dynamic production browser 4/4 on desktop and Pixel 7 mobile. Both builder and reviewer inspected screenshots and confirmed the mobile selector fix. Review record `9330f58` is PASS. The context/navigation 200%-zoom mobile S3 click timeout is a pre-existing defect: identical unchanged test at base `c715e1d` and current payload failed the same line in 31.2/31.4s with the same clipped-node evidence. It is recorded as a follow-up limitation, not a C4-05 blocker. All C4-05 commits and review record were merged in `f27b3811f970445ea92982820793dadceb24a8d6`, state/coord updated in `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`, and pushed to `origin/main`. C4-06 is now active in a new agent/worktree.
 
-## C4-06 — build complete; external review pending
+## C4-06 — reviewed and ready to land
 
 Fresh Astra builder `/root/c4_06_astra_fresh` completed C4-06 from `14ac790` in its own worktree and is cleaning it. Branch `item/c4-06-deployment` HEAD is `be53937187cf8cb3fbe99fd114ee1440f763f2a7`; implementation `233a698`, separate indexed project-knowledge commit `8ce2ffa`, initial checkpoint `2f455ef`, final regression checkpoint `be53937`. Unit/hooks 122/122, properties 25/25, typecheck and build passed. Production deployment journeys passed 4/4; final deployment+compound-layout regressions 17 PASS / 1 existing skip; dynamic/component regressions on final source passed 6/6 with both builds and typechecks. Desktop/mobile screenshots inspected, including selected replica focus and viewport bounds. Builder corrected Back focus restoration and initial focus-pan race; exact evidence is under `/tmp/c4-06-final-evidence` and `/tmp/c4-06-final-dynamic-component`.
 
-Per Nick's lead review note `/root/c4-lead-review-note.md` (2026-10-13 16:43 CDT), Twin is dispatching a clean standalone Muse Wonder Full cross-company reviewer because Astra built this item and the Codex weekly pool is nearly exhausted. Do not assign another reviewer or land C4-06 until the external verdict is committed under `agent-work/items/C4-06/`. Continue coordination while waiting. C4-06 is not on main.
+Per `/root/c4-lead-c4-06-verdict.md`, the Twin-dispatched standalone Muse Wonder Full reviewer returned PASS on exact HEAD `be53937187cf8cb3fbe99fd114ee1440f763f2a7`. Independent checks: typecheck and lint pass (one pre-existing warning), unit/hooks 122/122, properties 25/25, deployment browser 4/4, and layout/dynamic/component browser 19 pass/1 existing skip. No blocking defects; four non-blocking nits are recorded in `agent-work/items/C4-06/review.md`. Full report: `/root/wonder-c4-06-review.log`. Proceed with merge and push, then C4-07.
 
 ## Other worktrees and next actions
 
