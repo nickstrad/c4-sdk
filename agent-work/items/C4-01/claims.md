@@ -78,3 +78,5 @@ Additional root generic-viewer assets reserved before edits:
 Reserved demo host stylesheet before writing: `demos/git-at-any-scale/src/style.css`.
 
 Reserved props-only host shell before writing: `src/lib/c4/react/views/CatalogView.tsx`.
+
+Review follow-up for08054079d91f74d0d6f71bd6b4900c8f86460d06: stable geometry arithmetic and complete scene finite checks. Concrete overflow/underflow unit regressions and a300-case generated finite manual-coordinate/size property added. Final affected checks pass:25unit/hook tests,5properties (four150runs plus geometry300, seed4012026), typecheck. No browser rerun per independent reviewer/coordinator because ordinary geometry/UI unchanged; prior browser evidence remains applicable. Exact updated-commit review pending.

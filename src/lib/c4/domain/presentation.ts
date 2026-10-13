@@ -23,7 +23,9 @@ export function projectDiagram(index: ModelIndex, diagramId: string): Result<Sce
   const shiftX = Math.max(0, 40 - Math.min(...nodes.map(node => node.x)))
   const shiftY = Math.max(0, 100 - Math.min(...nodes.map(node => node.y)))
   nodes.forEach((node, i) => { nodes[i] = { ...node, x: node.x + shiftX, y: node.y + shiftY } })
-  if (nodes.some(node => !Number.isFinite(node.x + node.width) || !Number.isFinite(node.y + node.height))) return failure('$.nodes', 'Positions exceed the finite canvas geometry range.')
+  if (nodes.some(node => !Number.isFinite(node.x + node.width) || !Number.isFinite(node.y + node.height))) return failure('$.nodes', 'Positions exceed the finite canvas geometry range. Reduce the distance between members.')
+  const tinyNode = nodes.findIndex(node => node.width / 2 === 0 || node.height / 2 === 0)
+  if (tinyNode !== -1) return failure(`$.nodes[${tinyNode}].size`, 'Size is too small to represent canvas geometry. Increase the member width and height.')
   const edges: SceneEdge[] = []
   for (const [i, edge] of diagram.edges.entries()) {
     const relationship = index.relationships[edge.relationshipId]
@@ -35,9 +37,13 @@ export function projectDiagram(index: ModelIndex, diagramId: string): Result<Sce
     const dx = tx - sx; const dy = ty - sy
     const sourceRatio = Math.max(Math.abs(dx) / (source.width / 2), Math.abs(dy) / (source.height / 2), 1)
     const targetRatio = Math.max(Math.abs(dx) / (target.width / 2), Math.abs(dy) / (target.height / 2), 1)
-    edges.push({ relationship, source, target, number: edge.displayNumber, stroke: relationship.status === 'existing' ? 'solid' : 'dashed', x1: sx + dx / sourceRatio, y1: sy + dy / sourceRatio, x2: tx - dx / targetRatio, y2: ty - dy / targetRatio, labelX: (sx + tx) / 2, labelY: Math.abs(dx) >= Math.abs(dy) ? Math.min(source.y, target.y) - 72 : (sy + ty) / 2 - 20 })
+    edges.push({ relationship, source, target, number: edge.displayNumber, stroke: relationship.status === 'existing' ? 'solid' : 'dashed', x1: sx + dx / sourceRatio, y1: sy + dy / sourceRatio, x2: tx - dx / targetRatio, y2: ty - dy / targetRatio, labelX: sx / 2 + tx / 2, labelY: Math.abs(dx) >= Math.abs(dy) ? Math.min(source.y, target.y) - 72 : sy / 2 + ty / 2 - 20 })
   }
-  return { ok: true, value: { diagram, nodes, edges, width: Math.max(960, ...nodes.map(node => node.x + node.width + 40)), height: Math.max(350, ...nodes.map(node => node.y + node.height + 40)), statusText: statusLabel(diagram.status) }, diagnostics: [] }
+  const width = Math.max(960, ...nodes.map(node => node.x + node.width + 40))
+  const height = Math.max(350, ...nodes.map(node => node.y + node.height + 40))
+  const geometry = [width, height, ...nodes.flatMap(node => [node.x, node.y, node.width, node.height]), ...edges.flatMap(edge => [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY])]
+  if (!geometry.every(Number.isFinite)) return failure('$.layout', 'Canvas geometry is not finite. Reduce member coordinates or increase very small member sizes.')
+  return { ok: true, value: { diagram, nodes, edges, width, height, statusText: statusLabel(diagram.status) }, diagnostics: [] }
 }
 export function selectDocumentation(index: ModelIndex, diagramId: string, elementId?: string): DocumentSelection {
   const visible = !elementId || index.diagrams[diagramId]?.nodes.some(member => member.elementId === elementId)

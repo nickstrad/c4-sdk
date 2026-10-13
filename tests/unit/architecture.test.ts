@@ -103,3 +103,24 @@ describe('scene and document selectors', () => {
     input.model.elements[0].docIds = []; expect(selectDocumentation(valid(input).index, 'context', 'developer').documents).toEqual([])
   })
 })
+
+describe('finite manual geometry regression', () => {
+  it('uses stable relationship midpoints for large finite manual coordinates', () => {
+    const input = sample(); input.diagrams[0].layout.mode = 'manual'
+    input.diagrams[0].nodes = input.diagrams[0].nodes.map(node => ({ ...node, position: { x: 1e308, y: 1e308 } }))
+    const result = projectDiagram(valid(input).index, 'context')
+    expect(result.ok).toBe(true); if (!result.ok) return
+    expect(result.value.edges[0].labelX).toBe(1e308)
+    const geometry = [result.value.width, result.value.height, ...result.value.nodes.flatMap(node => [node.x, node.y, node.width, node.height]), ...result.value.edges.flatMap(edge => [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY])]
+    expect(geometry.every(Number.isFinite)).toBe(true)
+  })
+  it('returns actionable diagnostics for coordinate spans and sizes arithmetic cannot represent', () => {
+    const input = sample(); input.diagrams[0].layout.mode = 'manual'
+    input.diagrams[0].nodes = input.diagrams[0].nodes.map((node, i) => ({ ...node, position: { x: i === 0 ? -1e308 : 1e308, y: 140 } }))
+    const overflow = projectDiagram(valid(input).index, 'context')
+    expect(overflow.ok).toBe(false); expect(overflow.diagnostics[0].message).toContain('Reduce the distance')
+    input.diagrams[0].nodes = input.diagrams[0].nodes.map((node, i) => ({ ...node, position: { x: 40 + i * 320, y: 140 }, size: { width: Number.MIN_VALUE, height: 166 } }))
+    const underflow = projectDiagram(valid(input).index, 'context')
+    expect(underflow.ok).toBe(false); expect(underflow.diagnostics[0]).toMatchObject({ code: 'projection', path: '$.nodes[0].size', severity: 'error' }); expect(underflow.diagnostics[0].message).toContain('Increase')
+  })
+})

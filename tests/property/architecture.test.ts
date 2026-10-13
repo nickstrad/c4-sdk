@@ -44,3 +44,24 @@ it('runtime ID acceptance matches the specified case-sensitive ID grammar', () =
     expect(result.ok).toBe(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(id))
   }), options)
 })
+
+it('all successful scenes from finite manual inputs have entirely finite geometry; unrepresentable scenes report diagnostics', () => {
+  const coordinate = fc.oneof(fc.double({ noNaN: true, noDefaultInfinity: true }), fc.constantFrom(Number.MAX_VALUE, -Number.MAX_VALUE, 1e308, -1e308, 0, Number.MIN_VALUE))
+  const size = fc.oneof(fc.double({ min: Number.MIN_VALUE, max: 2000, noNaN: true, noDefaultInfinity: true }), fc.constantFrom(Number.MIN_VALUE, 2 * Number.MIN_VALUE, 1e-300, 220, 2000))
+  const members = fc.array(fc.record({ x: coordinate, y: coordinate, width: size, height: size }), { minLength: 3, maxLength: 3 })
+  fc.assert(fc.property(members, geometry => {
+    const input = { ...fixture, diagrams: [{ ...fixture.diagrams[0], layout: { mode: 'manual', direction: 'LR' }, nodes: fixture.diagrams[0].nodes.map((node, i) => ({ ...node, position: { x: geometry[i].x, y: geometry[i].y }, size: { width: geometry[i].width, height: geometry[i].height } })) }] }
+    const before = structuredClone(input); const decoded = decodeArchitecture(input)
+    expect(decoded.ok).toBe(true); if (!decoded.ok) return
+    const projected = projectDiagram(decoded.value.index, 'context'); expect(input).toEqual(before)
+    if (!projected.ok) {
+      expect(projected.diagnostics.length).toBeGreaterThan(0)
+      expect(projected.diagnostics.every(diagnostic => diagnostic.severity === 'error' && diagnostic.path.startsWith('$') && diagnostic.message.length > 0)).toBe(true)
+      return
+    }
+    const scene = projected.value
+    const numbers = [scene.width, scene.height, ...scene.nodes.flatMap(node => [node.x, node.y, node.width, node.height]), ...scene.edges.flatMap(edge => [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY])]
+    expect(numbers.every(Number.isFinite)).toBe(true)
+    expect(scene.nodes.map(node => node.element.id)).toEqual(input.diagrams[0].nodes.map(node => node.elementId))
+  }), { ...options, numRuns: 300 })
+})

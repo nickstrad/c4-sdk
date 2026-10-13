@@ -13,7 +13,7 @@ npm run build:demo
 npm run typecheck           # SDK, both apps, configs and tests
 npm run lint
 npm run test:unit           # Node unit tests and jsdom hook tests
-npm run test:prop           # fast-check, seed 4012026, 150 runs/property
+npm run test:prop           # fast-check, seed 4012026, 150 runs; geometry 300
 npx playwright install chromium
 npm run test:browser        # actual production builds, desktop/mobile Chromium
 npm run check               # all of the above checks and builds
@@ -50,7 +50,7 @@ Version 1 uses separate model identities and diagram membership. This slice supp
 
 Validation rejects duplicate IDs/members/edges, invalid scopes, hidden edge endpoints, absent document/source/term references, mixed entities without planned notes, reviewed STE without reviewer/date, unsafe sources and incomplete manual positions. Missing protocols, missing key notation and large views are visible warnings. Proposed limits are 5,000 elements, 10,000 relationships, 200 diagrams and input depth 32; these are guardrails, not performance benchmarks.
 
-Auto layout is fixed and deterministic, without graph routing or ELK. Complex geometry, navigation and later C4 kinds belong to subsequent slices. The canvas scrolls on narrow screens; the complete directed relationship list remains available below it. Documentation currently renders safe literal text with preserved paragraphs, rather than interpreting Markdown/HTML. STE100 text is explicitly draft unless human review metadata exists; schema validation does not certify language compliance.
+Auto layout is fixed and deterministic, without graph routing or ELK. Projection checks the complete scene geometry and reports actionable errors for finite input whose coordinate span or very small sizes cannot be represented safely. Complex geometry, navigation and later C4 kinds belong to subsequent slices. The canvas scrolls on narrow screens; the complete directed relationship list remains available below it. Documentation currently renders safe literal text with preserved paragraphs, rather than interpreting Markdown/HTML. STE100 text is explicitly draft unless human review metadata exists; schema validation does not certify language compliance.
 
 ## Project workflow
 
