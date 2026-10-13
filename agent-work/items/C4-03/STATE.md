@@ -27,3 +27,5 @@ Artifacts remain untracked in test-results, test-results-component-final and tes
 Lead should record: document choice identity includes dataset/revision/diagram/element; active document sources/terms are pure selectors; Markdown filter runs on decoded parser URLs; Base UI portal needs c4-sdk CSS scope; fullPage screenshots can stitch fixed dialogs at scroll offset, so viewport capture plus bounds checks validate overlays.
 
 Independent Sol review must inspect exact build commit and brief. No merge/push by builder; lead integrates03→04→09a after actual review. Shared stylesheet/ArchitectureViewer/layout/canvas remain peer-owned. Review is pending, not implied by these checks.
+
+Independent Sol components_reviewer PASS exact5bb3750e5af33819f98e1841eb2976da27543fde; independently57 unit/hooks+18 properties/typecheck/links passed, source and screenshot review complete. Root recorded actual verdict. Ready for coordinator landing.
