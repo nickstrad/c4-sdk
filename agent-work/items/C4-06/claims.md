@@ -18,7 +18,7 @@ Owns:
 - tests/hooks/deployment.test.tsx
 - tests/browser/deployment/deployment.spec.ts
 
-Reads existing layout, route/navigation, session, documentation, tests and plan contracts. No layout adapter/config/manifest edits. Knowledge index/gotchas ownership requested from coordinator; pending.
+Reads existing layout, route/navigation, session, documentation, tests and plan contracts. No layout adapter/config/manifest edits. Knowledge index/gotchas scope reported to coordinator and reserved for the mandatory separate post-work commit: docs/knowledge/gotchas.md and docs/knowledge/index.md.
 
 Scope addition coordinated with root: useViewerSession.ts needs route-arrival vs completed-restoration distinction for Back before an asynchronous logical view is ready (deployment browser regression).
 
