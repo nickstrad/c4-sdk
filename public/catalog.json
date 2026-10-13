@@ -4,6 +4,11 @@
       "id": "sample-service",
       "title": "Example service context",
       "url": "diagrams/context.json"
+    },
+    {
+      "id": "seven-types",
+      "title": "Shop: all seven diagram types",
+      "url": "diagrams/seven-types.json"
     }
   ]
 }

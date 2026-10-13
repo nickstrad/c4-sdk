@@ -1,7 +1,8 @@
 import { validateDeployment } from './deployment'
+import { validateCode } from './codeview'
 import { validateScenario } from './scenario'
 import { validateGroups } from './groups'
-import type { ArchitectureBundle, Diagnostic, ModelIndex, References } from './model'
+import type { ArchitectureBundle, Diagnostic, Diagram, Element, ModelIndex, References } from './model'
 
 function keyed<T extends { readonly id: string }>(items: readonly T[]): Readonly<Record<string, T>> {
   return Object.freeze(Object.assign(Object.create(null), Object.fromEntries(items.map(item => [item.id, item]))))
@@ -54,14 +55,17 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
     const path = `$.diagrams[${i}]`; refs(diagram, path)
     if (diagram.scopeId) reference(sets.elements, diagram.scopeId, `${path}.scopeId`)
     const scope = bundle.model.elements.find(item => item.id === diagram.scopeId)
-    if (diagram.kind !== 'dynamic' && diagram.kind !== 'deployment' && scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
+    const scopeKinds = { landscape: 'softwareSystem', context: 'softwareSystem', container: 'softwareSystem', component: 'container', code: 'component' } as const
+    if (diagram.kind !== 'dynamic' && diagram.kind !== 'deployment' && scope && scope.kind !== scopeKinds[diagram.kind]) error('invalid-scope', `${path}.scopeId`, `A ${diagram.kind} scope must be a ${scopeKinds[diagram.kind]}.`)
     const members = new Set<string>(); const edges = new Set<string>()
     diagram.nodes.forEach((node, j) => {
       reference(sets.elements, node.elementId, `${path}.nodes[${j}].elementId`)
       if (members.has(node.elementId)) error('duplicate-member', `${path}.nodes[${j}].elementId`, 'Element occurs twice in this view.')
       members.add(node.elementId)
       const element = bundle.model.elements.find(item => item.id === node.elementId)
-      if (diagram.kind === 'context' && (element?.kind === 'container' || element?.kind === 'component')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Context members must be persons or software systems.')
+      if ((diagram.kind === 'context' || diagram.kind === 'landscape') && element && element.kind !== 'person' && element.kind !== 'softwareSystem' && element.kind !== 'deploymentNode' && element.kind !== 'infrastructureNode' && element.kind !== 'instance') error('invalid-member', `${path}.nodes[${j}].elementId`, `${diagram.kind === 'landscape' ? 'Landscape' : 'Context'} members must be persons or software systems.`)
+      if (diagram.kind === 'code' && element && element.kind !== 'code' && element.kind !== 'deploymentNode' && element.kind !== 'infrastructureNode' && element.kind !== 'instance') error('invalid-member', `${path}.nodes[${j}].elementId`, 'Code views contain only code elements.')
+      if ((diagram.kind === 'container' || diagram.kind === 'component' || diagram.kind === 'dynamic') && element?.kind === 'code') error('invalid-member', `${path}.nodes[${j}].elementId`, 'Code elements appear only in code views.')
       if (diagram.kind === 'container' && element?.kind === 'container' && element.parentId !== diagram.scopeId && !element.tags.includes('external')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Supporting containers outside the scope must be tagged external.')
       if (diagram.kind === 'container' && element?.kind === 'component') error('invalid-member', `${path}.nodes[${j}].elementId`, 'Container views cannot include components.')
       if (diagram.kind === 'component' && element?.kind === 'component' && element.parentId !== diagram.scopeId && !element.tags.includes('external')) error('invalid-member', `${path}.nodes[${j}].elementId`, 'Supporting components outside the scope must be tagged external.')
@@ -71,6 +75,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
       if (diagram.layout?.mode === 'manual' && !node.position) error('missing-position', `${path}.nodes[${j}].position`, 'Manual layout requires every position.')
       if (diagram.layout?.mode !== 'manual' && node.position) error('partial-layout', `${path}.nodes[${j}].position`, 'Auto layout does not accept fixed positions. Use manual mode.')
     })
+    if (diagram.kind === 'landscape' && diagram.scopeId && !members.has(diagram.scopeId)) error('scope-not-visible', `${path}.scopeId`, 'The scoped system must appear in the view.')
     if (diagram.kind === 'context' && !members.has(diagram.scopeId)) error('scope-not-visible', `${path}.scopeId`, 'The scoped system must appear in the view.')
     diagram.edges.forEach((edge, j) => {
       const edgePath = `${path}.edges[${j}].relationshipId`
@@ -118,7 +123,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
         checkTarget(member.detail, `${memberPath}.detail`)
         const destination = bundle.diagrams.find(item => item.id === member.detail?.diagramId)
         const element = bundle.model.elements.find(item => item.id === member.elementId)
-        if (destination && !(diagram.kind === 'context' && element?.kind === 'softwareSystem' && destination.kind === 'container' && destination.scopeId === member.elementId || diagram.kind === 'container' && element?.kind === 'container' && destination.kind === 'component' && destination.scopeId === member.elementId || diagram.kind === 'deployment' && element?.kind === 'instance' && (destination.kind === 'component' && bundle.model.elements.find(item => item.id === element.instanceOf)?.kind === 'container' || destination.kind === 'container' && bundle.model.elements.find(item => item.id === element.instanceOf)?.kind === 'softwareSystem') && destination.scopeId === element.instanceOf)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (system context to containers, or container to components).')
+        if (destination && !validDetail(diagram, element, destination)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (landscape system to its context, system context to containers, container to components, or component to code).')
       }
     })
     const visited = new Set<string>(); let current: typeof diagram | undefined = diagram
@@ -128,10 +133,23 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
       current = current.parent ? bundle.diagrams.find(item => item.id === current?.parent?.diagramId) : undefined
     }
   })
-  diagnostics.push(...validateDeployment(bundle, buildIndex(bundle)))
+  const fullIndex = buildIndex(bundle)
+  diagnostics.push(...validateDeployment(bundle, fullIndex), ...validateCode(bundle, fullIndex))
   return diagnostics
 }
 
+/** The destination of a member's native detail link must be the next scope of that member. */
+function validDetail(diagram: Diagram, element: Element | undefined, destination: Diagram): boolean {
+  if (!element) return false
+  const scopedTo = 'scopeId' in destination && destination.scopeId === element.id
+  if (diagram.kind === 'landscape') return element.kind === 'softwareSystem' && destination.kind === 'context' && scopedTo
+  if (diagram.kind === 'context') return element.kind === 'softwareSystem' && destination.kind === 'container' && scopedTo
+  if (diagram.kind === 'container') return element.kind === 'container' && destination.kind === 'component' && scopedTo
+  if (diagram.kind === 'component') return element.kind === 'component' && destination.kind === 'code' && scopedTo
+  if (diagram.kind === 'deployment' && element.kind === 'instance') return 'scopeId' in destination && destination.scopeId === element.instanceOf && (destination.kind === 'component' || destination.kind === 'container')
+  return false
+}
 export function diagramKindDiagnostics(index: ModelIndex, diagramId: string, kind: import('./model').Diagram['kind']): readonly Diagnostic[] {
-  return index.diagrams[diagramId]?.kind === kind ? [] : [{ code: 'diagram-kind', severity: 'error', path: '$.diagramId', message: `Expected a ${kind} diagram.` }]
+  const actual = index.diagrams[diagramId]?.kind
+  return !actual || actual === kind ? [] : [{ code: 'diagram-kind', severity: 'error', path: '$.diagramId', message: `Expected a ${kind} diagram, but "${diagramId}" is a ${actual} diagram.` }]
 }

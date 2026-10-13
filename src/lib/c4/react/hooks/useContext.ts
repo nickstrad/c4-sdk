@@ -1,7 +1,6 @@
 import { useDeployment } from './useDeployment'
 import { useId, useMemo } from 'react'
 import type { ValidatedArchitecture } from '../../domain/model'
-import { diagramKindDiagnostics } from '../../domain/architecture'
 import { buildScene } from '../../domain/scene'
 import { useDynamicSteps } from './useDynamicSteps'
 import { useDocumentation } from './useDocumentation'
@@ -19,8 +18,4 @@ export function useContext(architecture: ValidatedArchitecture, route: Route, na
   return { input, markerId, documentationProps, dynamic, deployment,
     canvasActions: { onDiagramSelect: () => navigate({ type: 'diagram' }), nodeActions: (elementId: string) => ({ selected: route.elementId === elementId, detail: detail(elementId), onSelect: () => navigate({ type: 'activate', elementId }), onInspect: () => navigate({ type: 'inspect', elementId }) }) },
   }
-}
-
-export function useDiagramKind(architecture: ValidatedArchitecture, diagramId: string | undefined, kind: import('../../domain/model').Diagram['kind']) {
-  return diagramKindDiagnostics(architecture.index, diagramId ?? architecture.bundle.defaultDiagramId, kind)
 }

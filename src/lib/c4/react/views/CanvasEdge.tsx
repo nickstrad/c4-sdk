@@ -2,7 +2,7 @@ import type { Edge, EdgeProps } from '@xyflow/react'
 import type { SceneEdge } from '../../domain/geometry'
 export type FlowEdge = Edge<{ edge: SceneEdge; markerId: string; overlays?: readonly import('../../domain/scenario').InteractionOverlay[] }, 'c4Edge'>
 export function EdgeLabel({ edge }: { edge: SceneEdge }) {
-  return <div className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.technology}{edge.relationship.technology ? ' · ' : ''}{edge.relationship.status}</small></div>
+  return <div className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.kind !== 'dependency' ? `${edge.relationship.kind} · ` : ''}{edge.relationship.technology}{edge.relationship.technology ? ' · ' : ''}{edge.relationship.status}</small></div>
 }
 export function CanvasEdge({ data }: EdgeProps<FlowEdge>) {
   if (!data) return null
