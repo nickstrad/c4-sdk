@@ -18,6 +18,15 @@ The builder updates item `STATE.md` with implementation and knowledge/script com
 
 Apply the same fresh-agent and cleanup rules to side quests. A side quest has no product-code permission; its assigned new agent commits its unique finding and any indexed reusable research helper, records whether the knowledge check produced a lesson, and removes its worktree when done.
 
+## Execution modes (hybrid)
+
+Work runs in one of two modes. The mode never changes the fresh-agent lifecycle above: fresh context per unit, commit, knowledge/script preservation, worktree cleanup.
+
+1. **Headless runs (default for item work).** Builds, reviews, fixups, and side quests run as non-interactive agent processes launched by the coordinator: the brief is a file passed to the run (`claude -p`, `codex exec`, or `muse exec --prompt-file`), the run gets its own branch/worktree, the brief names its permission profile and acceptance checks up front, and the coordinator records the run's exit status and saves its machine-readable output (JSON event stream or transcript) with the item checkpoint. No interactive session is created or kept for item work, and no work waits on anyone watching a terminal.
+2. **Long-lived interactive sessions (coordinators and planners only).** A small number of persistent sessions (e.g. in tmux) are reserved for roles whose value is accumulated context across items: plan authoring, research synthesis, cross-item coordination. They dispatch headless runs and judge results; they do not do item work themselves.
+3. **Coordination is files, in both modes.** Briefs/claims, `agent-work/COORDINATION.md`, `STATE.md`, and the shared event log are the coordination channel. Messages between agents travel as committed files or new headless runs, never as text typed into another agent's terminal session.
+4. **Exceptions are explicit.** Interactive item work (live debugging, joint exploration with the user) is allowed when the brief names it and says why; it is never the default.
+
 ## Model-seat mapping
 
 Use the model seat named by the plan or brief. A paired label names the matching Anthropic/OpenAI choices for that seat; follow actual usage budgets and user instructions when selecting a provider. Normal mappings are Sol / Sonnet (`gpt-6.1-sol` / Claude Sonnet), Astra / Opus (`gpt-6-astra` / Claude Opus), and Luna / Haiku (`gpt-6-luna` / Haiku 5.5 or later, high effort). Do not substitute a different tier without a scoped, documented reason. Builders and independent reviewers use separate fresh agents, normally in the assigned seat; only the difficult C4-04 layout uses Astra / Opus under this plan.
