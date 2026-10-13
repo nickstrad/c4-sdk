@@ -1,6 +1,6 @@
 # Work item: productionization-plan
 
-Status: in progress. Owner: c4-sdk-plan coordinator.
+Status: complete — plan reviewed and published. Owner: c4-sdk-plan coordinator.
 Branch/worktree: `plan/c4-react`, `/tmp/c4-sdk-plan`.
 
 Goal: plan the final productionization phase after all C4-01 through C4-10 gates complete. Cover MIT,
