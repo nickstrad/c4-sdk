@@ -27,4 +27,6 @@ Builder: fresh Claude Sonnet 5.5, no subagents. Branch `item/c4-07-seven-types`,
 
 ## Commits
 
-Filled at handoff (implementation, knowledge/script decision, checkpoint).
+- Implementation + validation evidence: `7cd4189eb17c1efd77120d30eee99805940ef059`
+- Project knowledge (gotchas + index): `84bf5b56f4990639c2228f946ed6ca9c9753ddab`. No reusable script was justified (fixture generation was a one-off).
+- This checkpoint is the branch HEAD after both; the coordinator should review the resulting HEAD. Worktree cleaned after this commit.
