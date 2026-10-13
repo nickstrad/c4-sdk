@@ -36,7 +36,7 @@ describe('strict runtime context contract', () => {
   it('rejects unknown versions, later types and deferred features explicitly', () => {
     rejected({ ...sample(), schemaVersion: 2 }, '$.schemaVersion', 'schema')
     const types = sample(); types.diagrams[0].kind = 'component'; rejected(types, '$.diagrams[0].kind', 'schema')
-    for (const extra of [{ groups: [] }, { unknown: true }]) {
+    for (const extra of [{ unsupported: [] }, { unknown: true }]) {
       const input = sample(); input.diagrams[0] = { ...input.diagrams[0], ...extra }; rejected(input, '$.diagrams[0]', 'schema')
     }
     const detail = sample(); detail.diagrams[0].nodes[1] = { elementId: 'continuity', ...{ detail: { diagramId: 'context' } } }; rejected(detail, '$.diagrams[0].nodes[1].detail', 'invalid-detail')

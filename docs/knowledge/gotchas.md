@@ -19,3 +19,7 @@ A catalog entry ID must match its loaded bundle ID. Never guess a diagram ID bef
 ### 2026-10-13 — Native links and real browser history
 
 Use codec-derived anchors for diagram destinations and intercept only ordinary primary activation. Modified clicks retain native new-tab behavior. Persist the same-tab history owner across reloads; use browser history state to distinguish known viewer entries from external history, without a private route stack. See [C4-02](../../agent-work/items/C4-02/brief.md).
+
+### 2026-10-13 — Serialize Vitest processes in one checkout
+
+Running unit and property commands concurrently can race while Vitest clears node_modules/.vitest-cache, causing ENOTEMPTY before tests start. Run these suites sequentially in the same checkout, or use genuinely separate dependency/cache directories. The preflight integration property suite passed; only the unit startup needed a rerun. See [preflight review](../../agent-work/items/C4-preflight/review.md).

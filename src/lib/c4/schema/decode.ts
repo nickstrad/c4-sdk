@@ -16,7 +16,8 @@ const links = z.array(z.strictObject({ diagramId: id, elementId: id.optional(), 
 const relationship = z.strictObject({ id, sourceId: id, targetId: id, label: text, status, technology: text.optional(), kind: z.enum(['dependency', 'association']).default('dependency'), plannedNotes: strings, ...references })
 const swatch = z.strictObject({ shape: z.enum(['person', 'box', 'database', 'boundary', 'line']).optional(), tone: z.enum(['default', 'external', 'accent', 'muted']), stroke: z.enum(['solid', 'dashed', 'dotted']), arrow: z.enum(['none', 'forward']).optional() })
 const legend = z.strictObject({ title: text, entries: z.array(z.strictObject({ id, label: text, description: text, swatch })).max(100) })
-const diagram = z.strictObject({ id, kind: z.enum(['context', 'container']), parent: target.optional(), related: links, title: text, status, scopeId: id,
+const groups = z.array(z.strictObject({ id, label: text, memberIds: ids, status, parentGroupId: id.optional() })).max(5000).default([])
+const diagram = z.strictObject({ id, kind: z.enum(['context', 'container']), parent: target.optional(), related: links, groups, title: text, status, scopeId: id,
   nodes: z.array(z.strictObject({ elementId: id, detail: target.optional(), related: links, position: z.strictObject({ x: z.number().finite(), y: z.number().finite() }).optional(), size: z.strictObject({ width: z.number().finite().positive().max(2000), height: z.number().finite().positive().max(2000) }).optional() })).max(5000),
   edges: z.array(z.strictObject({ relationshipId: id, displayNumber: z.number().int().positive().optional() })).max(10_000), legend,
   layout: z.strictObject({ mode: z.enum(['manual', 'auto']), direction: z.enum(['TB', 'LR']), spacing: z.number().finite().positive().max(500).optional() }).optional(), ...references,
@@ -54,7 +55,7 @@ function freeze<T>(value: T): T {
 export function decodeArchitecture(input: unknown): Result<ValidatedArchitecture> {
   if (!boundedTree(input)) return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$', severity: 'error', message: 'Input exceeds depth 32 or contains a cycle.' }] }
   const parsed = domainSchema.safeParse(input)
-  if (!parsed.success) return { ok: false, diagnostics: parsed.error.issues.map(issue => ({ code: 'schema', path: '$' + issue.path.map(part => typeof part === 'number' ? `[${part}]` : `.${String(part)}`).join(''), severity: 'error', message: issue.code === 'unrecognized_keys' ? `Unsupported fields: ${issue.keys.join(', ')}. Supported views are context and container; groups and later diagram kinds are not yet supported.` : issue.message })) }
+  if (!parsed.success) return { ok: false, diagnostics: parsed.error.issues.map(issue => ({ code: 'schema', path: '$' + issue.path.map(part => typeof part === 'number' ? `[${part}]` : `.${String(part)}`).join(''), severity: 'error', message: issue.code === 'unrecognized_keys' ? `Unsupported fields: ${issue.keys.join(', ')}. Supported views are context and container; later diagram kinds are not yet supported.` : issue.message })) }
   const bundle = parsed.data
   const diagnostics: Diagnostic[] = validateArchitecture(bundle)
   bundle.sources.forEach((item, i) => {

@@ -43,3 +43,7 @@ particularly difficult problem, and Luna can own tightly scoped production work.
 batches, disjoint claims and serial integration gates. The coordinator maintains root `STATE.md` for every
 session and handoff; builders report item-local state. See [protocol](../../AGENTS.md) and
 [implementation slices](../plans/implementation.md#10-vertical-implementation-slices).
+
+## 2026-10-13 — Shared contracts precede parallel features
+
+Batch C has explicit seams: validated groups and immutable scene presentation inputs feed a geometry-only layout adapter. Worker clients reattach original validated objects after receiving geometry. Measurement records use own-key lookup, and group IDs have a separate namespace from element IDs. Component/docs work owns schema and projection; layout owns geometry, canvas and renderer composition. See [contracts](../plans/batch-c-contracts.md) and [review](../../agent-work/items/C4-preflight/review.md).
