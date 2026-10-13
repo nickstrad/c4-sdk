@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 22:10 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed. C4-07 is next and must start in a new fresh-context agent/worktree.
+Updated: 2026-10-13 22:20 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged locally; C4-06 merge is `f5f0a03`, and push is pending. C4-07 is next and must start in a new fresh-context agent/worktree.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -55,7 +55,11 @@ Root prepared review brief `/tmp/c4-05-review-brief.md`. Fresh Astra builder com
 
 Fresh Astra builder `/root/c4_06_astra_fresh` completed C4-06 from `14ac790` in its own worktree and is cleaning it. Branch `item/c4-06-deployment` HEAD is `be53937187cf8cb3fbe99fd114ee1440f763f2a7`; implementation `233a698`, separate indexed project-knowledge commit `8ce2ffa`, initial checkpoint `2f455ef`, final regression checkpoint `be53937`. Unit/hooks 122/122, properties 25/25, typecheck and build passed. Production deployment journeys passed 4/4; final deployment+compound-layout regressions 17 PASS / 1 existing skip; dynamic/component regressions on final source passed 6/6 with both builds and typechecks. Desktop/mobile screenshots inspected, including selected replica focus and viewport bounds. Builder corrected Back focus restoration and initial focus-pan race; exact evidence is under `/tmp/c4-06-final-evidence` and `/tmp/c4-06-final-dynamic-component`.
 
-Per `/root/c4-lead-c4-06-verdict.md`, the Twin-dispatched standalone Muse Wonder Full reviewer returned PASS on exact HEAD `be53937187cf8cb3fbe99fd114ee1440f763f2a7`. Independent checks: typecheck and lint pass (one pre-existing warning), unit/hooks 122/122, properties 25/25, deployment browser 4/4, and layout/dynamic/component browser 19 pass/1 existing skip. No blocking defects; four non-blocking nits are recorded in `agent-work/items/C4-06/review.md`. Full report: `/root/wonder-c4-06-review.log`. Proceed with merge and push, then C4-07.
+Per `/root/c4-lead-c4-06-verdict.md`, the Twin-dispatched standalone Muse Wonder Full reviewer returned PASS on exact HEAD `be53937187cf8cb3fbe99fd114ee1440f763f2a7`. Independent checks: typecheck and lint pass (one pre-existing warning), unit/hooks 122/122, properties 25/25, deployment browser 4/4, and layout/dynamic/component browser 19 pass/1 existing skip. No blocking defects; four non-blocking nits are recorded in `agent-work/items/C4-06/review.md`. Full report: `/root/wonder-c4-06-review.log`. The reviewed implementation, indexed knowledge and checkpoint are now merged in `f5f0a03`; push remains pending.
+
+## C4-07 — dispatch next
+
+The C4-06 PASS releases serial slice C4-07. Use a new fresh-context Sonnet builder (the paired Sol/Sonnet seat), in its own worktree, with the current plan and `/tmp/c4-07-brief.md`; builder owns item-local STATE/claims and commits. The Codex weekly pool was reported nearly exhausted by Twin during the C4-06 review; check provider gauges before dispatch and preserve the cross-company fresh-review gate. Worktree and builder outcome must be recorded here before compaction.
 
 ## Other worktrees and next actions
 
