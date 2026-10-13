@@ -41,7 +41,7 @@ Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, prov
 
 ## Active C4-05
 
-Sol builder c4_03_builder assigned /tmp/c4-sdk-c4-05, branch item/c4-05-dynamic fromdd2faf8. Exact brief/claims/STATE reserved before dispatch. Browser lease05. Independent reviewer not yet dispatched. Implements partial-order scenario AST, step URLs, stable-layout overlays/text alternative; no parallel total-order fiction. No Claude until Twin confirms reset.
+Sol builder c4_03_builder assigned /tmp/c4-sdk-c4-05, branch item/c4-05-dynamic fromdd2faf8. Exact brief/claims/STATE reserved before dispatch. Browser lease05. Independent reviewer not yet dispatched; review brief /tmp/c4-05-review-brief.md. Builder turn interrupted/resumed after no progress/status for several minutes; edits intact, no approval blocker. Builder reported initial unit session50648 interrupted, no result claimed; next is32/33 depth boundary adjustment and sequential tests. Implements partial-order scenario AST, step URLs, stable-layout overlays/text alternative; no parallel total-order fiction. No Claude until Twin confirms reset.
 
 ## Other worktrees and next actions
 
@@ -49,7 +49,8 @@ Sol builder c4_03_builder assigned /tmp/c4-sdk-c4-05, branch item/c4-05-dynamic 
 - C4-09a `/tmp/c4-sdk-c4-09a`, branch `item/c4-09a-copy-policy`: clean at `5216e93`, merged after04. Independent `/root/copy_policy_reviewer` Sol PASS exact `8fce8d4`. Trusted/exclusively owned trees; no multi-file crash atomicity. Single external provenance file option supports pages/c4-sdk-source.json. C4-09 must verify tracked reviewed source inventory.
 - Root pushed04 atfc3d43b and merged09a; combined typecheck,106unit/hooks,21properties PASS; pushed09a atdd2faf8; C4-05 dispatched next. Re-review semantic conflict resolutions.
 - Dispatch serial05,06,07 with exact claims based on landed tree. Drafts `/tmp/c4-05-brief.md`, `/tmp/c4-06-brief.md`, `/tmp/c4-07-brief.md`.05 explicitly preserves partial-order parallel semantics; no zipped branch barriers or fabricated execution order.
-- Later08+09 concurrent, then10. Drafts `/tmp/c4-08-brief.md`, `/tmp/c4-09-brief.md`, `/tmp/c4-10-brief.md`. Root read all seven pinned Mermaid sources and FFI README flows; prep notes `/tmp/c4-09-source-preparation.md`. Terminal counterparts and full implementation/source conversion review remain09 work.
+- Later08+09 concurrent, then10. Drafts `/tmp/c4-08-brief.md`, `/tmp/c4-09-brief.md`, `/tmp/c4-10-brief.md`. Root read all seven pinned Mermaid sources and FFI README flows; prep notes `/tmp/c4-09-source-preparation.md`. Root additionally checked current terminal relationship tables and full document_reader.ts/Fable rationale; complete paired-source conversion remains09 work. Actual FFI files live under docs/plans/ffi; docs/ffi-c4 is a branch. Scratch notes hold code-view suggestions and evidence caveats.
+- Draft07 now explicitly includes public lower-level composition/provider/slots as planned, with tested examples; do not hide this feature in10. Draft09 notes no current tracked LICENSE: preserve attribution, do not invent a license grant.
 - C4-10 should assess mobile documentation discoverability (Open explanation currently below canvas+legend), production bundle audit exposure and measured layout target.
 
 Each worktree has its own installed node_modules. **Run Vitest unit and property commands sequentially per checkout**; concurrent processes race on `.vitest-cache`. No reinstalls/config changes without a concrete reason. Browser runners require the single lease. Existing button fast-refresh lint warning and large-chunk build warning are known; no false clean/performance claims.
