@@ -1,0 +1,19 @@
+# C4-06 — inspect a deployment instance
+
+Serial after C4-05. Plan seat Sol/Sonnet. Coordinator assigned fresh Astra builder c4_06_astra_fresh after Sol quota exhaustion; this is a scoped documented seat exception. Independent fresh review remains mandatory. The temporary Codex-only regime ended at the recorded reset; follow current root staffing directives. Read STATE, AGENTS and normative plan. Exact claims before edits; item-local checkpoint, root shared files.
+
+Implement deploymentNode(environment,technology,parent deploymentNode optional), infrastructureNode(parent deploymentNode,technology), instance(instanceOf system/container,parent deploymentNode,environment). Validate legal parents, environments, cycles, distinct replica IDs and relationships; deployment diagrams require environment and only appropriate visible nodes. Optional modelRelationshipId ties instance edges to matching logical model relationships; infrastructure edges need not invent logical relations. No environment leakage or implicit ancestor edges.
+
+Nested physical topology must be visible and expand/collapse locally without changing architecture level. Instance inspection exposes identity and logical target, drilling to the logical container's component diagram and returning via actual history to the correct instance. Canonical breadcrumbs remain model-declared; don't overwrite canonical component parent with a transient instance. Preserve focus, viewport and source status; collapse must retain a truthful accessible alternative and cannot draw orphan edges or silently duplicate instances.
+
+Add explicitly illustrative Cursor deployment: no claim about actual host count, regions, process boundaries or implementation language. Source-backed roles and durability, hypothetical topology labelled. Draft Plain/STE docs and legend for every new visible element and diagram; final consolidation08.
+
+Exact files derived from landed tree: schema/model/architecture/deployment selectors/scene/navigation as necessary, named DeploymentDiagram wrapper, thin expansion hook and props-only deployment/instance views, JSON fixture/demo and tests. Keep geometry/worker correctness and route semantics from prior slices; manifests/configs lead-owned.
+
+Unit/property: parent/instanceOf/env mismatches, cycles, distinct replicas, scoped projections/endpoints, valid expansion state. Production browser: expand/collapse nesting, choose distinct replicas, logical drill and Back restoring correct instance, keyboard, mobile/desktop screenshots and relevant earlier regression. Commit; independent exact review; root integration only.
+
+Layout integration needs explicit design: deploymentNode is a model identity; visual Group is separate. Physical nesting must preserve each declared node's inspectable identity and source metadata, with no duplicate instance cards or invented ancestor edges. Use the existing compound contract where possible; if geometry/ELK adapters require changes, send exact paths and reason before claiming them. Collapsed children/edges need an explicit derived-view policy and an accessible representation; do not bypass geometry identity validation or mutate the validated diagram in place.
+
+Direct selected-instance URLs and Back must leave the selected replica inspectable when ancestors were collapsed: derive a clear expansion/selection policy and test it. Never silently redirect to a sibling replica or lose logical-model/physical-instance identity.
+
+Browser tool execution: run direct `npm run test:browser ...` with require_escalated (existing approved prefix) and short exec/poll yields. Do not wrap the escalated command in `timeout`: that changed prefix stalled approval for288seconds in05. Bound runs using Playwright configuration/CLI timeout and poll/interrupt owned sessions if needed; report tool stalls promptly.

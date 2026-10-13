@@ -25,3 +25,6 @@ export { ComponentDiagram } from './react/containers/ComponentDiagram'
 export { DynamicDiagram } from './react/containers/DynamicDiagram'
 export { precedence, scenarioItems, selectInteractions } from './domain/scenario'
 export type { Step, InteractionStep } from './domain/model'
+
+export { DeploymentDiagram } from './react/containers/DeploymentDiagram'
+export { projectDeployment, deploymentAncestors, deploymentEnvironment } from './domain/deployment'

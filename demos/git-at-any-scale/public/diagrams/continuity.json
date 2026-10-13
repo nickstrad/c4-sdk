@@ -7,26 +7,26 @@
   "sources": [
     {
       "id": "article",
-      "title": "Git at any scale \u00b7 Cursor",
+      "title": "Git at any scale · Cursor",
       "url": "https://cursor.com/blog/git-at-any-scale",
       "revision": "2026-08-18",
       "notes": "Context abstraction from the article; not a deployment specification."
     },
     {
       "id": "consensus",
-      "title": "Consensus \u00b7 Cursor",
+      "title": "Consensus · Cursor",
       "url": "https://cursor.com/blog/git-at-any-scale#consensus",
       "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
     },
     {
       "id": "replication",
-      "title": "Replication \u00b7 Cursor",
+      "title": "Replication · Cursor",
       "url": "https://cursor.com/blog/git-at-any-scale#replication",
       "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
     },
     {
       "id": "compaction",
-      "title": "Compaction \u00b7 Cursor",
+      "title": "Compaction · Cursor",
       "url": "https://cursor.com/blog/git-at-any-scale#compaction",
       "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
     }
@@ -35,7 +35,7 @@
     {
       "id": "overview",
       "title": "An external view",
-      "plain": "This small context interprets the article\u2019s system boundaries. It omits internal storage and replication details.",
+      "plain": "This small context interprets the article’s system boundaries. It omits internal storage and replication details.",
       "ste": {
         "text": "This diagram shows the system and its users. It does not show internal parts.",
         "issue": "ASD-STE100 Issue 9",
@@ -87,7 +87,7 @@
     {
       "id": "container-overview",
       "title": "Logical container view",
-      "plain": "This is an inferred C4 decomposition of the article\u2019s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.",
+      "plain": "This is an inferred C4 decomposition of the article’s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.",
       "ste": {
         "text": "This view shows logical parts. The server uses a local Git repository and S3 storage. The boundaries are inferred.",
         "issue": "ASD-STE100 Issue 9",
@@ -200,6 +200,136 @@
       "sourceIds": [
         "replication"
       ]
+    },
+    {
+      "id": "demo-region-doc",
+      "title": "Illustrative region",
+      "plain": "Hypothetical physical boundary. The article does not establish this region or host count.",
+      "ste": {
+        "text": "Hypothetical physical boundary. The article does not establish this region or host count.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "demo-host-a-doc",
+      "title": "Illustrative host A",
+      "plain": "Hypothetical host, not a statement about actual processes or machines.",
+      "ste": {
+        "text": "Hypothetical host, not a statement about actual processes or machines.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "demo-host-b-doc",
+      "title": "Illustrative host B",
+      "plain": "A second hypothetical host demonstrates distinct replica identities.",
+      "ste": {
+        "text": "A second hypothetical host demonstrates distinct replica identities.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-a-doc",
+      "title": "Continuity replica A",
+      "plain": "Illustrative instance of the logical server role. Its exact process boundary is not asserted.",
+      "ste": {
+        "text": "Illustrative instance of the logical server role. Its exact process boundary is not asserted.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-b-doc",
+      "title": "Continuity replica B",
+      "plain": "A distinct illustrative replica of the same logical server, not evidence of actual replica count.",
+      "ste": {
+        "text": "A distinct illustrative replica of the same logical server, not evidence of actual replica count.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "repository-a-doc",
+      "title": "Local cache instance",
+      "plain": "Illustrative placement of the local repository cache role.",
+      "ste": {
+        "text": "Illustrative placement of the local repository cache role.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "demo-storage-doc",
+      "title": "Illustrative durable storage",
+      "plain": "The article describes S3-backed durability; this drawn physical placement is hypothetical.",
+      "ste": {
+        "text": "The article describes S3-backed durability; this drawn physical placement is hypothetical.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-handler-doc",
+      "title": "Illustrative request handler",
+      "plain": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
+      "ste": {
+        "text": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "deployment-overview",
+      "title": "Illustrative deployment",
+      "plain": "This topology is hypothetical. It demonstrates nested hosts, distinct server replicas, a cache, and durable storage. The article supports the logical roles and S3 durability. It does not establish the host count, regions, replica placement, process boundaries, or implementation language shown here. Collapsing a host hides its descendants and their relationships; no ancestor relationship is invented.",
+      "ste": {
+        "text": "This topology is hypothetical. It demonstrates nested hosts, distinct server replicas, a cache, and durable storage. The article supports the logical roles and S3 durability. It does not establish the host count, regions, replica placement, process boundaries, or implementation language shown here. Collapsing a host hides its descendants and their relationships; no ancestor relationship is invented.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-components-doc",
+      "title": "Illustrative logical detail",
+      "plain": "This single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.",
+      "ste": {
+        "text": "This single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ]
     }
   ],
   "model": {
@@ -283,6 +413,163 @@
         "sourceIds": [
           "replication"
         ]
+      },
+      {
+        "id": "demo-region",
+        "kind": "deploymentNode",
+        "name": "Illustrative region",
+        "description": "Hypothetical physical boundary. The article does not establish this region or host count.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "demo-region-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "technology": "Unspecified region"
+      },
+      {
+        "id": "demo-host-a",
+        "kind": "deploymentNode",
+        "name": "Illustrative host A",
+        "description": "Hypothetical host, not a statement about actual processes or machines.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "demo-host-a-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "technology": "Unspecified host",
+        "parentId": "demo-region"
+      },
+      {
+        "id": "demo-host-b",
+        "kind": "deploymentNode",
+        "name": "Illustrative host B",
+        "description": "A second hypothetical host demonstrates distinct replica identities.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "demo-host-b-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "technology": "Unspecified host",
+        "parentId": "demo-region"
+      },
+      {
+        "id": "server-a",
+        "kind": "instance",
+        "name": "Continuity replica A",
+        "description": "Illustrative instance of the logical server role. Its exact process boundary is not asserted.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "server-a-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "parentId": "demo-host-a",
+        "instanceOf": "server"
+      },
+      {
+        "id": "server-b",
+        "kind": "instance",
+        "name": "Continuity replica B",
+        "description": "A distinct illustrative replica of the same logical server, not evidence of actual replica count.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "server-b-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "parentId": "demo-host-b",
+        "instanceOf": "server"
+      },
+      {
+        "id": "repository-a",
+        "kind": "instance",
+        "name": "Local cache instance",
+        "description": "Illustrative placement of the local repository cache role.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "repository-a-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "environment": "illustration",
+        "parentId": "demo-host-a",
+        "instanceOf": "repository"
+      },
+      {
+        "id": "demo-storage",
+        "kind": "infrastructureNode",
+        "name": "Illustrative durable storage",
+        "description": "The article describes S3-backed durability; this drawn physical placement is hypothetical.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "demo-storage-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "parentId": "demo-region",
+        "technology": "S3 role; location unspecified"
+      },
+      {
+        "id": "server-handler",
+        "kind": "component",
+        "name": "Illustrative request handler",
+        "description": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
+        "status": "planned",
+        "tags": [],
+        "plannedNotes": [
+          "Hypothetical teaching topology; not Cursor production evidence."
+        ],
+        "docIds": [
+          "server-handler-doc"
+        ],
+        "sourceIds": [
+          "article"
+        ],
+        "parentId": "server",
+        "technology": "Unspecified implementation"
       }
     ],
     "relationships": [
@@ -372,6 +659,41 @@
         "status": "existing",
         "sourceIds": [
           "replication"
+        ]
+      },
+      {
+        "id": "deployment-local-a",
+        "sourceId": "server-a",
+        "targetId": "repository-a",
+        "label": "Illustrative cache access",
+        "technology": "Protocol unspecified",
+        "status": "planned",
+        "sourceIds": [
+          "article"
+        ],
+        "modelRelationshipId": "server-local"
+      },
+      {
+        "id": "deployment-local-b",
+        "sourceId": "server-b",
+        "targetId": "repository-a",
+        "label": "Illustrative cache access",
+        "technology": "Protocol unspecified",
+        "status": "planned",
+        "sourceIds": [
+          "article"
+        ],
+        "modelRelationshipId": "server-local"
+      },
+      {
+        "id": "deployment-wal",
+        "sourceId": "server-a",
+        "targetId": "demo-storage",
+        "label": "Illustrative durable write",
+        "technology": "Protocol unspecified",
+        "status": "planned",
+        "sourceIds": [
+          "article"
         ]
       }
     ]
@@ -593,6 +915,10 @@
         {
           "label": "Gossip: optional catch-up notification",
           "diagramId": "gossip"
+        },
+        {
+          "label": "Illustrative deployment",
+          "diagramId": "deployment"
         }
       ]
     },
@@ -1400,6 +1726,165 @@
           "label": "Return to containers",
           "diagramId": "containers"
         }
+      ]
+    },
+    {
+      "id": "deployment",
+      "kind": "deployment",
+      "title": "Continuity: illustrative deployment",
+      "environment": "illustration",
+      "status": "planned",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "demo-region"
+        },
+        {
+          "elementId": "demo-host-a"
+        },
+        {
+          "elementId": "demo-host-b"
+        },
+        {
+          "elementId": "server-a",
+          "detail": {
+            "diagramId": "server-components"
+          }
+        },
+        {
+          "elementId": "server-b",
+          "detail": {
+            "diagramId": "server-components"
+          }
+        },
+        {
+          "elementId": "repository-a"
+        },
+        {
+          "elementId": "demo-storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "deployment-local-a"
+        },
+        {
+          "relationshipId": "deployment-local-b"
+        },
+        {
+          "relationshipId": "deployment-wal"
+        }
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "legend": {
+        "title": "Deployment key",
+        "entries": [
+          {
+            "id": "physical",
+            "label": "Physical boundary",
+            "description": "Nested hypothetical region or host. Expand and collapse changes this view only.",
+            "swatch": {
+              "shape": "boundary",
+              "tone": "default",
+              "stroke": "dashed"
+            }
+          },
+          {
+            "id": "instance",
+            "label": "Instance or infrastructure",
+            "description": "Each card is one declared physical identity; instances name a logical element.",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "dashed"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Illustrative relationship",
+            "description": "Only declared instance/service endpoints are connected. Hidden endpoints hide their edges.",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "dashed",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "deployment-overview"
+      ],
+      "sourceIds": [
+        "article"
+      ]
+    },
+    {
+      "id": "server-components",
+      "kind": "component",
+      "title": "Continuity: illustrative server detail",
+      "scopeId": "server",
+      "status": "planned",
+      "parent": {
+        "diagramId": "containers",
+        "elementId": "server"
+      },
+      "nodes": [
+        {
+          "elementId": "server-handler"
+        }
+      ],
+      "edges": [],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "legend": {
+        "title": "Deployment key",
+        "entries": [
+          {
+            "id": "physical",
+            "label": "Physical boundary",
+            "description": "Nested hypothetical region or host. Expand and collapse changes this view only.",
+            "swatch": {
+              "shape": "boundary",
+              "tone": "default",
+              "stroke": "dashed"
+            }
+          },
+          {
+            "id": "instance",
+            "label": "Instance or infrastructure",
+            "description": "Each card is one declared physical identity; instances name a logical element.",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "dashed"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Illustrative relationship",
+            "description": "Only declared instance/service endpoints are connected. Hidden endpoints hide their edges.",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "dashed",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "server-components-doc"
+      ],
+      "sourceIds": [
+        "article"
       ]
     }
   ]

@@ -1,3 +1,4 @@
+import { validateDeployment } from './deployment'
 import { validateScenario } from './scenario'
 import { validateGroups } from './groups'
 import type { ArchitectureBundle, Diagnostic, ModelIndex, References } from './model'
@@ -53,7 +54,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
     const path = `$.diagrams[${i}]`; refs(diagram, path)
     if (diagram.scopeId) reference(sets.elements, diagram.scopeId, `${path}.scopeId`)
     const scope = bundle.model.elements.find(item => item.id === diagram.scopeId)
-    if (diagram.kind !== 'dynamic' && scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
+    if (diagram.kind !== 'dynamic' && diagram.kind !== 'deployment' && scope && scope.kind !== (diagram.kind === 'component' ? 'container' : 'softwareSystem')) error('invalid-scope', `${path}.scopeId`, 'Component scope must be a container; context/container scope must be a software system.')
     const members = new Set<string>(); const edges = new Set<string>()
     diagram.nodes.forEach((node, j) => {
       reference(sets.elements, node.elementId, `${path}.nodes[${j}].elementId`)
@@ -117,7 +118,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
         checkTarget(member.detail, `${memberPath}.detail`)
         const destination = bundle.diagrams.find(item => item.id === member.detail?.diagramId)
         const element = bundle.model.elements.find(item => item.id === member.elementId)
-        if (destination && !(diagram.kind === 'context' && element?.kind === 'softwareSystem' && destination.kind === 'container' && destination.scopeId === member.elementId || diagram.kind === 'container' && element?.kind === 'container' && destination.kind === 'component' && destination.scopeId === member.elementId)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (system context to containers, or container to components).')
+        if (destination && !(diagram.kind === 'context' && element?.kind === 'softwareSystem' && destination.kind === 'container' && destination.scopeId === member.elementId || diagram.kind === 'container' && element?.kind === 'container' && destination.kind === 'component' && destination.scopeId === member.elementId || diagram.kind === 'deployment' && element?.kind === 'instance' && (destination.kind === 'component' && bundle.model.elements.find(item => item.id === element.instanceOf)?.kind === 'container' || destination.kind === 'container' && bundle.model.elements.find(item => item.id === element.instanceOf)?.kind === 'softwareSystem') && destination.scopeId === element.instanceOf)) error('invalid-detail', `${memberPath}.detail`, 'Detail must identify the corresponding next scope (system context to containers, or container to components).')
       }
     })
     const visited = new Set<string>(); let current: typeof diagram | undefined = diagram
@@ -127,6 +128,7 @@ export function validateArchitecture(bundle: ArchitectureBundle): Diagnostic[] {
       current = current.parent ? bundle.diagrams.find(item => item.id === current?.parent?.diagramId) : undefined
     }
   })
+  diagnostics.push(...validateDeployment(bundle, buildIndex(bundle)))
   return diagnostics
 }
 

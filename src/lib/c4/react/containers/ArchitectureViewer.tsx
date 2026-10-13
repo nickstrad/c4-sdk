@@ -1,3 +1,4 @@
+import { DeploymentTreeView } from '../views/DeploymentTreeView'
 import type { ValidatedArchitecture } from '../../domain/model'
 import type { LayoutPort } from '../../ports/layout'
 import type { RoutePort } from '../../ports/route'
@@ -35,6 +36,7 @@ function RenderDiagram({ input, context, layoutPort, session }: { input: SceneIn
       {pending ? <p role="status">Arranging diagram…</p> : <DiagnosticView diagnostics={projected.diagnostics} />}
       <DiagramFallback ready={!pending} input={input} nodeActions={context.canvasActions.nodeActions} />
     </>}
+    {context.deployment && <DeploymentTreeView {...context.deployment} />}
     {context.dynamic && <StepListView {...context.dynamic} />}
     <Legend {...input.diagram.legend} />
   </>
