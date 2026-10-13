@@ -1,16 +1,16 @@
 # Work coordination
 
-This file is the current human-maintained view of coordinated work. Detailed task scope and review evidence live in each task directory under [`items/`](items/).
+Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; builders keep item-local claims and state in their isolated worktrees.
 
-| Task | Summary | Owner | Branch | Status | Review |
-| --- | --- | --- | --- | --- | --- |
-| scaffold-2026-10-12 | Establish repository coordination and reusable work patterns | Codex scaffold agent | `main` (branch creation not permitted) | Complete | PASS on `a0525c2`; landed `486db29` |
-| implementation-plan | Standalone SDK implementation plan, vertical slices and showcase | c4-sdk-plan | `plan/c4-react` | Complete; plan branch published | PASS on `340baa4`; no main merge |
+| Task | Owner | Branch / worktree | Status | Review / landing |
+| --- | --- | --- | --- | --- |
+| Scaffold | Prior builder | main | Complete | PASS; landed486db29 |
+| Protocol correction | Lead | main | Complete | PASSecb2c04; landed967d573 |
+| Implementation plan | Planning agent / build lead | plan/c4-react → main | Complete | Payload PASS340baa4; merge PASS3524a26; pushedae1014d |
+| C4-01 | c4_01_builder (Sol) | item/c4-01-context /tmp/c4-sdk-c4-01 | Complete | Independent Sol PASS45b7d3e; integrating |
 
-Update the row when ownership, branch, status, or review changes. Do not record a PASS until a reviewer has inspected the exact commit and written the verdict in that task's `review.md`.
+## Queued batches
 
-Build authorized 2026-10-12 by `build-kickoff.md`. Coordinator is landing the reviewed plan and will dispatch C4-01 first. Root restart checkpoint: `STATE.md`.
+B: C4-02 +08a after01. C:03 +Astra04 +09a after02 with contract/dependency preflight. D:05→06→07. E:08+09. F:10. Exact claims and integration order follow the plan. No other builders currently active.
 
-| C4-01 | Open runtime JSON context with test harness | Sol builder | `item/c4-01-context` `/tmp/c4-sdk-c4-01` | Dispatched | Pending |
-
-Plan merge `3524a26`: independent Sol review PASS. Build coordinator owns root STATE and integrations.
+Common-dir event publication failed read-only filesystem; skipped under Nick’s existing exception. This table and item checkpoints are the current status record; no event was fabricated.

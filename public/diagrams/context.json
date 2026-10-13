@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "id": "sample-service",
+  "title": "Sample service context",
+  "revision": "context-draft-1",
+  "defaultDiagramId": "context",
+  "sources": [],
+  "documents": [
+    {
+      "id": "overview",
+      "title": "An external view",
+      "plain": "An illustrative context for the SDK reference viewer.",
+      "ste": {
+        "text": "This diagram shows an example system.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      }
+    },
+    {
+      "id": "user-doc",
+      "title": "Git user",
+      "plain": "An illustrative context for the SDK reference viewer.",
+      "ste": {
+        "text": "This diagram shows an example system.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      }
+    },
+    {
+      "id": "system-doc",
+      "title": "Continuity",
+      "plain": "An illustrative context for the SDK reference viewer.",
+      "ste": {
+        "text": "This diagram shows an example system.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      }
+    },
+    {
+      "id": "storage-doc",
+      "title": "Object storage",
+      "plain": "An illustrative context for the SDK reference viewer.",
+      "ste": {
+        "text": "This diagram shows an example system.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      }
+    }
+  ],
+  "model": {
+    "elements": [
+      {
+        "id": "developer",
+        "kind": "person",
+        "name": "Customer",
+        "description": "Illustrative context element.",
+        "status": "existing",
+        "docIds": [
+          "user-doc"
+        ]
+      },
+      {
+        "id": "continuity",
+        "kind": "softwareSystem",
+        "name": "Example service",
+        "description": "Illustrative context element.",
+        "status": "existing",
+        "docIds": [
+          "system-doc"
+        ]
+      },
+      {
+        "id": "storage",
+        "kind": "softwareSystem",
+        "name": "External data service",
+        "description": "Illustrative context element.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "docIds": [
+          "storage-doc"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "git",
+        "sourceId": "developer",
+        "targetId": "continuity",
+        "label": "Requests service",
+        "technology": "HTTPS",
+        "status": "existing"
+      },
+      {
+        "id": "wal",
+        "sourceId": "continuity",
+        "targetId": "storage",
+        "label": "Reads external data",
+        "technology": "HTTPS",
+        "status": "existing"
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Example service and its collaborators",
+      "status": "existing",
+      "scopeId": "continuity",
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "continuity"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "git",
+          "displayNumber": 1
+        },
+        {
+          "relationshipId": "wal",
+          "displayNumber": 2
+        }
+      ],
+      "docIds": [
+        "overview"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

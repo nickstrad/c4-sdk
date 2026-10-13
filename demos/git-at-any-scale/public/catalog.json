@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "id": "continuity",
+      "title": "Continuity context",
+      "url": "diagrams/continuity.json"
+    },
+    {
+      "id": "invalid",
+      "title": "Invalid resource (diagnostic example)",
+      "url": "diagrams/invalid.json"
+    }
+  ]
+}

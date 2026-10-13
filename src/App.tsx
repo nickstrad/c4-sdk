@@ -1,11 +1,5 @@
-import { Button } from '@/components/ui/button'
-
-function App() {
-  return (
-    <main className="flex min-h-svh items-center justify-center p-4">
-      <Button>C4 SDK</Button>
-    </main>
-  )
+import { CatalogViewer } from './lib/c4'
+import './lib/c4/styles/c4.css'
+export default function App() {
+  return <CatalogViewer catalogUrl={import.meta.env.VITE_C4_CATALOG_URL ?? `${import.meta.env.BASE_URL}catalog.json`} />
 }
-
-export default App
