@@ -20,7 +20,7 @@ Twin's GitHub Pages workflow is complete: `.github/workflows/pages.yml` landed a
 | C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Complete | Independent Sol PASS8fce8d4; record5216e93; landed713e5df |
 
 | C4-05 | Astra builder complete; Luna independent review PASS (`9330f58`) | `item/c4-05-dynamic-astra` merged into `main` | Builder commits `18d9545`, `bca3d25`, checkpoint `c8c403e`; 114 unit/hooks, 23 properties, typecheck and dynamic browser 4/4 pass; mobile selector screenshots verified. Baseline zoom timeout reproduced identically at base `c715e1d`, recorded as pre-existing limitation. Merge commit `f27b3811f970445ea92982820793dadceb24a8d6`, state/coord update `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`, pushed to origin/main. | Complete; Pages redeploy is automatic |
-| C4-06 | Fresh Astra builder `/root/c4_06_astra_fresh` | `item/c4-06-deployment` / `/tmp/c4-sdk-c4-06`, base `14ac790` | Assigned and active. Owns deployment instances/topology and illustrative fixture; C4-05 is pushed. | Builder validation/commits, then a fresh independent review |
+| C4-06 | Astra builder complete; Twin-dispatched standalone Muse Wonder Full reviewer pending | `item/c4-06-deployment`, exact HEAD `be53937187cf8cb3fbe99fd114ee1440f763f2a7` | Implementation `233a698`, indexed knowledge `8ce2ffa`, final checkpoint `be53937`; 122 unit/hooks, 25 properties, typecheck/build pass, deployment browser 4/4, deployment/layout 17 pass/1 existing skip, final dynamic/component 6/6; desktop/mobile screenshots checked. Codex weekly pool nearly exhausted per Nick. | Do not dispatch another reviewer or land until Twin's cross-company verdict is recorded under `agent-work/items/C4-06/` |
 
 ## Queued batches
 

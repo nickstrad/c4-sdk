@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 13:15 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and its independent PASS review are merged and pushed; current `main` is `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`. C4-06 is assigned to a fresh Astra builder in `/tmp/c4-sdk-c4-06`, branch `item/c4-06-deployment`, from this pushed main.
+Updated: 2026-10-13 21:50 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and its independent PASS review are merged and pushed. `main` includes the latest global three-CLI protocol and local C4-06 coordination update; push is pending reconciliation. C4-06 builder completed in its own worktree; exact branch HEAD is `be53937187cf8cb3fbe99fd114ee1440f763f2a7`.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -12,7 +12,7 @@ Twin's Pages workflow is complete (`0e32ef9`); first deploy succeeded at https:/
 
 Nick's `build-kickoff.md` authorizes the whole implementation plan, independent reviews, commits and pushes as items land. Historical plan-only restrictions are superseded. No manual site deployment or npm publication is requested. Twin's completed Pages workflow commit `0e32ef9` deployed successfully and the demo is live; every main push invokes its deployment. Do not duplicate it.
 
-Latest staffing instruction: temporary Codex-only period ended at 2026-10-13 05:59 UTC. Normal paired mapping restored: Sol/Sonnet, Astra/Opus, Luna/Haiku-high. Respect provider quotas; the fresh C4-05 Sol seat reached its limit until Oct18. Use the assigned Sonnet counterpart or justify an available mapped seat per plan.
+Latest staffing instruction: normal paired mapping is Sol/Sonnet, Astra/Opus, Luna/Haiku-high, with independent review from a different company than the builder. Nick's 2026-10-13 16:43 CDT lead review note says the Codex weekly pool is nearly exhausted and Twin is dispatching C4-06 review as a standalone Muse Wonder Full session. No C4-06 local review or landing until Twin's verdict is recorded. C4-05's earlier Sol quota limit was recorded in its history.
 
 Work has only regular `agent-work` items and `sq-*` side quests; no experiment protocol/board. The scaffold and correction landed as `486db29` and `967d573`; experiment files are absent and mandatory STATE conventions are in AGENTS. Preserve untracked user files `build-kickoff.md` and `kickoff-brief.md`.
 
@@ -51,9 +51,11 @@ Plan seat is Sol/Sonnet. Prior builders made uncommitted implementation changes 
 
 Root prepared review brief `/tmp/c4-05-review-brief.md`. Fresh Astra builder completed on `item/c4-05-dynamic-astra` from base `c715e1d` in its own worktree, then cleaned it. Commits: `18d9545` implementation, `bca3d25` indexed knowledge, `c8c403e` checkpoint. Fresh Luna reviewer independently reviewed exact `c8c403e`, passed typecheck, unit/hooks 114/114, properties 23/23, and dynamic production browser 4/4 on desktop and Pixel 7 mobile. Both builder and reviewer inspected screenshots and confirmed the mobile selector fix. Review record `9330f58` is PASS. The context/navigation 200%-zoom mobile S3 click timeout is a pre-existing defect: identical unchanged test at base `c715e1d` and current payload failed the same line in 31.2/31.4s with the same clipped-node evidence. It is recorded as a follow-up limitation, not a C4-05 blocker. All C4-05 commits and review record were merged in `f27b3811f970445ea92982820793dadceb24a8d6`, state/coord updated in `14ac790fbd5b32d0aec2466d1c11b0f8405f2362`, and pushed to `origin/main`. C4-06 is now active in a new agent/worktree.
 
-## C4-06 — fresh builder active
+## C4-06 — build complete; external review pending
 
-Fresh Astra builder `/root/c4_06_astra_fresh` is assigned in `/tmp/c4-sdk-c4-06`, branch `item/c4-06-deployment`, based on pushed `main` `14ac790`. It owns the deployment domain/schema/scene/navigation slice, clearly hypothetical deployment fixture and tests, plus item-local claims and STATE. It must commit implementation, then a separate post-work knowledge update if useful, update its checkpoint, and clean its own worktree. Independent review must use another new agent/worktree against the exact final SHA before root lands. Source browser lease and shared config remain coordinator-owned.
+Fresh Astra builder `/root/c4_06_astra_fresh` completed C4-06 from `14ac790` in its own worktree and is cleaning it. Branch `item/c4-06-deployment` HEAD is `be53937187cf8cb3fbe99fd114ee1440f763f2a7`; implementation `233a698`, separate indexed project-knowledge commit `8ce2ffa`, initial checkpoint `2f455ef`, final regression checkpoint `be53937`. Unit/hooks 122/122, properties 25/25, typecheck and build passed. Production deployment journeys passed 4/4; final deployment+compound-layout regressions 17 PASS / 1 existing skip; dynamic/component regressions on final source passed 6/6 with both builds and typechecks. Desktop/mobile screenshots inspected, including selected replica focus and viewport bounds. Builder corrected Back focus restoration and initial focus-pan race; exact evidence is under `/tmp/c4-06-final-evidence` and `/tmp/c4-06-final-dynamic-component`.
+
+Per Nick's lead review note `/root/c4-lead-review-note.md` (2026-10-13 16:43 CDT), Twin is dispatching a clean standalone Muse Wonder Full cross-company reviewer because Astra built this item and the Codex weekly pool is nearly exhausted. Do not assign another reviewer or land C4-06 until the external verdict is committed under `agent-work/items/C4-06/`. Continue coordination while waiting. C4-06 is not on main.
 
 ## Other worktrees and next actions
 
