@@ -1,6 +1,6 @@
 # Work coordination
 
-Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; builders keep item-local claims and state in their isolated worktrees.
+Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews use Codex seats only until Twin explicitly confirms the Claude reset (estimated2026-10-13 05:59UTC); current assignments comply. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; builders keep item-local claims and state in their isolated worktrees.
 
 | Task | Owner | Branch / worktree | Status | Review / landing |
 | --- | --- | --- | --- | --- |
@@ -10,7 +10,7 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. Root checkpoint: [
 | C4-01 | c4_01_builder (Sol) | item/c4-01-context /tmp/c4-sdk-c4-01 | Complete | Independent Sol PASS45b7d3e; landed541e41a |
 
 | C4-02 | c4_02_builder (Sol) | item/c4-02-navigation /tmp/c4-sdk-c4-02 | Dispatched | Pending |
-| C4-08a | c4_08a_builder (Luna high) | item/c4-08a-sources /tmp/c4-sdk-c4-08a | Dispatched | Pending |
+| C4-08a | c4_08a_builder (Luna high) | item/c4-08a-sources /tmp/c4-sdk-c4-08a | In review | Sol reviewingc7d65b4; integration waits02 |
 
 ## Queued batches
 
