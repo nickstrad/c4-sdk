@@ -1,7 +1,8 @@
+import ELK from 'elkjs/lib/elk-api'
 import type { LayoutPort, LayoutResponse } from '../../ports/layout'
 import { manualLayout } from '../../domain/layout'
 import { elkInput, layoutCacheKey } from './elk-input'
-import { attachGeometry } from './elk-output'
+import { attachGeometry, checkedElkOutput } from './elk-output'
 import type { LayoutGeometry } from './elk-output'
 export interface LayoutWorker {
   postMessage(message: unknown): void; terminate(): void
@@ -35,17 +36,20 @@ export function createElkLayoutPort(factory: () => LayoutWorker = createLayoutWo
         worker = factory()
         request.signal.addEventListener('abort', abort, { once: true })
         if (request.signal.aborted) { abort(); return }
-        worker.onerror = () => finish(failure('Layout worker failed to load or execute.'))
+        worker.onerror = event => finish(failure(`Layout worker failed to load or execute: ${event.message || 'unknown error'}${event.filename ? ` (${event.filename}:${event.lineno})` : ''}`))
         worker.onmessageerror = () => finish(failure('Layout worker returned an unreadable message.'))
-        worker.onmessage = event => {
-          const data = event.data
-          if (!data?.ok) { finish(failure(typeof data?.message === 'string' ? data.message : 'Layout worker failed.')); return }
-          const result = attachGeometry(request.scene, data.geometry)
-          if (result.ok) { cache.set(key, data.geometry); if (cache.size > 24) cache.delete(cache.keys().next().value!) }
-          finish(response(result))
-        }
+        const engine = new ELK({ workerFactory: () => worker as Worker, algorithms: ['layered'] })
         timer = setTimeout(() => finish(failure(`Layout exceeded ${timeout} ms. Use a smaller view or retry.`)), timeout)
-        worker.postMessage({ graph: elkInput(request.scene, request.measurements) })
+        engine.layout(elkInput(request.scene, request.measurements)).then(graph => {
+          if (settled) return
+          try {
+            const geometry = checkedElkOutput(request.scene, graph)
+            const result = attachGeometry(request.scene, geometry)
+            if (result.ok) { cache.set(key, geometry); if (cache.size > 24) cache.delete(cache.keys().next().value!) }
+            finish(response(result))
+          } catch (error) { finish(failure(error instanceof Error ? error.message : 'Layout worker returned invalid geometry.')) }
+        }, error => finish(failure(error instanceof Error ? error.message : 'ELK layout failed.')))
+
       } catch (error) { finish(failure(error instanceof Error ? error.message : 'Layout worker unavailable.')) }
     })
   } }

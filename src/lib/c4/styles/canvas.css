@@ -1,7 +1,7 @@
 /* SDK canvas only; React Flow's base stylesheet supplies positioning, no host reset. */
 .c4-sdk .c4-flow-canvas { position: relative; height: 620px; width: 100%; overflow: hidden; color: #496171; }
 .c4-sdk .c4-flow-canvas .react-flow { --xy-background-color: #f6f9fb; --xy-controls-button-background-color: white; --xy-controls-button-color: #1f3345; }
-.c4-sdk .c4-flow-node { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.c4-sdk .c4-flow-node { pointer-events: auto; width: 100%; height: 100%; display: flex; flex-direction: column; }
 .c4-sdk .c4-flow-node .c4-node { position: relative; flex: 1; width: 100%; height: auto; min-height: 0; overflow: visible; overflow-wrap: anywhere; }
 .c4-sdk .c4-flow-node .react-flow__handle { visibility: hidden; }
 .c4-sdk .c4-flow-node .c4-inspect { flex: none; margin: 7px auto 0; }

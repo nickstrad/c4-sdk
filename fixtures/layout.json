@@ -226,7 +226,7 @@
       "id": "context",
       "kind": "context",
       "title": "Nested services and cross-boundary dependencies",
-      "status": "existing",
+      "status": "mixed",
       "scopeId": "continuity",
       "nodes": [
         {

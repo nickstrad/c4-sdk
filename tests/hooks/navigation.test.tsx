@@ -37,7 +37,7 @@ it('shared controller follows route-port changes, restores parent focus and unsu
   act(() => { screen.getByRole('link', { name: 'Open detail for Continuity' }).click() })
   await waitFor(() => expect(screen.getByRole('heading', { name: 'Continuity: logical containers', level: 1 })).toBeTruthy())
   act(() => { screen.getByRole('link', { name: 'Up' }).click() })
-  await waitFor(() => expect(screen.getByRole('link', { name: 'Open detail for Continuity' })).toBe(document.activeElement))
+  await waitFor(() => { const detail = view.container.querySelector('.c4-flow-canvas a[data-element-id=continuity]'); expect(detail).not.toBeNull(); expect(detail).toBe(document.activeElement) })
   expect(writes.at(-1)).toEqual({ architectureId: fixture.id, diagramId: 'context', elementId: 'continuity' })
   act(() => { screen.getByRole('button', { name: 'Back' }).click() })
   await waitFor(() => expect(screen.getByRole('heading', { name: 'Git developer' })).toBeTruthy())

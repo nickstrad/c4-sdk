@@ -46,6 +46,18 @@ it('a measurement snapshot cancels provisional work and wrong measurement revisi
 })
 
 
+it('navigation from an unfinished initial layout focuses the destination when ready', () => {
+  function Viewer({ diagram, ready }: { diagram: string; ready: boolean }) {
+    const session = useViewerSession({ architectureId: 'a', diagramId: diagram }, 'r1')
+    return <div {...session.rootProps}><div {...(ready ? { 'data-layout-ready': true } : {})}><h1 data-diagram-heading tabIndex={-1}>{diagram}</h1></div></div>
+  }
+  const view = render(<Viewer diagram="context" ready={false} />)
+  view.rerender(<Viewer diagram="containers" ready={false} />)
+  expect(document.activeElement).not.toBe(view.getByRole('heading'))
+  view.rerender(<Viewer diagram="containers" ready />)
+  // Readiness is observed asynchronously just as it is after worker completion.
+  return waitFor(() => expect(document.activeElement).toBe(view.getByRole('heading')))
+})
 it('host session survives keyed dataset replacement and isolates sibling hosts', async () => {
   const read = vi.fn()
   function Viewer({ dataset }: { dataset: string }) {
@@ -64,11 +76,13 @@ it('host session survives keyed dataset replacement and isolates sibling hosts',
 })
 it('natural-content measurement publishes once per immutable input and cleans up pending frames', async () => {
   const input = scene('context'); let frames: FrameRequestCallback[] = []
+  let notify = () => {}; const disconnect = vi.fn()
+  vi.stubGlobal('ResizeObserver', class { constructor(callback: () => void) { notify = callback } observe() {} disconnect = disconnect })
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { frames.push(callback); return frames.length })
   const cancel = vi.fn(); vi.stubGlobal('cancelAnimationFrame', cancel)
   function Probe({ source }: { source: typeof input }) {
-    const measurement = useDiagramMeasurements(source)
-    return <div ref={measurement.ref}><span data-measure-kind="node" data-measure-id="constructor" /><output>{measurement.measurements?.revision ?? 'pending'}</output></div>
+    const { ref, measurements } = useDiagramMeasurements(source)
+    return <div ref={ref}><span data-measure-kind="node" data-measure-id="constructor" /><output>{measurements?.revision ?? 'pending'}</output></div>
   }
   const width = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(260)
   const height = vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockReturnValue(201)
@@ -76,6 +90,11 @@ it('natural-content measurement publishes once per immutable input and cleans up
   await act(async () => { await Promise.resolve() }); expect(frames).toHaveLength(1)
   act(() => frames[0](0)); expect(view.container.querySelector('output')!.textContent).toContain('constructor')
   view.rerender(<Probe source={input} />); expect(frames).toHaveLength(1)
-  view.unmount(); expect(cancel).toHaveBeenCalled()
+  const original = view.container.querySelector('output')!.textContent
+  act(() => { notify(); frames[1](0) }); expect(view.container.querySelector('output')!.textContent).toBe(original)
+  height.mockReturnValue(301)
+  act(() => { notify(); frames[2](0) }); expect(view.container.querySelector('output')!.textContent).toContain('301')
+  view.unmount(); expect(cancel).toHaveBeenCalled(); expect(disconnect).toHaveBeenCalledOnce()
+  notify(); expect(frames).toHaveLength(3)
   width.mockRestore(); height.mockRestore(); vi.unstubAllGlobals(); frames = []
 })

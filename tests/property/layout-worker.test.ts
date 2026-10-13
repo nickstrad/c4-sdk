@@ -36,3 +36,20 @@ it('identical pinned input is deterministic', async () => {
   const first = elkOutput(await engine.layout(elkInput(input.value)))
   expect(elkOutput(await engine.layout(elkInput(input.value)))).toEqual(first)
 })
+
+it('manual coordinates including zero and negative values remain authored under compound layout', async () => {
+  const { manualLayout } = await import('../../src/lib/c4/domain/layout')
+  fc.assert(fc.property(fc.integer({ min: -10000, max: 10000 }), fc.integer({ min: -10000, max: 10000 }), fc.integer({ min: 1, max: 12 }), (x, y, parallelCount) => {
+    const decoded = decodeArchitecture(fixture); if (!decoded.ok) throw new Error('fixture')
+    const input = buildScene(decoded.value.index, 'context'); if (!input.ok) throw new Error('fixture')
+    const edges = Array.from({ length: parallelCount }, (_, i) => ({ ...input.value.edges[0], relationship: { ...input.value.edges[0].relationship, id: `parallel-${i}` } }))
+    const manual = { ...input.value, edges, diagram: { ...input.value.diagram, edges: edges.map(edge => ({ relationshipId: edge.relationship.id })), layout: { mode: 'manual' as const, direction: 'LR' as const }, nodes: input.value.diagram.nodes.map((node, i) => ({ ...node, position: { x: x + i * 700, y } })) } }
+    const result = manualLayout(manual)
+    expect(result.ok).toBe(true); if (!result.ok) return
+    expect(result.value.nodes.map(node => [node.x, node.y])).toEqual(manual.diagram.nodes.map(node => [node.position.x, node.position.y]))
+    result.value.edges.forEach((edge, i) => {
+      const a = edge.labelBounds!
+      for (const other of result.value.edges.slice(0, i)) { const b = other.labelBounds!; expect(a.y + a.height <= b.y || b.y + b.height <= a.y).toBe(true) }
+    })
+  }), { numRuns: 150, seed: 40405 })
+})

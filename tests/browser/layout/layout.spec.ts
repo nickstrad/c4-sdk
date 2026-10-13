@@ -1,7 +1,14 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+async function withExplanation(page: Page, check: () => Promise<void>) {
+  const sheet = await page.evaluate(() => matchMedia('(max-width: 760px)').matches)
+  if (sheet) await page.getByRole('button', { name: 'Open explanation', exact: true }).click()
+  await expect(page.locator('.c4-documentation:visible')).toBeVisible()
+  await check()
+  if (sheet) await page.getByRole('button', { name: 'Close explanation', exact: true }).click()
+}
 const fixture = JSON.parse(readFileSync('fixtures/layout.json', 'utf8'))
 async function catalog(page: Page) {
   const other = structuredClone(fixture); other.id = 'other-layout'; other.title = 'Other laboratory'; other.diagrams[0].title = 'Other nested diagram'
@@ -25,12 +32,12 @@ test('production worker, nested geometry, readable labels and controls at both v
   const child = geometry.nodes.find(node => node.id === 'developer')!; const inner = geometry.groups.find(group => group.id === 'inner')!
   expect(child.x).toBeGreaterThanOrEqual(inner.x); expect(child.y).toBeGreaterThan(inner.y); expect(child.x + child.width).toBeLessThanOrEqual(inner.x + inner.width)
   expect(geometry.overflow).toBe(false)
-  await page.getByRole('button', { name: 'fit view', exact: true }).click()
+  await page.getByRole('button', { name: 'Fit View', exact: true }).click()
   await page.screenshot({ path: info.outputPath('compound-fit.png'), fullPage: true })
   await page.getByRole('button', { name: 'Actual size', exact: true }).click()
   await page.getByRole('button', { name: 'Inspect Git developer', exact: true }).focus()
   await page.keyboard.press('Enter')
-  await expect(page.locator('.c4-documentation h2')).toHaveText('Git developer')
+  await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Git developer') })
   await page.screenshot({ path: info.outputPath('compound-readable-focus.png'), fullPage: true })
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
   const count = workerUrls.length
@@ -41,7 +48,7 @@ test('viewport and focus survive diagram navigation and actual dataset remounts'
   await catalog(page); await page.goto('./'); await ready(page)
   const detail = page.getByRole('link', { name: 'Open detail for Continuity', exact: true })
   await detail.focus()
-  await page.getByRole('button', { name: 'zoom out', exact: true }).click()
+  await page.getByRole('button', { name: 'Zoom Out', exact: true }).click()
   const before = await page.locator('.react-flow__viewport').getAttribute('style')
   await detail.press('Enter'); await ready(page)
   await page.getByRole('link', { name: 'Up', exact: true }).click(); await ready(page)
@@ -76,6 +83,25 @@ test('keyboard pan, reduced motion and 200 percent zoom keep the host within its
   await canvas.focus(); await page.keyboard.press('ArrowRight')
   await expect(page.locator('.react-flow__viewport')).not.toHaveAttribute('style', before!)
   await page.evaluate(() => { document.documentElement.style.zoom = '2' })
+  const developer = canvas.getByRole('button', { name: 'Inspect Git developer', exact: true })
+  await developer.focus(); await developer.scrollIntoViewIfNeeded()
+  const box = (await developer.boundingBox())!
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+  await page.mouse.down(); await page.mouse.move(0, 0); await page.mouse.up()
+  // Releasing outside must not leave pointer focus suppression active for Tab.
+  await developer.focus(); await expect(developer).toBeFocused()
+  await page.keyboard.press('Tab')
+  const linked = canvas.getByRole('link', { name: 'Open detail for Continuity', exact: true })
+  await expect(linked, await page.evaluate(() => document.activeElement?.outerHTML)).toBeFocused()
+  try { await expect.poll(() => linked.evaluate(node => {
+    const target = node.getBoundingClientRect(); const host = node.closest('.c4-flow-canvas')!.getBoundingClientRect()
+    return Math.abs(target.left + target.width / 2 - host.left - host.width / 2)
+  })).toBeLessThan(2) } finally {
+    const diagnostic = await linked.evaluate(node => { const chain = []; let parent: HTMLElement | null = node as HTMLElement; while (parent) { chain.push({ name: parent.className, rect: parent.getBoundingClientRect().toJSON(), left: parent.scrollLeft, top: parent.scrollTop, width: parent.offsetWidth, transform: parent.style.transform }); parent = parent.parentElement } return chain })
+    writeFileSync(info.outputPath('zoom-hit-diagnostic.json'), JSON.stringify(diagnostic, null, 2))
+  }
+  await linked.scrollIntoViewIfNeeded()
+  expect(await linked.evaluate(node => { const b = node.getBoundingClientRect(); return node.contains(document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)) })).toBe(true)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: info.outputPath('compound-zoom.png'), fullPage: true })
 })
@@ -127,6 +153,25 @@ test('records a production 200-node 400-edge layout timing without claiming a bu
   await page.goto('./')
   await expect(page.locator('.c4-flow-canvas, .c4-diagnostics')).toBeVisible({ timeout: 30000 })
   const result = await page.evaluate(() => ({ workerTimingsMs: (window as unknown as { layoutTimings: unknown }).layoutTimings, hardwareConcurrency: navigator.hardwareConcurrency, userAgent: navigator.userAgent, rendered: !!document.querySelector('.c4-flow-canvas'), diagnostics: document.querySelector('.c4-diagnostics')?.textContent }))
+  writeFileSync(info.outputPath('production-layout-timing.json'), JSON.stringify(result, null, 2))
   await info.attach('production-layout-timing.json', { body: JSON.stringify(result, null, 2), contentType: 'application/json' })
   expect(result.rendered, JSON.stringify(result)).toBe(true)
+})
+
+
+test('host font changes get one measured replacement and preserve focused native controls', async ({ page }) => {
+  await catalog(page); const workers: string[] = []; page.on('worker', worker => workers.push(worker.url()))
+  await page.goto('./'); await ready(page); await expect.poll(() => page.workers().length).toBe(0)
+  const node = page.getByRole('button', { name: 'Inspect Git developer', exact: true })
+  await node.focus(); const before = workers.length
+  await page.addStyleTag({ content: '.c4-sdk .c4-node strong, .c4-sdk .c4-node-probe strong { font-size: 32px; }' })
+  await expect.poll(() => workers.length).toBeGreaterThan(before)
+  await expect.poll(() => page.workers().length).toBe(0)
+  await expect(node).toBeFocused()
+  expect(workers.length).toBe(before + 1)
+  expect(await node.evaluate(element => element.scrollHeight <= element.clientHeight + 2)).toBe(true)
+  await page.setViewportSize({ width: 800, height: 900 })
+  await node.focus(); await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/elements\/developer$/)
+  expect(workers.length).toBe(before + 1)
 })

@@ -98,7 +98,7 @@ test('native detail, Up and breadcrumb hrefs preserve desktop new-tab and keyboa
     await route.fulfill({ response, json: input })
   })
   await page.goto('./')
-  const linked = page.getByRole('link', { name: 'Open detail for Continuity', exact: true })
+  const linked = page.locator('.c4-flow-canvas').getByRole('link', { name: 'Open detail for Continuity', exact: true })
   await expect(linked).toHaveAttribute('href', containers)
   expect(await linked.evaluate(node => getComputedStyle(node).borderTopStyle)).toBe('dashed')
   const priorUrl = page.url()

@@ -21,9 +21,10 @@ export interface ArchitectureViewerProps {
 }
 function RenderDiagram({ input, context, layoutPort, session }: { input: SceneInput; context: ReturnType<typeof useContext>; layoutPort?: LayoutPort; session: CanvasSession }) {
   const { projected, canvasProps, measurementRef } = useDiagramRenderer(input, context, layoutPort)
-  const pending = !projected.ok && projected.diagnostics.some(diagnostic => diagnostic.code === 'layout-pending')
+  const pending = projected.diagnostics.some(diagnostic => diagnostic.code === 'layout-pending')
   return <>
     <MeasurementRack input={input} measurementRef={measurementRef} />
+    {pending && projected.ok && <p role="status">Updating diagram layout…</p>}
     {projected.ok && canvasProps ? <>
       <ContextView scene={projected.value} onDiagramSelect={context.canvasActions.onDiagramSelect} canvasSlot={<DiagramCanvas key={JSON.stringify([input.architectureId, input.revision, input.diagram.id])} {...canvasProps} session={session} />} />
       <details className="c4-text-alternative"><summary>Element and relationship text alternative</summary><DiagramFallback ready={false} input={input} nodeActions={context.canvasActions.nodeActions} /></details>

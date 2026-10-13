@@ -38,3 +38,11 @@ Base: 3ea5789. Worktree: /tmp/c4-sdk-c4-04. Coordinator assigned these before di
 ## Reads
 
 All repository instructions, plan/contracts, source ledger and landed SDK/test code. Concurrent peer claims are read-only. No root state, knowledge index, manifest/lock/config/shared CSS or existing browser regression edits.
+
+## Coordinator integration edits
+
+Root owns `playwright.config.ts` and enabled explicit webServer stdout/stderr piping in this worktree to expose production build/startup failures. Include this exact root change in review/commit. Existing context/navigation browser regression specs remain root-owned.
+
+Root adapted `tests/browser/context/context.spec.ts` relationship-label assertion to the visible canvas so the new hidden measurement rack cannot satisfy it. Include this coordinator-owned regression edit in review/commit.
+
+Root additionally adapted `tests/browser/navigation/navigation.spec.ts` native-link status test to wait for the actual canvas link, and `src/lib/c4/styles/c4.css` diagram heading child sizing/wrapping for200% mobile zoom. Preserve pending-layout navigation coverage in the first journey. Include these exact coordinator edits in review/commit.

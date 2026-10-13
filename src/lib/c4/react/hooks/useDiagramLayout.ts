@@ -18,5 +18,7 @@ export function useDiagramLayout(input: SceneInput, port?: LayoutPort, measureme
   }, [input, port, measurements])
   if (!port) return fixedLayout(input)
   if (published?.input === input && published.measures === measurements) return published.result
-  return { ok: false, diagnostics: [{ code: 'layout-pending', severity: 'warning', path: '$.layout', message: 'Arranging diagram…' }] }
+  const diagnostics = [{ code: 'layout-pending', severity: 'warning' as const, path: '$.layout', message: 'Arranging diagram…' }]
+  if (published?.input === input && published.result.ok) return { ...published.result, diagnostics }
+  return { ok: false, diagnostics }
 }
