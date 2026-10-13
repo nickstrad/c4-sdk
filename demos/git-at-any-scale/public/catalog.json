@@ -1,7 +1,7 @@
 {
   "entries": [
     {
-      "id": "continuity",
+      "id": "cursor-continuity",
       "title": "Continuity context",
       "url": "diagrams/continuity.json"
     },

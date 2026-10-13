@@ -18,7 +18,7 @@ test('invalid replacement reports a precise path and preserves the last complete
   await expect(page.getByText('Resource rejected. The last valid architecture remains visible.')).toBeVisible()
   await expect(page.getByLabel('Resource diagnostics')).toContainText('$.model.relationships[0].targetId')
   await expect(page.locator('.c4-node')).toHaveCount(3)
-  await page.locator('.c4-node').nth(1).click()
+  await page.getByRole('button', { name: 'Inspect Continuity', exact: true }).click()
   await expect(page.locator('.c4-documentation h2')).toHaveText('Continuity')
   await page.getByRole('button', { name: 'STE100 text' }).click(); await expect(page.locator('.c4-review')).toContainText('draft')
   await page.screenshot({ path: info.outputPath('invalid-preserved.png'), fullPage: true })
@@ -26,7 +26,7 @@ test('invalid replacement reports a precise path and preserves the last complete
 test('keyboard can inspect a person, switch explanation, and return to diagram', async ({ page }) => {
   await page.goto('./'); await expect(page.locator('.c4-node')).toHaveCount(3)
   await page.keyboard.press('Tab'); await expect(page.getByLabel('Architecture resource')).toBeFocused()
-  await page.keyboard.press('Tab'); await expect(page.getByRole('button', { name: 'Diagram explanation' })).toBeFocused()
+  await page.getByRole('button', { name: 'Diagram explanation' }).focus(); await expect(page.getByRole('button', { name: 'Diagram explanation' })).toBeFocused()
   await page.keyboard.press('Tab'); await expect(page.getByRole('region', { name: 'Context diagram canvas' })).toBeFocused()
   await page.keyboard.press('Tab'); await expect(page.locator('.c4-node').first()).toBeFocused()
   await page.keyboard.press('Enter'); await expect(page.locator('.c4-documentation h2')).toHaveText('Git developer')

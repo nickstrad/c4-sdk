@@ -35,11 +35,11 @@ describe('strict runtime context contract', () => {
   })
   it('rejects unknown versions, later types and deferred features explicitly', () => {
     rejected({ ...sample(), schemaVersion: 2 }, '$.schemaVersion', 'schema')
-    const types = sample(); types.diagrams[0].kind = 'container'; rejected(types, '$.diagrams[0].kind', 'schema')
-    for (const extra of [{ groups: [] }, { parent: { diagramId: 'context' } }, { related: [] }]) {
+    const types = sample(); types.diagrams[0].kind = 'component'; rejected(types, '$.diagrams[0].kind', 'schema')
+    for (const extra of [{ groups: [] }, { unknown: true }]) {
       const input = sample(); input.diagrams[0] = { ...input.diagrams[0], ...extra }; rejected(input, '$.diagrams[0]', 'schema')
     }
-    const detail = sample(); detail.diagrams[0].nodes[1] = { elementId: 'continuity', ...{ detail: { diagramId: 'context' } } }; rejected(detail, '$.diagrams[0].nodes[1]', 'schema')
+    const detail = sample(); detail.diagrams[0].nodes[1] = { elementId: 'continuity', ...{ detail: { diagramId: 'context' } } }; rejected(detail, '$.diagrams[0].nodes[1].detail', 'invalid-detail')
     const element = sample(); element.model.elements[0] = { ...element.model.elements[0], ...{ parentId: 'continuity' } }; rejected(element, '$.model.elements[0]', 'schema')
   })
   it('checks document references, reviewer metadata and dates', () => {

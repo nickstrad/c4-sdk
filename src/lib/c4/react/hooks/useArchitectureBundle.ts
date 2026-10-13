@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import type { Diagnostic, ValidatedArchitecture } from '../../domain/model'
 import { loadingFailure, resourceStatus } from '../../domain/presentation'
 import type { ArchitectureLoader, Catalog } from '../../ports/loader'
-export function useArchitectureBundle(loader: ArchitectureLoader, catalogUrl: string) {
+export function useArchitectureBundle(loader: ArchitectureLoader, catalogUrl: string, architectureId?: string) {
   const [catalogState, setCatalog] = useState<{ url: string; catalog: Catalog }>()
   const [resource, setResource] = useState<{ catalogUrl: string; url: string }>()
   const [architecture, setArchitecture] = useState<ValidatedArchitecture>()
   const [diagnostics, setDiagnostics] = useState<readonly Diagnostic[]>([])
   const [pending, setPending] = useState(true)
   const catalog = catalogState?.url === catalogUrl ? catalogState.catalog : undefined
-  const resourceUrl = resource?.catalogUrl === catalogUrl ? resource.url : undefined
+  const resourceUrl = catalog?.entries.find(entry => entry.id === architectureId)?.url ?? (resource?.catalogUrl === catalogUrl ? resource.url : undefined)
   useEffect(() => {
     const controller = new AbortController(); let active = true
     // External resource lifecycle begins here; expose pending before its promise completes.
