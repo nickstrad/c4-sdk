@@ -21,6 +21,7 @@ export interface SceneEdge {
   readonly sections?: readonly EdgeSection[]; readonly labelBounds?: Bounds
 }
 export interface Scene {
+  readonly architectureId?: string; readonly revision?: string
   readonly diagram: Diagram; readonly nodes: readonly SceneNode[]; readonly edges: readonly SceneEdge[]
   readonly groups?: readonly SceneGroup[]; readonly width: number; readonly height: number; readonly statusText: string
   readonly kindLabel?: string

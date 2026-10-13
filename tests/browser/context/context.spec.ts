@@ -15,7 +15,7 @@ test('real catalog JSON renders readable context, key and explanations', async (
   await expect(page.getByRole('heading', { name: 'Continuity and its collaborators', exact: true }).first()).toBeVisible()
   await expect(page.locator('.c4-node')).toHaveCount(3)
   await expect(page.getByRole('region', { name: 'Diagram key' })).toBeVisible()
-  await expect(page.locator('.c4-edge-label').first()).toContainText('Pushes and fetches changes')
+  await expect(page.locator('.c4-flow-canvas .c4-edge-label').first()).toContainText('Pushes and fetches changes')
   await withExplanation(page, async () => { await expect(page.getByRole('region', { name: 'Explanation' })).toContainText('This small context interprets') })
   await page.screenshot({ path: info.outputPath('context.png'), fullPage: true })
   expect(errors).toEqual([])

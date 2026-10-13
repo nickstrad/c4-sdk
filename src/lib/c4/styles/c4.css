@@ -20,6 +20,7 @@
 .c4-viewer-grid { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
 .c4-diagram, .c4-legend, .c4-documentation { border: 1px solid var(--c4-border); border-radius: 12px; background: var(--c4-surface); overflow: hidden; }
 .c4-diagram-heading { padding: 24px 24px 0; display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+.c4-diagram-heading > div { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
 .c4-diagram-heading button { white-space: normal; font-size: 12px; }
 .c4-hint { margin: 0 !important; padding: 0 24px 18px; font-size: 13px; color: var(--c4-muted); }
 .c4-canvas-scroll { overflow: auto; background: #f6f9fb; border-block: 1px solid var(--c4-border); }
