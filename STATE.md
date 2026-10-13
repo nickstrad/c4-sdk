@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. Status: BUILD AUTHORIZED; plan merge reviewed, C4-01 dispatched.
+Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; batch B02+08a dispatched.
 
 ## Authorization and current work
 
@@ -16,9 +16,9 @@ Batches: A 01; B 02 + 08a; C 03 + Astra04 + 09a after contracts/dependencies pre
 
 ## Validation and next actions
 
-Plan merge3524a26 PASS, pushedae1014d. C4-01 reviewed commit45b7d3e3a708385a5f72d1806965fb2792b4d3aa PASS by independent Sol build_reviewer after geometry fix; integrating into main now. Builder worktree /tmp/c4-sdk-c4-01 branch item/c4-01-context. Checks25unit/hook+5properties(4×150,geometry300), typecheck/lint(existing button warning), both builds. Browser12journeys covered by full8pass plus affected6pass after locator/zoom fixes. Actual desktop/mobile/200zoom screenshots inspected, artifacts in worktree test-results and test-results-final. Review independently reran unit/property checks; no further browser rerun needed for numerical geometry fix.
+Plan merge3524a26 PASS, pushedae1014d. C4-01 reviewed commit45b7d3e3a708385a5f72d1806965fb2792b4d3aa PASS by independent Sol build_reviewer after geometry fix; landed and pushed as main541e41a. Builder worktree /tmp/c4-sdk-c4-01 branch item/c4-01-context. Checks25unit/hook+5properties(4×150,geometry300), typecheck/lint(existing button warning), both builds. Browser12journeys covered by full8pass plus affected6pass after locator/zoom fixes. Actual desktop/mobile/200zoom screenshots inspected, artifacts in worktree test-results and test-results-final. Review independently reran unit/property checks; no further browser rerun needed for numerical geometry fix.
 
-Next: commit/push01 integration; create02 and08a worktrees, reserve exact claims, dispatch Sol02+Luna-high08a concurrently. Brief drafts at /tmp/c4-02-dispatch-notes.md and /tmp/c4-08a-dispatch-notes.md. Integrate02 then08a. No later item active yet.
+Current: Sol c4_02_builder at /tmp/c4-sdk-c4-02 item/c4-02-navigation; Luna-high c4_08a_builder at /tmp/c4-sdk-c4-08a item/c4-08a-sources, both base541e41a. Item briefs/checkpoints created in worktrees; builders reserve exact claims. Next: review02 and08a independently, integrate02 then08a. Brief drafts at /tmp/c4-02-dispatch-notes.md and /tmp/c4-08a-dispatch-notes.md. Integrate02 then08a. No later item active yet.
 
 Browser-localhost sandbox EPERM: root approved standalone `npm run test:browser` works; child escalations stalled. Have root run browser gates if approval stalls. Do not duplicate live test servers. Common Git event publication denied; Nick permits skipping. Root owns shared STATE/coordination/knowledge index; builders own item-local state/claims. User kickoff files remain untracked.
 
