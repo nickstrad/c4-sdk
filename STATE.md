@@ -1,12 +1,18 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. BUILD AUTHORIZED. Main dd2faf8 pushed; C4-04 and09a landed; C4-09a landed713e5df; combined typecheck,106unit/hooks,21properties PASS. The mission continues through C4-10.
+Updated: 2026-10-13 08:46 UTC. BUILD AUTHORIZED; mission continues through C4-10. `main` is at least `648e047`; root has pending protocol/status/knowledge edits in this worktree. C4-04 and C4-09a are landed and pushed.
+
+Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
+
+The Codex-only exception ended at 2026-10-13 05:59 UTC per Nick; normal paired seat mapping is restored: Sol/Sonnet, Astra/Opus, Luna/Haiku-high. Respect real provider usage; one fresh Codex Sol C4-05 builder hit its usage limit until Oct18.
+
+Twin's Pages workflow is complete (`0e32ef9`); first deploy succeeded at https://nickstrad.github.io/c4-sdk/. Every main push redeploys automatically; do not duplicate it.
 
 ## Authorization and ownership
 
-Nick's `build-kickoff.md` authorizes the whole implementation plan, independent reviews, commits and pushes as items land. Historical plan-only restrictions are superseded. No manual site deployment or npm publication is requested. Existing remote commit `0e32ef9` added automatic Pages deployment on main pushes; preserve it. Authorized pushes invoke that workflow.
+Nick's `build-kickoff.md` authorizes the whole implementation plan, independent reviews, commits and pushes as items land. Historical plan-only restrictions are superseded. No manual site deployment or npm publication is requested. Twin's completed Pages workflow commit `0e32ef9` deployed successfully and the demo is live; every main push invokes its deployment. Do not duplicate it.
 
-Latest staffing instruction: use **Codex Astra/Sol/Luna only** until Twin explicitly confirms the Claude reset. The estimated 2026-10-13 05:59 UTC reset time does not itself lift the restriction. No Claude builders or reviewers have been used.
+Latest staffing instruction: temporary Codex-only period ended at 2026-10-13 05:59 UTC. Normal paired mapping restored: Sol/Sonnet, Astra/Opus, Luna/Haiku-high. Respect provider quotas; the fresh C4-05 Sol seat reached its limit until Oct18. Use the assigned Sonnet counterpart or justify an available mapped seat per plan.
 
 Work has only regular `agent-work` items and `sq-*` side quests; no experiment protocol/board. The scaffold and correction landed as `486db29` and `967d573`; experiment files are absent and mandatory STATE conventions are in AGENTS. Preserve untracked user files `build-kickoff.md` and `kickoff-brief.md`.
 
@@ -39,9 +45,11 @@ Native ELK worker uses elk-api workerFactory and worker importing elk-worker.min
 
 Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, provisional cancelled254.2ms; this exceeds target and C4-10 must tune/report. No2second claim. Large bundles and existing lint warning tracked.
 
-## Active C4-05
+## C4-05 — active transfer, no landing yet
 
-Sol builder c4_03_builder assigned /tmp/c4-sdk-c4-05, branch item/c4-05-dynamic fromdd2faf8. Exact brief/claims/STATE reserved before dispatch. Browser lease05. Independent reviewer not yet dispatched; review brief /tmp/c4-05-review-brief.md. Builder turn interrupted/resumed after no progress/status for several minutes; edits intact, no approval blocker. Builder reported initial unit session50648 interrupted, no result claimed; next is32/33 depth boundary adjustment and sequential tests. Implements partial-order scenario AST, step URLs, stable-layout overlays/text alternative; no parallel total-order fiction. No Claude until Twin confirms reset.
+Plan seat is Sol/Sonnet. Prior builders made uncommitted implementation changes in `/tmp/c4-sdk-c4-05` on `item/c4-05-dynamic` (base `dd2faf8`); neither committed nor completed review. A fresh Codex Sol builder passed typecheck, 114 unit/hooks, 23 properties and the initial dynamic browser 4/4 (55.1s) across desktop/mobile. Screenshots are in `/tmp/c4-05-dynamic-evidence`. Root inspected them and found the mobile step selector collapsed to roughly 8px and wrapped one character per line. The builder fixed owned CSS and added a >180px assertion, but then its Sol usage limit hit until Oct18; browser result for the CSS fix was not recorded. The earlier production build and pre-fix browser run passed. No Playwright/preview/Chromium process remains at 08:46 UTC, so the earlier process is not hung and cannot be killed. Rerun owned dynamic plus context/navigation production suites after transferring latest sources into a fresh agent's own worktree.
+
+Root prepared review brief `/tmp/c4-05-review-brief.md`. Preserve the pending changes, but the successor must work in a new branch/worktree. Actual current modified/untracked path inventory is available from Git status in the old worktree. Next: commit root protocol/coordination updates; transfer item changes to a newly created worktree; assign a fresh Sonnet (or mapped available Sol seat) to validate/fix, make feature and post-work knowledge commits, update checkpoint, and remove its worktree. Then dispatch a separate new independent reviewer, land/push only after PASS, and update root state.
 
 ## Other worktrees and next actions
 

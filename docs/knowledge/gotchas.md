@@ -34,10 +34,10 @@ Key document choice by architecture ID/revision plus diagram/element; derive sou
 
 React Flow's readonly wrapper needs scoped pointer-events:auto on native interactive children. Do not pan on pointer focus between down and click. Native focus may temporarily scroll the wrapper before React Flow resets scroll; calculate keyboard visibility/pan from scene geometry, viewport and logical client dimensions rather than transient DOM rectangles. Clear pointer guards on capture-phase keyboard events after release outside.
 
-Hidden natural-size probes must not satisfy visible-label tests. Ignore unchanged ResizeObserver size snapshots to avoid layout loops. Actual200-node/400-edge worker timing was4109.2ms on4sharedvCPU; C4-10 must assess the2second target rather than infer it from smaller tests.
+Hidden natural-size probes must not satisfy visible-label tests. Ignore unchanged ResizeObserver size snapshots to avoid layout loops. Actual 200-node/400-edge worker timing was 4109.2 ms on 4 shared vCPUs; C4-10 must assess the 2-second target rather than infer it from smaller tests.
 
 ## 2026-10-13 — copy policy boundaries
 
-[C4-09a](../../agent-work/items/C4-09a/review.md) implements managed-only copying with digest/mode provenance, unmanaged/local-edit refusal and symlink/hardlink checks. Its caller must establish that the inventory is tracked at a reviewed source commit; syntactically valid40hex identity alone is not proof. Target/source trees must be trusted and exclusively owned. Individual file replacement is atomic and caught failures get best-effort rollback, but multi-file crash atomicity and hostile TOCTOU protection are not promised.
+[C4-09a](../../agent-work/items/C4-09a/review.md) implements managed-only copying with digest/mode provenance, unmanaged/local-edit refusal and symlink/hardlink checks. Its caller must establish that the inventory is tracked at a reviewed source commit; syntactically valid 40-character hexadecimal identity alone is not proof. Target/source trees must be trusted and exclusively owned. Individual file replacement is atomic and caught failures get best-effort rollback, but multi-file crash atomicity and hostile TOCTOU protection are not promised.
 
 The optional external provenance path allows one authoritative `pages/c4-sdk-source.json`; do not also create an internal marker. Empty directories may remain after rollback/deletion. C4-09 adds the actual CLI/consumer workflow.

@@ -1,6 +1,10 @@
 # Work coordination
 
-Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews use Codex seats only until Twin explicitly confirms the Claude reset (estimated2026-10-13 05:59UTC); current assignments comply. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; builders keep item-local claims and state in their isolated worktrees.
+Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; fresh builders own item-local claims/state in isolated worktrees.
+
+The temporary Codex-only staffing instruction ended at 2026-10-13 05:59 UTC, as Nick directed after the reset. Return to plan-assigned paired model seats: Sol/Sonnet (`gpt-6.1-sol` / Claude Sonnet), Astra/Opus (`gpt-6-astra` / Claude Opus), and Luna/Haiku (`gpt-6-luna` / Haiku 5.5+ at high effort). Respect each provider's actual usage budget. Reviews use a new, independent agent at the plan's assigned review tier; every fix/review is also a fresh agent. See mandatory lifecycle in [`AGENTS.md`](../AGENTS.md#fresh-agent-work-lifecycle).
+
+Twin's GitHub Pages workflow is complete: `.github/workflows/pages.yml` landed as `0e32ef9`, first deployment succeeded, and the demo is live at https://nickstrad.github.io/c4-sdk/. It redeploys automatically on every push to `main`. Do not add a duplicate workflow or manually deploy the site.
 
 | Task | Owner | Branch / worktree | Status | Review / landing |
 | --- | --- | --- | --- | --- |
@@ -15,7 +19,7 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 | C4-04 | c4_04_builder (Astra) | item/c4-04-layout /tmp/c4-sdk-c4-04 | Complete | Independent Astra PASS0b45a9b; pushedfc3d43b |
 | C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Complete | Independent Sol PASS8fce8d4; record5216e93; landed713e5df |
 
-| C4-05 | c4_03_builder (Sol) | item/c4-05-dynamic /tmp/c4-sdk-c4-05 | Building; browser lease05 | Independent review pending |
+| C4-05 | Fresh builder pending assignment (Sol/Sonnet) | item/c4-05-dynamic; successor receives a new worktree | Transfer in progress; previous builder reached its seat limit, source changes remain uncommitted; no stale Playwright process remains | Production browser verification and commit pending; then new independent review |
 
 ## Queued batches
 

@@ -8,6 +8,20 @@ Track each coordinated task in its own directory under `agent-work/items/`. Star
 
 The flow is brief → build → review → land. An independent reviewer inspects the exact commit and records PASS, NITS, or FAIL against the brief. PASS allows the coordinator to land when the task is authorized for landing. NITS returns the findings to the builder for a fix and review of the updated commit. FAIL returns the item to the builder with the defect list. Review approval and permission to land are separate; follow any explicit human approval requirement in the task.
 
+## Fresh-agent work lifecycle
+
+Every work item is assigned to a **new agent with fresh context** in its own isolated worktree. Never reuse a completed, active, stalled, or errored subagent for another work item, review, or fixup. Each independent review also uses a new agent that did not build the commit. If an agent stops, preserve and checkpoint its changes; transfer them into a new agent's own worktree and record the old and new branches and exact base. Do not let the successor edit in the stopped agent's worktree.
+
+For a regular item, the new builder reads root and item `STATE.md`, the brief, claims, repository instructions, current coordination and relevant event log before editing. It commits the implementation and evidence first. Then it checks the finished diff and validation/debugging for durable c4-sdk knowledge and reusable scripts or information that will help later agents. Add useful lessons to the appropriate `docs/knowledge/` page and index, and reusable scripts to the indexed work-scripts directory. Commit these follow-up changes separately on the item branch. Do not add a script for a one-off command; if there is no durable lesson or reusable helper, state that in the item checkpoint. Knowledge entries must give a date and link to the item/evidence.
+
+The builder updates item `STATE.md` with implementation and knowledge/script commit SHAs, validation, handoff and evidence, then cleans up its own worktree after all its commits are durable. The coordinator keeps the branch and commits available for review/landing. A fresh independent reviewer checks the final exact builder commit from its own worktree, records the SHA, verdict and test evidence, and commits the review record. After review, that reviewer cleans its own worktree. The coordinator lands only a PASS, adds the review record, reruns integration checks, updates root `STATE.md`/`COORDINATION.md`, and pushes when authorized. A NITS/FAIL fix or re-review is a **new agent** in a new worktree; it does not resume or reuse the former builder or reviewer.
+
+Apply the same fresh-agent and cleanup rules to side quests. A side quest has no product-code permission; its assigned new agent commits its unique finding and any indexed reusable research helper, records whether the knowledge check produced a lesson, and removes its worktree when done.
+
+## Model-seat mapping
+
+Use the model seat named by the plan or brief. A paired label names the matching Anthropic/OpenAI choices for that seat; follow actual usage budgets and user instructions when selecting a provider. Normal mappings are Sol / Sonnet (`gpt-6.1-sol` / Claude Sonnet), Astra / Opus (`gpt-6-astra` / Claude Opus), and Luna / Haiku (`gpt-6-luna` / Haiku 5.5 or later, high effort). Do not substitute a different tier without a scoped, documented reason. Builders and independent reviewers use separate fresh agents, normally in the assigned seat; only the difficult C4-04 layout uses Astra / Opus under this plan.
+
 ## Branch and worktree etiquette
 
 Use the branch and worktree assigned to the task. Before editing, read the task's `brief.md` and `claims.md`, then check `agent-work/COORDINATION.md` for shared-file conflicts. Do not edit paths claimed by another active task. If scope must change, update the claims record and coordinate the change first. Only the coordinator lands or pushes work unless the task explicitly assigns that responsibility.
