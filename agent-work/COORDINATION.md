@@ -15,6 +15,8 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 | C4-04 | c4_04_builder (Astra) | item/c4-04-layout /tmp/c4-sdk-c4-04 | Complete | Independent Astra PASS0b45a9b; pushedfc3d43b |
 | C4-09a | c4_09a_builder (Sol) | item/c4-09a-copy-policy /tmp/c4-sdk-c4-09a | Complete | Independent Sol PASS8fce8d4; record5216e93; landed713e5df |
 
+| C4-05 | c4_03_builder (Sol) | item/c4-05-dynamic /tmp/c4-sdk-c4-05 | Building; browser lease05 | Independent review pending |
+
 ## Queued batches
 
 B: C4-02 +08a after01. C:03 +Astra04 +09a after02 with contract/dependency preflight. D:05→06→07. E:08+09. F:10. Exact claims and integration order follow the plan. Batch C active from3ea5789 after reviewed preflight. Integrate03→04→09a. Root grants the shared browser-port lease and owns existing context/navigation regression specs.

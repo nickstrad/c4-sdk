@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. BUILD AUTHORIZED. Main includes reviewed C4-04; combined checks PASS; C4-09a landed713e5df; combined typecheck,106unit/hooks,21properties PASS. The mission continues through C4-10.
+Updated: 2026-10-13. BUILD AUTHORIZED. Main dd2faf8 pushed; C4-04 and09a landed; C4-09a landed713e5df; combined typecheck,106unit/hooks,21properties PASS. The mission continues through C4-10.
 
 ## Authorization and ownership
 
@@ -39,11 +39,15 @@ Native ELK worker uses elk-api workerFactory and worker importing elk-worker.min
 
 Real 200-node/400-edge worker completed4109.2ms on4sharedvCPU/7.8GiB Linux, provisional cancelled254.2ms; this exceeds target and C4-10 must tune/report. No2second claim. Large bundles and existing lint warning tracked.
 
+## Active C4-05
+
+Sol builder c4_03_builder assigned /tmp/c4-sdk-c4-05, branch item/c4-05-dynamic fromdd2faf8. Exact brief/claims/STATE reserved before dispatch. Browser lease05. Independent reviewer not yet dispatched. Implements partial-order scenario AST, step URLs, stable-layout overlays/text alternative; no parallel total-order fiction. No Claude until Twin confirms reset.
+
 ## Other worktrees and next actions
 
 - C4-03 `/tmp/c4-sdk-c4-03`, branch `item/c4-03-components`: complete/clean; payload `5bb3750`, record `35fa16c`, already landed. Reviewer `/root/components_reviewer` Sol PASS. Final Sheet artifact in `test-results-sheet-viewport/.../component-docs-sheet-viewport.png`.
 - C4-09a `/tmp/c4-sdk-c4-09a`, branch `item/c4-09a-copy-policy`: clean at `5216e93`, merged after04. Independent `/root/copy_policy_reviewer` Sol PASS exact `8fce8d4`. Trusted/exclusively owned trees; no multi-file crash atomicity. Single external provenance file option supports pages/c4-sdk-source.json. C4-09 must verify tracked reviewed source inventory.
-- Root pushed04 atfc3d43b and merged09a; combined typecheck,106unit/hooks,21properties PASS; push09a and dispatch05. Re-review semantic conflict resolutions.
+- Root pushed04 atfc3d43b and merged09a; combined typecheck,106unit/hooks,21properties PASS; pushed09a atdd2faf8; C4-05 dispatched next. Re-review semantic conflict resolutions.
 - Dispatch serial05,06,07 with exact claims based on landed tree. Drafts `/tmp/c4-05-brief.md`, `/tmp/c4-06-brief.md`, `/tmp/c4-07-brief.md`.05 explicitly preserves partial-order parallel semantics; no zipped branch barriers or fabricated execution order.
 - Later08+09 concurrent, then10. Drafts `/tmp/c4-08-brief.md`, `/tmp/c4-09-brief.md`, `/tmp/c4-10-brief.md`. Root read all seven pinned Mermaid sources and FFI README flows; prep notes `/tmp/c4-09-source-preparation.md`. Terminal counterparts and full implementation/source conversion review remain09 work.
 - C4-10 should assess mobile documentation discoverability (Open explanation currently below canvas+legend), production bundle audit exposure and measured layout target.
