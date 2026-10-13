@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef } from 'react'
 import type { FocusEvent } from 'react'
 import type { Viewport } from '@xyflow/react'
 import type { Route } from '../../domain/navigation'
-interface Session { focus: Map<string, string>; viewport: Map<string, Viewport>; previous?: string }
+interface Session { focus: Map<string, string>; viewport: Map<string, Viewport>; previous?: string; requested?: string }
 // A persistent host DOM node outlives CatalogViewer's keyed dataset child. Weak keys release
 // its memory on host removal and isolate two catalogs even when they share the same route port.
 const hosts = new WeakMap<HTMLElement, Map<number, Session>>()
-export interface CanvasSession { readonly getViewport: () => Viewport | undefined; readonly onViewport: (viewport: Viewport) => void; readonly onReady: () => void }
+export interface CanvasSession { readonly getFocusedElement: () => HTMLElement | undefined; readonly getViewport: () => Viewport | undefined; readonly onViewport: (viewport: Viewport) => void; readonly onReady: () => void }
 export function useViewerSession(route: Route, revision: string) {
   const root = useRef<HTMLDivElement>(null)
   const viewKey = JSON.stringify([route.architectureId, revision, route.diagramId])
@@ -24,7 +24,15 @@ export function useViewerSession(route: Route, revision: string) {
     return value
   }, [])
   const restore = useCallback(() => {
-    const memory = session(); if (!memory || memory.previous === key) return
+    const memory = session(); if (!memory) return
+    // Arrival and completed restoration differ: a user can go Back before the
+    // intervening asynchronous diagram ever becomes ready. Revisit must restore
+    // focus even when its key equals the last successfully restored route.
+    if (memory.requested !== key) {
+      memory.requested = key
+      if (memory.previous === key) memory.previous = 'pending-return'
+    }
+    if (memory.previous === key) return
     // Wait for the asynchronous canvas; the temporary text list must not consume restoration.
     if (!root.current?.querySelector('[data-layout-ready]')) return
     const id = route.elementId ?? memory.focus.get(viewKey)
@@ -42,6 +50,6 @@ export function useViewerSession(route: Route, revision: string) {
   }, [restore])
   return {
     rootProps: { ref: root, 'data-c4-viewer-host': true, onFocusCapture: (event: FocusEvent<HTMLDivElement>) => { const id = (event.target as HTMLElement).dataset.elementId; if (id) session()?.focus.set(viewKey, id) } },
-    canvasSession: { getViewport: () => session()?.viewport.get(viewKey), onViewport: (viewport: Viewport) => { session()?.viewport.set(viewKey, viewport) }, onReady: restore } satisfies CanvasSession,
+    canvasSession: { getFocusedElement: () => { const active = document.activeElement; return active instanceof HTMLElement && root.current?.contains(active) ? active : undefined }, getViewport: () => session()?.viewport.get(viewKey), onViewport: (viewport: Viewport) => { session()?.viewport.set(viewKey, viewport) }, onReady: restore } satisfies CanvasSession,
   }
 }

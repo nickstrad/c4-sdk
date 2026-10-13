@@ -7,11 +7,12 @@ interface ElementBase extends References {
   readonly description: string; readonly status: Status; readonly technology?: string
   readonly tags: readonly string[]; readonly plannedNotes: readonly string[]
 }
-export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' }) | (ElementBase & { readonly kind: 'component'; readonly parentId: Id; readonly technology: string })
+export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' }) | (ElementBase & { readonly kind: 'component'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'deploymentNode'; readonly environment: string; readonly technology: string; readonly parentId?: Id }) | (ElementBase & { readonly kind: 'infrastructureNode'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'instance'; readonly instanceOf: Id; readonly parentId: Id; readonly environment: string })
 export interface Target { readonly diagramId: Id; readonly elementId?: Id }
 export interface Link extends Target { readonly label: string }
 export interface Relationship extends References {
   readonly id: Id; readonly sourceId: Id; readonly targetId: Id; readonly label: string
+  readonly modelRelationshipId?: Id
   readonly status: Status; readonly technology?: string; readonly kind: 'dependency' | 'association'
   readonly plannedNotes: readonly string[]
 }
@@ -33,7 +34,8 @@ export interface ComponentDiagram extends DiagramBase { readonly kind: 'componen
 export interface InteractionStep { readonly kind: 'interaction'; readonly id: Id; readonly relationshipId: Id; readonly direction: 'forward' | 'reverse'; readonly label: string }
 export type Step = InteractionStep | { readonly kind: 'sequence'; readonly id: Id; readonly children: readonly Step[] } | { readonly kind: 'parallel'; readonly id: Id; readonly branches: readonly Step[] }
 export interface DynamicDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'dynamic'; readonly scopeId?: Id; readonly scenario: Step }
-export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram | DynamicDiagram
+export interface DeploymentDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'deployment'; readonly scopeId?: Id; readonly environment: string }
+export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram | DynamicDiagram | DeploymentDiagram
 export interface Document {
   readonly sourceIds: readonly Id[]
   readonly id: Id; readonly title: string; readonly plain: string
