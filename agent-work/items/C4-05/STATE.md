@@ -26,4 +26,6 @@ A pre-transfer screenshot exposed a collapsed mobile selector despite four passi
 
 ## Commits and next steps
 
-Implementation is ready for the first commit; exact SHA will be checkpointed after creation. Record durable lessons/index in a separate knowledge commit, checkpoint both SHAs, clean this worktree and hand the durable branch to a new independent reviewer. Reviewer must assess the unresolved mobile 200% context-click timeout against baseline and resolve it before a PASS/landing. No merge/push by builder. No review approval implied.
+Implementation commit: `18d9545` (`dynamic: add partial-order scenarios and stable interaction overlays`). Record durable lessons/index in a separate knowledge commit, checkpoint both SHAs, clean this worktree and hand the durable branch to a new independent reviewer. Reviewer must assess the unresolved mobile 200% context-click timeout against baseline and resolve it before a PASS/landing. No merge/push by builder. No review approval implied.
+
+Post-work analysis completed: added dated/indexed project lessons on partial-order reading semantics, semantic versus JSON depth, analysis-only precedence cost, stable overlays and mobile geometry verification. No reusable script emerged; existing npm/browser commands cover reproduction and no one-off helper was added. Knowledge commit SHA will be recorded in the final checkpoint.
