@@ -7,7 +7,7 @@ interface ElementBase extends References {
   readonly description: string; readonly status: Status; readonly technology?: string
   readonly tags: readonly string[]; readonly plannedNotes: readonly string[]
 }
-export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' })
+export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' }) | (ElementBase & { readonly kind: 'component'; readonly parentId: Id; readonly technology: string })
 export interface Target { readonly diagramId: Id; readonly elementId?: Id }
 export interface Link extends Target { readonly label: string }
 export interface Relationship extends References {
@@ -29,7 +29,8 @@ interface DiagramBase extends References {
 }
 export interface ContextDiagram extends DiagramBase { readonly kind: 'context' }
 export interface ContainerDiagram extends DiagramBase { readonly kind: 'container' }
-export type Diagram = ContextDiagram | ContainerDiagram
+export interface ComponentDiagram extends DiagramBase { readonly kind: 'component' }
+export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram
 export interface Document {
   readonly sourceIds: readonly Id[]
   readonly id: Id; readonly title: string; readonly plain: string
