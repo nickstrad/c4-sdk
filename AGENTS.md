@@ -2,15 +2,17 @@
 
 This file defines how agents coordinate work in this repository. Repository conventions for Claude Code live in [`CLAUDE.md`](CLAUDE.md). Keep those files focused on separate topics and follow the [sync protocol](#instruction-file-sync-protocol) if their shared topics change.
 
+Agent protocol (three-CLI seats, fresh-agent lifecycle, hybrid execution, review/arbitration): see the global agent files (~/.claude/CLAUDE.md, ~/.codex/AGENTS.md, Muse Code global rules). This file keeps only repo-specific rules.
+
 ## Work items
 
 Track each coordinated task in its own directory under `agent-work/items/`. Start from the templates in `agent-work/items/templates/` and include a brief, a claims record, and a review record. The brief names the goal, scope, ownership, inputs, and acceptance criteria. Builders update claims before editing and keep them current as scope changes. Reviewers record the reviewed commit, verdict, findings, and follow-up. A review record stays pending until an actual review occurs; a task's completion or commit does not imply approval.
 
 The flow is brief → build → review → land. An independent reviewer inspects the exact commit and records PASS, NITS, or FAIL against the brief. PASS allows the coordinator to land when the task is authorized for landing. NITS returns the findings to the builder for a fix and review of the updated commit. FAIL returns the item to the builder with the defect list. Review approval and permission to land are separate; follow any explicit human approval requirement in the task.
 
-## Fresh-agent work lifecycle
+## Work-item lifecycle (repo specifics)
 
-Every work item is assigned to a **new agent with fresh context** in its own isolated worktree. Never reuse a completed, active, stalled, or errored subagent for another work item, review, or fixup. Each independent review also uses a new agent that did not build the commit. If an agent stops, preserve and checkpoint its changes; transfer them into a new agent's own worktree and record the old and new branches and exact base. Do not let the successor edit in the stopped agent's worktree.
+Each work item, review, and fixup follows the global fresh-agent lifecycle. Each independent review uses a new agent that did not build the commit. If an agent stops, preserve and checkpoint its changes; transfer them into a new agent's own worktree and record the old and new branches and exact base. Do not let the successor edit in the stopped agent's worktree.
 
 For a regular item, the new builder reads root and item `STATE.md`, the brief, claims, repository instructions, current coordination and relevant event log before editing. It commits the implementation and evidence first. Then it checks the finished diff and validation/debugging for durable c4-sdk knowledge and reusable scripts or information that will help later agents. Add useful lessons to the appropriate `docs/knowledge/` page and index, and reusable scripts to the indexed work-scripts directory. Commit these follow-up changes separately on the item branch. Do not add a script for a one-off command; if there is no durable lesson or reusable helper, state that in the item checkpoint. Knowledge entries must give a date and link to the item/evidence.
 
@@ -18,18 +20,9 @@ The builder updates item `STATE.md` with implementation and knowledge/script com
 
 Apply the same fresh-agent and cleanup rules to side quests. A side quest has no product-code permission; its assigned new agent commits its unique finding and any indexed reusable research helper, records whether the knowledge check produced a lesson, and removes its worktree when done.
 
-## Execution modes (hybrid)
+## Model seats
 
-Work runs in one of two modes. The mode never changes the fresh-agent lifecycle above: fresh context per unit, commit, knowledge/script preservation, worktree cleanup.
-
-1. **Headless runs (default for item work).** Builds, reviews, fixups, and side quests run as non-interactive agent processes launched by the coordinator: the brief is a file passed to the run (`claude -p`, `codex exec`, or `muse exec --prompt-file`), the run gets its own branch/worktree, the brief names its permission profile and acceptance checks up front, and the coordinator records the run's exit status and saves its machine-readable output (JSON event stream or transcript) with the item checkpoint. No interactive session is created or kept for item work, and no work waits on anyone watching a terminal.
-2. **Long-lived interactive sessions (coordinators and planners only).** A small number of persistent sessions (e.g. in tmux) are reserved for roles whose value is accumulated context across items: plan authoring, research synthesis, cross-item coordination. They dispatch headless runs and judge results; they do not do item work themselves.
-3. **Coordination is files, in both modes.** Briefs/claims, `agent-work/COORDINATION.md`, `STATE.md`, and the shared event log are the coordination channel. Messages between agents travel as committed files or new headless runs, never as text typed into another agent's terminal session.
-4. **Exceptions are explicit.** Interactive item work (live debugging, joint exploration with the user) is allowed when the brief names it and says why; it is never the default.
-
-## Model-seat mapping
-
-Use the model seat named by the plan or brief. A paired label names the matching Anthropic/OpenAI choices for that seat; follow actual usage budgets and user instructions when selecting a provider. Normal mappings are Sol / Sonnet (`gpt-6.1-sol` / Claude Sonnet), Astra / Opus (`gpt-6-astra` / Claude Opus), and Luna / Haiku (`gpt-6-luna` / Haiku 5.5 or later, high effort). Do not substitute a different tier without a scoped, documented reason. Builders and independent reviewers use separate fresh agents, normally in the assigned seat; only the difficult C4-04 layout uses Astra / Opus under this plan.
+The seat mapping (Sol/Sonnet, Astra/Opus, Luna/Haiku) is global. Use the model seat named by the plan or brief. Do not substitute a different tier without a scoped, documented reason. Builders and independent reviewers use separate fresh agents, normally in the assigned seat; only the difficult C4-04 layout uses Astra / Opus under this plan.
 
 ## Branch and worktree etiquette
 
