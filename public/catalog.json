@@ -1,0 +1,9 @@
+{
+  "entries": [
+    {
+      "id": "sample",
+      "title": "Example service context",
+      "url": "diagrams/context.json"
+    }
+  ]
+}
