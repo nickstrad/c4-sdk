@@ -12,7 +12,7 @@ Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. All builds/reviews
 | C4-02 | c4_02_builder (Sol) | item/c4-02-navigation /tmp/c4-sdk-c4-02 | Complete | Independent Sol PASS363a16e; landed0561126 |
 | C4-08a | c4_08a_builder (Luna high) | item/c4-08a-sources /tmp/c4-sdk-c4-08a | Complete | Independent Sol PASSc7d65b4; landed9849515 |
 
-| C4-preflight | c4_02_builder (Sol) + lead dependencies | item/c4-preflight /tmp/c4-sdk-preflight | Complete | Independent Sol PASS0c4d865; integrating to main |
+| C4-preflight | c4_02_builder (Sol) + lead dependencies | item/c4-preflight /tmp/c4-sdk-preflight | Complete | Independent Sol PASS0c4d865; landedf4f7321 |
 
 ## Queued batches
 

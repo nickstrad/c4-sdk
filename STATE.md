@@ -1,10 +1,10 @@
 # C4 SDK build state
 
-Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; C4-02 landed0561126; C4-08a landed9849515; batch C preflight PASS and integrating.
+Updated: 2026-10-13. Status: BUILD AUTHORIZED; C4-01 landed541e41a; C4-02 landed0561126; C4-08a landed9849515; batch C preflight landedf4f7321; concurrent remote workflow reconciled.
 
 ## Authorization and current work
 
-Nick’s build-kickoff.md authorizes all implementation items, independent reviews, item-by-item commits and pushes. Prior plan-only restrictions are historical and superseded. No site deployment or npm publication. Work is regular agent-work or sq-* side quests; no experiment board/protocol.
+Nick’s build-kickoff.md authorizes all implementation items, independent reviews, item-by-item commits and pushes. Prior plan-only restrictions are historical and superseded. No manual site deployment or npm publication is part of the build mission. Concurrent remote commit0e32ef9 added Pages deployment on main pushes; preserve that existing workflow, and recognize that authorized pushes now invoke it. Work is regular agent-work or sq-* side quests; no experiment board/protocol.
 
 Nick’s latest steering: Claude weekly allowance is15%, estimated reset2026-10-13 05:59UTC. Assign ALL builds and reviews to Codex seats (Astra/Sol/Luna) until Twin explicitly confirms reset; time alone does not lift this restriction. Existing assignments already comply. No Claude CLI builders/reviewers.
 
@@ -108,3 +108,7 @@ Nick explicitly allowed skipping the log-event step if it fails. Do not revive t
 ## Hardening follow-up
 
 Online npm audit in preflight confirmed 7 high-severity entries from one underlying braces <=3.0.3 stack-exhaustion advisory, propagated through micromatch/fast-glob/ts-morph/shadcn. Primary advisory https://github.com/advisories/GHSA-vfj7-8cjw-p6xm lists no patched version (checked2026-10-13). Existing app references shadcn only through its CSS import; no direct runtime glob imports found. This is an initial exposure assessment, not proof of absence from final bundles. C4-10 must verify the production bundle and document toolchain exposure or resolve with a supported dependency change. Do not apply npm audit force downgrade to shadcn1.0.0. Offline audit returned empty data and is not evidence of a clean audit.
+
+## Concurrent remote change
+
+Preflight push was rejected because origin/main advanced with0e32ef9 (.github/workflows/pages.yml only). Fetched and merged without conflict, preserving the existing automatic Pages workflow. Its base is /c4-sdk/ and it builds dist-demo. No force push or manual deployment was performed.
