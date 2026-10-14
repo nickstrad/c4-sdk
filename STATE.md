@@ -181,7 +181,7 @@ Online npm audit in preflight confirmed 7 high-severity entries from one underly
 
 Preflight push was rejected because origin/main advanced with0e32ef9 (.github/workflows/pages.yml only). Fetched and merged without conflict, preserving the existing automatic Pages workflow. Its base is /c4-sdk/ and it builds dist-demo. No force push or manual deployment was performed.
 
-## Productionization handoff — 2026-10-14 18:04 UTC
+## Productionization handoff — 2026-10-14 18:31 UTC
 
 P-01 and its `c4-sdk` identity fixup have independent PASS reviews and are integrated on local main at
 `dbd8875`. The accepted surface/support decisions and P-02 packaging gates are reconciled in
@@ -191,4 +191,7 @@ review records at `a42eb03`. Its MIT holder is inferred from repository identity
 separate legal-holder attestation; package inventory remains provisional pending P-02's exact
 `npm pack --json` reconciliation. Assignment, review, and implementation records are in
 `agent-work/items/P-02/` and `agent-work/items/P-03/`. Actual `npm publish` remains outside this mission
-until Nick is present for login/2FA.
+until Nick is present for login/2FA. P-02's preliminary JS/CSS/self-contained worker output is built,
+but type/package/browser verification and exact-tarball reconciliation remain in progress. A read-only
+registry query returned 404/unregistered for `c4-sdk`; there was no registry write. Current pushed main is
+`68b155c`.
