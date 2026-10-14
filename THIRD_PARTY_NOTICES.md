@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-This file reproduces the upstream license files for third-party packages whose code is included in the C4 SDK JavaScript bundles or self-contained ELK worker. The inventory comes from P-02’s Rolldown module graph, including the worker graph. Package versions and license expressions are those recorded from the installed package metadata for that build. The project’s own first-party work is covered by the adjacent `LICENSE`; that license does not replace these third-party terms.
+This file reproduces the upstream license files for third-party packages whose code is included in the C4 SDK JavaScript bundles or self-contained ELK worker. The inventory comes from P-02’s current Rolldown module graph, including the worker graph: 76 package rows (65 MIT, 9 ISC, 1 BSD-3-Clause, and 1 EPL-2.0 OR GPL-3.0-or-later). P-02 will commit the exact artifact inventory at `tests/package/evidence/bundle-inventory.json` and record its SHA-256 in the P-02 checkpoint. Package versions and license expressions are those recorded from the installed package metadata for that build. The project’s own first-party work is covered by the adjacent `LICENSE`; that license does not replace these third-party terms.
 
 React and React DOM are external peer dependencies and are not included in the SDK bundles. They remain separately licensed by their respective authors.
 
@@ -2320,6 +2320,58 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+~~~~
+
+#### Additional notices embedded in `vfile@6.0.3`
+
+Source file: `lib/minpath.browser.js` in the installed `vfile@6.0.3` package. The P-02 browser-targeted bundle includes this implementation, while its bundler removes the source comments. The file identifies itself as a derivative work based on `browserify/path-browserify` and says portions are extracted from Node.js's internal `path` module. These supplemental notices preserve both attributions; they do not identify additional packages in the bundle inventory.
+
+~~~~text
+MIT License
+
+Copyright (c) 2013 James Halliday
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+~~~~
+
+~~~~text
+MIT License
+
+Copyright Joyent, Inc. and other Node contributors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ~~~~
 
 ### `vfile-message@4.0.3` — MIT
