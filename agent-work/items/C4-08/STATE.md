@@ -1,6 +1,6 @@
 # C4-08 checkpoint
 
-Status: implementation and validation complete; independent review pending.
+Status: fully accepted. Implementation and validation complete; independent review PASS and Nick signed off the human STE review gate on 2026-10-14.
 
 Builder: fresh Codex Sol. Branch/worktree: `item/c4-08-showcase` / `/tmp/c4-sdk-c4-08`. Exact base will be recorded by the builder before editing when the coordinator creates the worktree from the claims-preparation commit. Review: new Claude Sonnet reviewer required after build. Root status and integration remain coordinator-owned.
 
@@ -60,3 +60,7 @@ Implementation/evidence commit: `398782b6ef723748dce9815742fd49bfebbc903f` (`dem
 No additional durable project-knowledge page or reusable script is justified: existing decisions already require explicit source facts/inferred decomposition/illustrative topology; existing gotchas and C4-07 review already document framing and physical-to-logical navigation. The completed source ledger/map and guided README are the authoritative content evidence delivered in this implementation, not a second project-memory copy. Selector corrections and persisted Plain/STE mode are handled by the committed browser journey; the one unexplained startup failure is recorded here without an invented cause. The scratch authoring script contains one-off IDs and is not a reusable helper. No knowledge/script commit needed; coordinator-owned/read-only knowledge files were preserved.
 
 This separate checkpoint commit records the assessment/handoff after implementation. Final exact builder head is the head of `item/c4-08-showcase` and is reported to the coordinator after this commit. No merge or push. Independent fresh Claude Sonnet review remains pending; this checkpoint does not authorize landing. All work is durable before removing the builder worktree; artifacts under `/tmp/c4-08-*evidence` remain available.
+
+## Human acceptance — 2026-10-14
+
+Nick signed off the C4-08 human STE review gate. The item is fully accepted. The delivered STE content remains Issue 9 draft material and is not represented as formal ASD-STE100 certification. Independent review and landing evidence above remain unchanged.

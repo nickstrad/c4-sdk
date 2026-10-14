@@ -1,6 +1,6 @@
 # C4-10 checkpoint
 
-Status: original builder complete; fresh Claude Sonnet review returned NITS on `b15c88f24dc6bbee7dea15e58be740daa2fd2afb`, recorded in `41cf06a1718b12a8cf66c99808cf8155767565f7`. Fresh documentation fix complete below; exact fix HEAD requires a new independent review before landing. Earlier pause/resume entries below are historical and superseded by Nick’s C4-09 removal on 2026-10-14.
+Status: fully accepted. Implementation, independent review/fix/re-review and landing are complete. Nick signed off the human STE review gate on 2026-10-14. Earlier pause/resume entries below are historical and superseded by Nick’s C4-09 removal on 2026-10-14.
 
 ## State
 

@@ -39,6 +39,10 @@ No blocking defects. Diff touches only claimed paths (src, tests, docs/api, docs
 - Human STE review (separate gate).
 - `/ts-db/` second-consumer validation after FFI-06/07/08 and C4-09 resume.
 
+## Human acceptance — 2026-10-14
+
+Nick signed off the human STE review gate for C4-10 on 2026-10-14. The item is fully accepted. This sign-off accepts the delivered STE content and does not claim formal ASD-STE100 certification. The former human STE pending gate above is historical and closed; future `/ts-db/` module-consumer validation remains outside C4-10.
+
 ## Documentation fix verification — fresh Claude Sonnet, fix head `99142e8d564d56e7704025219a1a7743e6d18db0`
 
 Verdict: **PASS**. Reviewed `41cf06a..99142e8` (README.md, docs/api/acceptance.md, item STATE.md/claims.md); `git diff --check` clean; no broad tests run (prose-only).

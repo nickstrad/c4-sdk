@@ -6,7 +6,7 @@ Date: 2026-10-14. Builder: fresh Codex Sol in `/tmp/c4-sdk-c4-10-build`, branch 
 
 The current SDK and Cursor consumer are tested at `/` and `/c4-preview/`. All seven kinds use the shared source pipeline. Initial framing includes the complete scene when readable; wide views center the first declared card. Code member compartments intersect the actual canvas and remain readable after focus. Fit includes edge routes and labels, permits overview zoom down to 0.02, and keyboard focus recovers a readable card from an overview. Saved viewports survive returns; session focus/viewport maps each retain 256 views. Mobile explanation entry appears before the canvas visually. Heading controls wrap at 200% CSS zoom.
 
-The [source API guide](README.md) documents named wrappers, provider/parts/hooks/slots, ports, editor/runtime schema distinction, configurable host ceilings, and lifecycle behavior. No Cursor source content was changed; source fidelity and human STE review remain the C4-08 evidence and pending human gate respectively.
+The [source API guide](README.md) documents named wrappers, provider/parts/hooks/slots, ports, editor/runtime schema distinction, configurable host ceilings, and lifecycle behavior. No Cursor source content was changed. Nick signed off the C4-08 human STE review gate on 2026-10-14; this accepts the delivered draft content and does not claim formal ASD-STE100 certification.
 
 ## Validation and reproducibility
 
@@ -74,6 +74,6 @@ Production footprint in the second full build: main JS ~759.3 kB (gzip ~235.1 kB
 
 ## Remaining scope and human gate
 
-C4-09 was removed per Nick on 2026-10-14. C4-10 continues independently and has no second-consumer acceptance gate tied to that removed task. No `/ts-db/` consumer acceptance is claimed. SDK productionization and npm publication, followed by ts-db ingesting the package as a loaded module, belong to a separately coordinated follow-up track; any interim isolated React copy/build folder is ts-db-owned. Human STE review remains pending.
+C4-09 was removed per Nick on 2026-10-14. C4-10 continues independently and has no second-consumer acceptance gate tied to that removed task. No `/ts-db/` consumer acceptance is claimed. SDK productionization and npm publication, followed by ts-db ingesting the package as a loaded module, belong to the active productionization track; any interim isolated React copy/build folder is ts-db-owned. Nick signed off the human STE review gate for C4-08 and C4-10 on 2026-10-14. This sign-off is acceptance of the delivered STE content, not a claim of formal ASD-STE100 certification.
 
 Screenshot inspection on the final source: desktop/mobile `code-initial-viewport.png`, mobile `code-compartments.png`, code Fit overview, desktop/mobile `publication-heading-zoom.png`, mobile `publication-entry.png`/`publication-fit.png`, and mobile `component-docs-sheet-viewport.png`. Final artifacts are under `/tmp/c4-10-browser-verified`; earlier captures under `/tmp/c4-10-browser-full` and `/tmp/c4-10-browser-final` remain. Entry compartments are readable and bounded; Fit overview text is small, and edges intentionally leave the initial reading viewport. Heading and explanation text wrap without horizontal document overflow.
