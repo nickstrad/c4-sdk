@@ -22,3 +22,7 @@ Reads root `README.md` and confirms the C4-08 correction, but does not edit it w
 Excludes: all ts-db files, C4-09, `AGENTS.md`, `.github/workflows/**`, root `STATE.md`, root `agent-work/COORDINATION.md`, and npm publishing/manual deployment. Do not broaden claims when a shared seam is found; stop and return it to root.
 
 One fresh builder owns these paths until its implementation, learning assessment and checkpoint commits are inspected. Review uses its own fresh worktree on a different company and exact reviewed HEAD. Fixups require a new builder and new reviewer.
+
+## Documentation NITS fix ownership — 2026-10-14
+
+Fresh Codex Sol fix agent, assigned by root, owns only `README.md`, `docs/api/acceptance.md`, and this item's `claims.md`/`STATE.md` in branch `fix/c4-10-doc-nits`, worktree `/tmp/c4-sdk-c4-10-doc-nits`, based on review commit `41cf06a1718b12a8cf66c99808cf8155767565f7`. Root explicitly authorizes the README exception for the pending-layout sentence and enforced-limits label. Remove the acceptance report's obsolete C4-09 pause/resume and second-consumer gate; C4-09 is removed and C4-10 proceeds independently. No behavior, historical C4-09 refs, root coordinator records or other documentation is owned by this fix.

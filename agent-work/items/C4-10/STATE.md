@@ -1,6 +1,6 @@
 # C4-10 checkpoint
 
-Status: builder complete; implementation/evidence and separate knowledge commits durable. Independent fresh Claude Sonnet review of final branch HEAD pending; no landing authorization is implied by this checkpoint.
+Status: original builder complete; fresh Claude Sonnet review returned NITS on `b15c88f24dc6bbee7dea15e58be740daa2fd2afb`, recorded in `41cf06a1718b12a8cf66c99808cf8155767565f7`. Fresh documentation fix complete below; exact fix HEAD requires a new independent review before landing. Earlier pause/resume entries below are historical and superseded by Nick’s C4-09 removal on 2026-10-14.
 
 ## State
 
@@ -90,3 +90,14 @@ Final source still passes204 unit/hooks,34 properties, lint with prior warning, 
 Assigned worktree `/tmp/c4-sdk-c4-10-build`, branch `item/c4-10-hardening`, exact base `59156023e3d1b888d87ccbc6e0173b3a2ea63de6`. This final checkpoint commit becomes the exact review HEAD; its SHA is reported to root and saved in `/tmp/c4-10-builder-result.json`. The managed permission profile permits owned source and `/tmp` writes; online npm audit and production server/Chromium commands used approved escalation after sandbox failures. No provider limit was hit.
 
 All source, evidence, learning and checkpoint changes are durable before the builder removes its own worktree as the immediate next step. Branch and artifacts remain for the fresh cross-company reviewer. Root will receive cleanup verification and exact HEAD; it owns review dispatch, integration, shared status, README reconciliation and any push. No self-review, merge, push, deployment or npm publication occurred. Browser lease4173/4174 released; no preview/browser runner remains. Completion event publication is skipped under the previously recorded common-dir permission exception.
+
+
+## Fresh documentation NITS fix — 2026-10-14
+
+Root assigned a new Codex Sol fix agent for findings 1–2 in [review.md](review.md), with the current removal direction read from main's root STATE, COORDINATION and implementation plan. C4-09 is removed, not paused; C4-10 continues independently. Productionization/publication and later ts-db module ingestion are a separate track, not a pending C4-10 second-consumer gate. Earlier item brief/checkpoint/review language records historical scope, not current authorization.
+
+Branch `fix/c4-10-doc-nits`, fresh worktree `/tmp/c4-sdk-c4-10-doc-nits`, exact base/review record `41cf06a1718b12a8cf66c99808cf8155767565f7`. Root explicitly assigned README ownership; [claims.md](claims.md) records the narrow exception. Corrected `docs/api/acceptance.md` to remove the obsolete pause/resume/copy-consumer gate and record the independent scope and remaining human STE review. Corrected README's pending-layout sentence against `useDiagramLayout.ts`: initial asynchronous layout has a text alternative; a successful same-input scene may remain during measurement replacement. Relabelled default limits as enforced and clarified the adjacent raw JSON/dynamic-scenario depth distinction against the API guide. Acceptance now records these corrections. The measured 2-second goal failure, resource ceilings and all prior validation evidence are preserved; application behavior is unchanged.
+
+Verification: inspected the prose diff and adjacent statements; README limits agree with `docs/api/README.md`, pending-layout behavior agrees with `src/lib/c4/react/hooks/useDiagramLayout.ts`, and edited Markdown link targets exist. `git diff --check` passes. No broad tests/builds were run for this prose-only change; no new performance or security result is claimed. Independent re-review remains required; root owns landing/push. Event publication is skipped under the recorded common-dir permission exception.
+
+Post-work knowledge/scripts assessment: the finished diff adds no durable technical finding beyond the existing hardening knowledge and authoritative removal direction, and no reusable helper is warranted for these one-off prose corrections. No additional knowledge/script commit is warranted. The documentation fix commit includes this checkpoint and the ownership record; its exact SHA is reported to root after committing (this commit is the branch HEAD). Worktree cleanup follows the durable commit; the branch remains available for fresh re-review. No merge, push, historical C4-09 ref change, ts-db work, dependency change or publishing action occurred.
