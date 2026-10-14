@@ -38,3 +38,12 @@ No blocking defects. Diff touches only claimed paths (src, tests, docs/api, docs
 
 - Human STE review (separate gate).
 - `/ts-db/` second-consumer validation after FFI-06/07/08 and C4-09 resume.
+
+## Documentation fix verification — fresh Claude Sonnet, fix head `99142e8d564d56e7704025219a1a7743e6d18db0`
+
+Verdict: **PASS**. Reviewed `41cf06a..99142e8` (README.md, docs/api/acceptance.md, item STATE.md/claims.md); `git diff --check` clean; no broad tests run (prose-only).
+
+- Original finding 1 (stale "C4-09 paused"/second-consumer gate): resolved. `acceptance.md` "Remaining scope and human gate" now states C4-09 was removed by Nick on 2026-10-14, C4-10 continues independently, productionization/npm publication then ts-db module ingestion is a separate track, and human STE review remains pending. Matches current main STATE/COORDINATION/implementation plan.
+- Original finding 2 (README seam/limits): resolved. Pending-layout sentence matches `useDiagramLayout.ts` (initial async: `layout-pending` diagnostics with no scene, so text alternative; same-input prior published scene retained during measurement replacement). Limits are labelled enforced and match `defaultDecodeLimits` (5,000/10,000/200, `maxJsonDepth` 32, `maxScenarioJsonDepth` 96) and `docs/api/README.md` raw-JSON-depth wording.
+- Scope: README exception recorded in claims.md and authorised by root; no `src/`, package, or config changes; links (`README.md`, `batch-c-contracts.md`) exist; measured 2 s layout failure remains stated; no behaviour change.
+- Not addressed by this fix (original findings 3–4, test-strategy nits) remain as originally recorded, non-blocking. Stale "paused" wording in the item's earlier STATE entries is marked historical.
