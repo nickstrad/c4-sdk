@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-13 22:30 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed; current main is `11913f0`. C4-07 is active in a fresh Sonnet headless session and isolated worktree.
+Updated: 2026-10-14 00:10 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed; current main is `70ead9e`. C4-07 build is complete at `e6e53c1`; a fresh cross-family Sol review is now dispatched and landing remains on hold.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -59,7 +59,9 @@ Per `/root/c4-lead-c4-06-verdict.md`, the Twin-dispatched standalone Muse Wonder
 
 ## C4-07 — dispatch next
 
-The C4-06 PASS releases serial slice C4-07. Fresh Sonnet headless builder launched in worktree `/tmp/c4-sdk-c4-07` on `item/c4-07-seven-types`, base `11913f0`, session ID `72915`. Prompt points to `/tmp/c4-07-brief.md` and requires exact path claims, item-local STATE, full browser matrix, separate knowledge/script assessment and commits, and worktree cleanup; permission mode is `acceptEdits`. No merge/push by builder. Codex weekly usage was reported nearly exhausted by Twin during the C4-06 review; Claude reset has passed; Muse just completed the independent review. Recheck all gauges before the later cross-company reviewer dispatch. Builder owns item-local STATE/claims and commits.
+The fresh Sonnet C4-07 builder completed and cleaned `/tmp/c4-sdk-c4-07`; exact HEAD `e6e53c13af0b1596a7ce6ebb80901bdd252db7ae`. Implementation `7cd4189`, separate project-knowledge commit `84bf5b5`, final checkpoint `e6e53c1`. Item-local validation: typecheck PASS; unit 189/189; properties 29/29; seven-type desktop/mobile journeys pass. The broad browser run had 56 PASS, 1 existing skip and 1 intermittent mobile component-docs failure; isolated component-docs rerun passed 2/2. Mobile initial canvas framing for wide code layout is deferred to C4-10. See item STATE and builder checkpoint for full evidence.
+
+Per `/root/c4-lead-c4-07-nudge.md`, a fresh independent cross-family Codex Sol reviewer was dispatched at 2026-10-13 19:10 CDT in a separate task/session `01a137bf-5495-7072-8d4c-63c8426517d3`, with clean worktree `/tmp/c4-sdk-c4-07-review` on `review/c4-07-sol`, pinned to exact `e6e53c1`. Reviewer brief `/tmp/c4-07-review-brief.md` covers full acceptance review, independent checks, evidence, and coordinator-owned root state changes. The report in the nudge cited usage gauges at 17:31 CDT: Codex 83% weekly remaining, Claude 90% remaining, Muse no pressure. Do not merge or land C4-07 until the reviewer records a verdict under `agent-work/items/C4-07/`. Root coordinator owns review dispatch status; reviewer commits only review record and cleans its own worktree.
 
 ## Other worktrees and next actions
 
