@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-14 02:12 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05, C4-06 and C4-07 have independent PASS reviews. C4-07 merge `a569c36` and root status/coord checkpoint are pushed. C4-08 is prepared for fresh builder dispatch.
+Updated: 2026-10-14 02:14 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05, C4-06 and C4-07 have independent PASS reviews. C4-07 merge `a569c36` and root status/coord checkpoint are pushed. C4-08 fresh Codex Sol builder `/root/c4_08_sol_builder` is active in its own worktree from `5330433`.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
@@ -63,7 +63,7 @@ The fresh Sonnet C4-07 builder completed and cleaned `/tmp/c4-sdk-c4-07`; exact 
 
 Two low non-blocking follow-ups: (1) initial mobile code canvas framing can be empty/partial despite keyboard-focus recovery; carry into C4-10 with viewport-based focused/Fit checks. (2) Older root README sections contradict delivered ELK/groups/Markdown/all-seven support; assign reconciliation to C4-08 builder with explicit root `README.md` claim. The broad mobile component-docs selection failure remains an unexplained validation limitation; retain `/tmp/c4-07-full` evidence and track if it recurs. C4-07 item brief's Codex-only staffing sentence is superseded by the post-reset mapping; coordinator will correct it in the documentation reconciliation.
 
-Wave E begins with C4-08. Coordinator created and committed `agent-work/items/C4-08/{brief,claims,review,STATE}.md` on `bf06843` before dispatch. Builder seat: fresh Codex Sol in branch/worktree `item/c4-08-showcase` / `/tmp/c4-sdk-c4-08`, based on latest main. Reviewer: fresh Claude Sonnet after builder completion. The plan brief `/tmp/c4-08-brief.md` adds a claimed root `README.md` reconciliation for the C4-07 findings and uses restored paired model mapping. Pool report before C4-07 review: Codex 83% weekly remaining, Claude 90%, Muse no pressure; recheck before later assignments. C4-09 follows reviewed C4-08 integration per Nick's lead verdict note; `/tmp/c4-09-brief.md` also reflects the post-reset model mapping.
+Wave E begins with C4-08. Coordinator committed `agent-work/items/C4-08/{brief,claims,review,STATE}.md` on `5330433` before dispatch. Fresh Codex Sol builder `/root/c4_08_sol_builder` is active in branch/worktree `item/c4-08-showcase` / `/tmp/c4-sdk-c4-08`, exact base `5330433`. The claim includes the bounded root `README.md` reconciliation for C4-07's stale passages. Reviewer: fresh Claude Sonnet after builder completion. Pool report before C4-07 review: Codex 83% weekly remaining, Claude 90%, Muse no pressure; C4-07 review has consumed some Codex capacity. Recheck before later assignments. C4-09 follows reviewed C4-08 integration per Nick's lead verdict note; `/tmp/c4-09-brief.md` reflects the post-reset model mapping.
 
 ## Other worktrees and next actions
 
