@@ -1,18 +1,50 @@
 # P-01 package identity fixup checkpoint
 
-Status: assigned; not started. This fresh-context docs fixup follows the independent PASS review of P-01 exact HEAD `5346c383a06d8540d8d2c48c45cd0965f06e3f5b`, review commit `f92d8d2185b478f0d55f2e069ae64c5d0ca6f69c`. The review's package-name ergonomics finding is non-blocking; the coordinator initiated this alignment to honor Nick's explicit approval note.
+Status: builder complete; documentation validation PASS; fresh Claude Sonnet re-review pending. No merge, push or publication performed.
 
-Nick's approval note records `c4-sdk` as verified available on 2026-10-12. P-01 currently recommends `@nickstrad/c4-sdk`. This fixup changes candidate docs/planning records to `c4-sdk`, retains `0.1.0-beta.1`, and requires a fresh availability check before P-02's package artifact work. It does not prove present availability or account ownership. Publication still requires Nick present for login/2FA.
+Goal: align the active candidate package identity with Nick's 2026-10-14 approval note relaying verification that unscoped `c4-sdk` was available on 2026-10-12. Preserve candidate version `0.1.0-beta.1`. This fixup did not query npm or prove present-day availability/account ownership. P-02 must revalidate current registry availability before building its artifact; actual publication waits for Nick present for npm account login/2FA.
 
-Brief: [`brief.md`](brief.md). Claims: [`claims.md`](claims.md). P-01 review: [`../P-01/review.md`](../P-01/review.md) exists on review branch `review/p-01-sonnet`; exact record commit `f92d8d2`.
+Brief: [`brief.md`](brief.md). Claims: [`claims.md`](claims.md). Original P-01 checkpoint: [`../P-01/STATE.md`](../P-01/STATE.md). Prior independent PASS review is on `review/p-01-sonnet`, exact commit `f92d8d2185b478f0d55f2e069ae64c5d0ca6f69c`, for builder HEAD `5346c383a06d8540d8d2c48c45cd0965f06e3f5b`.
 
-Builder: fresh Codex Sol, own worktree and branch per claims. Reviewer: fresh Claude Sonnet after the final assessment commit and cleanup. Coordinator retains integration and root status.
+Builder: fresh Codex Sol `/root/p01_package_name_fixup_builder`, branch `fix/p-01-package-name`, isolated worktree `/tmp/c4-sdk-p-01-name-fixup`. Exact starting HEAD after coordinator merge of P-01: `0d5100596152d1486b7003e3637995923915e5a4`; underlying main base `7b46f1d`.
 
-## Progress
+Owned paths: identity/examples in `docs/plans/productionization.md`, package specifiers in `docs/api/public-api.md`, identity evidence/recommendation in `docs/api/support-matrix.md`, and this checkpoint. Coordinator retains root STATE/COORDINATION, integration and shared knowledge ownership.
 
-- Assignment prepared on current main `7018bc2`; implementation has not started.
-- No registry query or package manifest edit is authorized in this fixup.
+## Implementation and validation — 2026-10-14
 
-## Handoff
+Documentation commit: `3454cc822e147098e922e3f87d40c7f9bd860b25`.
 
-Next: coordinator commits assignment, creates an isolated worktree from reviewed P-01, and dispatches the fresh builder. Then an independent fresh Sonnet review must assess the exact changed docs before P-01 integration.
+- Aligned both entry tables and the illustrative manifest name to `c4-sdk`; no scoped package references remain in the three owned docs.
+- Updated plan/support identity text with dated Nick evidence, explicit uncertainty, P-02 registry revalidation before artifact creation, and publication login/2FA gate.
+- Checked both tables contain exactly `c4-sdk`, `c4-sdk/core`, `c4-sdk/styles.css`, `c4-sdk/layout-worker.js`; candidate version remains `0.1.0-beta.1`.
+- All 9 local Markdown link targets/anchors in the three docs passed a filesystem/heading check. External URLs were unchanged and were not fetched, consistent with the no-network brief.
+- `git diff --check` passed; manual diff/scope inspection confirmed only the three authorized documentation files changed in the implementation commit. No source, manifest, build/config, tests or API signatures changed. Runtime/browser tests were not needed for this prose/specifier correction.
+- Read repository/root/item coordination and checkpoints, prior exact review and knowledge/script indexes. Live event inbox contained zero files. Publication remains skipped under Nick's existing root-checkpoint exception; no event is fabricated.
+
+## Post-work knowledge and reusable-script assessment — 2026-10-14
+
+Assessed the committed diff and validation. The durable correction is authoritative in the plan and support proposal: `c4-sdk` supersedes the prior scoped candidate recommendation, while dated relayed availability is not present-day evidence or ownership. Coordinator should reconcile this correction with the original P-01 knowledge delta when updating `docs/knowledge/decisions.md`; knowledge pages/index remain read-only under these claims. No separate knowledge-content edit is justified within this narrow assignment.
+
+No reusable work-script is warranted. The checks are one-off documentation consistency checks; an indexed script would add maintenance for this small correction. No durable VM/environment finding warrants a kb update. This checkpoint is the required separate assessment commit; its exact SHA is reported in the completion handoff because a file cannot contain its own commit hash.
+
+## Handoff and next gate
+
+After committing this checkpoint, clean only this builder's worktree and linked metadata, retain branch `fix/p-01-package-name` and all durable commits, and report cleanup/final HEAD to the coordinator. Fresh Claude Sonnet must re-review the exact final branch HEAD from a new worktree. Review/landing remain pending; P-02/P-03 remain gated until P-01 integration. No publication or ts-db action is authorized by this checkpoint.
+
+## Cosmetic review repair — 2026-10-14
+
+Fresh Codex Sol repair agent `/root/p01_wrap_repair`, branch `fix/p-01-package-name-wrap`,
+worktree `/tmp/c4-sdk-p-01-name-wrap`, addressed only the line-wrap NIT recorded on
+`review/p-01-name-sonnet` against fixup HEAD `fa4fa225d231aceae40b478ae86af6847ffa7139`.
+Repair commit: `78e3e337feb4cff72d321d950850002885a639cd`.
+
+The long package identity/version line in `docs/plans/productionization.md` now wraps with
+the surrounding paragraph. A whitespace-normalized comparison confirmed identical words;
+manual diff inspection and `git diff --check` passed. No runtime tests were needed for this
+prose-only repair. Identity, version, gates and the review record are unchanged.
+
+Post-work assessment found no new durable project or VM knowledge and no reusable script.
+This checkpoint is committed separately; its SHA is reported in the handoff. Event publication
+remains skipped under Nick's recorded exception. Clean this repair worktree after committing,
+retain its branch, and hand the exact final HEAD to the coordinator for fresh re-review.
+Review approval and landing remain pending.
