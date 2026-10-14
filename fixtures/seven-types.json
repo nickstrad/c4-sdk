@@ -1,0 +1,1513 @@
+{
+  "schemaVersion": 1,
+  "id": "seven-types",
+  "title": "Shop: all seven diagram types",
+  "revision": "fixture-1",
+  "defaultDiagramId": "landscape",
+  "model": {
+    "elements": [
+      {
+        "id": "customer",
+        "kind": "person",
+        "name": "Customer",
+        "description": "A person who buys goods from the shop.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-landscape"
+        ],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "shop",
+        "kind": "softwareSystem",
+        "name": "Shop",
+        "description": "Retail system that takes and tracks orders.",
+        "status": "existing",
+        "tags": [
+          "owner-retail"
+        ],
+        "plannedNotes": [],
+        "docIds": [
+          "d-context"
+        ],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "billing",
+        "kind": "softwareSystem",
+        "name": "Billing",
+        "description": "Finance system that charges customers.",
+        "status": "existing",
+        "tags": [
+          "owner-finance",
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "mail",
+        "kind": "softwareSystem",
+        "name": "Mail service",
+        "description": "Sends order notices to customers.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "web",
+        "kind": "container",
+        "name": "Web application",
+        "description": "Browser application for placing orders.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "shop",
+        "technology": "TypeScript, React",
+        "containerType": "application"
+      },
+      {
+        "id": "orders-api",
+        "kind": "container",
+        "name": "Orders API",
+        "description": "Accepts orders and stores them.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-component"
+        ],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "shop",
+        "technology": "TypeScript, Node.js",
+        "containerType": "application"
+      },
+      {
+        "id": "orders-db",
+        "kind": "container",
+        "name": "Orders database",
+        "description": "Stores order records.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "shop",
+        "technology": "PostgreSQL",
+        "containerType": "datastore"
+      },
+      {
+        "id": "order-handling",
+        "kind": "component",
+        "name": "Order handling",
+        "description": "Validates and places orders.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-code"
+        ],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "orders-api",
+        "technology": "TypeScript module"
+      },
+      {
+        "id": "order-storage",
+        "kind": "component",
+        "name": "Order storage",
+        "description": "Reads and writes order rows.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "orders-api",
+        "technology": "TypeScript module"
+      },
+      {
+        "id": "OrderService",
+        "kind": "code",
+        "name": "OrderService",
+        "description": "Places an order and applies pricing rules.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-code"
+        ],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "class",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "repository",
+            "visibility": "private",
+            "signature": "repository: OrderRepository"
+          },
+          {
+            "name": "place",
+            "visibility": "public",
+            "signature": "place(order: NewOrder): Promise<Order>"
+          },
+          {
+            "name": "price",
+            "visibility": "protected",
+            "signature": "price(lines: OrderLine[]): Money"
+          }
+        ]
+      },
+      {
+        "id": "RushOrderService",
+        "kind": "code",
+        "name": "RushOrderService",
+        "description": "Places priority orders.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "class",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "place",
+            "visibility": "public",
+            "signature": "place(order: NewOrder): Promise<Order>"
+          }
+        ]
+      },
+      {
+        "id": "OrderLine",
+        "kind": "code",
+        "name": "OrderLine",
+        "description": "One priced line inside an order.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "OrderService",
+        "symbolKind": "type",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "sku",
+            "visibility": "public",
+            "signature": "sku: string"
+          },
+          {
+            "name": "quantity",
+            "visibility": "public",
+            "signature": "quantity: number"
+          }
+        ]
+      },
+      {
+        "id": "OrderRepository",
+        "kind": "code",
+        "name": "OrderRepository",
+        "description": "Storage contract for orders.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "interface",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "save",
+            "visibility": "public",
+            "signature": "save(order: Order): Promise<void>"
+          },
+          {
+            "name": "find",
+            "visibility": "public",
+            "signature": "find(id: string): Promise<Order | undefined>"
+          }
+        ]
+      },
+      {
+        "id": "SqlOrderRepository",
+        "kind": "code",
+        "name": "SqlOrderRepository",
+        "description": "SQL implementation of the storage contract.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "class",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "save",
+            "visibility": "public",
+            "signature": "save(order: Order): Promise<void>"
+          },
+          {
+            "name": "find",
+            "visibility": "public",
+            "signature": "find(id: string): Promise<Order | undefined>"
+          },
+          {
+            "name": "client",
+            "visibility": "private",
+            "signature": "client: SqlClient"
+          }
+        ]
+      },
+      {
+        "id": "OrderStatus",
+        "kind": "code",
+        "name": "OrderStatus",
+        "description": "Lifecycle state of an order.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "enum",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "Open",
+            "visibility": "public"
+          },
+          {
+            "name": "Paid",
+            "visibility": "public"
+          },
+          {
+            "name": "Shipped",
+            "visibility": "public"
+          }
+        ]
+      },
+      {
+        "id": "placeOrder",
+        "kind": "code",
+        "name": "placeOrder",
+        "description": "Entry function that places one order.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "function",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "placeOrder",
+            "visibility": "public",
+            "signature": "placeOrder(input: NewOrder): Promise<Order>"
+          }
+        ]
+      },
+      {
+        "id": "orders-table",
+        "kind": "code",
+        "name": "orders",
+        "description": "Table that holds one row for each order.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "table",
+        "technology": "SQL",
+        "members": [
+          {
+            "name": "id",
+            "visibility": "public",
+            "signature": "id uuid primary key"
+          },
+          {
+            "name": "status",
+            "visibility": "public",
+            "signature": "status text not null"
+          },
+          {
+            "name": "total",
+            "visibility": "public",
+            "signature": "total_cents integer not null"
+          }
+        ]
+      },
+      {
+        "id": "PaymentPort",
+        "kind": "code",
+        "name": "PaymentPort",
+        "description": "Contract implemented by the payment adapter, outside this component.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-storage",
+        "symbolKind": "interface",
+        "technology": "TypeScript",
+        "members": [
+          {
+            "name": "charge",
+            "visibility": "public",
+            "signature": "charge(amount: Money): Promise<Receipt>"
+          }
+        ]
+      },
+      {
+        "id": "EmptyModule",
+        "kind": "code",
+        "name": "pricing",
+        "description": "Module without declared members.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "parentId": "order-handling",
+        "symbolKind": "module",
+        "technology": "TypeScript"
+      },
+      {
+        "id": "host",
+        "kind": "deploymentNode",
+        "name": "Application host",
+        "description": "Illustrative host.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "environment": "demo",
+        "technology": "Linux host"
+      },
+      {
+        "id": "api-a",
+        "kind": "instance",
+        "name": "Orders API replica A",
+        "description": "Illustrative replica.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "environment": "demo",
+        "parentId": "host",
+        "instanceOf": "orders-api"
+      },
+      {
+        "id": "api-b",
+        "kind": "instance",
+        "name": "Orders API replica B",
+        "description": "Illustrative replica.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "environment": "demo",
+        "parentId": "host",
+        "instanceOf": "orders-api"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "c-shop",
+        "sourceId": "customer",
+        "targetId": "shop",
+        "label": "Places orders",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "c-billing",
+        "sourceId": "customer",
+        "targetId": "billing",
+        "label": "Receives invoices",
+        "technology": "Email",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "shop-billing",
+        "sourceId": "shop",
+        "targetId": "billing",
+        "label": "Requests charges",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "shop-mail",
+        "sourceId": "shop",
+        "targetId": "mail",
+        "label": "Sends notices",
+        "technology": "SMTP",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "c-web",
+        "sourceId": "customer",
+        "targetId": "web",
+        "label": "Uses",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "web-api",
+        "sourceId": "web",
+        "targetId": "orders-api",
+        "label": "Submits orders",
+        "technology": "JSON/HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "api-db",
+        "sourceId": "orders-api",
+        "targetId": "orders-db",
+        "label": "Reads and writes",
+        "technology": "SQL",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "api-billing",
+        "sourceId": "orders-api",
+        "targetId": "billing",
+        "label": "Requests charges",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "handling-storage",
+        "sourceId": "order-handling",
+        "targetId": "order-storage",
+        "label": "Saves orders through",
+        "technology": "Function call",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "handling-billing",
+        "sourceId": "order-handling",
+        "targetId": "billing",
+        "label": "Requests charges",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "svc-repo",
+        "sourceId": "OrderService",
+        "targetId": "OrderRepository",
+        "label": "Stores orders with",
+        "technology": "Function call",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "svc-line",
+        "sourceId": "OrderService",
+        "targetId": "OrderLine",
+        "label": "Owns",
+        "technology": "Composition",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "kind": "composition"
+      },
+      {
+        "id": "rush-svc",
+        "sourceId": "RushOrderService",
+        "targetId": "OrderService",
+        "label": "Extends",
+        "technology": "Inheritance",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "kind": "inheritance"
+      },
+      {
+        "id": "sql-repo",
+        "sourceId": "SqlOrderRepository",
+        "targetId": "OrderRepository",
+        "label": "Implements",
+        "technology": "Implementation",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "kind": "implementation"
+      },
+      {
+        "id": "sql-table",
+        "sourceId": "SqlOrderRepository",
+        "targetId": "orders-table",
+        "label": "Reads and writes",
+        "technology": "SQL",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ],
+        "kind": "association"
+      },
+      {
+        "id": "svc-pay",
+        "sourceId": "OrderService",
+        "targetId": "PaymentPort",
+        "label": "Charges through",
+        "technology": "Function call",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "fn-svc",
+        "sourceId": "placeOrder",
+        "targetId": "OrderService",
+        "label": "Delegates to",
+        "technology": "Function call",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "svc-status",
+        "sourceId": "OrderService",
+        "targetId": "OrderStatus",
+        "label": "Sets",
+        "technology": "Function call",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      },
+      {
+        "id": "deploy-sync",
+        "sourceId": "api-a",
+        "targetId": "api-b",
+        "label": "Replicates state to",
+        "technology": "TCP",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "fixture"
+        ]
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "landscape",
+      "kind": "landscape",
+      "title": "Shop landscape",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop",
+          "detail": {
+            "diagramId": "context"
+          }
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "c-billing"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Landscape key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-landscape"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      }
+    },
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Shop context",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop",
+          "detail": {
+            "diagramId": "containers"
+          }
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Context key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "accent",
+            "label": "Element in focus",
+            "description": "The scope being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-context"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "landscape"
+      },
+      "scopeId": "shop"
+    },
+    {
+      "id": "containers",
+      "kind": "container",
+      "title": "Shop containers",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "web"
+        },
+        {
+          "elementId": "orders-api",
+          "detail": {
+            "diagramId": "components"
+          }
+        },
+        {
+          "elementId": "orders-db"
+        },
+        {
+          "elementId": "billing"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-web"
+        },
+        {
+          "relationshipId": "web-api"
+        },
+        {
+          "relationshipId": "api-db"
+        },
+        {
+          "relationshipId": "api-billing"
+        }
+      ],
+      "legend": {
+        "title": "Container key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-container"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "context"
+      },
+      "scopeId": "shop"
+    },
+    {
+      "id": "components",
+      "kind": "component",
+      "title": "Orders API components",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "order-handling",
+          "detail": {
+            "diagramId": "code"
+          }
+        },
+        {
+          "elementId": "order-storage"
+        },
+        {
+          "elementId": "billing"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "handling-storage"
+        },
+        {
+          "relationshipId": "handling-billing"
+        }
+      ],
+      "legend": {
+        "title": "Component key",
+        "entries": [
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-component"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "containers"
+      },
+      "scopeId": "orders-api"
+    },
+    {
+      "id": "code",
+      "kind": "code",
+      "title": "Order handling code",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "OrderService"
+        },
+        {
+          "elementId": "RushOrderService"
+        },
+        {
+          "elementId": "OrderLine"
+        },
+        {
+          "elementId": "OrderRepository"
+        },
+        {
+          "elementId": "SqlOrderRepository"
+        },
+        {
+          "elementId": "OrderStatus"
+        },
+        {
+          "elementId": "placeOrder"
+        },
+        {
+          "elementId": "orders-table"
+        },
+        {
+          "elementId": "PaymentPort"
+        },
+        {
+          "elementId": "EmptyModule"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "svc-repo"
+        },
+        {
+          "relationshipId": "svc-line"
+        },
+        {
+          "relationshipId": "rush-svc"
+        },
+        {
+          "relationshipId": "sql-repo"
+        },
+        {
+          "relationshipId": "sql-table"
+        },
+        {
+          "relationshipId": "svc-pay"
+        },
+        {
+          "relationshipId": "fn-svc"
+        },
+        {
+          "relationshipId": "svc-status"
+        }
+      ],
+      "legend": {
+        "title": "Code key",
+        "entries": [
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-code-doc"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "components"
+      },
+      "scopeId": "order-handling"
+    },
+    {
+      "id": "dynamic",
+      "kind": "dynamic",
+      "title": "Place an order",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "web"
+        },
+        {
+          "elementId": "orders-api"
+        },
+        {
+          "elementId": "orders-db"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-web"
+        },
+        {
+          "relationshipId": "web-api"
+        },
+        {
+          "relationshipId": "api-db"
+        }
+      ],
+      "legend": {
+        "title": "Scenario key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-dynamic"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "containers"
+      },
+      "scopeId": "shop",
+      "scenario": {
+        "kind": "sequence",
+        "id": "place-order",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "open",
+            "relationshipId": "c-web",
+            "direction": "forward",
+            "label": "Open the shop"
+          },
+          {
+            "kind": "interaction",
+            "id": "submit",
+            "relationshipId": "web-api",
+            "direction": "forward",
+            "label": "Submit the order"
+          },
+          {
+            "kind": "interaction",
+            "id": "store",
+            "relationshipId": "api-db",
+            "direction": "forward",
+            "label": "Store the order"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment",
+      "kind": "deployment",
+      "title": "Demo deployment",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "host"
+        },
+        {
+          "elementId": "api-a"
+        },
+        {
+          "elementId": "api-b"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "deploy-sync"
+        }
+      ],
+      "legend": {
+        "title": "Deployment key",
+        "entries": [
+          {
+            "id": "boundary",
+            "label": "Boundary",
+            "description": "A grouping boundary",
+            "swatch": {
+              "shape": "boundary",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-deployment"
+      ],
+      "sourceIds": [
+        "fixture"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "containers"
+      },
+      "environment": "demo"
+    }
+  ],
+  "documents": [
+    {
+      "id": "d-landscape",
+      "title": "Shop landscape",
+      "plain": "The landscape shows people and systems across the organisation. Retail and finance own different systems that share one customer.",
+      "ste": {
+        "text": "This diagram shows people and systems. Two groups own the systems.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-context",
+      "title": "Shop context",
+      "plain": "The context shows the Shop and the people and systems around it.",
+      "ste": {
+        "text": "This diagram shows the Shop and its neighbours.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-container",
+      "title": "Shop containers",
+      "plain": "The Shop has a web application, an orders API and an orders database.",
+      "ste": {
+        "text": "The Shop has three parts: a web application, an API and a database.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-component",
+      "title": "Orders API components",
+      "plain": "The API has one component that handles orders and one that stores them.",
+      "ste": {
+        "text": "The API has two components.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-code",
+      "title": "OrderService",
+      "plain": "OrderService places orders. It uses an OrderRepository to save them.",
+      "ste": {
+        "text": "OrderService places orders. It uses a repository to save them.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-code-doc",
+      "title": "Order handling code",
+      "plain": "This view shows selected symbols of the order handling component and their typed relations.",
+      "ste": {
+        "text": "This diagram shows some symbols and how they relate.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-dynamic",
+      "title": "Place an order",
+      "plain": "A customer opens the shop, submits an order and the API stores it.",
+      "ste": {
+        "text": "A customer submits an order. The API stores it.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    },
+    {
+      "id": "d-deployment",
+      "title": "Demo deployment",
+      "plain": "Two illustrative replicas of the API run on one host.",
+      "ste": {
+        "text": "Two replicas of the API run on one host.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "fixture"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fixture",
+      "title": "Generic fixture",
+      "url": "guides/fixture.md",
+      "notes": "Invented teaching data for tests. Not a real system."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # c4-sdk
 
-A React C4 SDK with a generic reference viewer and a small Cursor-based showcase. The current vertical slices render system contexts and container views; the [implementation plan](docs/plans/implementation.md) tracks later diagram kinds.
+A React C4 SDK with a generic reference viewer and a small Cursor-based showcase. All seven C4 diagram kinds (landscape, context, container, component, code, dynamic, deployment) render through one pipeline; the [implementation plan](docs/plans/implementation.md) tracks the showcase and consumer work.
 
 ## Run and validate
 
@@ -38,15 +38,56 @@ if (decoded.ok) {
 }
 ```
 
-`decodeArchitecture(unknown)` returns either a whole immutable validated value with indexes and warnings, or structured diagnostics with code/path/severity/message. `SystemContext` and `ContainerDiagram` are typed wrappers; `ArchitectureViewer` dispatches the current routed diagram. `projectDiagram`, `selectDocumentation`, `resolveLegend`, `validateArchitecture` and `buildIndex` are pure functions; callers should index only successfully validated data. `architectureSchema` and `architectureJsonSchema` expose the runtime shape and editor schema; reference, URL safety and metadata checks additionally run in the decoder.
+`decodeArchitecture(unknown)` returns either a whole immutable validated value with indexes and warnings, or structured diagnostics with code/path/severity/message. `ArchitectureViewer` renders whatever diagram the route selects; the seven named wrappers below are kind-checked entries to the same pipeline. `projectDiagram`, `selectDocumentation`, `resolveLegend`, `validateArchitecture` and `buildIndex` are pure functions; callers should index only successfully validated data. `architectureSchema` and `architectureJsonSchema` expose the runtime shape and editor schema; reference, URL safety and metadata checks additionally run in the decoder.
 
 `CatalogViewer` accepts a `catalogUrl`, optional loader/route ports and title. Catalog entry IDs must match their valid bundle IDs so a deep architecture URL selects its resource; mismatches reject the replacement. Selecting a resource keeps the current route/history until its whole valid bundle loads, then opens that bundle’s declared default diagram. `createFetchLoader` reads a strict `{entries:[{id,title,url}]}` catalog, resolves relative URLs against its location, bounds catalog bytes at 256 KiB and bundle bytes at 5 MiB before JSON parsing, and forwards AbortSignals. Failed replacements retain the entire last valid dataset. Stale requests cannot replace a newer resource or catalog. The generic app accepts `VITE_C4_CATALOG_URL` at its application boundary; the SDK contains no consumer-specific resource paths.
+
+### Seven named wrappers and composition
+
+| Wrapper | Accepts | Natural drill target |
+| --- | --- | --- |
+| `SystemLandscape` | `landscape`: people and software systems, optional scoped system | a system's `context` |
+| `SystemContext` | `context`: one system with people and external systems | its `container` view |
+| `ContainerDiagram` | `container` | a container's `component` view |
+| `ComponentDiagram` | `component` | a component's `code` view |
+| `CodeDiagram` | `code`: selected symbols of one component with member compartments | — |
+| `DynamicDiagram` | `dynamic`: ordered interactions | — |
+| `DeploymentDiagram` | `deployment`: nested physical nodes and instances | an instance's logical container or component |
+
+Every wrapper takes the same `NamedDiagramProps` as `ArchitectureViewer` and renders it with `expectedKind` set. The check uses the **routed** diagram, after the route port, direct URL or a followed drill link has chosen it, so a wrapper never silently renders another kind: it shows a `diagram-kind` diagnostic naming the expected and actual kinds. Use `ArchitectureViewer` when any kind is acceptable (the catalog viewer does).
+
+For a custom layout, wrap parts in one `ArchitectureProvider`. The provider owns the single route, navigation and session controller; `DiagramNavigation`, `DiagramView`, `DiagramLegend` and `DiagramDocumentation` read it from context, and `useViewerController()` gives custom parts the current route, diagram and `navigate`. Parts throw outside a provider, and there is no exported hook that starts a second route controller. `navigationSlot`, `legendSlot` and `documentationSlot` (on `ArchitectureViewer`, or `slot`/`legendSlot` on the parts) replace the default navigation, key and explanation with props-only render functions.
+
+<!-- composition-example -->
+```tsx
+import { ArchitectureProvider, DiagramDocumentation, DiagramLegend, DiagramNavigation, DiagramView, useViewerController } from './src/lib/c4'
+import type { ValidatedArchitecture } from './src/lib/c4'
+
+function CurrentKind() {
+  const { diagram } = useViewerController()
+  return <p>Showing a {diagram?.kind} diagram</p>
+}
+
+export function ShopWorkspace({ validatedBundle }: { validatedBundle: ValidatedArchitecture }) {
+  return <ArchitectureProvider validatedBundle={validatedBundle}>
+    <aside><DiagramNavigation /><DiagramLegend /></aside>
+    <main><CurrentKind /><DiagramView legendSlot={() => null} /></main>
+    <DiagramDocumentation slot={props => <section aria-label="Explanation">{props.document?.plain}</section>} />
+  </ArchitectureProvider>
+}
+```
+
+The example above is `tests/hooks/composition-example.tsx`; a hooks test type-checks it, renders it and fails if this README block drifts.
+
+### Code views
+
+A `code` element has `parentId` (a component, or another code element for nested symbols, up to depth 32), `symbolKind` (`class`, `interface`, `function`, `type`, `enum`, `table`, `module`) and optional `members`: each `name`, optional `signature` and `visibility` (`public`, `protected`, `private`, `package`; default `public`). Members are literal display text, never parsed, fetched or executed, and are rendered as an accessible list inside the symbol card and in the text alternative. A code view's scope is a component; its members must descend from that component unless tagged `external`. Relationship `kind` adds `inheritance`, `implementation` (target interface or type) and `composition`, which connect code elements only. Symbol and member rendering keys (`symbolKey`, `memberKey`) are derived from element ID and member index, never from member names. The fixture `fixtures/seven-types.json` is generic, invented teaching data; the Cursor showcase has no code view.
 
 This is source-copy consumption, with one private root package and lockfile. There is no npm package publication. See the plan for the later reviewed copy/provenance workflow.
 
 ## Supported contract and current limits
 
-Version 1 uses separate model identities and diagram membership. This slice supports person/softwareSystem/container elements; containers require a software-system `parentId` and `technology`, with application/datastore `containerType`; dependency/association relationships; context/container scopes, declared detail/parent/related targets, manual positions/sizes or deterministic auto LR/TB arrangements; legend swatches; sources, technical terms and Plain/STE documents. Unsupported element/diagram kinds, relationship kinds, later containment kinds, arbitrary HTML/SVG and unknown keys are rejected explicitly. See `fixtures/context.json` and `fixtures/navigation.json` for complete inputs. Optional arrays normalize to empty without mutating caller data.
+Version 1 uses separate model identities and diagram membership. The model supports person/softwareSystem/container/component/code/deployment elements; containers require a software-system `parentId` and `technology`, with application/datastore `containerType`; dependency/association/inheritance/implementation/composition relationships; landscape (optional system scope), context, container, component and code scopes, declared detail/parent/related targets, manual positions/sizes or deterministic auto LR/TB arrangements; legend swatches; sources, technical terms and Plain/STE documents. Unsupported element/diagram kinds, relationship kinds, later containment kinds, arbitrary HTML/SVG and unknown keys are rejected explicitly. See `fixtures/context.json` and `fixtures/navigation.json` for complete inputs. Optional arrays normalize to empty without mutating caller data.
 
 Validation rejects duplicate IDs/members/edges, invalid scopes/containment, wrong detail scopes, cyclic canonical parents, hidden navigation targets/edge endpoints, absent document/source/term references, mixed entities without planned notes, reviewed STE without reviewer/date, unsafe sources and incomplete manual positions. Missing protocols, missing key notation and large views are visible warnings. Proposed limits are 5,000 elements, 10,000 relationships, 200 diagrams and input depth 32; these are guardrails, not performance benchmarks.
 

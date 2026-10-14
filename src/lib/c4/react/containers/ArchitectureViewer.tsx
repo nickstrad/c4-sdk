@@ -1,9 +1,13 @@
+import type { ReactNode } from 'react'
+import { ControllerContext, useController } from '../hooks/useViewerController'
+import type { ViewerController } from '../hooks/useViewerController'
 import { DeploymentTreeView } from '../views/DeploymentTreeView'
-import type { ValidatedArchitecture } from '../../domain/model'
+import type { Diagram, ValidatedArchitecture } from '../../domain/model'
+import { diagramKindDiagnostics } from '../../domain/architecture'
 import type { LayoutPort } from '../../ports/layout'
 import type { RoutePort } from '../../ports/route'
-import type { DocumentationSlot } from '../contracts/views'
-import { useContext, useDiagramKind } from '../hooks/useContext'
+import type { DocumentationSlot, LegendSlot, NavigationSlot } from '../contracts/views'
+import { useContext } from '../hooks/useContext'
 import { useNavigation, useRoutePort } from '../hooks/useNavigation'
 import { useDiagramRenderer } from '../hooks/useDiagramRenderer'
 import { useViewerSession } from '../hooks/useViewerSession'
@@ -20,9 +24,14 @@ import { Legend } from '../views/Legend'
 import type { SceneInput } from '../../domain/scene'
 export interface ArchitectureViewerProps {
   readonly validatedBundle: ValidatedArchitecture; readonly diagramId?: string
-  readonly routePort?: RoutePort; readonly layoutPort?: LayoutPort; readonly documentationSlot?: DocumentationSlot
+  readonly routePort?: RoutePort; readonly layoutPort?: LayoutPort
+  /** Reject any routed diagram of another kind. Named wrappers set this; the check follows the actual route. */
+  readonly expectedKind?: Diagram['kind']
+  readonly navigationSlot?: NavigationSlot; readonly legendSlot?: LegendSlot; readonly documentationSlot?: DocumentationSlot
 }
-function RenderDiagram({ input, context, layoutPort, session }: { input: SceneInput; context: ReturnType<typeof useContext>; layoutPort?: LayoutPort; session: CanvasSession }) {
+/** Wrappers hide `expectedKind`; they cannot be configured for another kind. */
+export type NamedDiagramProps = Omit<ArchitectureViewerProps, 'expectedKind'>
+function RenderDiagram({ input, context, layoutPort, session, legendSlot }: { input: SceneInput; context: ReturnType<typeof useContext>; layoutPort?: LayoutPort; session: CanvasSession; legendSlot: LegendSlot }) {
   const { projected, canvasProps, measurementRef } = useDiagramRenderer(input, context, layoutPort)
   const pending = projected.diagnostics.some(diagnostic => diagnostic.code === 'layout-pending')
   return <>
@@ -38,25 +47,55 @@ function RenderDiagram({ input, context, layoutPort, session }: { input: SceneIn
     </>}
     {context.deployment && <DeploymentTreeView {...context.deployment} />}
     {context.dynamic && <StepListView {...context.dynamic} />}
-    <Legend {...input.diagram.legend} />
+    {legendSlot(input.diagram.legend)}
   </>
 }
-export function ArchitectureViewer({ validatedBundle, diagramId, routePort, layoutPort, documentationSlot }: ArchitectureViewerProps) {
+
+export interface ArchitectureProviderProps extends Pick<ArchitectureViewerProps, 'validatedBundle' | 'diagramId' | 'routePort' | 'layoutPort' | 'expectedKind'> { readonly children?: ReactNode }
+/**
+ * One route/navigation/session controller for every composed part below it. Parts read it through
+ * context, so a custom layout can never create a second controller for the same viewer.
+ */
+export function ArchitectureProvider({ validatedBundle, diagramId, routePort, layoutPort, expectedKind, children }: ArchitectureProviderProps) {
   const port = useRoutePort(routePort)
   const navigation = useNavigation(validatedBundle, port, diagramId)
   const context = useContext(validatedBundle, navigation.route, navigation.navigate, navigation.detail)
   const session = useViewerSession(navigation.route, validatedBundle.bundle.revision)
-  return <div {...session.rootProps} className="c4-sdk">
-    <NavigationView {...navigation.viewProps} />
-    <p className="c4-sr-only" aria-live="polite">{navigation.diagramTitle}</p>
-    {navigation.diagnostics.length ? <><DiagnosticView diagnostics={navigation.diagnostics} /><a {...navigation.recovery}>Open diagram</a></> : context.input.ok ? <div className="c4-viewer-grid"><div><RenderDiagram input={context.input.value} context={context} layoutPort={layoutPort} session={session.canvasSession} /></div>{documentationSlot ? documentationSlot(context.documentationProps) : <DocumentationView {...context.documentationProps} />}</div> : <DiagnosticView diagnostics={context.input.diagnostics} />}
-  </div>
+  return <ControllerContext.Provider value={{ architecture: validatedBundle, navigation, context, session, layoutPort, expectedKind }}>
+    <div {...session.rootProps} className="c4-sdk">{children}</div>
+  </ControllerContext.Provider>
 }
-export function SystemContext(props: ArchitectureViewerProps) {
-  const diagnostics = useDiagramKind(props.validatedBundle, props.diagramId, 'context')
-  return diagnostics.length ? <DiagnosticView diagnostics={diagnostics} /> : <ArchitectureViewer {...props} />
+/** Route diagnostics first, then the routed (not merely requested) diagram kind. */
+function viewerDiagnostics({ navigation, architecture, expectedKind }: ViewerController) {
+  if (navigation.diagnostics.length) return navigation.diagnostics
+  return expectedKind ? diagramKindDiagnostics(architecture.index, navigation.route.diagramId, expectedKind) : []
 }
-export function ContainerDiagram(props: ArchitectureViewerProps) {
-  const diagnostics = useDiagramKind(props.validatedBundle, props.diagramId, 'container')
-  return diagnostics.length ? <DiagnosticView diagnostics={diagnostics} /> : <ArchitectureViewer {...props} />
+export function DiagramNavigation({ slot }: { slot?: NavigationSlot }) {
+  const { navigation } = useController()
+  return <>{slot ? slot(navigation.viewProps) : <NavigationView {...navigation.viewProps} />}<p className="c4-sr-only" aria-live="polite">{navigation.diagramTitle}</p></>
+}
+export function DiagramView({ legendSlot = props => <Legend {...props} /> }: { legendSlot?: LegendSlot }) {
+  const controller = useController(); const { navigation, context, layoutPort, session } = controller
+  const diagnostics = viewerDiagnostics(controller)
+  if (diagnostics.length) return <><DiagnosticView diagnostics={diagnostics} />{navigation.diagnostics.length ? <a {...navigation.recovery}>Open diagram</a> : null}</>
+  return context.input.ok ? <RenderDiagram input={context.input.value} context={context} layoutPort={layoutPort} session={session.canvasSession} legendSlot={legendSlot} /> : <DiagnosticView diagnostics={context.input.diagnostics} />
+}
+/** The key for the routed diagram, for layouts that place it away from the canvas (pair with `legendSlot={() => null}`). */
+export function DiagramLegend({ slot }: { slot?: LegendSlot }) {
+  const controller = useController()
+  if (viewerDiagnostics(controller).length || !controller.context.input.ok) return null
+  const legend = controller.context.input.value.diagram.legend
+  return <>{slot ? slot(legend) : <Legend {...legend} />}</>
+}
+export function DiagramDocumentation({ slot }: { slot?: DocumentationSlot }) {
+  const controller = useController()
+  if (viewerDiagnostics(controller).length || !controller.context.input.ok) return null
+  const props = controller.context.documentationProps
+  return <>{slot ? slot(props) : <DocumentationView {...props} />}</>
+}
+export function ArchitectureViewer({ navigationSlot, legendSlot, documentationSlot, ...provider }: ArchitectureViewerProps) {
+  return <ArchitectureProvider {...provider}>
+    <DiagramNavigation slot={navigationSlot} />
+    <div className="c4-viewer-grid"><div><DiagramView legendSlot={legendSlot} /></div><DiagramDocumentation slot={documentationSlot} /></div>
+  </ArchitectureProvider>
 }

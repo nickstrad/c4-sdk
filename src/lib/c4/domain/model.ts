@@ -7,13 +7,18 @@ interface ElementBase extends References {
   readonly description: string; readonly status: Status; readonly technology?: string
   readonly tags: readonly string[]; readonly plannedNotes: readonly string[]
 }
-export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' }) | (ElementBase & { readonly kind: 'component'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'deploymentNode'; readonly environment: string; readonly technology: string; readonly parentId?: Id }) | (ElementBase & { readonly kind: 'infrastructureNode'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'instance'; readonly instanceOf: Id; readonly parentId: Id; readonly environment: string })
+export type SymbolKind = 'class' | 'interface' | 'function' | 'type' | 'enum' | 'table' | 'module'
+export type Visibility = 'public' | 'protected' | 'private' | 'package'
+/** Text-only declaration shown in a symbol compartment; never executed, parsed or fetched. */
+export interface CodeMember { readonly name: string; readonly signature?: string; readonly visibility: Visibility }
+export type RelationshipKind = 'dependency' | 'association' | 'inheritance' | 'implementation' | 'composition'
+export type Element = (ElementBase & { readonly kind: 'person' | 'softwareSystem' }) | (ElementBase & { readonly kind: 'container'; readonly parentId: Id; readonly technology: string; readonly containerType: 'application' | 'datastore' }) | (ElementBase & { readonly kind: 'component'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'code'; readonly parentId: Id; readonly symbolKind: SymbolKind; readonly members: readonly CodeMember[] }) | (ElementBase & { readonly kind: 'deploymentNode'; readonly environment: string; readonly technology: string; readonly parentId?: Id }) | (ElementBase & { readonly kind: 'infrastructureNode'; readonly parentId: Id; readonly technology: string }) | (ElementBase & { readonly kind: 'instance'; readonly instanceOf: Id; readonly parentId: Id; readonly environment: string })
 export interface Target { readonly diagramId: Id; readonly elementId?: Id }
 export interface Link extends Target { readonly label: string }
 export interface Relationship extends References {
   readonly id: Id; readonly sourceId: Id; readonly targetId: Id; readonly label: string
   readonly modelRelationshipId?: Id
-  readonly status: Status; readonly technology?: string; readonly kind: 'dependency' | 'association'
+  readonly status: Status; readonly technology?: string; readonly kind: RelationshipKind
   readonly plannedNotes: readonly string[]
 }
 export interface Member { readonly elementId: Id; readonly detail?: Target; readonly related: readonly Link[]; readonly position?: { readonly x: number; readonly y: number }; readonly size?: { readonly width: number; readonly height: number } }
@@ -28,14 +33,16 @@ interface DiagramBase extends References {
   readonly scopeId: Id; readonly nodes: readonly Member[]; readonly edges: readonly EdgeRef[]
   readonly legend: LegendSpec; readonly layout?: { readonly mode: 'manual' | 'auto'; readonly direction: 'TB' | 'LR'; readonly spacing?: number }
 }
+export interface LandscapeDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'landscape'; readonly scopeId?: Id }
 export interface ContextDiagram extends DiagramBase { readonly kind: 'context' }
 export interface ContainerDiagram extends DiagramBase { readonly kind: 'container' }
 export interface ComponentDiagram extends DiagramBase { readonly kind: 'component' }
+export interface CodeDiagram extends DiagramBase { readonly kind: 'code' }
 export interface InteractionStep { readonly kind: 'interaction'; readonly id: Id; readonly relationshipId: Id; readonly direction: 'forward' | 'reverse'; readonly label: string }
 export type Step = InteractionStep | { readonly kind: 'sequence'; readonly id: Id; readonly children: readonly Step[] } | { readonly kind: 'parallel'; readonly id: Id; readonly branches: readonly Step[] }
 export interface DynamicDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'dynamic'; readonly scopeId?: Id; readonly scenario: Step }
 export interface DeploymentDiagram extends Omit<DiagramBase, 'scopeId'> { readonly kind: 'deployment'; readonly scopeId?: Id; readonly environment: string }
-export type Diagram = ContextDiagram | ContainerDiagram | ComponentDiagram | DynamicDiagram | DeploymentDiagram
+export type Diagram = LandscapeDiagram | ContextDiagram | ContainerDiagram | ComponentDiagram | CodeDiagram | DynamicDiagram | DeploymentDiagram
 export interface Document {
   readonly sourceIds: readonly Id[]
   readonly id: Id; readonly title: string; readonly plain: string

@@ -6,6 +6,7 @@ import type { RefObject } from 'react'
 import type { CanvasSession } from '../hooks/useViewerSession'
 import { relativeGeometry } from '../../adapters/layout/elk-output'
 import { nodeId } from '../../adapters/layout/elk-input'
+import { CodeMembers } from '../views/CodeMembers'
 import { CanvasNode } from '../views/CanvasNode'
 import type { FlowNode } from '../views/CanvasNode'
 import { CanvasGroup } from '../views/CanvasGroup'
@@ -34,8 +35,8 @@ export function DiagramCanvas({ markerId, scene, nodes, onDiagramSelect, session
 /** Props-only natural-size replicas. No canvas dimensions or transforms enter measurement. */
 export function MeasurementRack({ input, measurementRef }: { input: SceneInput; measurementRef: RefObject<HTMLDivElement | null> }) {
   return <div ref={measurementRef} className="c4-measurements" aria-hidden="true">
-    {input.nodes.map(node => { const detail = input.diagram.nodes.find(member => member.elementId === node.element.id)?.detail; return <div key={node.element.id} data-measure-kind="node" data-measure-id={node.element.id} className="c4-measure-node" style={{ width: input.diagram.nodes.find(member => member.elementId === node.element.id)?.size?.width ?? 260 }}><div className="c4-node-probe"><span className="c4-node-kind">{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}{detail ? ' · Open detail →' : ''}</small></div>{detail && <div className="c4-measure-inspect">Inspect</div>}</div> })}
-    {input.edges.map(edge => <div key={edge.relationship.id} data-measure-kind="edge" data-measure-id={edge.relationship.id} className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.technology}{edge.relationship.technology ? ' · ' : ''}{edge.relationship.status}</small></div>)}
+    {input.nodes.map(node => { const detail = input.diagram.nodes.find(member => member.elementId === node.element.id)?.detail; return <div key={node.element.id} data-measure-kind="node" data-measure-id={node.element.id} className="c4-measure-node" style={{ width: input.diagram.nodes.find(member => member.elementId === node.element.id)?.size?.width ?? 260 }}><div className="c4-node-probe"><span className="c4-node-kind">{node.kindLabel}</span><strong>{node.element.name}</strong><span>{node.element.description}</span><small>{node.statusText}{detail ? ' · Open detail →' : ''}</small><CodeMembers element={node.element} /></div>{detail && <div className="c4-measure-inspect">Inspect</div>}</div> })}
+    {input.edges.map(edge => <div key={edge.relationship.id} data-measure-kind="edge" data-measure-id={edge.relationship.id} className="c4-edge-label">{edge.number ? `${edge.number}. ` : ''}{edge.relationship.label}<small>{edge.relationship.kind !== 'dependency' ? `${edge.relationship.kind} · ` : ''}{edge.relationship.technology}{edge.relationship.technology ? ' · ' : ''}{edge.relationship.status}</small></div>)}
     {input.groups.map(group => <div key={group.id} data-measure-kind="group" data-measure-id={group.id} className="c4-group-label"><strong>{group.label}</strong><small>{group.status === 'mixed' ? 'Existing + planned changes' : group.status} boundary</small></div>)}
   </div>
 }
