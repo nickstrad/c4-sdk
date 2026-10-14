@@ -2409,4 +2409,4 @@ SOFTWARE.
 
 ## Repository-only content
 
-The package inventory contains no font files, static images, favicon, external artwork, or demo content. In particular, the repository’s Cursor article excerpts and explanatory showcase content are outside this SDK package. The article is by Vicent Martí and remains subject to its source’s rights; this project does not relicense it. No external artwork is included or represented as first-party.
+P-02's current package allowlist/build report lists no font files, static images, favicon, external artwork, or demo content; the exact packed inventory still needs to confirm those exclusions. In particular, the repository’s Cursor article excerpts and explanatory showcase content are outside the current SDK package report. The article is by Vicent Martí and remains subject to its source’s rights; this project does not relicense it. No external artwork is represented as first-party.
