@@ -185,7 +185,10 @@ Preflight push was rejected because origin/main advanced with0e32ef9 (.github/wo
 
 P-01 and its `c4-sdk` identity fixup have independent PASS reviews and are integrated on local main at
 `dbd8875`. The accepted surface/support decisions and P-02 packaging gates are reconciled in
-`docs/knowledge/decisions.md`. P-02 (fresh Codex Sol) and P-03 (fresh Codex Luna high) are assigned
-concurrently in dedicated worktrees, each with independent Claude Sonnet review after builder cleanup.
-Their assignment records are in `agent-work/items/P-02/` and `agent-work/items/P-03/`. Actual
-`npm publish` remains outside this mission until Nick is present for login/2FA.
+`docs/knowledge/decisions.md`. P-02 (fresh Codex Sol) continues package/type/browser verification. P-03
+(fresh Codex Luna high) is reviewed PASS after a fresh repair/re-review cycle and integrated with its
+review records at `a42eb03`. Its MIT holder is inferred from repository identity/authorship, without a
+separate legal-holder attestation; package inventory remains provisional pending P-02's exact
+`npm pack --json` reconciliation. Assignment, review, and implementation records are in
+`agent-work/items/P-02/` and `agent-work/items/P-03/`. Actual `npm publish` remains outside this mission
+until Nick is present for login/2FA.

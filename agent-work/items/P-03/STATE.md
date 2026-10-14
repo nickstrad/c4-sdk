@@ -1,6 +1,6 @@
 # P-03 checkpoint
 
-Status: implementation and post-work assessment complete; exact-pack reconciliation is a P-02 gate before candidate acceptance.
+Status: implementation, post-work assessment, and independent review complete; merged to local main. Exact-pack reconciliation remains a P-02 gate before candidate acceptance.
 
 Goal: add an accurate MIT license and notices for bundled third-party code and assets. Do not package unrelated demo content or claim third-party material as first-party.
 
@@ -47,4 +47,4 @@ Post-repair assessment: no additional durable project knowledge or reusable scri
 
 ## Handoff
 
-P-03's original builder HEAD received a Sonnet NITS review; the repair branch is ready for fresh independent re-review after its assessment commit. Before productionization candidate acceptance, P-02 must prove that the exact tarball includes `LICENSE` and `THIRD_PARTY_NOTICES.md` and that the bundled package/asset graph remains consistent with this notice inventory. No publish, merge, push, or registry operation was performed by this fixup.
+P-03's original builder HEAD received a Sonnet NITS review, repaired by fresh Codex Luna high. Fresh Sonnet re-review PASS for exact `03515c92ad21db9ff6841249c4c7497e41639d2e` is recorded in `agent-work/items/P-03/re-review.md` (commit `e7a9d44`). Implementation and both reviews are integrated on local main at merge `a42eb03`. Before productionization candidate acceptance, P-02 must prove that the exact tarball includes `LICENSE` and `THIRD_PARTY_NOTICES.md` and that the bundled package/asset graph remains consistent with this notice inventory. No publish or registry write was performed.
