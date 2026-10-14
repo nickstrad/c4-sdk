@@ -47,3 +47,17 @@ session and handoff; builders report item-local state. See [protocol](../../AGEN
 ## 2026-10-13 — Shared contracts precede parallel features
 
 Batch C has explicit seams: validated groups and immutable scene presentation inputs feed a geometry-only layout adapter. Worker clients reattach original validated objects after receiving geometry. Measurement records use own-key lookup, and group IDs have a separate namespace from element IDs. Component/docs work owns schema and projection; layout owns geometry, canvas and renderer composition. See [contracts](../plans/batch-c-contracts.md) and [review](../../agent-work/items/C4-preflight/review.md).
+
+## 2026-10-14 — Freeze the supported SDK surface before packaging
+
+P-01 freezes the initial public facade and support proposal before package implementation. The root facade
+supports UI composition and host adapters; `c4-sdk/core` exposes structural data, navigation and
+membership while preserving the historical source barrel. `decodeArchitecture` is the supported
+unknown-input promotion boundary; shape-only schemas, semantic-only helpers, the group-rejecting legacy
+fixed projector, private contexts/renderers and specialized helpers are outside the supported API. The
+candidate identity is `c4-sdk` at `0.1.0-beta.1`; Nick's 2026-10-12 availability check is relayed evidence,
+not proof of current availability or ownership, so P-02 must recheck before creating its package artifact.
+P-02 also owns packaged Node import safety, explicit CSS extraction, dual-module/context identity, bundled
+declarations and API runtime-test discovery in SDK checks. Installed dependency versions are evidence,
+not support guarantees. See [public API](../api/public-api.md), [support matrix](../api/support-matrix.md),
+[productionization plan](../plans/productionization.md), and [P-01 checkpoint](../../agent-work/items/P-01/STATE.md).
