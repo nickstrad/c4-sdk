@@ -34,6 +34,17 @@ No reusable work script is justified. The 76-package license-file comparison was
 
 Assessment/checkpoint commit: this checkpoint is committed separately after the two implementation commits. The assessment found no additional project knowledge or reusable script to add. P-02's final `npm pack --json` listing remains pending; it must be compared with these notices and asset exclusions, and any mismatch corrected within the appropriate item before candidate acceptance. This pending P-02 evidence does not change the provisional inventory into a verified packed inventory.
 
+## Review nits repair — 2026-10-14
+
+Fresh Codex Luna high fixup started from reviewed builder HEAD `8c0a1f0c7e8803261ee2a8e5a140c77951b86b07` in `/tmp/c4-sdk-p-03-fix`, branch `fix/p-03-license-review-nits`. The exact Sonnet NITS record is on `review/p-03-licenses-sonnet`.
+
+- Repair commit: `0656203` (`docs: repair license record review nits`). It changes only this checkpoint and `docs/release/licenses.md`.
+- Replaced the cross-branch evidence JSON link with a link to the committed P-02 checkpoint and plain text naming the expected `tests/package/evidence/bundle-inventory.json` path.
+- Rephrased the holder basis as an inference from repository ownership and project authorship, and recorded that no separate legal-holder attestation was made. The MIT text and holder are unchanged.
+- Validation: referenced local link targets resolve on this branch; `git diff --check` passes. No tests or network access were used. The 76-package inventory remains explicitly provisional pending exact-pack reconciliation.
+
+Post-repair assessment: no additional durable project knowledge or reusable script is justified. These corrections are specific to the P-03 review findings, and the evidence-link timing will be resolved by coordinator integration with P-02. The repair is ready for fresh independent re-review; it is not yet approved for landing.
+
 ## Handoff
 
-P-03 is ready for independent review at the final branch head after this assessment commit. Before productionization candidate acceptance, P-02 must prove that the exact tarball includes `LICENSE` and `THIRD_PARTY_NOTICES.md` and that the bundled package/asset graph remains consistent with this notice inventory. No publish, merge, push, or registry operation was performed by P-03.
+P-03's original builder HEAD received a Sonnet NITS review; the repair branch is ready for fresh independent re-review after its assessment commit. Before productionization candidate acceptance, P-02 must prove that the exact tarball includes `LICENSE` and `THIRD_PARTY_NOTICES.md` and that the bundled package/asset graph remains consistent with this notice inventory. No publish, merge, push, or registry operation was performed by this fixup.
