@@ -37,7 +37,8 @@ this exact name was verified available on 2026-10-12. This documentation fixup m
 query and proves neither present-day availability nor account ownership. P-02 must revalidate current
 registry availability before building its package artifact; actual publication waits for Nick's npm
 account login/2FA. Keep one root publishable SDK package and separate library output from the Vite app/demo
-build. No monorepo migration is required. Choose the initial version and support matrix explicitly at P-01; use a prerelease while API acceptance is incomplete. Pin
+build. No monorepo migration is required. Choose the initial version and support matrix explicitly at
+P-01; use a prerelease while API acceptance is incomplete. Pin
 release tools in the lockfile, record Node/npm versions, and set `engines` only to versions exercised by
 consumer tests. Do not promise every React or TypeScript version.
 
