@@ -1,6 +1,6 @@
 # P-01 package identity fixup checkpoint
 
-Status: builder complete; documentation validation PASS; fresh Claude Sonnet re-review pending. No merge, push or publication performed.
+Status: complete; fresh Claude Sonnet re-review PASS; integrated on local main. Not yet pushed. No publication performed.
 
 Goal: align the active candidate package identity with Nick's 2026-10-14 approval note relaying verification that unscoped `c4-sdk` was available on 2026-10-12. Preserve candidate version `0.1.0-beta.1`. This fixup did not query npm or prove present-day availability/account ownership. P-02 must revalidate current registry availability before building its artifact; actual publication waits for Nick present for npm account login/2FA.
 
@@ -29,7 +29,7 @@ No reusable work-script is warranted. The checks are one-off documentation consi
 
 ## Handoff and next gate
 
-After committing this checkpoint, clean only this builder's worktree and linked metadata, retain branch `fix/p-01-package-name` and all durable commits, and report cleanup/final HEAD to the coordinator. Fresh Claude Sonnet must re-review the exact final branch HEAD from a new worktree. Review/landing remain pending; P-02/P-03 remain gated until P-01 integration. No publication or ts-db action is authorized by this checkpoint.
+Builder worktree `/tmp/c4-sdk-p-01-name-fixup` was cleaned; branch `fix/p-01-package-name` is retained. The first fresh Sonnet review returned NITS for line wrapping (record `3aadf1e`); a new Codex Sol repair made only that formatting change and separately assessed it (`78e3e33`, `230fd42`). A fresh Sonnet re-review PASS for exact final HEAD `230fd4279c39c69d24daf33276e2bf6801fde73b` is recorded in review commit `68d7915`. Its worktree was cleaned and branch retained. Coordinator integrated the reviewed fixup and both reviews on local main at `dbd8875`; shared knowledge reconciliation is in `docs/knowledge/decisions.md`. No publication or ts-db action is authorized by this checkpoint.
 
 ## Cosmetic review repair — 2026-10-14
 
@@ -43,8 +43,5 @@ the surrounding paragraph. A whitespace-normalized comparison confirmed identica
 manual diff inspection and `git diff --check` passed. No runtime tests were needed for this
 prose-only repair. Identity, version, gates and the review record are unchanged.
 
-Post-work assessment found no new durable project or VM knowledge and no reusable script.
-This checkpoint is committed separately; its SHA is reported in the handoff. Event publication
-remains skipped under Nick's recorded exception. Clean this repair worktree after committing,
-retain its branch, and hand the exact final HEAD to the coordinator for fresh re-review.
-Review approval and landing remain pending.
+Post-work assessment found no new durable project or VM knowledge and no reusable script. The
+repair worktree was cleaned, branch retained, and exact repaired HEAD independently re-reviewed.

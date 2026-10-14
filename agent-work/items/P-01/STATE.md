@@ -1,6 +1,6 @@
 # P-01 checkpoint
 
-Status: builder complete; required validation PASS; fresh independent review pending. Not merged or pushed.
+Status: implementation, validation, package-identity correction, and independent reviews PASS; integrated on local main, not yet pushed.
 
 Goal: freeze the public SDK API and support proposal before package implementation. Nick approved the productionization track on 2026-10-14; P-01 is its required first, serialized item.
 
@@ -19,7 +19,7 @@ Owned paths are enumerated in claims. Coordinator retains STATE/COORDINATION and
 - API runtime tests: 5/5 PASS on the final strengthened snapshot; structural/API-test compilation: PASS; unit/hooks: 204/204 PASS; properties: 34/34 PASS; full typecheck: PASS; lint: exit0 with inherited button fast-refresh warning; generic/demo production builds: PASS with existing chunk-size warning; targeted production browser: 34/34 PASS.
 - Root `tsconfig.tests.json` already includes `tests/api`, so root typecheck checks the structural fixture. Existing Vitest projects exclude API runtime tests; P-02 must register API discovery in sdk-check/CI.
 - Existing renderer source imports CSS transitively. Vitest neutralizes CSS for source import tests; plain Node entry safety and explicit stylesheet extraction are P-02 artifact gates, not established P-01 claims.
-- Knowledge pages/index and script paths are read-only under the claims. Durable decisions will be reported to the coordinator for reconciliation rather than edited outside ownership.
+- Knowledge pages/index and script paths were read-only under the claims. The coordinator reconciled the durable decisions into [`docs/knowledge/decisions.md`](../../../docs/knowledge/decisions.md) after review.
 - Live event inbox inspected: zero live event files. Publication remains skipped under the existing root-checkpoint exception; no event is fabricated.
 
 ## Validation and reproduction
@@ -75,6 +75,11 @@ The coordinator retains shared knowledge pages/index ownership; this is the delt
 
 No new indexed work-script is justified. The compiler snapshot generator is a maintained API-test fixture; a duplicate work-script would repeat that logic. The remaining compile/config-generation commands are one-off validation steps already recorded above. No VM/environment finding warrants a kb update.
 
-## Handoff
+## Review and integration
 
-Next: commit this separate assessment/checkpoint, then remove only `/tmp/c4-sdk-p-01` and its linked-worktree metadata; retain `item/p-01-public-contract` and its commits. Cleanup is verified in the builder's completion report after the checkpoint is durable. Coordinator reviews the exact final branch HEAD with a new Claude Sonnet agent/worktree, reconciles the knowledge delta and lands only after PASS. P-02/P-03 remain gated; no publication or ts-db action is authorized by this checkpoint.
+- Fresh Claude Sonnet PASS at exact implementation/checkpoint HEAD `5346c383a06d8540d8d2c48c45cd0965f06e3f5b`; review record commit `f92d8d2`.
+- Fresh Codex Sol corrected package identity to `c4-sdk` per Nick's relayed 2026-10-12 availability check; correction commit `3454cc8`, wrap-only review repair `78e3e33`, separate assessment `230fd42`.
+- Fresh Claude Sonnet first returned NITS (`3aadf1e`); the sole cosmetic wrap nit was repaired and fresh re-review PASS recorded as `68d7915` for exact HEAD `230fd4279c39c69d24daf33276e2bf6801fde73b`.
+- P-01 payload and both review records are integrated on local main at coordinator merge `dbd8875`. The linked builder and reviewer worktrees were cleaned by their agents. The shared knowledge reconciliation is committed separately after the payload.
+
+P-02 and P-03 may now be dispatched as the plan's concurrent next batch. Do not publish; Nick must be present for npm login/2FA.
