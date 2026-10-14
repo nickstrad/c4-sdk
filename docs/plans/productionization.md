@@ -32,10 +32,12 @@ Cursor article or third-party artwork. The showcase keeps its existing source at
 checks compare the license text to the standard and inspect the packed files.
 [MIT reference](https://opensource.org/license/mit).
 
-Preferred package identity is `@nickstrad/c4-sdk`, subject to checking npm scope ownership/availability at
-implementation time; the GitHub username alone is not proof. Keep one root publishable SDK package and
-separate library output from the Vite app/demo build. No monorepo migration is required. Choose the initial
-version and support matrix explicitly at P-01; use a prerelease while API acceptance is incomplete. Pin
+Candidate package identity is the unscoped `c4-sdk`. Nick's 2026-10-14 approval note relayed that
+this exact name was verified available on 2026-10-12. This documentation fixup made no npm registry
+query and proves neither present-day availability nor account ownership. P-02 must revalidate current
+registry availability before building its package artifact; actual publication waits for Nick's npm
+account login/2FA. Keep one root publishable SDK package and separate library output from the Vite app/demo
+build. No monorepo migration is required. Choose the initial version and support matrix explicitly at P-01; use a prerelease while API acceptance is incomplete. Pin
 release tools in the lockfile, record Node/npm versions, and set `engines` only to versions exercised by
 consumer tests. Do not promise every React or TypeScript version.
 
@@ -55,10 +57,10 @@ snapshot checked in CI. The following is the target surface, subject to document
 
 | Entry | Public contract | Excluded internals |
 | --- | --- | --- |
-| `@nickstrad/c4-sdk` | `ArchitectureViewer`, provider and supported diagram/navigation/docs containers; all seven named diagram wrappers; reusable `Legend`; their props and slot contracts | React Flow internals, private contexts, app shell, unstable hooks and renderer implementation |
-| `@nickstrad/c4-sdk/core` | Versioned bundle/diagram/element/document types, runtime decode+semantic-validation facade, structured diagnostics and pure navigation/projection functions actually intended for hosts | Zod/Effect types, DOM/global state, React and host filesystem dependencies |
-| `@nickstrad/c4-sdk/styles.css` | Explicit scoped stylesheet/theme custom properties | Tailwind build dependency, global reset, demo fonts |
-| `@nickstrad/c4-sdk/layout-worker.js` | Self-contained browser module-worker asset, used through documented worker factory/URL configuration | Node worker claims, unsupported direct worker message API |
+| `c4-sdk` | `ArchitectureViewer`, provider and supported diagram/navigation/docs containers; all seven named diagram wrappers; reusable `Legend`; their props and slot contracts | React Flow internals, private contexts, app shell, unstable hooks and renderer implementation |
+| `c4-sdk/core` | Versioned bundle/diagram/element/document types, runtime decode+semantic-validation facade, structured diagnostics and pure navigation/projection functions actually intended for hosts | Zod/Effect types, DOM/global state, React and host filesystem dependencies |
+| `c4-sdk/styles.css` | Explicit scoped stylesheet/theme custom properties | Tailwind build dependency, global reset, demo fonts |
+| `c4-sdk/layout-worker.js` | Self-contained browser module-worker asset, used through documented worker factory/URL configuration | Node worker claims, unsupported direct worker message API |
 
 Freeze exact exported names and signatures from landed implementations, not this table's placeholders.
 Specify unknown-JSON decoding versus already-validated bundle inputs, diagnostic/result unions, controlled
@@ -101,7 +103,7 @@ are completed from the implemented support matrix. Both core and UI get separate
 
 ```json
 {
-  "name": "@nickstrad/c4-sdk",
+  "name": "c4-sdk",
   "type": "module",
   "license": "MIT",
   "main": "./dist-sdk/index.cjs",

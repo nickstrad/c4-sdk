@@ -9,10 +9,10 @@ CSS extraction, worker URLs and module compatibility are P-02 acceptance work. S
 
 | Candidate import | Source facade | Contract |
 | --- | --- | --- |
-| `@nickstrad/c4-sdk` | [`src/index.ts`](../../src/index.ts) | React components, composition hook, browser adapters and their types |
-| `@nickstrad/c4-sdk/core` | [`src/core/index.ts`](../../src/core/index.ts) | Unknown-data decoding, structural model/port types, pure navigation and scene membership |
-| `@nickstrad/c4-sdk/styles.css` | P-02 asset | Explicit stylesheet; no consumer Tailwind pipeline or demo fonts |
-| `@nickstrad/c4-sdk/layout-worker.js` | P-02 asset | Browser module-worker asset; use the worker factory below, never its private message protocol |
+| `c4-sdk` | [`src/index.ts`](../../src/index.ts) | React components, composition hook, browser adapters and their types |
+| `c4-sdk/core` | [`src/core/index.ts`](../../src/core/index.ts) | Unknown-data decoding, structural model/port types, pure navigation and scene membership |
+| `c4-sdk/styles.css` | P-02 asset | Explicit stylesheet; no consumer Tailwind pipeline or demo fonts |
+| `c4-sdk/layout-worker.js` | P-02 asset | Browser module-worker asset; use the worker factory below, never its private message protocol |
 
 The existing `src/lib/c4/index.ts` remains the historical source-consumer barrel. It is not the package
 export list. No wildcard or `src/`/`dist/` deep-import contract is proposed. Runtime/schema engines,

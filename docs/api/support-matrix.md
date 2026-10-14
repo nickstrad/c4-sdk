@@ -6,12 +6,13 @@ established until P-02 installs and tests the exact tarball. There is no registr
 
 ## Identity and version
 
-Recommend `@nickstrad/c4-sdk` with initial candidate `0.1.0-beta.1`. This follows the approved plan's
-scoped identity and keeps API/distribution acceptance explicitly prerelease. The repository manifest is
-currently private `c4-sdk@0.0.0`; P-01 does not change it. Unscoped `c4-sdk` was reported available on
-2026-10-12, which neither proves availability today nor ownership of the preferred scope. No registry
-query, account login or package access was attempted. P-02 may implement the scoped candidate locally;
-name/scope ownership must be confirmed with Nick before publication. Changing identity afterward needs
+Recommend the unscoped `c4-sdk` with initial candidate `0.1.0-beta.1`, keeping API/distribution
+acceptance explicitly prerelease. Nick's 2026-10-14 approval note relayed verification that this exact
+name was available on 2026-10-12. This documentation fixup made no npm registry query and proves neither
+present-day availability nor account ownership; no account login or package access was attempted.
+P-02 must revalidate current registry availability before building its package artifact. The repository
+manifest is currently private `c4-sdk@0.0.0`; this fixup does not change it. Actual publication remains a
+later explicit action with Nick present for npm account login/2FA. Changing identity afterward needs
 coordinator agreement and regeneration of all consumer evidence, not a silent manifest substitution.
 
 ## Evidence and target matrix
