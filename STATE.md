@@ -236,3 +236,10 @@ transferred package implementation and tests; it must rebuild against current P-
 exact consumer and 10-case browser checks, reconcile the 15-file pack and 76 notices, run source gates,
 commit implementation/evidence and a separate assessment, and clean its worktree before a fresh Sonnet
 review. The inventory expectation is 76 rows, SHA `b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`. No publication or registry write is authorized. Preserve the two interrupted worktrees as handoff evidence until P-02 is complete.
+
+## Install permission checkpoint — 2026-10-14 20:28 UTC
+
+The fresh P-02 verifier started `npm ci` in its own worktree. The restricted attempt stalled; it requested
+the required escalated install permission to retry. That approval is still pending, so the builder has not
+run the final artifact matrix or browser suite. Do not proceed with package tests until the approval
+returns. No package artifact has been accepted and no registry write or publication occurred.
