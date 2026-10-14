@@ -1,6 +1,6 @@
 # C4-10 checkpoint
 
-Status: implementation and acceptance evidence complete; committing implementation, then knowledge assessment/checkpoint. Independent fresh Claude Sonnet review remains pending.
+Status: builder complete; implementation/evidence and separate knowledge commits durable. Independent fresh Claude Sonnet review of final branch HEAD pending; no landing authorization is implied by this checkpoint.
 
 ## State
 
@@ -78,3 +78,15 @@ README core C4-08 reconciliation verified. Found a residual unclaimed seam sente
 - Browser/preview runners exited and ports4173/4174 lease released. No quota limit hit, no model/provider switch/API key, no ts-db/C4-09/shared-config/manifest/rootREADME/coordinator changes, no merge/push/manual deploy/npm publication. Event start failed read-only common-dir; completion publication skipped under same recorded exception.
 
 Implementation/evidence commit is next. Knowledge/scripts assessment follows the committed diff, in a separate commit if warranted. Final exact review HEAD will be reported after the checkpoint commit and worktree cleanup.
+
+## Final handoff and post-implementation assessment
+
+Implementation/evidence: `ae411d295f2813b4ef038fee24f82512a3840224` (`sdk: Harden viewport framing and resource limits`). Post-implementation knowledge: `92322fe96053b5d7a8c88f6901254e731ad1f096` (`docs: Record hardening measurement and framing lessons`). Read the committed implementation diff, knowledge index and work-script index after implementation committed. Added dated, evidence-linked lessons to the existing gotchas page: readable entry versus Fit, weak observer tracking and timing definitions, and safety ceilings versus throughput. No new knowledge page/index reconciliation or reusable work script is warranted; repeat/stress/lifecycle checks are existing indexed test workflows, and authoring scratch commands are one-off. Coordinator-owned knowledge index and work-script index remain unchanged.
+
+Final exact-source source-map builds both PASS: `/tmp/c4-10-build-generic-final.log`, `/tmp/c4-10-build-demo-final.log`; TypeScript checking included. Generic/demo source-entry counts432/431, affected advisory JS modules0, aggregate JS bytes2,182,964/2,182,988. Raw inspection summary `/tmp/c4-10-bundle-inspection.json`, inventories `/tmp/c4-10-dist-modules.json` and `/tmp/c4-10-dist-demo-modules.json`. Source maps are scratch output only; no tracked build/config/dependency changes.
+
+Final source still passes204 unit/hooks,34 properties, lint with prior warning, full production65 PASS/1existing skip, repeated docs/stress9 PASS/3intended skips, and `git diff --check`. Review history remains pending; `review.md` was not marked approved. Acceptance and exact limits/history are authoritative in `docs/api/acceptance.md`. C4-09/ts-db, human STE review, advisory resolution and the missed2s target remain explicit limits/gates. Root README’s remaining pending-layout/proposed-limits wording needs coordinator-owned reconciliation; builder respected the read-only exclusion.
+
+Assigned worktree `/tmp/c4-sdk-c4-10-build`, branch `item/c4-10-hardening`, exact base `59156023e3d1b888d87ccbc6e0173b3a2ea63de6`. This final checkpoint commit becomes the exact review HEAD; its SHA is reported to root and saved in `/tmp/c4-10-builder-result.json`. The managed permission profile permits owned source and `/tmp` writes; online npm audit and production server/Chromium commands used approved escalation after sandbox failures. No provider limit was hit.
+
+All source, evidence, learning and checkpoint changes are durable before the builder removes its own worktree as the immediate next step. Branch and artifacts remain for the fresh cross-company reviewer. Root will receive cleanup verification and exact HEAD; it owns review dispatch, integration, shared status, README reconciliation and any push. No self-review, merge, push, deployment or npm publication occurred. Browser lease4173/4174 released; no preview/browser runner remains. Completion event publication is skipped under the previously recorded common-dir permission exception.
