@@ -4,9 +4,9 @@ Reviewed: 2026-10-14.
 
 ## Project license and copyright holder
 
-The project is licensed under the MIT License. [`LICENSE`](../../LICENSE) contains the complete standard MIT text and identifies `Nick Strad` as the copyright holder for 2026. The holder is supported by the repository identity `github.com/nickstrad/c4-sdk` and the project commit authorship `nickstrad <nickstrad.dev@gmail.com>`; P-03 recorded the confirmation from the project owner on 2026-10-14. P-02 sets the package metadata license to `MIT` and includes the root `LICENSE` in its package allowlist.
+The project is licensed under the MIT License. [`LICENSE`](../../LICENSE) contains the complete standard MIT text and identifies `Nick Strad` as the copyright holder for 2026. This holder is inferred from repository ownership (`github.com/nickstrad/c4-sdk`) and project authorship (`nickstrad <nickstrad.dev@gmail.com>`); no separate legal-holder attestation was recorded. P-02 sets the package metadata license to `MIT` and includes the root `LICENSE` in its package allowlist.
 
-The project license applies to first-party SDK work. Bundled third-party code keeps its own license and attribution terms, reproduced in [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md). The notice inventory is derived from P-02's current built JavaScript and worker module graphs, with package versions and license-file names read from each installed package. The machine-readable module inventory is [`tests/package/evidence/bundle-inventory.json`](../../tests/package/evidence/bundle-inventory.json). P-02's exact `npm pack` inventory must be checked against this list before candidate acceptance.
+The project license applies to first-party SDK work. Bundled third-party code keeps its own license and attribution terms, reproduced in [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md). The notice inventory is derived from P-02's current built JavaScript and worker module graphs, with package versions and license-file names read from each installed package. The [P-02 checkpoint](../../agent-work/items/P-02/STATE.md) tracks its build evidence; the expected machine-readable module inventory path is `tests/package/evidence/bundle-inventory.json`. P-02's exact `npm pack` inventory must be checked against this list before candidate acceptance.
 
 ## Bundled code and external peers
 

@@ -12,11 +12,11 @@ Builder: fresh Codex Luna high, `/tmp/c4-sdk-p-03`, branch `item/p-03-licenses`,
 
 - Implementation commit: `7aebad65d863089264e8d85fe2b58c6153ef4c63` (`docs: add project and third-party license notices`).
 - Inventory qualification commit: `3ce2c653d6cd0bd678073e0e9d7f2d3f9dc91956` (`docs: qualify provisional package inventory`). It marks P-02's current allowlist report provisional until the exact tarball is inspected.
-- Added complete standard MIT License text with `Copyright (c) 2026 Nick Strad`. Holder evidence is the repository identity `github.com/nickstrad/c4-sdk`, project authorship `nickstrad <nickstrad.dev@gmail.com>`, and project-owner confirmation to P-03 on 2026-10-14.
+- Added complete standard MIT License text with `Copyright (c) 2026 Nick Strad`. The holder is inferred from repository ownership (`github.com/nickstrad/c4-sdk`) and project authorship (`nickstrad <nickstrad.dev@gmail.com>`); no separate legal-holder attestation was recorded.
 - P-02's current Rolldown module inventory reports 76 bundled third-party packages: 65 MIT, 9 ISC, 1 BSD-3-Clause, and `elkjs@0.12.0` (`EPL-2.0 OR GPL-3.0-or-later`), using EPL-2.0. It also reports React and React DOM as external peers. `THIRD_PARTY_NOTICES.md` lists the reported exact versions and reproduces the matching 76 upstream license files. This is the provisional source-build inventory at `/tmp/c4-sdk-p-02/tests/package/evidence/bundle-inventory.json`, not yet proof of exact tarball contents.
 - P-02 reports the current package allowlist contains generated JavaScript, declarations, SDK CSS, a self-contained ELK worker, metadata, README, `LICENSE`, and `THIRD_PARTY_NOTICES.md`; it reports no font files, favicon, static image, external artwork, or demo content. No exact `npm pack --json` inventory has been provided yet, so the packed file list and final package reconciliation remain pending.
 - The showcase article by Vicent Martí/Cursor remains attributed to its source and is not relicensed or included in the reported SDK package. No external artwork is asserted as project-owned.
-- `docs/release/licenses.md` records copyright evidence, inventory method, asset boundary, and the required exact-pack gate. It points to the machine-readable P-02 inventory and requires synchronization with the exact packed candidate.
+- `docs/release/licenses.md` records copyright evidence, inventory method, asset boundary, and the required exact-pack gate. It links to the committed P-02 checkpoint and names the expected machine-readable inventory path, then requires synchronization with the exact packed candidate.
 
 ## Validation
 
