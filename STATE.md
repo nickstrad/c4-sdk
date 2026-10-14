@@ -1,5 +1,13 @@
 # C4 SDK build state
 
+## Restart pickup — 2026-10-14 23:35 UTC
+
+Latest Nick directives: first published version **0.1.0**, npm login verified by Twin as `nickstrad`; no publication authorized. P-06 must serialize manifest/lock and identity-doc updates to rolldown **1.2.14**, rolldown-plugin-dts **0.28.8**, version **0.1.0** before its final rebuild/repack and full exact-tarball matrix. All beta packs are preliminary. This supersedes older version/login and paused-verification status below.
+
+Main at pickup `f59dc8d`, synchronized with origin. P-02 completed builder HEAD `c4722a6` (implementation `dc20b45`) has passing clean consumer matrix, packaged browser10/10, API5/5, unit204, properties34, typecheck/lint/builds, notices76/76. Fresh independent Sonnet review is active on `review/p-02-sonnet-restart` in `/tmp/c4-sdk-p-02-review-restart`; brief `/tmp/c4-p02-review-restart.md`, machine output `/tmp/c4-p02-review-restart.json`, exit status `/tmp/c4-p02-review-restart.exit`. Owns only P-02 review.md/review-STATE.md, ports4185/4186. No verdict yet. On PASS integrate and push, then P-04/P-05 concurrently, integrate04 then05; P-06 alone last.
+
+Dispatch gauges checked: Claude weekly20% used (session0%); Codex weekly40% used (latest session telemetry); Muse `/usage` reports subscription currently unavailable. No paid API tier or credentials added. Event skip remains authorized. Preserve untracked kickoff files and prior builder worktrees.
+
 ## Current status — 2026-10-14
 
 Nick signed off the human STE review gates for C4-08 and C4-10 on 2026-10-14; both items are fully accepted. The delivered material remains draft STE guidance and is not represented as formal ASD-STE100 certification. Productionization is now the active authorized track. Its approved boundary ends at tested pre-publication readiness; stop before `npm publish`, which requires Nick present for npm account login/2FA. P-01 public API contract work runs alone first. See [`docs/plans/productionization.md`](docs/plans/productionization.md), [`agent-work/items/P-01/STATE.md`](agent-work/items/P-01/STATE.md), and [`agent-work/COORDINATION.md`](agent-work/COORDINATION.md).
