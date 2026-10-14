@@ -30,3 +30,21 @@ No reusable work-script is warranted. The checks are one-off documentation consi
 ## Handoff and next gate
 
 After committing this checkpoint, clean only this builder's worktree and linked metadata, retain branch `fix/p-01-package-name` and all durable commits, and report cleanup/final HEAD to the coordinator. Fresh Claude Sonnet must re-review the exact final branch HEAD from a new worktree. Review/landing remain pending; P-02/P-03 remain gated until P-01 integration. No publication or ts-db action is authorized by this checkpoint.
+
+## Cosmetic review repair — 2026-10-14
+
+Fresh Codex Sol repair agent `/root/p01_wrap_repair`, branch `fix/p-01-package-name-wrap`,
+worktree `/tmp/c4-sdk-p-01-name-wrap`, addressed only the line-wrap NIT recorded on
+`review/p-01-name-sonnet` against fixup HEAD `fa4fa225d231aceae40b478ae86af6847ffa7139`.
+Repair commit: `78e3e337feb4cff72d321d950850002885a639cd`.
+
+The long package identity/version line in `docs/plans/productionization.md` now wraps with
+the surrounding paragraph. A whitespace-normalized comparison confirmed identical words;
+manual diff inspection and `git diff --check` passed. No runtime tests were needed for this
+prose-only repair. Identity, version, gates and the review record are unchanged.
+
+Post-work assessment found no new durable project or VM knowledge and no reusable script.
+This checkpoint is committed separately; its SHA is reported in the handoff. Event publication
+remains skipped under Nick's recorded exception. Clean this repair worktree after committing,
+retain its branch, and hand the exact final HEAD to the coordinator for fresh re-review.
+Review approval and landing remain pending.
