@@ -202,3 +202,20 @@ Unit/hooks 204 and properties 34 passed, as did source/demo builds and root type
 fixup agents are updating notices for the stripped `vfile@6.0.3` embedded minpath MIT headers and restoring
 the 76th package row; final pack and browser revalidation remain pending. The registry check returned
 404/unregistered for `c4-sdk`; no registry write occurred. Current pushed main is `21baf86`.
+
+## Productionization checkpoint — 2026-10-14 19:50 UTC
+
+P-03's embedded attribution fixup is integrated locally with both independent Sonnet PASS review records
+at `9dff4765d234d9db11bfb581b08f4eec5cfdae2e`. It preserves the full MIT notices for
+`vfile@6.0.3/lib/minpath.browser.js`, restores `character-entities@2.0.2`, and documents the future
+committed inventory path without relying on a `/tmp` link. Exact pack comparison remains pending.
+
+P-02 found a packaged browser theme failure affecting all-seven-type fixtures: the public facade did not
+include the base `c4.css`. Its current source build includes all five SDK CSS sources. The regenerated
+inventory has 76 package rows and SHA-256
+`b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`; this is inventory evidence, not
+yet a verified tarball. Rebuild, clean Node/type/Vite consumers, packaged browser fixtures including the
+all-seven-type themes, final `npm pack --json` reconciliation, and fresh independent P-02 review remain
+required. Earlier artifacts with the conditional-import, Node-safety, or missing-style defects are rejected.
+The registry result for `c4-sdk` is E404/unregistered; no registry write occurred. Do not publish: Nick must
+be present for npm account login/2FA. Preserve untracked `build-kickoff.md` and `kickoff-brief.md`.
