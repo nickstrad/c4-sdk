@@ -189,8 +189,10 @@ P-01 and its `c4-sdk` identity fixup have independent PASS reviews and are integ
 (fresh Codex Luna high) is reviewed PASS after a fresh repair/re-review cycle and integrated with its
 review records at `a42eb03`. Its MIT holder is inferred from repository identity/authorship, without a
 separate legal-holder attestation; package inventory remains provisional pending P-02's exact
-`npm pack --json` reconciliation. Assignment, review, and implementation records are in
-`agent-work/items/P-02/` and `agent-work/items/P-03/`. Actual `npm publish` remains outside this mission
+`npm pack --json` reconciliation. P-02's first package-browser run failed 8/8 on a real Node-conditional
+dependency bug; rebuilding for browser conditions fixed the Markdown startup error, but the rebuilt bundle
+reveals stripped embedded minpath/Node contributor notices. A separate fresh P-03 attribution fixup is
+assigned before final repack. Actual `npm publish` remains outside this mission
 until Nick is present for login/2FA. P-02's preliminary JS/CSS/self-contained worker output is built,
 but type/package/browser verification and exact-tarball reconciliation remain in progress. A read-only
 registry query returned 404/unregistered for `c4-sdk`; there was no registry write. Current pushed main is
