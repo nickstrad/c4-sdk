@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-14 00:10 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed; current main is `70ead9e`. C4-07 build is complete at `e6e53c1`; a fresh cross-family Sol review is now dispatched and landing remains on hold.
+Updated: 2026-10-14 00:12 UTC. BUILD AUTHORIZED; mission continues through C4-10. C4-05 and C4-06 with independent PASS reviews are merged and pushed; current main is `e872a22`. C4-07 build is complete at `e6e53c1`; a fresh cross-family Sol review is now dispatched and landing remains on hold.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
