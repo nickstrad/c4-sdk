@@ -219,3 +219,20 @@ all-seven-type themes, final `npm pack --json` reconciliation, and fresh indepen
 required. Earlier artifacts with the conditional-import, Node-safety, or missing-style defects are rejected.
 The registry result for `c4-sdk` is E404/unregistered; no registry write occurred. Do not publish: Nick must
 be present for npm account login/2FA. Preserve untracked `build-kickoff.md` and `kickoff-brief.md`.
+
+## Productionization recovery checkpoint — 2026-10-14 20:21 UTC
+
+The CSS-inclusive candidate's first 10-case browser run passed 8/10; both mobile dialog-close checks
+exposed a real portal-selector issue in generated package CSS. A fresh builder identified and implemented
+the fix: portal self-rules now use `.c4-sdk.c4-docs-sheet` and `.c4-sdk.c4-docs-backdrop`, the generated
+backdrop receives the scope class, and the mobile browser test asserts fixed positioning before clicking
+Close. This rebuilt artifact (`d7980de2...edd33f8`) has not completed its exact-tarball consumer/browser
+matrix and is not accepted.
+
+Two P-02 builder sessions stopped responding for several minutes at tool-return boundaries and were
+paused. A third fresh Codex Sol builder now owns the same P-02 work in `/tmp/c4-sdk-p-02-verify`, branch
+`item/p-02-sdk-package-verify`, based on current pushed main `00bf66a`. Its isolated worktree has the
+transferred package implementation and tests; it must rebuild against current P-03 notices, finish the
+exact consumer and 10-case browser checks, reconcile the 15-file pack and 76 notices, run source gates,
+commit implementation/evidence and a separate assessment, and clean its worktree before a fresh Sonnet
+review. The inventory expectation is 76 rows, SHA `b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`. No publication or registry write is authorized. Preserve the two interrupted worktrees as handoff evidence until P-02 is complete.
