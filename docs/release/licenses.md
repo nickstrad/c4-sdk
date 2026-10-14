@@ -10,7 +10,9 @@ The project license applies to first-party SDK work. Bundled third-party code ke
 
 ## Bundled code and external peers
 
-P-02's SDK build bundles implementation from Base UI, React Flow, React Markdown, Zod, ELKJS and their transitive runtime dependencies. Its module inventory contains 76 third-party packages: 65 MIT, 9 ISC, 1 BSD-3-Clause and ELKJS under the selected EPL-2.0 option. `THIRD_PARTY_NOTICES.md` includes each bundled package's exact installed version, license expression, and copied upstream license file.
+P-02's SDK build bundles implementation from Base UI, React Flow, React Markdown, Zod, ELKJS and their transitive runtime dependencies. Its current machine-readable module inventory contains 75 third-party packages: 64 MIT, 9 ISC, 1 BSD-3-Clause and ELKJS under the selected EPL-2.0 option. `THIRD_PARTY_NOTICES.md` includes each package recorded by that graph with its installed version, license expression, and copied upstream license file.
+
+The browser bundle also includes `vfile@6.0.3`'s `lib/minpath.browser.js`. That source file contains notices for a `browserify/path-browserify` derivative by James Halliday and portions extracted from Node.js's internal `path` module by Joyent and other Node contributors. Because the bundler strips these comments, the notice file reproduces both complete MIT notices alongside vfile's package license. They are supplemental attributions for code within `vfile`, not additional package rows.
 
 React and React DOM are external peer dependencies, not bundled code. Their upstream licenses remain with those dependencies and are not represented as project-owned material. Development and application-demo dependencies are not treated as package contents merely because they appear in the repository lockfile.
 
@@ -22,4 +24,4 @@ The repository's showcase documentation cites Vicent Mart√≠'s Cursor article, ‚Ä
 
 ## Evidence boundary
 
-The package inventory and bundled-module report are P-02 build evidence, not a claim that every repository dependency is shipped. Keep the notice list synchronized with the exact packed candidate whenever the bundle graph or package allowlist changes. P-02 must rerun `npm pack --json` after these notice files are present and record that exact inventory in its checkpoint before candidate acceptance.
+The current 75-package inventory and bundled-module report are P-02 build evidence, not a claim about final tarball contents or that every repository dependency is shipped. The `character-entities@2.0.2` notice from the earlier inventory was removed because it is absent from the current module graph. Keep the notice list synchronized with the exact packed candidate whenever the bundle graph or package allowlist changes. P-02 must rerun `npm pack --json` after these notice files are present and record that exact inventory in its checkpoint before candidate acceptance.
