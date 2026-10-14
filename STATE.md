@@ -193,7 +193,12 @@ separate legal-holder attestation; package inventory remains provisional pending
 dependency bug; rebuilding for browser conditions fixed the Markdown startup error, but the rebuilt bundle
 reveals stripped embedded minpath/Node contributor notices. A separate fresh P-03 attribution fixup is
 assigned before final repack. Actual `npm publish` remains outside this mission
-until Nick is present for login/2FA. P-02's preliminary JS/CSS/self-contained worker output is built,
-but type/package/browser verification and exact-tarball reconciliation remain in progress. A read-only
-registry query returned 404/unregistered for `c4-sdk`; there was no registry write. Current pushed main is
-`68b155c`.
+until Nick is present for login/2FA. P-02's exact packed Node ESM/CJS, mixed-context, worker, strict type,
+Vite ESM/CJS consumer matrix and API 5/5 passed on an intermediate artifact. Its first browser matrix
+found an actual Node-conditional Markdown failure (8/8); a browser-platform repair then broke Node import
+safety. P-02 is rebuilding with neutral platform and explicit module/main selection; the latest bundle
+inventory is 76 packages, SHA `88f62f2709fb334629bf36035bd57c7753721295b3c803f460367a041bd01ebc`.
+Unit/hooks 204 and properties 34 passed, as did source/demo builds and root typecheck. Fresh P-03 attribution
+fixup agents are updating notices for the stripped `vfile@6.0.3` embedded minpath MIT headers and restoring
+the 76th package row; final pack and browser revalidation remain pending. The registry check returned
+404/unregistered for `c4-sdk`; no registry write occurred. Current pushed main is `21baf86`.
