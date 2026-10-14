@@ -1,24 +1,40 @@
 # C4-10 independent review
 
-Status: pending; no verdict until an independent reviewer inspects the exact final builder head.
+Reviewer: fresh Claude Sonnet 5.5 (cross-company to builder Codex Sol).
+Reviewed HEAD: `b15c88f24dc6bbee7dea15e58be740daa2fd2afb` (base `59156023e3d1b888d87ccbc6e0173b3a2ea63de6`; HEAD verified before review).
 
-Builder: fresh Codex Sol. Reviewer: fresh Claude Sonnet, cross-company. Coordinator owns integration.
+## Verdict: NITS
 
-Reviewed commit: pending.
+No blocking defects. Diff touches only claimed paths (src, tests, docs/api, docs/knowledge, item records); no ts-db/C4-09, package.json/lockfile, root README or workflow edits.
 
-## Acceptance checks
+## Independent checks run (fresh worktree, `npm ci`)
 
-- [ ] Ownership and exact-SHA history are clean; no ts-db/C4-09 scope was taken.
-- [ ] Full unit/hooks, property, lint, typecheck, builds and supported browser matrix have accurate results.
-- [ ] C4-07 code framing has viewport-intersection/readability assertions and keyboard/Fit recovery.
-- [ ] C4-07 intermittent mobile component-docs result is accurately diagnosed or recorded as unreproduced.
-- [ ] C4-08 publication framing and 200% zoom follow-up are checked and reported.
-- [ ] Resource bounds, worker lifecycle/errors, repeated navigation and stress/cancellation are tested.
-- [ ] Accessibility and reduced-motion checks are evidenced.
-- [ ] Current advisory and production bundle exposure are checked from primary sources; no forced downgrade.
-- [ ] Root README reconciliation is verified; no stale contradition remains in claimed sections.
-- [ ] Final acceptance report records limits and the still-pending ts-db consumer gate.
+- Unit/hooks: 24 files, 204 PASS (matches claim).
+- Property: 10 files, 34 PASS (matches).
+- `npm run typecheck` PASS; `npm run lint` exit 0 with the single pre-existing button.tsx fast-refresh warning.
+- Production browser, desktop-chromium + mobile-chromium (Pixel 7), `tests/browser/{hardening,seven-types,component-docs}`: 16/16 PASS, 2.8 min, workers=1. Includes mobile component-docs (no recurrence; root cause remains unestablished, as the report says).
+- Mobile `code-initial-viewport.png` inspected: OrderService card with all three members fully inside the canvas and readable; edges/labels leave the viewport, consistent with the documented "one readable card" framing.
+- Built `dist/` grep for braces/micromatch/fast-glob/ts-morph: no hits, consistent with the builder's module inventory (inventories under /tmp not re-derived; advisory page not re-fetched).
+- Not rerun: the full 65-test matrix, the stress measurement, `npm audit`. Their numbers are accepted as builder evidence only.
 
-## Findings and verdict
+## Source review
 
-Pending.
+- `domain/viewport.ts`: Fit uses routed edges + labels (fallback 240x76 label box); `initialViewport` fits when zoom >= 0.75, else frames `scene.nodes[0]`. Honest and bounded; no "all nodes framed" claim.
+- `useCanvasViewport`: focus recovery re-frames when zoom < 0.75 or card is outside the viewport; min zoom lowered to 0.02 consistently in Fit and ReactFlow.
+- Limits (`decode.ts`, `fetch.ts`, `layout.ts`, `client.ts`, `elk-output.ts`): host values can only lower defaults; invalid values throw/return diagnostics; limits checked before schema work and before cache/publish; errors do not publish partial scenes. Raw JSON depth vs semantic nesting separated.
+- Session memory capped at 256 entries each via LRU-style `remember`.
+- CSS: heading wraps; mobile explanation entry ordered before canvas.
+
+## Findings (all non-blocking)
+
+1. `docs/api/acceptance.md:77` (and "Deferred gate") says C4-09 "is paused". C4-09 has since unpaused; the second-consumer gate is still pending. Wording is stale, not wrong about the gate. Coordinator should update on landing.
+2. `docs/api/acceptance.md:71`: builder correctly reports that root README still has an inaccurate seam sentence ("Fixed geometry appears while an optional async adapter is pending") and still labels limits "proposed". Unfixed because README is outside claims; coordinator must schedule that edit or the C4-07 stale-README follow-up is only partly closed.
+3. Test strategy shift: several previously pointer-click journeys (`context.spec.ts`, `showcase.spec.ts`, mobile S3/Publication) now focus+Enter because the readable-first-card entry puts targets offscreen. Documented, and keyboard/Fit/pan recovery is tested, but touch users cannot tap those cards without panning/Fit; no touch-pan test asserts that path.
+4. Publication entry assertion (`hardening.spec.ts`) checks only the first node in the viewport; the Fit assertion covers all nodes and labels. Adequate for the claim, but the C4-08 "clipped edge" at entry is intentionally retained, not resolved.
+5. Performance: 200 nodes/400 edges completes 4.8-5.2 s (builder range 4820-5241 ms; 9.7 s under concurrent load). The 2 s goal is NOT met and the report states this correctly each time; nothing here should be summarized as passing. Cancellation 170-242 ms is navigation-to-zero-workers wall time, not AbortSignal latency (labelled as such).
+6. Residual security: braces advisory unfixed upstream; toolchain-only exposure, no force downgrade; correctly characterized as not a clean audit.
+
+## Gates still open
+
+- Human STE review (separate gate).
+- `/ts-db/` second-consumer validation after FFI-06/07/08 and C4-09 resume.
