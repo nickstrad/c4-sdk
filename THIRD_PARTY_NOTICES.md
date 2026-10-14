@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-This file reproduces the upstream license files for third-party packages whose code is included in the C4 SDK JavaScript bundles or self-contained ELK worker. The inventory comes from P-02’s current Rolldown module graph, including the worker graph. Package versions and license expressions are those recorded from the installed package metadata for that build. The project’s own first-party work is covered by the adjacent `LICENSE`; that license does not replace these third-party terms.
+This file reproduces the upstream license files for third-party packages whose code is included in the C4 SDK JavaScript bundles or self-contained ELK worker. The inventory comes from P-02’s current Rolldown module graph, including the worker graph: 76 package rows (65 MIT, 9 ISC, 1 BSD-3-Clause, and 1 EPL-2.0 OR GPL-3.0-or-later). The source inventory is `/tmp/c4-sdk-p-02/tests/package/evidence/bundle-inventory.json` (SHA-256 `88f62f2709fb334629bf36035bd57c7753721295b3c803f460367a041bd01ebc`). Package versions and license expressions are those recorded from the installed package metadata for that build. The project’s own first-party work is covered by the adjacent `LICENSE`; that license does not replace these third-party terms.
 
 React and React DOM are external peer dependencies and are not included in the SDK bundles. They remain separately licensed by their respective authors.
 
@@ -37,6 +37,7 @@ React and React DOM are external peer dependencies and are not included in the S
 - `@xyflow/react@12.12.0`
 - `@xyflow/system@0.0.83`
 - `bail@2.0.2`
+- `character-entities@2.0.2`
 - `classcat@5.0.5`
 - `comma-separated-tokens@2.0.3`
 - `decode-named-character-reference@1.3.0`
@@ -340,6 +341,35 @@ SOFTWARE.
 ~~~~
 
 ### `bail@2.0.2` — MIT
+
+Source file: `license` in the upstream package.
+
+~~~~text
+(The MIT License)
+
+Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+~~~~
+
+### `character-entities@2.0.2` — MIT
 
 Source file: `license` in the upstream package.
 
