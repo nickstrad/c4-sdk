@@ -12,10 +12,12 @@ from the applications that consume them. The existing Vite/React/TypeScript/Tail
 starting point, not something to recreate. Its current scripts are `dev`, `build`, `lint` and `preview`;
 test commands in this plan are future additions, not commands claimed to exist today.
 
-Deliver a working showcase under `demos/git-at-any-scale/`, based on the Cursor post read for this update,
-and support ts-db's GitHub Pages application by copying this project into ts-db. **There is no npm package,
-package tarball, registry publication or workspace-package distribution in this implementation.** Normal npm
-installation of third-party dependencies remains necessary. Publishing is a later open decision.
+Deliver a working showcase under `demos/git-at-any-scale/`, based on the Cursor post read for this update.
+Nick's 2026-10-14 direction removes the c4-sdk copy-consumer hack: the intended consumption path is to
+productionize and publish c4-sdk to npm, then ingest it in ts-db as a loaded module. That productionization
+is now the active SDK-side follow-up track; this implementation plan does not yet specify or claim its
+package exports, licensing, peer dependencies, release automation or migration acceptance. Normal npm
+installation of third-party dependencies remains necessary.
 
 JSON is the architecture-content contract. Zod validates runtime input. React components express all seven
 C4 diagram types through presentation and composition, with no project content hard-coded into SDK JSX.
@@ -46,7 +48,7 @@ The four static levels and three supporting types follow the
 levels five and six of a drill-down tree. Code views support C4's selected implementation detail, not an
 entire language grammar. [C4 code scope](https://c4model.com/diagrams/code).
 
-## 2. Repository structure and copy-based consumption
+## 2. Repository structure and module consumption
 
 Use one private root package and lockfile. Adapt existing paths without disturbing the scaffold's agent
 protocol. There is no `packages/` publishing layout and no framework source in the ts-db repository of
@@ -75,7 +77,7 @@ c4-sdk/
         react-flow/              canvas and node/edge adapters
         elk/                     worker client and layout implementation
       styles/                    scoped CSS and theme tokens
-      index.ts                   source-level SDK entry; not an npm package
+    index.ts                   SDK entry; module publication follows productionization
   public/                        generic viewer catalog/assets
   demos/
     git-at-any-scale/
@@ -89,7 +91,7 @@ c4-sdk/
   tests/
     unit/, property/, hooks/
     browser/                     Playwright journeys and visual evidence
-    copy-consumer/               clean copied-project consumer fixtures
+    copy-consumer/               historical C4-09a policy fixtures
   docs/
     plans/implementation.md      this authoritative implementation plan
     knowledge/                   durable index, decisions, gotchas, glossary
@@ -107,46 +109,28 @@ and tests. Root scripts select the generic viewer or the demo explicitly (`dev:d
 
 The SDK supplies scoped CSS/custom properties without a global reset. Tailwind and shadcn provide the
 reference/demo shell. SDK views accept slots and tokens; they must not depend on app-only aliases or on
-Tailwind discovering unshipped source. The copied project's explicit dependency and CSS setup is tested.
+Tailwind discovering unshipped source. The demo currently imports SDK source; productionization must define
+and validate the loaded module's exports, dependencies, CSS and worker assets.
 
-### ts-db integration: a deliberate crude copy
+### ts-db consumption: publish a module; interim copy is ts-db-owned
 
-**Dispatch gate (met 2026-10-14):** Nick/Twin verified FFI-01 through FFI-08 plus FFI-04b on ts-db
-`main`; FFI-08 is `0b82504290d7eaeac3751f519dd85fdd221ebe63`. C4-09 is unpaused. ts-db owns a
-`pages/diagrams/` design surface (or a link to that folder) that keeps the latest current C4 diagrams
-beside clearly distinguished candidate/proposed alternatives. Use these diagrams more during feature
-design: side-by-side current and proposed views are the sanctioned way to discuss alternatives. The folder
-is not a diagrams-only communication channel and must not replace the Pages consumer data/content needed
-by the copy workflow below.
+**Status — C4-09 removed per Nick, 2026-10-14.** The c4-sdk-owned copy-consumer command, consumer fixture,
+guide and C4-09 integration task are not part of main. The local C4-09 attempt never reached origin and
+must not be revived or merged. Replace the planned source-copy workflow with SDK productionization and npm
+publication, followed by ts-db ingesting the package as a loaded module. Define package metadata, supported
+exports, license, peer dependencies, versioning and worker/CSS asset behavior in that productionization
+track before claiming the module ready for consumption.
 
-The consumer layout is `ts-db/pages/c4-sdk/` for an upstream tracked-project snapshot,
-`ts-db/pages/content/` for ts-db-owned catalog/JSON, and `ts-db/pages/c4-sdk-source.json` for provenance.
-The copied Pages app carries the actual c4-sdk Vite scaffolding and C4 building blocks: view components,
-hooks, and core diagram machinery, alongside diagram data. It is built from that copied scaffold, not a
-from-scratch thin viewer. The generic viewer accepts a catalog URL at its application boundary (for example
-`VITE_C4_CATALOG_URL`); no ts-db IDs or paths are compiled into the SDK. The copied viewer is the Pages app.
+Nick's interim direction is owned on the ts-db side: ts-db may copy React code into an isolated folder and
+build the components there while publication is being prepared. Structure that folder so the copied
+c4-sdk code can be deleted wholesale and replaced with the loaded npm module. This is a temporary
+ts-db-owned bridge, not the c4-sdk copy-consumer workflow. Twin is relaying the interim direction to the
+ts-db coordinator; no ts-db work is dispatched by this plan update.
 
-The future copy operation has these steps:
-
-1. Select a reviewed c4-sdk commit, stage its tracked project into an empty temporary directory, and record
-   its SHA and managed-file inventory/checksums. Exclude `.git`, dependencies, build output, browser artifacts
-   and local-only files. Do not package it with `npm pack` or use a Git/npm dependency.
-2. Show the copy diff. Refuse to replace a previously copied file with local edits unless those edits have
-   been explicitly reconciled. Replace only the recorded vendor subtree; consumer content lives outside it.
-   Removed upstream files are removed only when they are in that previous inventory. Repeating the same copy
-   produces no changes. Never delete the whole `pages/` directory.
-3. Run `npm ci` inside the copied project using its lockfile. Stage ts-db's catalog/data into a designated
-   generated `public/consumer/` directory, kept out of the upstream snapshot inventory. Point the viewer at
-   it, set the production base to `/ts-db/`, and build. Only generated output is uploaded as the Pages artifact.
-4. Run unit/property checks for copy/route logic and Playwright against the built site at that subpath:
-   reload a deep link, traverse diagrams, inspect STE text, and verify CSS, fonts and layout worker URLs.
-   Test a second copy with a changed source commit and unchanged consumer content.
-5. Commit the copied source, consumer data and provenance in ts-db in its own integration task. SDK fixes
-   originate in c4-sdk and are re-copied; local fork edits are not the default maintenance path.
-
-The source license/attribution accompanies the copy. No publishing, npm versioning or release automation is
-required. The authoritative plan stays here; ts-db retains only a relocation pointer and consumer-specific
-instructions. Implement this workflow in the copy-consumer slice, not in this documentation update.
+The prior C4-09 shape notes for current/proposed diagrams and diagram-led feature design are superseded as
+C4-09 requirements. They are not a c4-sdk copy or publishing gate. The authoritative SDK integration path
+is package productionization and module ingest; record the production acceptance details when that track
+is scoped.
 
 ## 3. JSON contract
 
@@ -976,8 +960,8 @@ outputs are independently useful, not to separate all business logic from its UI
 | C4-08a — source ledger, Luna/Haiku ≥5.5 (high) | After C4-01, inventory the Cursor article into a source ledger and glossary draft under `demos/git-at-any-scale/content/research/`; distinguish source statements, inference and unknowns. No runtime JSON or SDK edits | Validate section links, inventory completeness and provenance classifications against the article; no new logic means no artificial property tests | Nonvisual: source-fidelity review and Markdown/link validation; no new browser journey required |
 | C4-08 — finish the independent showcase, Sol/Sonnet | Complete `demos/git-at-any-scale/` JSON, STE/plain texts, key, guided path and source ledger using working SDK features. No demo-specific renderer branches. Own demo content/docs and corresponding tests | Unit: content inventory, links and review metadata. Properties: generated catalog selections always resolve without changing framework state across datasets | End-to-end reading journeys, fresh-load links and narrow-screen layout; inspect final screenshots; record STE review and source-fidelity review |
 | C4-09a — validate project-copy policy, Sol/Sonnet | After C4-02, implement pure copy-manifest policy and scratch filesystem adapter in `work-scripts/node/copy-project/`, with isolated tests in `tests/copy-consumer/policy/`. No app, SDK, root configuration or consumer content changes | Unit and properties: idempotence, reject local edits, preserve unmanaged files, delete only managed paths; test actual scratch files and invalid manifests | Nonvisual: run validation against temporary source/consumer trees. Use established test discovery; coordinator pre-registers helper in work-scripts INDEX before dispatch |
-| C4-09 — consume the copied project in ts-db, Sol/Sonnet | **Unpaused 2026-10-14** after FFI-01–08 and FFI-04b landed on ts-db `main`. Use C4-09a copy policy for the copy/provenance workflow and isolated production consumer fixture; convert current/FFI content for ts-db Pages. The copied Pages app includes c4-sdk's actual Vite scaffolding and C4 view components, hooks, and core diagram machinery alongside diagram data; do not make a thin viewer. c4-sdk owns generic copier/consumer tests/guides; a separately claimed ts-db task owns `pages/` content/copy/provenance and the current-plus-proposed `pages/diagrams/` design surface. The ts-db consumer copy uses a reviewed c4-sdk source revision. No npm packaging | Unit: manifest scope, checksums and base URL. Properties: repeat copy idempotent, unmanaged files preserved, source deletion affects only managed files; original domain suite runs on copied source | Serve copied production build at `/ts-db/`; load both datasets; deep reload/worker/CSS/font/docs checks; re-copy version and preserve consumer content |
-| C4-10 — harden the complete reader, Sol/Sonnet | Start now against the landed c4-sdk and Cursor consumer while C4-09 is paused. Resolve measured limits, accessibility, lifecycle/error cases and source API docs; no large feature backlog hidden in a final test-only task. Final acceptance against the second consumer remains a separate resumed gate after C4-09 lands; do not claim both consumers are hardened before then | Full unit/property regression, stress fixtures, replay shrunk failures; enforce no forbidden domain imports | Run complete suite on supported browsers, keyboard/axe and production builds; verify resource-limit errors and worker cleanup; inspect final visual evidence and publish an acceptance report, not a site. Repeat affected checks on ts-db Pages after C4-09 resumes |
+| C4-09 — removed 2026-10-14 | Nick removed the c4-sdk copy-consumer approach. Productionize/publish c4-sdk to npm, then ingest it as a loaded module in ts-db. Any interim isolated React copy/build folder is ts-db-owned and should be removable wholesale. This is a direction, not an authorized C4-09 build item. | Not applicable to removed item | No c4-sdk copy-consumer build or ts-db work is dispatched here |
+| C4-10 — harden the complete reader, Sol/Sonnet | Continue independently; C4-09 removal does not block this item. Resolve measured limits, accessibility, lifecycle/error cases and source API docs; no large feature backlog hidden in a final test-only task. Package/module consumption validation belongs to the later productionization track. | Full unit/property regression, stress fixtures, replay shrunk failures; enforce no forbidden domain imports | Run complete suite on supported browsers, keyboard/axe and production builds; verify resource-limit errors and worker cleanup; inspect final visual evidence and publish an acceptance report, not a site |
 
 ### Explicit concurrency and integration gates
 
@@ -990,8 +974,8 @@ Every plan in this repo must name concurrent items, dependencies, disjoint owner
 | B | C4-02 and C4-08a | Both read landed C4-01. C4-08a owns research Markdown only; C4-02 owns navigation/container feature and runtime demo JSON. Integrate 02 then 08a |
 | C | C4-03, C4-04 and C4-09a | Land 02 first and inspect its contracts. 03 owns component/document feature; 04 owns layout/canvas feature; 09a owns copy helper/policy tests. Integrate 03, 04, then 09a with combined regression checks |
 | D | C4-05, then C4-06, then C4-07 (serial) | Land 03/04 before 05. These evolve shared diagram unions/dispatch/route semantics, so they are not advertised as concurrent |
-| E | C4-08 and C4-09 | All feature slices through 07 plus 08a/09a landed. 08 owns Cursor content/demo acceptance; 09 owns copy integration and ts-db content in separate claimed repo/worktree. Integrate 08 then 09 |
-| F | C4-10 alone | Both consumers integrated; validate the combined tree and report remaining limits |
+| E | C4-08 | All feature slices through 07 plus 08a landed. C4-08 owns Cursor content/demo acceptance and its independent integration gate |
+| F | C4-10 alone | Continue SDK validation and report remaining limits. It is not gated on the removed C4-09 copy-consumer task |
 
 Batch C ownership is a required preflight, not an assumption that these interfaces already exist:
 
@@ -1013,13 +997,10 @@ If preflight reveals a missing shared contract, amend and review C4-02 first, or
 Never promise concurrent edits to one schema file, public barrel, demo catalog, root entry or lockfile.
 The integration review verifies actual exact-file claims, not just these directory descriptions.
 
-In batch E, 08 changes only Cursor JSON/content and `tests/browser/showcase/`; 09 changes copy guides,
-helper integration and `tests/copy-consumer/integration/`, with ts-db files in a separate task. Root build
-configuration changes for copying belong to 09; 08 consumes the landed demo build contract without editing
-it. If either needs a shared change, coordinator serializes that change before their acceptance runs.
-The ts-db task remains subject to ts-db's own protocol and landing authority; report its milestone
-incomplete if only the isolated consumer can be completed. Neither this plan nor a cross-repo test grants
-permission to edit unclaimed paths or merge either main branch.
+In batch E, 08 changes only Cursor JSON/content and `tests/browser/showcase/`. No C4-09 c4-sdk copy helper,
+copy integration or ts-db content task remains active. Future npm productionization and ts-db module ingest
+must be separately scoped and reviewed under the fresh-agent protocol; an interim source copy is owned by
+ts-db, subject to its protocol and landing authority.
 
 ### Tests and checkpoint maintenance
 
@@ -1049,7 +1030,7 @@ README. No browser suite is deferred merely because the domain unit suite passes
 | --- | --- | --- |
 | Pure unit tests | Examples and failure modes for schema decoding, scope/reference validation, scene projection, document/legend selection, route/step transitions and copy policy | DOM integration or visual readability |
 | fast-check properties | Broad generated valid/adversarial graphs and command sequences preserve invariants; shrinking produces small reproducible failures | Architecture/source truth or a uniquely correct diagram layout |
-| Playwright | Real Vite/production pages, loading, workers, URL/history, focus, interactions, safe docs, copy-based consumer behavior, responsiveness and accessibility checks | Human visual quality or formal STE compliance without review |
+| Playwright | Real Vite/production pages, loading, workers, URL/history, focus, interactions, safe docs, module-consumer behavior as productionization lands, responsiveness and accessibility checks | Human visual quality or formal STE compliance without review |
 
 Domain tests run in Node with no React/browser setup. Hook integration tests use fake ports and real
 lifecycle scheduling. Playwright uses the real browser adapters and real layout worker, not a wholly mocked
@@ -1088,16 +1069,16 @@ until durable findings and changed terminology have been recorded and its brief/
 
 | Risk / decision | Implementation default and gate |
 | --- | --- |
-| Copied code drifts in the consumer | Pin upstream SHA and inventory; refuse unreviewed local edits; fixes originate here and re-copy; test upgrades in C4-09 |
+| Published module drifts in the consumer | Define package versions and supported upgrade procedure during productionization; verify ts-db module ingest against the supported public API |
 | Schema and domain types drift | Compile-check Zod outputs against domain contracts, round-trip fixtures and semantic properties |
 | Business logic accumulates in hooks | Import-boundary checks plus review: hooks interpret ports/effects; pure functions own domain decisions |
 | Compound layout has poor labels/boundaries | C4-04 spike and visual evidence before scaling content; timeout/fallback must work |
 | Source article does not expose internals | Label inference and illustrative deployment; omit unsupported source code details; no invented production guarantees |
 | STE text mistaken for certified compliance | Draft/reviewed metadata, identified reviewer and issue; no certification claims from length checks |
-| Copy pulls project-private state | Export reviewed tracked files only; no .git, credentials, local data, dependencies or artifacts |
+| Interim ts-db copy becomes hard to replace | Keep the copied React source isolated in one ts-db-owned folder so it can be deleted wholesale when the published module is loaded |
 | CSS/worker URLs break under Pages | Explicit subpath production-build Playwright gate in every affected slice and in copied consumer |
 | Effect is installed but not needed in domain | Keep it at an adapter boundary only when justified; do not build parallel state machines or expose it in source API |
-| npm packaging/publishing later | Open item after source-copy consumers work: namespace, license, exports, semver, peer deps, worker/CSS bundling and migration from copies. No packaging/publishing work now |
+| npm packaging/publishing | Active productionization follow-up per Nick's 2026-10-14 direction: define license, exports, semver, peer deps, worker/CSS assets and migration to module ingestion |
 | Site hosting/deployment | Build and validate artifacts now when implementing; deployment requires its own explicit task/authority |
 
 ## 12. This planning update
