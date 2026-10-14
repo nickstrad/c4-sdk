@@ -32,7 +32,7 @@ Nick approved productionization as the active track on 2026-10-14. The approved 
 
 | Productionization | Owner | Branch / worktree | Status | Review / landing |
 | --- | --- | --- | --- | --- |
-| P-01 public contract | Fresh Codex Sol builder `/root/p01_public_contract_builder`; fresh Claude Sonnet review afterward | `item/p-01-public-contract` / `/tmp/c4-sdk-p-01`, base `a585d97` | In progress | P-01 is the only active item; P-02/P-03 remain gated until its independent review passes and it lands |
+| P-01 public contract | Fresh Codex Sol builder `/root/p01_public_contract_builder`; fresh Claude Sonnet review afterward | `item/p-01-public-contract` / `/tmp/c4-sdk-p-01`, base `a585d97`; implementation/evidence `3799c9e` | Browser regression in progress, exclusive lease 4173/4174 | Unit/hooks 204, properties 34, API snapshot 5, full TypeScript build, explicit structural compile, lint and generic build pass. P-01 is the only active item; P-02/P-03 remain gated until its independent review passes and it lands |
 
 B: C4-02 +08a after01. C:03 +Astra04 +09a after02 with contract/dependency preflight. D:05→06→07. Wave E C4-08 is complete and fully accepted; C4-09 has been removed by Nick. C4-10 is reviewed, merged/pushed and fully accepted without a C4-09 gate. Current SDK-side active track is productionization for later npm module ingestion by ts-db; any interim isolated source copy/build is ts-db-owned. Future module-consumer acceptance remains an explicit follow-up. Integrate03→04→09a. Root grants browser-port leases and owns existing context/navigation regression specs.
 
