@@ -1,6 +1,6 @@
 # C4 SDK build state
 
-Updated: 2026-10-14 03:13 UTC. BUILD AUTHORIZED; C4-10 hardening proceeds now. C4-05 through C4-08 have independent PASS reviews; C4-08 and its review record are pushed through `f4bbff2`. C4-09 is paused per Nick until FFI-06, FFI-07 and FFI-08 are all on ts-db `main`.
+Updated: 2026-10-14 03:13 UTC. C4-09 is paused per Nick until FFI-06, FFI-07 and FFI-08 are all on ts-db `main`. C4-10 is assigned to a fresh Codex Sol builder but held before product work pending the required Muse usage gauge; live checks show Codex weekly 68% remaining and Claude weekly 84% remaining. The installed Muse CLI exposes no usage/status command. C4-05 through C4-08 have independent PASS reviews; C4-08 and its review record are pushed through `f4bbff2`.
 
 Nick latest: each item/review/fix gets a **new fresh-context agent in its own worktree**; never reuse subagents. The builder commits implementation and separate post-work knowledge/script changes, updates item STATE and cleans its worktree. Independent review is mandatory. See `AGENTS.md` and `agent-work/COORDINATION.md`.
 
