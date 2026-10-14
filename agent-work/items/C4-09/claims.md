@@ -8,6 +8,7 @@ Base: coordinator records the exact pushed c4-sdk main SHA before dispatch. Work
 
 - `work-scripts/node/copy-project/copy-project.ts` (new generic preview/apply command)
 - `work-scripts/INDEX.md` (one index row for the new command)
+- `vitest.config.ts` (one additive discovery glob for `tests/copy-consumer/cli.test.ts`; no other configuration edits)
 - `tests/copy-consumer/cli.test.ts` (new isolated command/consumer tests)
 - `tests/copy-consumer/fixtures/**` (new temporary-repo fixture helpers, if needed)
 - `docs/embedding/copy-consumer.md` (new generic operator/consumer guide)
@@ -15,4 +16,4 @@ Base: coordinator records the exact pushed c4-sdk main SHA before dispatch. Work
 
 ## Reads / exclusions
 
-Read all instructions, implementation plan §2 and §10, the landed `work-scripts/node/copy-project/{policy,filesystem,types}.ts`, its existing `tests/copy-consumer/policy/**`, and C4-09a review/STATE. The existing policy modules and tests are read-only. Do not edit package/config/test-discovery files; existing Vitest discovery must pick up the test. Do not edit root coordinator records. Do not edit app/SDK/demo source, root README, C4-10, or any ts-db path. No publishing or deployment.
+Read all instructions, implementation plan §2 and §10, the landed `work-scripts/node/copy-project/{policy,filesystem,types}.ts`, its existing `tests/copy-consumer/policy/**`, and C4-09a review/STATE. The existing policy modules and tests are read-only. The only config permission is adding the exact new CLI test path to Vitest unit discovery; do not change any other test configuration, package manifest, or lockfile. Do not edit root coordinator records. Do not edit app/SDK/demo source, root README, C4-10, or any ts-db path. No publishing or deployment.

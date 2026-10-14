@@ -18,10 +18,10 @@ Use existing Node APIs and the landed C4-09a policy/filesystem functions; do not
 
 - Tests create temporary source and consumer repositories, copy one revision, prove exact managed inventory/checksums/modes and provenance, repeat with no content change, then copy a changed source revision while preserving consumer-owned files.
 - Refusal tests cover modified/missing managed targets, malformed or unsafe source inventories, unmanaged conflicts, and a provenance-write failure; describe the documented partial-write limits honestly.
-- The existing unit/property suites pass, and the command can be run with the repository's supported Node/TypeScript invocation without changing package manifests.
+- The existing unit/property suites pass, and Vitest discovers/runs the CLI tests through one additive `tests/copy-consumer/cli.test.ts` glob. The command runs with the repository's supported Node/TypeScript invocation without changing package manifests.
 - The guide shows preview then explicit apply, update/re-copy, provenance interpretation, owned versus consumer content, and recovery boundaries.
 - Commit implementation, then any separately justified project knowledge/reusable-script assessment; update this item STATE. Return an exact commit for a fresh independent Claude Sonnet review. Do not merge or push main.
 
 ## Exclusions
 
-No edits to c4-sdk app/SDK/demo source, package manifests/locks/config, existing C4-09a policy/filesystem/type modules, existing C4-09a tests, root README, C4-10 files, root STATE/COORDINATION, or any ts-db file. The coordinator owns shared records and integration. The separate ts-db unit starts from a reviewed c4-sdk revision after this unit lands.
+No edits to c4-sdk app/SDK/demo source, package manifests/locks, config other than the single owned test-discovery glob, existing C4-09a policy/filesystem/type modules, existing C4-09a tests, root README, C4-10 files, root STATE/COORDINATION, or any ts-db file. The coordinator owns shared records and integration. The separate ts-db unit starts from a reviewed c4-sdk revision after this unit lands.
