@@ -18,3 +18,11 @@ Use these terms consistently in the plain-language and STE explanations. Definit
 | **Origin** | Cursor's hosted Git platform as named by the article; its complete internal boundary is unspecified. |
 
 For this draft, say “the article describes” for source claims, “the model shows” for inferred structure, and “for example” for illustrative nodes. Avoid wording that presents the diagram as a production inventory or a compliance statement.
+
+| Additional term | Meaning in this showcase |
+| --- | --- |
+| **ETag** | Version identifier for the WAL index; a conditional GET checks whether the replica has caught up. |
+| **Rendezvous hashing** | Ranks preferred healthy nodes from repository identity and current cluster membership; it is an optimization, not durable repository ownership. |
+| **Local Git cache** | A disposable ordinary repository on local disk. Durable truth remains in the WAL. |
+
+Updated 2026-10-14: runtime terms in the JSON document references use these meanings. The [source-to-ID inventory](source-map.json) records evidence and review state. STE is an Issue 9 draft, with human review pending; no certification is claimed.
