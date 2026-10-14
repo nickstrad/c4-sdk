@@ -20,7 +20,10 @@ export function publicSnapshot(root = process.cwd()) {
       const symbol = exported.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(exported) : exported
       const runtime = Boolean(symbol.flags & ts.SymbolFlags.Value)
       const type = runtime ? checker.getTypeOfSymbolAtLocation(symbol, source) : checker.getDeclaredTypeOfSymbol(symbol)
-      const properties = type.isUnion() || type.flags & ts.TypeFlags.StringLike ? [] : checker.getPropertiesOfType(type)
+      const primitiveFlags = ts.TypeFlags.StringLike | ts.TypeFlags.NumberLike | ts.TypeFlags.BooleanLike | ts.TypeFlags.BigIntLike | ts.TypeFlags.ESSymbolLike
+      const primitive = type.isUnion() ? type.types.every(part => Boolean(part.flags & primitiveFlags)) : Boolean(type.flags & primitiveFlags)
+      // Union fields include shared private-base fields, e.g. ElementBase's name/description.
+      const properties = primitive ? [] : checker.getPropertiesOfType(type)
       return [exported.name, {
         runtime,
         signature: checker.typeToString(type, source, flags),

@@ -8,7 +8,7 @@ import { frozenSnapshot, publicSnapshot } from './snapshot'
 describe('frozen public facade', () => {
   it('retains exact runtime/type exports, signatures and structural fields', () => {
     expect(publicSnapshot()).toEqual(frozenSnapshot())
-  })
+  }, 30_000) // Resolves the complete TypeScript declaration graph on shared CI hosts.
 
   it('imports both source entries without starting browser or network work', async () => {
     const effects = ['fetch', 'Worker', 'ResizeObserver', 'MutationObserver'].map(name => {
