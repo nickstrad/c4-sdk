@@ -142,20 +142,34 @@ test('records a production 200-node 400-edge layout timing without claiming a bu
   await page.route('**/catalog.json', route => route.fulfill({ json: { entries: [{ id: benchmark.id, title: benchmark.title, url: 'diagrams/benchmark.json' }] } }))
   await page.route('**/diagrams/benchmark.json', route => route.fulfill({ json: benchmark }))
   await page.addInitScript(() => {
-    const Native = window.Worker; const timings: { elapsed: number; completed: boolean }[] = []
+    const Native = window.Worker; const timings: { elapsed: number; completed: boolean; requested: boolean }[] = []
     Object.assign(window, { layoutTimings: timings })
     window.Worker = class extends Native {
-      started = performance.now(); completed = false
-      constructor(url: string | URL, options?: WorkerOptions) { super(url, options); this.addEventListener('message', () => { this.completed = true }) }
-      terminate() { timings.push({ elapsed: performance.now() - this.started, completed: this.completed }); super.terminate() }
+      started = performance.now(); completed = false; layoutId = -1; requested = false
+      constructor(url: string | URL, options?: WorkerOptions) { super(url, options); this.addEventListener('message', event => { if (this.requested && event.data.id === this.layoutId && event.data.data?.id === 'root') this.completed = true }) }
+      postMessage(message: unknown) { const command = message as { cmd?: string; id: number }; if (command.cmd === 'layout') { this.requested = true; this.layoutId = command.id } super.postMessage(message) }
+      terminate() { timings.push({ elapsed: performance.now() - this.started, completed: this.completed, requested: this.requested }); super.terminate() }
     }
   })
+  const openedAt = performance.now()
   await page.goto('./')
   await expect(page.locator('.c4-flow-canvas, .c4-diagnostics')).toBeVisible({ timeout: 30000 })
-  const result = await page.evaluate(() => ({ workerTimingsMs: (window as unknown as { layoutTimings: unknown }).layoutTimings, hardwareConcurrency: navigator.hardwareConcurrency, userAgent: navigator.userAgent, rendered: !!document.querySelector('.c4-flow-canvas'), diagnostics: document.querySelector('.c4-diagnostics')?.textContent }))
+  const overallWallMs = performance.now() - openedAt
+  const result = await page.evaluate(overallWallMs => ({ overallWallMs, workerTimingsMs: (window as unknown as { layoutTimings: unknown }).layoutTimings, hardwareConcurrency: navigator.hardwareConcurrency, userAgent: navigator.userAgent, rendered: !!document.querySelector('.c4-flow-canvas'), diagnostics: document.querySelector('.c4-diagnostics')?.textContent }), overallWallMs)
   writeFileSync(info.outputPath('production-layout-timing.json'), JSON.stringify(result, null, 2))
   await info.attach('production-layout-timing.json', { body: JSON.stringify(result, null, 2), contentType: 'application/json' })
   expect(result.rendered, JSON.stringify(result)).toBe(true)
+  expect((result.workerTimingsMs as { completed: boolean }[]).some(item => item.completed)).toBe(true)
+  // Repeat the same bounded fixture from a fresh page: cancellation does not reuse a cache hit.
+  await page.goto('./')
+  await expect.poll(() => page.workers().length).toBeGreaterThan(0)
+  const cancelledAt = performance.now()
+  await page.goto('about:blank')
+  await expect.poll(() => page.workers().length).toBe(0)
+  // Wall time to destruction includes navigation and browser teardown, not only AbortSignal dispatch.
+  const cancellation = { elapsedMs: performance.now() - cancelledAt }
+  writeFileSync(info.outputPath('production-cancellation.json'), JSON.stringify(cancellation, null, 2))
+  await info.attach('cancellation-note', { body: JSON.stringify({ workerCountAfterNavigation: page.workers().length, wallClockMethod: 'Node performance.now around navigation and zero-worker poll', cancellation }), contentType: 'application/json' })
 })
 
 

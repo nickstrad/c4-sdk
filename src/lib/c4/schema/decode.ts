@@ -46,20 +46,35 @@ export function isSafeResourceUrl(value: string): boolean {
   }
   return /^[a-zA-Z0-9._~-]+(?:\/[a-zA-Z0-9._~-]+)*(?:[?#][a-zA-Z0-9._~!$&'()*+,;=:@%/?#-]*)?$/.test(value) && !value.split(/[/?#]/).some(part => part === '..' || part === '.') && !value.includes('%')
 }
-function boundedTree(value: unknown, depth = 0, ancestors = new Set<unknown>(), maxDepth = 32): boolean {
+export interface DecodeLimits { readonly maxElements?: number; readonly maxRelationships?: number; readonly maxDiagrams?: number; readonly maxJsonDepth?: number; readonly maxScenarioJsonDepth?: number }
+export const defaultDecodeLimits = { maxElements: 5000, maxRelationships: 10000, maxDiagrams: 200, maxJsonDepth: 32, maxScenarioJsonDepth: 96 } as const
+export function checkedDecodeLimits(limits: DecodeLimits = {}): Required<DecodeLimits> {
+  const values = { ...defaultDecodeLimits, ...limits }
+  for (const key of Object.keys(values) as (keyof DecodeLimits)[]) if (!Number.isInteger(values[key]) || values[key] < 1 || values[key] > defaultDecodeLimits[key]) throw new Error(`${key} must be an integer from 1 to ${defaultDecodeLimits[key]}.`)
+  return values
+}
+function boundedTree(value: unknown, limits: Required<DecodeLimits>, depth = 0, ancestors = new Set<unknown>(), maxDepth = limits.maxJsonDepth): boolean {
   if (depth > maxDepth) return false
   if (!value || typeof value !== 'object') return true
   if (ancestors.has(value)) return false
   const next = new Set(ancestors); next.add(value)
   // Scenario AST32 semantic levels require object+array layers; ordinary JSON keeps depth32.
-  return Object.entries(value).every(([key, child]) => boundedTree(child, depth + 1, next, key === 'scenario' && 'kind' in value && value.kind === 'dynamic' ? 96 : maxDepth))
+  return Object.entries(value).every(([key, child]) => boundedTree(child, limits, depth + 1, next, key === 'scenario' && 'kind' in value && value.kind === 'dynamic' ? limits.maxScenarioJsonDepth : maxDepth))
 }
 function freeze<T>(value: T): T {
   if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value) }
   return value
 }
-export function decodeArchitecture(input: unknown): Result<ValidatedArchitecture> {
-  if (!boundedTree(input)) return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$', severity: 'error', message: 'Input exceeds JSON depth 32 (96 within a dynamic scenario) or contains a cycle.' }] }
+export function decodeArchitecture(input: unknown, limits: DecodeLimits = {}): Result<ValidatedArchitecture> {
+  let ceilings: Required<DecodeLimits>
+  try { ceilings = checkedDecodeLimits(limits) } catch (error) { return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$.limits', severity: 'error', message: (error as Error).message }] } }
+  if (input && typeof input === 'object') {
+    const raw = input as { model?: { elements?: unknown; relationships?: unknown }; diagrams?: unknown }
+    for (const [path, array, maximum] of [['$.model.elements', raw.model?.elements, ceilings.maxElements], ['$.model.relationships', raw.model?.relationships, ceilings.maxRelationships], ['$.diagrams', raw.diagrams, ceilings.maxDiagrams]] as const) {
+      if (Array.isArray(array) && array.length > maximum) return { ok: false, diagnostics: [{ code: 'resource-limit', path, severity: 'error', message: `Resource exceeds the ${maximum}-item limit at ${path}.` }] }
+    }
+  }
+  if (!boundedTree(input, ceilings)) return { ok: false, diagnostics: [{ code: 'resource-limit', path: '$', severity: 'error', message: `Input exceeds JSON depth ${ceilings.maxJsonDepth} (${ceilings.maxScenarioJsonDepth} within a dynamic scenario) or contains a cycle.` }] }
   const parsed = domainSchema.safeParse(input)
   if (!parsed.success) return { ok: false, diagnostics: parsed.error.issues.map(issue => ({ code: 'schema', path: '$' + issue.path.map(part => typeof part === 'number' ? `[${part}]` : `.${String(part)}`).join(''), severity: 'error', message: issue.code === 'unrecognized_keys' ? `Unsupported fields: ${issue.keys.join(', ')}. Supported views are landscape, context, container, component, code, dynamic and deployment.` : issue.message })) }
   const bundle = parsed.data

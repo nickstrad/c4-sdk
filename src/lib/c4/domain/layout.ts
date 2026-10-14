@@ -44,13 +44,17 @@ export function fixedLayout(input: SceneInput): Result<Scene> {
   return { ok: true, value: { architectureId: input.architectureId, revision: input.revision, diagram, kindLabel: input.kindLabel, groups: [], nodes, edges, width, height, statusText: input.statusText }, diagnostics: [] }
 }
 
+export interface GeometryLimits { readonly maxCoordinate?: number; readonly maxExtent?: number }
+export const defaultGeometryLimits = { maxCoordinate: 10_000_000, maxExtent: 10_000_000 } as const
 /** A layout adapter changes geometry only; it cannot alter validated data or ancestry. */
-export function validateLayout(input: SceneInput, result: Result<Scene>): Result<Scene> {
+export function validateLayout(input: SceneInput, result: Result<Scene>, limits: GeometryLimits = {}): Result<Scene> {
   if (!result.ok) return result
   const scene = result.value
+  const maximum = { ...defaultGeometryLimits, ...limits }
+  for (const key of Object.keys(maximum) as (keyof GeometryLimits)[]) if (!Number.isFinite(maximum[key]) || maximum[key] <= 0 || maximum[key] > defaultGeometryLimits[key]) return { ok: false, diagnostics: [{ code: 'layout', path: '$.layout.limits', severity: 'error', message: `${key} must be positive and no greater than ${defaultGeometryLimits[key]}.` }] }
   const same = (a: readonly string[], b: readonly string[]) => a.length === b.length && a.every((id, i) => id === b[i])
-  const point = (value: Point) => Number.isFinite(value.x) && Number.isFinite(value.y)
-  const bounds = (value: Bounds) => point(value) && Number.isFinite(value.width) && Number.isFinite(value.height) && value.width > 0 && value.height > 0 && Number.isFinite(value.x + value.width) && Number.isFinite(value.y + value.height)
+  const point = (value: Point) => Number.isFinite(value.x) && Number.isFinite(value.y) && Math.abs(value.x) <= maximum.maxCoordinate && Math.abs(value.y) <= maximum.maxCoordinate
+  const bounds = (value: Bounds) => point(value) && Number.isFinite(value.width) && Number.isFinite(value.height) && value.width > 0 && value.height > 0 && value.width <= maximum.maxExtent && value.height <= maximum.maxExtent && Number.isFinite(value.x + value.width) && Number.isFinite(value.y + value.height) && Math.abs(value.x + value.width) <= maximum.maxCoordinate && Math.abs(value.y + value.height) <= maximum.maxCoordinate
   const nodes = same(input.nodes.map(node => node.element.id), scene.nodes.map(node => node.element.id)) && scene.nodes.every((node, i) => node.element === input.nodes[i]?.element && node.kindLabel === input.nodes[i]?.kindLabel && node.tone === input.nodes[i]?.tone && node.stroke === input.nodes[i]?.stroke && node.statusText === input.nodes[i]?.statusText && node.parentGroupId === input.nodes[i]?.parentGroupId && bounds(node) && (!node.labelBounds || bounds(node.labelBounds)))
   const groups = scene.groups ?? []
   const groupIdentity = same(input.groups.map(group => group.id), groups.map(group => group.group.id)) && groups.every((group, i) => group.group === input.groups[i] && group.parentGroupId === input.groups[i]?.parentGroupId && bounds(group) && (!group.labelBounds || bounds(group.labelBounds)))
@@ -59,14 +63,15 @@ export function validateLayout(input: SceneInput, result: Result<Scene>): Result
     const parent = item.parentGroupId ? groups.find(group => group.group.id === item.parentGroupId) : undefined
     return !item.parentGroupId || !!parent && contains(parent, item)
   }) && groups.every(group => !group.labelBounds || contains(group, group.labelBounds))
+  let routePoints = 0; const maxSections = Math.max(16, 2 * (scene.nodes.length + groups.length) + 8)
   const edges = same(input.edges.map(edge => edge.relationship.id), scene.edges.map(edge => edge.relationship.id)) && scene.edges.every((edge, i) => {
     const relationship = input.edges[i]?.relationship
     const endpoints = edge.relationship === relationship && edge.source === scene.nodes.find(node => node.element.id === relationship?.sourceId) && edge.target === scene.nodes.find(node => node.element.id === relationship?.targetId)
-    const scalars = [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY].every(Number.isFinite)
-    const sections = !edge.sections || edge.sections.length > 0 && edge.sections.every(section => point(section.startPoint) && point(section.endPoint) && (section.bendPoints ?? []).every(point)) && edge.sections[0].startPoint.x === edge.x1 && edge.sections[0].startPoint.y === edge.y1 && edge.sections.at(-1)!.endPoint.x === edge.x2 && edge.sections.at(-1)!.endPoint.y === edge.y2
+    const scalars = [edge.x1, edge.y1, edge.x2, edge.y2, edge.labelX, edge.labelY].every(value => Number.isFinite(value) && Math.abs(value) <= maximum.maxCoordinate)
+    const sections = !edge.sections || edge.sections.length > 0 && edge.sections.length <= maxSections && edge.sections.every(section => (routePoints += 2 + (section.bendPoints?.length ?? 0)) <= 100_000 && (section.bendPoints?.length ?? 0) <= maxSections && point(section.startPoint) && point(section.endPoint) && (section.bendPoints ?? []).every(point)) && edge.sections[0].startPoint.x === edge.x1 && edge.sections[0].startPoint.y === edge.y1 && edge.sections.at(-1)!.endPoint.x === edge.x2 && edge.sections.at(-1)!.endPoint.y === edge.y2
     return edge.number === input.edges[i]?.number && edge.stroke === input.edges[i]?.stroke && endpoints && scalars && sections && (!edge.labelBounds || bounds(edge.labelBounds))
   })
-  if (scene.diagram !== input.diagram || scene.statusText !== input.statusText || (scene.kindLabel !== undefined && scene.kindLabel !== input.kindLabel) || !nodes || !groupIdentity || !containment || !edges || !Number.isFinite(scene.width) || !Number.isFinite(scene.height) || scene.width <= 0 || scene.height <= 0) return { ok: false, diagnostics: [{ code: 'layout', path: '$.layout', severity: 'error', message: 'Layout must preserve validated data, member/edge/group order, endpoints and ancestry with finite positive bounds and routed points.' }] }
+  if (scene.diagram !== input.diagram || scene.statusText !== input.statusText || (scene.kindLabel !== undefined && scene.kindLabel !== input.kindLabel) || !nodes || !groupIdentity || !containment || !edges || !Number.isFinite(scene.width) || !Number.isFinite(scene.height) || scene.width <= 0 || scene.height <= 0 || scene.width > maximum.maxExtent || scene.height > maximum.maxExtent) return { ok: false, diagnostics: [{ code: 'layout', path: '$.layout', severity: 'error', message: 'Layout must preserve validated data, member/edge/group order, endpoints and ancestry with finite positive bounds and routed points within coordinate/extent limits.' }] }
   return result
 }
 

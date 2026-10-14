@@ -1,4 +1,6 @@
 export { decodeArchitecture, architectureSchema, architectureJsonSchema } from './schema/decode'
+export type { DecodeLimits } from './schema/decode'
+export type { FetchLoaderLimits } from './adapters/loaders/fetch'
 export { validateArchitecture, buildIndex } from './domain/architecture'
 export { projectDiagram, selectDocumentation, resolveLegend } from './domain/presentation'
 export type { ArchitectureBundle, ValidatedArchitecture, Diagnostic, ModelIndex, Result, LegendSpec, LegendEntry } from './domain/model'
@@ -30,3 +32,5 @@ export { symbolKey, memberKey, codeAncestry } from './domain/codeview'
 export type { CodeMember, SymbolKind, Visibility, RelationshipKind, Diagram, Element } from './domain/model'
 export { NavigationView } from './react/views/NavigationView'
 export type { NavigationViewProps } from './react/views/NavigationView'
+
+export type { GeometryLimits } from './domain/layout'

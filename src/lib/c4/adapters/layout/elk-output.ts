@@ -43,7 +43,9 @@ export function attachGeometry(input: SceneInput, geometry: LayoutGeometry): Res
     const expectedNodes = new Set([...input.nodes.map(node => nodeId(node.element.id)), ...input.groups.map(group => groupId(group.id))])
     const expectedEdges = new Set(input.edges.map(edge => edgeId(edge.relationship.id)))
     for (const node of geometry.nodes) if (!node || !expectedNodes.delete(node.id)) throw new Error('node identity')
+    let routePoints = 0
     for (const edge of geometry.edges) if (!edge || !expectedEdges.delete(edge.id) || !validSections(edge.sections, count)) throw new Error('edge identity or routing budget')
+    for (const edge of geometry.edges) { routePoints += edge.sections.reduce((total: number, section: EdgeSection) => total + 2 + (section.bendPoints?.length ?? 0), 0); if (routePoints > 100_000) throw new Error('total routing budget') }
     const positions = new Map(geometry.nodes.map(node => [node.id, node]))
     const nodes = input.nodes.map(node => ({ ...node, ...positions.get(nodeId(node.element.id))! }))
     const groups = input.groups.map(group => ({ group, parentGroupId: group.parentGroupId, ...positions.get(groupId(group.id))! }))
@@ -76,6 +78,7 @@ export function checkedElkOutput(input: SceneInput, raw: unknown): LayoutGeometr
   const count = input.nodes.length + input.groups.length
   const expectedNodes = new Set([...input.nodes.map(node => nodeId(node.element.id)), ...input.groups.map(group => groupId(group.id))])
   const expectedEdges = new Set(input.edges.map(edge => edgeId(edge.relationship.id)))
+  let routePoints = 0
   const seenNodes = new Set<string>(); const seenEdges = new Set<string>()
   const invalid = () => { throw new Error('Layout worker returned unexpected, duplicate or excessive geometry.') }
   const stack: { graph: unknown; depth: number; root: boolean }[] = [{ graph: raw, depth: 0, root: true }]
@@ -93,6 +96,8 @@ export function checkedElkOutput(input: SceneInput, raw: unknown): LayoutGeometr
       if (!expectedEdges.has(edge.id) || seenEdges.has(edge.id)) invalid(); seenEdges.add(edge.id)
       if (edge.labels && (!Array.isArray(edge.labels) || edge.labels.length > 1)) invalid()
       if (!validSections(edge.sections, count)) invalid()
+      routePoints += edge.sections!.reduce((total: number, section: EdgeSection) => total + 2 + (section.bendPoints?.length ?? 0), 0)
+      if (routePoints > 100_000) invalid()
     }
   }
   if (seenNodes.size !== expectedNodes.size || seenEdges.size !== expectedEdges.size) invalid()
@@ -101,5 +106,6 @@ export function checkedElkOutput(input: SceneInput, raw: unknown): LayoutGeometr
 function validSections(value: unknown, count: number): value is readonly EdgeSection[] {
   const max = Math.max(16, 2 * count + 8)
   const point = (value: unknown) => !!value && typeof value === 'object' && Number.isFinite((value as { x: number }).x) && Number.isFinite((value as { y: number }).y)
-  return Array.isArray(value) && value.length > 0 && value.length <= max && value.every(section => section && point(section.startPoint) && point(section.endPoint) && (section.bendPoints === undefined || Array.isArray(section.bendPoints) && section.bendPoints.length <= max && section.bendPoints.every(point)))
+  let points = 0
+  return Array.isArray(value) && value.length > 0 && value.length <= max && value.every(section => section && (points += 2 + (section.bendPoints?.length ?? 0)) <= 100_000 && point(section.startPoint) && point(section.endPoint) && (section.bendPoints === undefined || Array.isArray(section.bendPoints) && section.bendPoints.length <= max && section.bendPoints.every(point)))
 }

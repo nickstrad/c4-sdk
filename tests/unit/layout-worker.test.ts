@@ -125,3 +125,34 @@ it('parallel manual relationships have disjoint measured labels without moving a
     for (const b of [...scene.nodes, ...scene.groups!.map(group => group.labelBounds!), ...scene.edges.slice(0, i).map(other => other.labelBounds!)]) expect(a.x + a.width <= b.x || b.x + b.width <= a.x || a.y + a.height <= b.y || b.y + b.height <= a.y).toBe(true)
   })
 })
+
+it('worker execution and message errors terminate, clear handlers and detach abort listeners', async () => {
+  for (const kind of ['error', 'messageerror'] as const) {
+    const worker = new FakeWorker(); const controller = new AbortController()
+    const remove = vi.spyOn(controller.signal, 'removeEventListener')
+    const pending = createElkLayoutPort(() => worker).layout({ scene: input, signal: controller.signal, generation: 1 })
+    if (kind === 'error') worker.onerror?.({ message: 'engine crash' } as ErrorEvent)
+    else worker.onmessageerror?.({} as MessageEvent)
+    expect((await pending).result.ok).toBe(false)
+    expect(worker.terminate).toHaveBeenCalledOnce(); expect(worker.onmessage).toBeNull(); expect(worker.onerror).toBeNull(); expect(worker.onmessageerror).toBeNull()
+    expect(remove).toHaveBeenCalledWith('abort', expect.any(Function))
+  }
+})
+it('configured geometry cache evicts old entries and failed results never enter it', async () => {
+  const graph = await engine.layout(elkInput(input))
+  const workers: FakeWorker[] = []
+  const port = createElkLayoutPort(() => { const worker = new FakeWorker(); workers.push(worker); return worker }, { cacheEntries: 2 })
+  const run = (revision: string) => port.layout({ scene: { ...input, revision }, generation: 1, signal: new AbortController().signal })
+  for (const revision of ['a', 'b', 'c']) { const pending = run(revision); workers.at(-1)!.complete(graph); expect((await pending).result.ok).toBe(true) }
+  await run('b'); expect(workers).toHaveLength(3)
+  const evicted = run('a'); expect(workers).toHaveLength(4); workers.at(-1)!.complete({}); expect((await evicted).result.ok).toBe(false)
+  const retry = run('a'); expect(workers).toHaveLength(5); workers.at(-1)!.complete(graph); expect((await retry).result.ok).toBe(true)
+})
+
+it('total routing budget rejects many individually bounded sections', async () => {
+  const geometry = elkOutput(await engine.layout(elkInput(input)))
+  const source = { ...input, edges: Array.from({ length: 400 }, (_, i) => ({ ...input.edges[0], relationship: { ...input.edges[0].relationship, id: `many${i}` } })) }
+  const section = { startPoint: { x: 1, y: 1 }, endPoint: { x: 2, y: 2 }, bendPoints: Array.from({ length: 18 }, () => ({ x: 1, y: 1 })) }
+  const many = { ...geometry, edges: source.edges.map(edge => ({ id: `edge:${edge.relationship.id}`, sections: Array.from({ length: 18 }, () => section) })) }
+  expect(attachGeometry(source, many)).toMatchObject({ ok: false })
+})
