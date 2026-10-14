@@ -115,8 +115,9 @@ and validate the loaded module's exports, dependencies, CSS and worker assets.
 ### ts-db consumption: publish a module; interim copy is ts-db-owned
 
 **Status — C4-09 removed per Nick, 2026-10-14.** The c4-sdk-owned copy-consumer command, consumer fixture,
-guide and C4-09 integration task are not part of main. The local C4-09 attempt never reached origin and
-must not be revived or merged. Replace the planned source-copy workflow with SDK productionization and npm
+guide and C4-09 integration task are not part of main. The local C4-09 implementation never reached
+origin; the removal record was later pushed with the independently reviewed C4-10 item. Do not revive or
+merge the C4-09 implementation branch. Replace the planned source-copy workflow with SDK productionization and npm
 publication, followed by ts-db ingesting the package as a loaded module. Define package metadata, supported
 exports, license, peer dependencies, versioning and worker/CSS asset behavior in that productionization
 track before claiming the module ready for consumption.
