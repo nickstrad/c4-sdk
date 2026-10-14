@@ -1,6 +1,6 @@
 # C4-07 — finish seven-type coverage
 
-Serial after C4-06. Sol builder/reviewer independently, Codex-only pending Twin. Read actual state and full normative plan; exact claims and local checkpoint. No claim that all seven types work until browser matrix passes.
+Serial after C4-06. Use the plan-assigned Sol/Sonnet tier, with a fresh builder and an independent fresh reviewer from the other company under the restored post-reset paired model mapping. Read actual state and full normative plan; maintain exact claims and local checkpoint. Do not claim all seven types work until the browser matrix passes.
 
 Add landscape (person/system nodes, optional scope) and code elements (parent component/code, symbolKind class/interface/function/type/enum/table/module, text-only member name/signature/visibility). Validate legal containment, bounded cycles, code scope ancestry, external symbols, relation kinds dependency/association/inheritance/implementation/composition and visible endpoints. Ensure stable symbol/member rendering identities cannot collide. No executable code, HTML, source fetching or invented Cursor code internals.
 
