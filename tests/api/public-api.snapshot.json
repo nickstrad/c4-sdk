@@ -1,0 +1,2310 @@
+{
+  "src/index.ts": {
+    "ArchitectureProvider": {
+      "runtime": true,
+      "signature": "({ validatedBundle, diagramId, routePort, layoutPort, expectedKind, children }: import(\".\").ArchitectureProviderProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "ArchitectureProviderProps": {
+      "runtime": false,
+      "signature": "import(\".\").ArchitectureProviderProps",
+      "fields": {
+        "children": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | number | bigint | boolean | import(\"react\").ReactElement<unknown, string | import(\"react\").JSXElementConstructor<any>> | Iterable<import(\"react\").ReactNode> | import(\"react\").ReactPortal | Promise<string | number | bigint | boolean | import(\"react\").ReactPortal | import(\"react\").ReactElement<unknown, string | import(\"react\").JSXElementConstructor<any>> | Iterable<import(\"react\").ReactNode> | null | undefined> | null | undefined"
+        },
+        "diagramId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "expectedKind": {
+          "optional": true,
+          "readonly": true,
+          "type": "\"landscape\" | \"context\" | \"container\" | \"component\" | \"code\" | \"dynamic\" | \"deployment\" | undefined"
+        },
+        "layoutPort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").LayoutPort | undefined"
+        },
+        "routePort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").RoutePort | undefined"
+        },
+        "validatedBundle": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\"./core\").ValidatedArchitecture"
+        }
+      }
+    },
+    "ArchitectureViewer": {
+      "runtime": true,
+      "signature": "({ navigationSlot, legendSlot, documentationSlot, ...provider }: import(\".\").ArchitectureViewerProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "ArchitectureViewerProps": {
+      "runtime": false,
+      "signature": "import(\".\").ArchitectureViewerProps",
+      "fields": {
+        "diagramId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "documentationSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").DocumentationSlot | undefined"
+        },
+        "expectedKind": {
+          "optional": true,
+          "readonly": true,
+          "type": "\"landscape\" | \"context\" | \"container\" | \"component\" | \"code\" | \"dynamic\" | \"deployment\" | undefined"
+        },
+        "layoutPort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").LayoutPort | undefined"
+        },
+        "legendSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").LegendSlot | undefined"
+        },
+        "navigationSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").NavigationSlot | undefined"
+        },
+        "routePort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").RoutePort | undefined"
+        },
+        "validatedBundle": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\"./core\").ValidatedArchitecture"
+        }
+      }
+    },
+    "CatalogViewer": {
+      "runtime": true,
+      "signature": "({ catalogUrl, loader, title, routePort }: import(\".\").CatalogViewerProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "CatalogViewerProps": {
+      "runtime": false,
+      "signature": "import(\".\").CatalogViewerProps",
+      "fields": {
+        "catalogUrl": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "loader": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").ArchitectureLoader | undefined"
+        },
+        "routePort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").RoutePort | undefined"
+        },
+        "title": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        }
+      }
+    },
+    "CodeDiagram": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "ComponentDiagram": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "ContainerDiagram": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "createElkLayoutPort": {
+      "runtime": true,
+      "signature": "(factory?: () => import(\".\").LayoutWorker, limits?: import(\".\").ElkLayoutLimits) => import(\"./core\").LayoutPort",
+      "fields": {}
+    },
+    "createFetchLoader": {
+      "runtime": true,
+      "signature": "(fetchResource?: typeof fetch, limits?: import(\".\").FetchLoaderLimits) => import(\"./core\").ArchitectureLoader",
+      "fields": {}
+    },
+    "createHashRoutePort": {
+      "runtime": true,
+      "signature": "(browser?: Window) => import(\"./core\").RoutePort",
+      "fields": {}
+    },
+    "DeploymentDiagram": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "DestinationLinkProps": {
+      "runtime": false,
+      "signature": "import(\".\").DestinationLinkProps",
+      "fields": {
+        "href": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": false,
+          "readonly": true,
+          "type": "(event: import(\"react\").MouseEvent<HTMLAnchorElement, MouseEvent>) => void"
+        }
+      }
+    },
+    "DiagramDocumentation": {
+      "runtime": true,
+      "signature": "({ slot }: { slot?: import(\".\").DocumentationSlot; }) => import(\"react\").JSX.Element | null",
+      "fields": {}
+    },
+    "DiagramLegend": {
+      "runtime": true,
+      "signature": "({ slot }: { slot?: import(\".\").LegendSlot; }) => import(\"react\").JSX.Element | null",
+      "fields": {}
+    },
+    "DiagramNavigation": {
+      "runtime": true,
+      "signature": "({ slot }: { slot?: import(\".\").NavigationSlot; }) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "DiagramView": {
+      "runtime": true,
+      "signature": "({ legendSlot }: { legendSlot?: import(\".\").LegendSlot; }) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "DocumentationSlot": {
+      "runtime": false,
+      "signature": "(props: import(\".\").DocumentationViewProps) => import(\"react\").ReactNode",
+      "fields": {}
+    },
+    "DocumentationViewProps": {
+      "runtime": false,
+      "signature": "import(\".\").DocumentationViewProps",
+      "fields": {
+        "document": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").Document | undefined"
+        },
+        "documentId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "mode": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"plain\" | \"ste\""
+        },
+        "onDocument": {
+          "optional": true,
+          "readonly": true,
+          "type": "((id: string) => void) | undefined"
+        },
+        "onPlain": {
+          "optional": false,
+          "readonly": true,
+          "type": "() => void"
+        },
+        "onSte": {
+          "optional": false,
+          "readonly": true,
+          "type": "() => void"
+        },
+        "selection": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\"./core\").DocumentSelection"
+        }
+      }
+    },
+    "DynamicDiagram": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "ElkLayoutLimits": {
+      "runtime": false,
+      "signature": "import(\".\").ElkLayoutLimits",
+      "fields": {
+        "cacheEntries": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "geometry": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").GeometryLimits | undefined"
+        },
+        "maxEdges": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxNodes": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "timeoutMs": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "FetchLoaderLimits": {
+      "runtime": false,
+      "signature": "import(\".\").FetchLoaderLimits",
+      "fields": {
+        "decode": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").DecodeLimits | undefined"
+        },
+        "maxBundleBytes": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxCatalogBytes": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "LayoutWorker": {
+      "runtime": false,
+      "signature": "import(\".\").LayoutWorker",
+      "fields": {
+        "onerror": {
+          "optional": false,
+          "readonly": false,
+          "type": "((event: ErrorEvent) => void) | null"
+        },
+        "onmessage": {
+          "optional": false,
+          "readonly": false,
+          "type": "((event: MessageEvent) => void) | null"
+        },
+        "onmessageerror": {
+          "optional": false,
+          "readonly": false,
+          "type": "((event: MessageEvent) => void) | null"
+        },
+        "postMessage": {
+          "optional": false,
+          "readonly": false,
+          "type": "(message: unknown) => void"
+        },
+        "terminate": {
+          "optional": false,
+          "readonly": false,
+          "type": "() => void"
+        }
+      }
+    },
+    "Legend": {
+      "runtime": true,
+      "signature": "({ title, entries, compact }: import(\".\").LegendProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "LegendProps": {
+      "runtime": false,
+      "signature": "import(\".\").LegendProps",
+      "fields": {
+        "compact": {
+          "optional": true,
+          "readonly": true,
+          "type": "boolean | undefined"
+        },
+        "entries": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\"./core\").LegendEntry[]"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "LegendSlot": {
+      "runtime": false,
+      "signature": "(props: import(\".\").LegendProps) => import(\"react\").ReactNode",
+      "fields": {}
+    },
+    "NamedDiagramProps": {
+      "runtime": false,
+      "signature": "{ readonly validatedBundle: import(\"./core\").ValidatedArchitecture; readonly diagramId?: string | undefined; readonly routePort?: import(\"./core\").RoutePort | undefined; readonly layoutPort?: import(\"./core\").LayoutPort | undefined; readonly navigationSlot?: import(\".\").NavigationSlot | undefined; readonly legendSlot?: import(\".\").LegendSlot | undefined; readonly documentationSlot?: import(\".\").DocumentationSlot | undefined; }",
+      "fields": {
+        "diagramId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "documentationSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").DocumentationSlot | undefined"
+        },
+        "layoutPort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").LayoutPort | undefined"
+        },
+        "legendSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").LegendSlot | undefined"
+        },
+        "navigationSlot": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").NavigationSlot | undefined"
+        },
+        "routePort": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\"./core\").RoutePort | undefined"
+        },
+        "validatedBundle": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\"./core\").ValidatedArchitecture"
+        }
+      }
+    },
+    "NavigationSlot": {
+      "runtime": false,
+      "signature": "(props: import(\".\").NavigationViewProps) => import(\"react\").ReactNode",
+      "fields": {}
+    },
+    "NavigationViewProps": {
+      "runtime": false,
+      "signature": "import(\".\").NavigationViewProps",
+      "fields": {
+        "breadcrumbs": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly (import(\".\").DestinationLinkProps & { readonly id: string; readonly title: string; readonly current: boolean; })[]"
+        },
+        "onBack": {
+          "optional": false,
+          "readonly": true,
+          "type": "() => void"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly (import(\".\").DestinationLinkProps & { readonly label: string; })[]"
+        },
+        "up": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").DestinationLinkProps | undefined"
+        }
+      }
+    },
+    "SystemContext": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "SystemLandscape": {
+      "runtime": true,
+      "signature": "(props: import(\".\").NamedDiagramProps) => import(\"react\").JSX.Element",
+      "fields": {}
+    },
+    "useViewerController": {
+      "runtime": true,
+      "signature": "() => { readonly route: import(\"./lib/c4/react/hooks/useViewerController\").ViewerController[\"navigation\"][\"route\"]; readonly diagram: import(\"./core\").Diagram | undefined; readonly validatedBundle: import(\"./core\").ValidatedArchitecture; readonly navigate: import(\"./lib/c4/react/hooks/useViewerController\").ViewerController[\"navigation\"][\"navigate\"]; }",
+      "fields": {}
+    }
+  },
+  "src/core/index.ts": {
+    "ArchitectureBundle": {
+      "runtime": false,
+      "signature": "import(\".\").ArchitectureBundle",
+      "fields": {
+        "defaultDiagramId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "diagrams": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Diagram[]"
+        },
+        "documents": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Document[]"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "model": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly elements: readonly import(\".\").Element[]; readonly relationships: readonly import(\".\").Relationship[]; }"
+        },
+        "revision": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "schemaVersion": {
+          "optional": false,
+          "readonly": true,
+          "type": "1"
+        },
+        "sources": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Source[]"
+        },
+        "terms": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Term[]"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "architectureJsonSchema": {
+      "runtime": true,
+      "signature": "{ readonly [x: string]: unknown; }",
+      "fields": {}
+    },
+    "ArchitectureLoader": {
+      "runtime": false,
+      "signature": "import(\".\").ArchitectureLoader",
+      "fields": {
+        "loadBundle": {
+          "optional": false,
+          "readonly": false,
+          "type": "(url: string, signal: AbortSignal) => Promise<import(\".\").Result<import(\".\").ValidatedArchitecture>>"
+        },
+        "loadCatalog": {
+          "optional": false,
+          "readonly": false,
+          "type": "(url: string, signal: AbortSignal) => Promise<import(\".\").Catalog>"
+        }
+      }
+    },
+    "Bounds": {
+      "runtime": false,
+      "signature": "import(\".\").Bounds",
+      "fields": {
+        "height": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "width": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "x": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "breadcrumbs": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, route: import(\".\").Route) => readonly import(\".\").Target[]",
+      "fields": {}
+    },
+    "buildScene": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, diagramId: string) => import(\".\").Result<import(\".\").SceneInput>",
+      "fields": {}
+    },
+    "Catalog": {
+      "runtime": false,
+      "signature": "import(\".\").Catalog",
+      "fields": {
+        "entries": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").CatalogEntry[]"
+        }
+      }
+    },
+    "CatalogEntry": {
+      "runtime": false,
+      "signature": "import(\".\").CatalogEntry",
+      "fields": {
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "url": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "CodeDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").CodeDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"code\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "CodeMember": {
+      "runtime": false,
+      "signature": "import(\".\").CodeMember",
+      "fields": {
+        "name": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "signature": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "visibility": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"public\" | \"protected\" | \"private\" | \"package\""
+        }
+      }
+    },
+    "ComponentDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").ComponentDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"component\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ContainerDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").ContainerDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"container\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "ContextDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").ContextDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"context\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "decodeArchitecture": {
+      "runtime": true,
+      "signature": "(input: unknown, limits?: import(\".\").DecodeLimits) => import(\".\").Result<import(\".\").ValidatedArchitecture>",
+      "fields": {}
+    },
+    "DecodeLimits": {
+      "runtime": false,
+      "signature": "import(\".\").DecodeLimits",
+      "fields": {
+        "maxDiagrams": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxElements": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxJsonDepth": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxRelationships": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxScenarioJsonDepth": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "DeploymentDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").DeploymentDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "environment": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"deployment\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Diagnostic": {
+      "runtime": false,
+      "signature": "import(\".\").Diagnostic",
+      "fields": {
+        "code": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "message": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "path": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "severity": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"error\" | \"warning\""
+        }
+      }
+    },
+    "Diagram": {
+      "runtime": false,
+      "signature": "import(\".\").LandscapeDiagram | import(\".\").ContextDiagram | import(\".\").ContainerDiagram | import(\".\").ComponentDiagram | import(\".\").CodeDiagram | import(\".\").DynamicDiagram | import(\".\").DeploymentDiagram",
+      "fields": {}
+    },
+    "Document": {
+      "runtime": false,
+      "signature": "import(\".\").Document",
+      "fields": {
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "plain": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "ste": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly text: string; readonly issue: string; readonly reviewStatus: \"draft\" | \"reviewed\"; readonly reviewer?: string; readonly reviewedAt?: string; }"
+        },
+        "termIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "DocumentSelection": {
+      "runtime": false,
+      "signature": "import(\".\").DocumentSelection",
+      "fields": {
+        "description": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "documents": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Document[]"
+        },
+        "itemSourceIds": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly string[] | undefined"
+        },
+        "plannedNotes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "sources": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Source[]"
+        },
+        "statusText": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "terms": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Term[]"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "DynamicDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").DynamicDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"dynamic\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scenario": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").InteractionStep | { readonly kind: \"sequence\"; readonly id: import(\".\").Id; readonly children: readonly import(\".\").Step[]; } | { readonly kind: \"parallel\"; readonly id: import(\".\").Id; readonly branches: readonly import(\".\").Step[]; }"
+        },
+        "scopeId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "EdgeRef": {
+      "runtime": false,
+      "signature": "import(\".\").EdgeRef",
+      "fields": {
+        "displayNumber": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "relationshipId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "EdgeSection": {
+      "runtime": false,
+      "signature": "import(\".\").EdgeSection",
+      "fields": {
+        "bendPoints": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Point[] | undefined"
+        },
+        "endPoint": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").Point"
+        },
+        "startPoint": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").Point"
+        }
+      }
+    },
+    "Element": {
+      "runtime": false,
+      "signature": "(ElementBase & { readonly kind: \"person\" | \"softwareSystem\"; }) | (ElementBase & { readonly kind: \"container\"; readonly parentId: import(\".\").Id; readonly technology: string; readonly containerType: \"application\" | \"datastore\"; }) | (ElementBase & { readonly kind: \"component\"; readonly parentId: import(\".\").Id; readonly technology: string; }) | (ElementBase & { readonly kind: \"code\"; readonly parentId: import(\".\").Id; readonly symbolKind: import(\".\").SymbolKind; readonly members: readonly import(\".\").CodeMember[]; }) | (ElementBase & { readonly kind: \"deploymentNode\"; readonly environment: string; readonly technology: string; readonly parentId?: import(\".\").Id; }) | (ElementBase & { readonly kind: \"infrastructureNode\"; readonly parentId: import(\".\").Id; readonly technology: string; }) | (ElementBase & { readonly kind: \"instance\"; readonly instanceOf: import(\".\").Id; readonly parentId: import(\".\").Id; readonly environment: string; })",
+      "fields": {}
+    },
+    "formatRoute": {
+      "runtime": true,
+      "signature": "(route: import(\".\").Route) => string",
+      "fields": {}
+    },
+    "GeometryLimits": {
+      "runtime": false,
+      "signature": "import(\".\").GeometryLimits",
+      "fields": {
+        "maxCoordinate": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "maxExtent": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "Group": {
+      "runtime": false,
+      "signature": "import(\".\").Group",
+      "fields": {
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "memberIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "parentGroupId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        }
+      }
+    },
+    "Id": {
+      "runtime": false,
+      "signature": "string",
+      "fields": {}
+    },
+    "InteractionStep": {
+      "runtime": false,
+      "signature": "import(\".\").InteractionStep",
+      "fields": {
+        "direction": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"reverse\" | \"forward\""
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"interaction\""
+        },
+        "label": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "relationshipId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "LandscapeDiagram": {
+      "runtime": false,
+      "signature": "import(\".\").LandscapeDiagram",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeRef[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[] | undefined"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"landscape\""
+        },
+        "layout": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly mode: \"manual\" | \"auto\"; readonly direction: \"TB\" | \"LR\"; readonly spacing?: number; } | undefined"
+        },
+        "legend": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LegendSpec"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Member[]"
+        },
+        "parent": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "scopeId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "LayoutMeasurements": {
+      "runtime": false,
+      "signature": "import(\".\").LayoutMeasurements",
+      "fields": {
+        "edgeLabelSizes": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Size | undefined; }"
+        },
+        "groupLabelSizes": {
+          "optional": true,
+          "readonly": true,
+          "type": "Readonly<Partial<Record<string, import(\".\").Size>>> | undefined"
+        },
+        "nodeSizes": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Size | undefined; }"
+        },
+        "revision": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "LayoutPort": {
+      "runtime": false,
+      "signature": "import(\".\").LayoutPort",
+      "fields": {
+        "layout": {
+          "optional": false,
+          "readonly": true,
+          "type": "(request: import(\".\").LayoutRequest) => Promise<import(\".\").LayoutResponse>"
+        }
+      }
+    },
+    "LayoutRequest": {
+      "runtime": false,
+      "signature": "import(\".\").LayoutRequest",
+      "fields": {
+        "generation": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "measurements": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").LayoutMeasurements | undefined"
+        },
+        "scene": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").SceneInput"
+        },
+        "signal": {
+          "optional": false,
+          "readonly": true,
+          "type": "AbortSignal"
+        },
+        "timeoutMs": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "LayoutResponse": {
+      "runtime": false,
+      "signature": "import(\".\").LayoutResponse",
+      "fields": {
+        "generation": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "measurementRevision": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "result": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly ok: false; readonly diagnostics: readonly import(\".\").Diagnostic[]; } | { readonly ok: true; readonly value: import(\".\").Scene; readonly diagnostics: readonly import(\".\").Diagnostic[]; }"
+        }
+      }
+    },
+    "LegendEntry": {
+      "runtime": false,
+      "signature": "import(\".\").LegendEntry",
+      "fields": {
+        "description": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "swatch": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").Swatch"
+        }
+      }
+    },
+    "LegendSpec": {
+      "runtime": false,
+      "signature": "import(\".\").LegendSpec",
+      "fields": {
+        "entries": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").LegendEntry[]"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Link": {
+      "runtime": false,
+      "signature": "import(\".\").Link",
+      "fields": {
+        "diagramId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "elementId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "label": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Member": {
+      "runtime": false,
+      "signature": "import(\".\").Member",
+      "fields": {
+        "detail": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Target | undefined"
+        },
+        "elementId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "position": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly x: number; readonly y: number; } | undefined"
+        },
+        "related": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Link[]"
+        },
+        "size": {
+          "optional": true,
+          "readonly": true,
+          "type": "{ readonly width: number; readonly height: number; } | undefined"
+        }
+      }
+    },
+    "ModelIndex": {
+      "runtime": false,
+      "signature": "import(\".\").ModelIndex",
+      "fields": {
+        "bundle": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").ArchitectureBundle"
+        },
+        "diagrams": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Diagram; }"
+        },
+        "documents": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Document; }"
+        },
+        "elements": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Element; }"
+        },
+        "relationships": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Relationship; }"
+        },
+        "sources": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Source; }"
+        },
+        "terms": {
+          "optional": false,
+          "readonly": true,
+          "type": "{ readonly [x: string]: import(\".\").Term; }"
+        }
+      }
+    },
+    "NavigationAction": {
+      "runtime": false,
+      "signature": "{ readonly type: \"step\"; readonly stepId?: string; } | { readonly type: \"activate\" | \"inspect\"; readonly elementId: string; } | { readonly type: \"diagram\" | \"up\" | \"back\"; } | { readonly type: \"target\"; readonly target: import(\".\").Target; }",
+      "fields": {}
+    },
+    "NavigationEffect": {
+      "runtime": false,
+      "signature": "{ readonly type: \"push\"; readonly route: import(\".\").Route; } | { readonly type: \"back\"; }",
+      "fields": {}
+    },
+    "parseRoute": {
+      "runtime": true,
+      "signature": "(hash: string) => import(\".\").Result<import(\".\").Route | undefined>",
+      "fields": {}
+    },
+    "Point": {
+      "runtime": false,
+      "signature": "import(\".\").Point",
+      "fields": {
+        "x": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "References": {
+      "runtime": false,
+      "signature": "import(\".\").References",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        }
+      }
+    },
+    "Relationship": {
+      "runtime": false,
+      "signature": "import(\".\").Relationship",
+      "fields": {
+        "docIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "kind": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"dependency\" | \"association\" | \"inheritance\" | \"implementation\" | \"composition\""
+        },
+        "label": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "modelRelationshipId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "plannedNotes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "sourceId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "sourceIds": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly string[]"
+        },
+        "status": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"existing\" | \"planned\" | \"mixed\""
+        },
+        "targetId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "technology": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        }
+      }
+    },
+    "RelationshipKind": {
+      "runtime": false,
+      "signature": "\"dependency\" | \"association\" | \"inheritance\" | \"implementation\" | \"composition\"",
+      "fields": {}
+    },
+    "resolveLegend": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, diagramId: string) => import(\".\").LegendSpec | undefined",
+      "fields": {}
+    },
+    "Result": {
+      "runtime": false,
+      "signature": "{ readonly ok: true; readonly value: T; readonly diagnostics: readonly import(\".\").Diagnostic[]; } | { readonly ok: false; readonly diagnostics: readonly import(\".\").Diagnostic[]; }",
+      "fields": {}
+    },
+    "Route": {
+      "runtime": false,
+      "signature": "import(\".\").Route",
+      "fields": {
+        "architectureId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "diagramId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "elementId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "stepId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        }
+      }
+    },
+    "RoutePort": {
+      "runtime": false,
+      "signature": "import(\".\").RoutePort",
+      "fields": {
+        "back": {
+          "optional": false,
+          "readonly": true,
+          "type": "() => void"
+        },
+        "getSnapshot": {
+          "optional": false,
+          "readonly": true,
+          "type": "() => import(\".\").RouteSnapshot"
+        },
+        "push": {
+          "optional": false,
+          "readonly": true,
+          "type": "(route: import(\".\").Route) => void"
+        },
+        "replace": {
+          "optional": false,
+          "readonly": true,
+          "type": "(route: import(\".\").Route) => void"
+        },
+        "subscribe": {
+          "optional": false,
+          "readonly": true,
+          "type": "(listener: () => void) => () => void"
+        }
+      }
+    },
+    "RouteSnapshot": {
+      "runtime": false,
+      "signature": "import(\".\").RouteSnapshot",
+      "fields": {
+        "canGoBack": {
+          "optional": false,
+          "readonly": true,
+          "type": "boolean"
+        },
+        "hash": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Scene": {
+      "runtime": false,
+      "signature": "import(\".\").Scene",
+      "fields": {
+        "architectureId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "diagram": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LandscapeDiagram | import(\".\").ContextDiagram | import(\".\").ContainerDiagram | import(\".\").ComponentDiagram | import(\".\").CodeDiagram | import(\".\").DynamicDiagram | import(\".\").DeploymentDiagram"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").SceneEdge[]"
+        },
+        "groups": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").SceneGroup[] | undefined"
+        },
+        "height": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "kindLabel": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").SceneNode[]"
+        },
+        "revision": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "statusText": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "width": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "SceneEdge": {
+      "runtime": false,
+      "signature": "import(\".\").SceneEdge",
+      "fields": {
+        "labelBounds": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Bounds | undefined"
+        },
+        "labelX": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "labelY": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "number": {
+          "optional": true,
+          "readonly": true,
+          "type": "number | undefined"
+        },
+        "relationship": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").Relationship"
+        },
+        "sections": {
+          "optional": true,
+          "readonly": true,
+          "type": "readonly import(\".\").EdgeSection[] | undefined"
+        },
+        "source": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").SceneNode"
+        },
+        "stroke": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"solid\" | \"dashed\""
+        },
+        "target": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").SceneNode"
+        },
+        "x1": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "x2": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y1": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y2": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "SceneGroup": {
+      "runtime": false,
+      "signature": "import(\".\").SceneGroup",
+      "fields": {
+        "group": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").Group"
+        },
+        "height": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "labelBounds": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Bounds | undefined"
+        },
+        "parentGroupId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "width": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "x": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "SceneInput": {
+      "runtime": false,
+      "signature": "import(\".\").SceneInput",
+      "fields": {
+        "architectureId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "diagram": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").LandscapeDiagram | import(\".\").ContextDiagram | import(\".\").ContainerDiagram | import(\".\").ComponentDiagram | import(\".\").CodeDiagram | import(\".\").DynamicDiagram | import(\".\").DeploymentDiagram"
+        },
+        "edges": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly { readonly relationship: import(\".\").Relationship; readonly number?: number; readonly stroke: \"solid\" | \"dashed\"; }[]"
+        },
+        "groups": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Group[]"
+        },
+        "kindLabel": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "nodes": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly { readonly element: import(\".\").Element; readonly kindLabel: string; readonly parentGroupId?: string; readonly tone: \"accent\" | \"external\" | \"default\"; readonly stroke: \"solid\" | \"dashed\"; readonly statusText: string; }[]"
+        },
+        "revision": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "statusText": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "SceneNode": {
+      "runtime": false,
+      "signature": "import(\".\").SceneNode",
+      "fields": {
+        "element": {
+          "optional": false,
+          "readonly": true,
+          "type": "(ElementBase & { readonly kind: \"person\" | \"softwareSystem\"; }) | (ElementBase & { readonly kind: \"container\"; readonly parentId: import(\".\").Id; readonly technology: string; readonly containerType: \"application\" | \"datastore\"; }) | (ElementBase & { readonly kind: \"component\"; readonly parentId: import(\".\").Id; readonly technology: string; }) | (ElementBase & { readonly kind: \"code\"; readonly parentId: import(\".\").Id; readonly symbolKind: import(\".\").SymbolKind; readonly members: readonly import(\".\").CodeMember[]; }) | (ElementBase & { readonly kind: \"deploymentNode\"; readonly environment: string; readonly technology: string; readonly parentId?: import(\".\").Id; }) | (ElementBase & { readonly kind: \"infrastructureNode\"; readonly parentId: import(\".\").Id; readonly technology: string; }) | (ElementBase & { readonly kind: \"instance\"; readonly instanceOf: import(\".\").Id; readonly parentId: import(\".\").Id; readonly environment: string; })"
+        },
+        "height": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "kindLabel": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "labelBounds": {
+          "optional": true,
+          "readonly": true,
+          "type": "import(\".\").Bounds | undefined"
+        },
+        "parentGroupId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "statusText": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "stroke": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"solid\" | \"dashed\""
+        },
+        "tone": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"accent\" | \"external\" | \"default\""
+        },
+        "width": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "x": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "y": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "selectDocumentation": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, diagramId: string, elementId?: string) => import(\".\").DocumentSelection",
+      "fields": {}
+    },
+    "Size": {
+      "runtime": false,
+      "signature": "import(\".\").Size",
+      "fields": {
+        "height": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        },
+        "width": {
+          "optional": false,
+          "readonly": true,
+          "type": "number"
+        }
+      }
+    },
+    "Source": {
+      "runtime": false,
+      "signature": "import(\".\").Source",
+      "fields": {
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "notes": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "path": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "revision": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        },
+        "title": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "url": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "runtime": false,
+      "signature": "\"existing\" | \"planned\" | \"mixed\"",
+      "fields": {}
+    },
+    "Step": {
+      "runtime": false,
+      "signature": "import(\".\").InteractionStep | { readonly kind: \"sequence\"; readonly id: import(\".\").Id; readonly children: readonly import(\".\").Step[]; } | { readonly kind: \"parallel\"; readonly id: import(\".\").Id; readonly branches: readonly import(\".\").Step[]; }",
+      "fields": {}
+    },
+    "Swatch": {
+      "runtime": false,
+      "signature": "import(\".\").Swatch",
+      "fields": {
+        "arrow": {
+          "optional": true,
+          "readonly": true,
+          "type": "\"forward\" | \"none\" | undefined"
+        },
+        "shape": {
+          "optional": true,
+          "readonly": true,
+          "type": "\"person\" | \"box\" | \"database\" | \"boundary\" | \"line\" | undefined"
+        },
+        "stroke": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"solid\" | \"dashed\" | \"dotted\""
+        },
+        "tone": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"accent\" | \"external\" | \"default\" | \"muted\""
+        }
+      }
+    },
+    "SymbolKind": {
+      "runtime": false,
+      "signature": "\"function\" | \"class\" | \"interface\" | \"type\" | \"enum\" | \"table\" | \"module\"",
+      "fields": {}
+    },
+    "Target": {
+      "runtime": false,
+      "signature": "import(\".\").Target",
+      "fields": {
+        "diagramId": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "elementId": {
+          "optional": true,
+          "readonly": true,
+          "type": "string | undefined"
+        }
+      }
+    },
+    "Term": {
+      "runtime": false,
+      "signature": "import(\".\").Term",
+      "fields": {
+        "category": {
+          "optional": false,
+          "readonly": true,
+          "type": "\"technicalNoun\" | \"technicalVerb\""
+        },
+        "definition": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "id": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        },
+        "text": {
+          "optional": false,
+          "readonly": true,
+          "type": "string"
+        }
+      }
+    },
+    "transition": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, route: import(\".\").Route, action: import(\".\").NavigationAction, canGoBack?: boolean) => import(\".\").Result<import(\".\").NavigationEffect>",
+      "fields": {}
+    },
+    "ValidatedArchitecture": {
+      "runtime": false,
+      "signature": "import(\".\").ValidatedArchitecture",
+      "fields": {
+        "bundle": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").ArchitectureBundle"
+        },
+        "diagnostics": {
+          "optional": false,
+          "readonly": true,
+          "type": "readonly import(\".\").Diagnostic[]"
+        },
+        "index": {
+          "optional": false,
+          "readonly": true,
+          "type": "import(\".\").ModelIndex"
+        }
+      }
+    },
+    "validateRoute": {
+      "runtime": true,
+      "signature": "(index: import(\".\").ModelIndex, route: import(\".\").Route) => readonly import(\".\").Diagnostic[]",
+      "fields": {}
+    },
+    "Visibility": {
+      "runtime": false,
+      "signature": "\"public\" | \"protected\" | \"private\" | \"package\"",
+      "fields": {}
+    }
+  }
+}
