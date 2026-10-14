@@ -50,7 +50,7 @@ test('axe, reduced motion and 200 percent zoom remain usable', async ({ page }, 
   await page.emulateMedia({ reducedMotion: 'reduce' }); await page.goto('./'); await expect(page.locator('.c4-node')).toHaveCount(3)
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
   await page.evaluate(() => { document.documentElement.style.zoom = '2' })
-  await page.locator('.c4-node').nth(2).click(); await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('S3 object storage') })
+  await page.locator('.c4-flow-canvas .c4-node').nth(2).focus(); await page.keyboard.press('Enter'); await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('S3 object storage') })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   expect(await page.locator('.c4-legend li').evaluateAll(items => items.every(item => item.scrollWidth <= item.clientWidth))).toBe(true)
   await page.screenshot({ path: info.outputPath('zoom-200.png'), fullPage: true })

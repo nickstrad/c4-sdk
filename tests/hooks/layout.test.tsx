@@ -98,3 +98,14 @@ it('natural-content measurement publishes once per immutable input and cleans up
   notify(); expect(frames).toHaveLength(3)
   width.mockRestore(); height.mockRestore(); vi.unstubAllGlobals(); frames = []
 })
+it('long-lived host viewport memory evicts old revisions instead of growing without bound', () => {
+  const read = vi.fn()
+  function Viewer({ revision }: { revision: string }) {
+    const session = useViewerSession({ architectureId: 'a', diagramId: 'context' }, revision)
+    return <div {...session.rootProps}><div data-layout-ready><h1 data-diagram-heading tabIndex={-1}>View</h1></div><button onClick={() => session.canvasSession.onViewport({ x: 12, y: 34, zoom: 1 })}>Save</button><button onClick={() => read(session.canvasSession.getViewport())}>Read</button></div>
+  }
+  const view = render(<Viewer revision="0" />)
+  for (let i = 0; i <= 256; i++) { view.rerender(<Viewer revision={String(i)} />); fireEvent.click(view.getByText('Save')) }
+  view.rerender(<Viewer revision="0" />); fireEvent.click(view.getByText('Read')); expect(read).toHaveBeenLastCalledWith(undefined)
+  view.rerender(<Viewer revision="1" />); fireEvent.click(view.getByText('Read')); expect(read).toHaveBeenLastCalledWith({ x: 12, y: 34, zoom: 1 })
+})

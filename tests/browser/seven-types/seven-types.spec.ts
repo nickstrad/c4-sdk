@@ -13,6 +13,12 @@ const open = async (page: Page, id: string, element?: string) => {
   await expect(page.locator('.c4-flow-canvas')).toBeVisible()
 }
 const canvas = (page: Page) => page.locator('.c4-flow-canvas')
+async function inCanvas(locator: import('@playwright/test').Locator) {
+  await expect.poll(() => locator.evaluate(node => {
+    const box = node.getBoundingClientRect(); const host = node.closest('.c4-flow-canvas')!.getBoundingClientRect()
+    return box.width >= 100 && box.left >= host.left - 2 && box.right <= host.right + 2 && box.top >= host.top - 2 && box.bottom <= host.bottom + 2
+  })).toBe(true)
+}
 test('all seven kinds render declared members, key and explanation from direct URLs', async ({ page }, info) => {
   const mobile = info.project.name.startsWith('mobile')
   for (const [id, kind, title] of kinds) {
@@ -31,6 +37,10 @@ test('all seven kinds render declared members, key and explanation from direct U
 })
 test('code compartments expose every declared member as accessible text', async ({ page }, info) => {
   await open(page, 'code')
+  await canvas(page).scrollIntoViewIfNeeded()
+  const entry = canvas(page).locator('[data-node-id="OrderService"]')
+  await inCanvas(entry)
+  await page.screenshot({ path: info.outputPath('code-initial-viewport.png') })
   const symbols = bundle.model.elements.filter((item: { kind: string; parentId: string }) => item.kind === 'code')
   const shown = bundle.diagrams.find((item: { id: string }) => item.id === 'code').nodes.map((item: { elementId: string }) => item.elementId)
   for (const symbol of symbols.filter((item: { id: string }) => shown.includes(item.id))) {
@@ -38,6 +48,8 @@ test('code compartments expose every declared member as accessible text', async 
     const node = canvas(page).locator(`[data-node-id="${symbol.id}"]`)
     await expect(node).toBeVisible()
     if (!members.length) { await expect(node).toContainText('No declared members'); continue }
+    await node.locator('.c4-node').focus()
+    await inCanvas(node)
     const list = node.getByRole('list', { name: `Members of ${symbol.name}` })
     await expect(list.getByRole('listitem')).toHaveCount(members.length)
     for (const member of members) {
@@ -45,12 +57,21 @@ test('code compartments expose every declared member as accessible text', async 
       await expect(item).toContainText(member.visibility ?? 'public')
       if (member.signature) await expect(item).toContainText(member.signature)
     }
+    expect(await list.evaluate(element => element.scrollHeight <= element.clientHeight + 2)).toBe(true)
+    expect(await list.evaluate(element => { const scale = element.getBoundingClientRect().width / (element as HTMLElement).offsetWidth; return parseFloat(getComputedStyle(element).fontSize) * scale })).toBeGreaterThanOrEqual(8)
     // The compartment is inside its card: no clipped text.
     const box = await node.boundingBox(); const inner = await list.boundingBox()
     expect(inner!.y + inner!.height).toBeLessThanOrEqual(box!.y + box!.height + 2)
   }
+  await page.getByRole('button', { name: 'Fit View', exact: true }).click()
+  await expect.poll(() => canvas(page).locator('[data-node-id]').evaluateAll(nodes => nodes.every(node => { const b = node.getBoundingClientRect(); const c = node.closest('.c4-flow-canvas')!.getBoundingClientRect(); return b.left >= c.left - 2 && b.right <= c.right + 2 && b.top >= c.top - 2 && b.bottom <= c.bottom + 2 }))).toBe(true)
+  await page.screenshot({ path: info.outputPath('code-fit-viewport.png') })
+  await canvas(page).getByRole('button', { name: 'Inspect OrderService', exact: true }).focus()
+  await inCanvas(entry)
   const external = canvas(page).locator('[data-node-id="PaymentPort"] .c4-node')
   await expect(external).toContainText('Code · interface')
+  await page.getByRole('button', { name: 'Actual size', exact: true }).click()
+  await canvas(page).getByRole('button', { name: 'Inspect OrderService', exact: true }).focus()
   const first = canvas(page).locator('.c4-node').first()
   const bounds = await first.boundingBox(); expect(bounds!.width).toBeGreaterThan(120)
   const relation = page.getByText('inheritance ·').first(); await expect(relation).toBeAttached()

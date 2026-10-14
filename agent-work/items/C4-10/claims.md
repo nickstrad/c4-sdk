@@ -1,6 +1,6 @@
 # C4-10 ownership claims
 
-Status: prepared; builder not dispatched.
+Status: builder implementation complete; independent review pending; exact base `59156023e3d1b888d87ccbc6e0173b3a2ea63de6`, worktree `/tmp/c4-sdk-c4-10-build`, branch `item/c4-10-hardening`.
 
 Base: current c4-sdk `main` (record exact SHA in coordination before dispatch). C4-09 remains paused; no ts-db worktree or files are in this item.
 

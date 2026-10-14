@@ -9,3 +9,6 @@
 .c4-docs-trigger,.c4-docs-close { padding: .65rem 1rem; border: 1px solid #52657b; border-radius: .4rem; background: white; color: #182333; }
 .c4-docs-close { margin-bottom: 1rem; }
 @media(max-width: 760px) { .c4-docs-inline { display: none; } .c4-docs-mobile { display: block; } }
+
+/* Put the narrow-screen explanation entry before the long canvas and key. */
+@media(max-width: 760px) { .c4-viewer-grid > .c4-docs-responsive { order: -1; } }

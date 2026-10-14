@@ -5,6 +5,11 @@ import type { Route } from '../../domain/navigation'
 interface Session { focus: Map<string, string>; viewport: Map<string, Viewport>; previous?: string; requested?: string }
 // A persistent host DOM node outlives CatalogViewer's keyed dataset child. Weak keys release
 // its memory on host removal and isolate two catalogs even when they share the same route port.
+const MAX_SAVED_VIEWS = 256
+function remember<T>(memory: Map<string, T>, key: string, value: T) {
+  memory.delete(key); memory.set(key, value)
+  if (memory.size > MAX_SAVED_VIEWS) memory.delete(memory.keys().next().value!)
+}
 const hosts = new WeakMap<HTMLElement, Map<number, Session>>()
 export interface CanvasSession { readonly getFocusedElement: () => HTMLElement | undefined; readonly getViewport: () => Viewport | undefined; readonly onViewport: (viewport: Viewport) => void; readonly onReady: () => void }
 export function useViewerSession(route: Route, revision: string) {
@@ -49,7 +54,7 @@ export function useViewerSession(route: Route, revision: string) {
     return () => observer.disconnect()
   }, [restore])
   return {
-    rootProps: { ref: root, 'data-c4-viewer-host': true, onFocusCapture: (event: FocusEvent<HTMLDivElement>) => { const id = (event.target as HTMLElement).dataset.elementId; if (id) session()?.focus.set(viewKey, id) } },
-    canvasSession: { getFocusedElement: () => { const active = document.activeElement; return active instanceof HTMLElement && root.current?.contains(active) ? active : undefined }, getViewport: () => session()?.viewport.get(viewKey), onViewport: (viewport: Viewport) => { session()?.viewport.set(viewKey, viewport) }, onReady: restore } satisfies CanvasSession,
+    rootProps: { ref: root, 'data-c4-viewer-host': true, onFocusCapture: (event: FocusEvent<HTMLDivElement>) => { const id = (event.target as HTMLElement).dataset.elementId; const memory = session(); if (id && memory) remember(memory.focus, viewKey, id) } },
+    canvasSession: { getFocusedElement: () => { const active = document.activeElement; return active instanceof HTMLElement && root.current?.contains(active) ? active : undefined }, getViewport: () => session()?.viewport.get(viewKey), onViewport: (viewport: Viewport) => { const memory = session(); if (memory) remember(memory.viewport, viewKey, viewport) }, onReady: restore } satisfies CanvasSession,
   }
 }
