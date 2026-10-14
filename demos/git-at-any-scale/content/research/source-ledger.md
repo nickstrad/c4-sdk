@@ -17,3 +17,11 @@ Primary source: Vicent Martí, [“Git at any scale”](https://cursor.com/blog/
 **Illustrative deployment:** generic clients, service boundary, object storage, and interchangeable repository caches explain the article. They are not a production inventory; assign no real counts, regions, languages, processes, or node identities.
 
 **Unknown:** actual topology and service decomposition; storage, retention, backup, and security configuration; recovery objectives; exact Origin boundaries; workload-specific behavior. The article does not establish these.
+
+## Final showcase mapping and review — 2026-10-14
+
+The builder reread the original article on this date. The exhaustive [source-to-ID inventory](source-map.json) is the machine-readable mapping for every diagram, element and relationship; each entry names its documents, source IDs, evidence category and review status. Runtime source IDs resolve to article section URLs in `public/diagrams/continuity.json`. Source-fidelity independent review is pending in [C4-08](../../../../agent-work/items/C4-08/review.md); builder checking is not independent approval. STE remains draft, human review pending, diagnostics advisory.
+
+The four component roles are **inferred decomposition**: request/placement, publication, freshness and maintenance. No source classes or process boundaries are asserted. The model contains no code symbols. The deployment is **illustrative**; lifecycle `planned` is a visual teaching convention, not a statement of Cursor's plans. The declared cross-host cache connection is explicitly illustrative; it is not evidence of Cursor remote-cache access.
+
+Push ordering preserves independent local-write/reference-preparation and WAL-upload branches before CAS publication. CAS-conflict retry is an alternative discussed in the write-up, not a simultaneously successful/failed trace. The 304 and 200 read paths are separate diagrams. Rebuild is a separate missing-cache story; it does not promise recovery time. Compaction is a dependency abstraction, not measured execution timing. Glossary and source labels describe these distinctions in the viewer.

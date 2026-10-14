@@ -1,0 +1,777 @@
+{
+  "source": "https://cursor.com/blog/git-at-any-scale",
+  "checkedAt": "2026-10-14",
+  "independentSourceReview": "pending",
+  "steReview": "draft; diagnostics advisory, no certification",
+  "entries": [
+    {
+      "kind": "element",
+      "id": "developer",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "user-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "continuity",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "system-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "storage",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "storage-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "server",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "docIds": [
+        "server-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "repository",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "docIds": [
+        "repository-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "replica",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "replica-role"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "demo-region",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "demo-region-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "demo-host-a",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "demo-host-a-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "demo-host-b",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "demo-host-b-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "server-a",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "server-a-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "server-b",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "server-b-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "repository-a",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "repository-a-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "demo-storage",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "demo-storage-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "server-handler",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "consensus"
+      ],
+      "docIds": [
+        "server-handler-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "publication",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "consensus",
+        "continuity-source"
+      ],
+      "docIds": [
+        "publication-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "freshness",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "freshness-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "element",
+      "id": "maintenance",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "compaction"
+      ],
+      "docIds": [
+        "maintenance-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "context",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "overview"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "containers",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "docIds": [
+        "container-overview"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "push",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "consensus",
+        "continuity-source"
+      ],
+      "docIds": [
+        "push-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "read-current",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "read-current-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "read-catch-up",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "read-catch-up-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "compaction",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "compaction"
+      ],
+      "docIds": [
+        "compaction-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "gossip",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "gossip-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "deployment",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "deployment-overview"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "server-components",
+      "evidence": "inferred decomposition",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "server-components-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "diagram",
+      "id": "rebuild",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "consensus",
+        "wal-truth"
+      ],
+      "docIds": [
+        "rebuild-doc"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "git",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "git-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "wal",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "wal-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "server-local",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "server-local-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "server-wal",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "server-wal-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "client-server",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "consensus"
+      ],
+      "docIds": [
+        "client-server-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "replica-storage",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "replica-storage-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "server-replica",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "server-replica-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "client-replica",
+      "evidence": "documented behavior; model abstraction",
+      "sourceIds": [
+        "replication"
+      ],
+      "docIds": [
+        "client-replica-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "deployment-local-a",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "deployment-local-a-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "deployment-wal",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "deployment-wal-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    },
+    {
+      "kind": "relationship",
+      "id": "deployment-local-b",
+      "evidence": "illustrative",
+      "sourceIds": [
+        "article"
+      ],
+      "docIds": [
+        "deployment-local-b-explanation"
+      ],
+      "sourceReview": {
+        "status": "builder-checked",
+        "date": "2026-10-14"
+      },
+      "languageReview": {
+        "status": "draft",
+        "issue": "ASD-STE100 Issue 9",
+        "humanReview": "pending"
+      }
+    }
+  ]
+}

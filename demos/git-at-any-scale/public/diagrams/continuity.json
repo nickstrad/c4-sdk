@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "cursor-continuity",
-  "title": "Continuity: external context",
-  "revision": "dynamic-draft-1",
+  "title": "Continuity: Git at any scale",
+  "revision": "showcase-2026-10-14",
   "defaultDiagramId": "context",
   "sources": [
     {
@@ -29,306 +29,658 @@
       "title": "Compaction · Cursor",
       "url": "https://cursor.com/blog/git-at-any-scale#compaction",
       "notes": "Original scenario abstraction; role boundaries and reading identifiers are inferred."
+    },
+    {
+      "id": "continuity-source",
+      "title": "Continuity · Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale#continuity",
+      "notes": "Article claim, not independently verified; decomposition and topology are our model."
+    },
+    {
+      "id": "wal-truth",
+      "title": "WAL as truth · Cursor",
+      "url": "https://cursor.com/blog/git-at-any-scale#wal-as-truth",
+      "notes": "Article claim, not independently verified; decomposition and topology are our model."
     }
   ],
   "documents": [
     {
       "id": "overview",
       "title": "An external view",
-      "plain": "This small context interprets the article’s system boundaries. It omits internal storage and replication details.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nThis small context interprets the article’s system boundaries. It omits internal storage and replication details.\n\nStart here: the article describes Continuity, a Git storage system behind Origin. Local Git repositories are disposable warm caches; the S3 WAL is authoritative. Inspect Continuity, then follow its detail to logical containers. Use the Diagram key, Plain language and STE100 text controls; STE is a draft. Related views show separate push, read, gossip, rebuild and compaction stories. This is a reading model, not a running simulation.",
       "ste": {
-        "text": "This diagram shows the system and its users. It does not show internal parts.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nThis diagram shows the system and its users. It does not show internal parts.\n\nStart here: the article describes Continuity, a Git storage system behind Origin. Local Git repositories are disposable warm caches; the S3 WAL is authoritative. Inspect Continuity, then follow its detail to logical containers. Use the Diagram key, Plain language and STE100 text controls; STE is a draft. Related views show separate push, read, gossip, rebuild and compaction stories. This is a reading model, not a running simulation.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "wal",
+        "cache"
       ]
     },
     {
       "id": "user-doc",
       "title": "Git user",
-      "plain": "Developers use Git operations to exchange repository changes. The person is a context abstraction.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nDevelopers use Git operations to exchange repository changes. The person is a context abstraction.",
       "ste": {
-        "text": "The developer sends and receives repository changes.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nThe developer sends and receives repository changes.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "system-doc",
       "title": "Continuity",
-      "plain": "Cursor describes Continuity as a Git storage system. Its write-ahead log is the source of truth.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nCursor describes Continuity as a Git storage system. Its write-ahead log is the source of truth.",
       "ste": {
-        "text": "Continuity stores repository changes in a write-ahead log.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nContinuity stores repository changes in a write-ahead log.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "storage-doc",
       "title": "Object storage",
-      "plain": "The article identifies S3 as the production object store. The context shows this as an external dependency.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nThe article identifies S3 as the production object store. The context shows this as an external dependency.",
       "ste": {
-        "text": "The object store holds the write-ahead log.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nThe object store holds the write-ahead log.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "container-overview",
       "title": "Logical container view",
-      "plain": "This is an inferred C4 decomposition of the article’s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.",
+      "plain": "**Evidence: inferred decomposition.**\n\nThis is an inferred C4 decomposition of the article’s responsibilities. A logical Continuity server uses a local Git repository and the external S3 WAL. It does not claim separate deployable services, host counts, or a production topology.\n\nRendezvous hashing ranks preferred healthy hosts from repository ID and node membership. It is a placement optimization, not a routing database or durable repository ownership. Drill into the server for inferred responsibilities.",
       "ste": {
-        "text": "This view shows logical parts. The server uses a local Git repository and S3 storage. The boundaries are inferred.",
+        "text": "Evidence: inferred decomposition.\n\nThis view shows logical parts. The server uses a local Git repository and S3 storage. The boundaries are inferred.\n\nRendezvous hashing ranks preferred healthy hosts from repository ID and node membership. It is a placement optimization, not a routing database or durable repository ownership. Drill into the server for inferred responsibilities.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
-        "article"
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "termIds": [
+        "rendezvous",
+        "cache",
+        "wal"
       ]
     },
     {
       "id": "server-doc",
       "title": "Continuity server (inferred boundary)",
-      "plain": "The article describes servers preparing reference transactions and accessing the WAL. This diagram groups those responsibilities into one inferred application container.",
+      "plain": "**Evidence: inferred decomposition.**\n\nThe article describes servers preparing reference transactions and accessing the WAL. This diagram groups those responsibilities into one inferred application container.",
       "ste": {
-        "text": "The server prepares reference transactions and uses the WAL. This application boundary is inferred.",
+        "text": "Evidence: inferred decomposition.\n\nThe server prepares reference transactions and uses the WAL. This application boundary is inferred.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
-        "article"
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "termIds": [
+        "wal"
       ]
     },
     {
       "id": "repository-doc",
       "title": "Local Git repository",
-      "plain": "The article describes a normal Git repository on NVMe as a warm cache. The datastore container is a logical abstraction; the article does not describe it as a separate service.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nThe article describes a normal Git repository on NVMe as a warm cache. The datastore container is a logical abstraction; the article does not describe it as a separate service.",
       "ste": {
-        "text": "The local Git repository acts as a cache. The datastore boundary is inferred.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nThe local Git repository acts as a cache. The datastore boundary is inferred.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
-        "article"
+        "article",
+        "consensus",
+        "continuity-source"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "replica-role",
       "title": "Replica role (inferred)",
-      "plain": "This logical role checks freshness before serving. Gossip helps catch-up; it is not a correctness requirement.",
+      "plain": "**Evidence: inferred decomposition.**\n\nThis logical role checks freshness before serving. Gossip helps catch-up; it is not a correctness requirement.",
       "ste": {
-        "text": "Check freshness before you serve a read. Gossip helps the replica.",
+        "text": "Evidence: inferred decomposition.\n\nCheck freshness before you serve a read. Gossip helps the replica.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "replication"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "push-doc",
       "title": "Push: durable publication",
-      "plain": "Original abstraction: WAL persistence and local preparation precede CAS publication. Branches keep independent order; boundaries are inferred.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nOriginal abstraction: WAL persistence and local preparation precede CAS publication. Branches keep independent order; boundaries are inferred.\n\nLocal pack writing and WAL upload are concurrent branches; reference preparation follows the local write. Both branches precede CAS publication. These reading selections do not invent a total order or a lockstep barrier. Acknowledgement follows durable persistence. CAS conflicts may cause refetch and retry; that alternative is not simultaneously drawn as a successful publication.",
       "ste": {
-        "text": "Store the WAL entry. Prepare the references. Publish the index. Then acknowledge the push.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nWrite the local pack and upload the WAL entry in separate branches. Prepare the references after the local write. Wait for both branches before CAS publication. Upload alone does not publish the push. Commit the local references. Then acknowledge the push. Do not read branch identifiers as a total order. A CAS conflict can require a retry; that alternative is not part of this successful path.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
-        "consensus"
+        "consensus",
+        "continuity-source"
+      ],
+      "termIds": [
+        "packfile",
+        "wal",
+        "cas",
+        "publish"
       ]
     },
     {
       "id": "read-current-doc",
       "title": "Read: freshness already matches",
-      "plain": "A conditional freshness check guards serving. This successful 304 path is separate from catch-up.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nA conditional freshness check guards serving. This successful 304 path is separate from catch-up.",
       "ste": {
-        "text": "Check freshness. If the index is unchanged, serve the read.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nCheck freshness. If the index is unchanged, serve the read.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "replication"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "read-catch-up-doc",
       "title": "Read: catch up before serving",
-      "plain": "The 200 path receives the new index and catches up before serving. It does not depend on gossip delivery.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nThe 200 path receives the new index and catches up before serving. It does not depend on gossip delivery.",
       "ste": {
-        "text": "Get the new index. Get missing data. Catch up before you serve the read.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nGet the new index. Get missing data. Catch up before you serve the read.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "replication"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "compaction-doc",
       "title": "Compaction: reuse compacted packs",
-      "plain": "Only the primary compacts; replicas follow the WAL and reuse the result. Role boundaries are inferred.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nOnly the primary compacts; replicas follow the WAL and reuse the result. Role boundaries are inferred.\n\nThe primary compacts both on-disk data and WAL history. Replicas reuse compacted packs, trading bandwidth for CPU. This sequence abstracts dependencies, not measured timing.",
       "ste": {
-        "text": "The primary compacts the data. The replica gets the compacted packs.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nThe primary compacts the data. The replica gets the compacted packs.\n\nThe primary compacts both on-disk data and WAL history. Replicas reuse compacted packs, trading bandwidth for CPU. This sequence abstracts dependencies, not measured timing.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "compaction"
+      ],
+      "termIds": [
+        "compaction",
+        "packfile",
+        "wal"
       ]
     },
     {
       "id": "gossip-doc",
       "title": "Gossip: optional catch-up notification",
-      "plain": "Gossip accelerates catch-up. Lost notifications do not remove conditional freshness checks on read paths.",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nGossip accelerates catch-up. Lost notifications do not remove conditional freshness checks on read paths.",
       "ste": {
-        "text": "Gossip helps catch-up. A read still needs a freshness check.",
+        "text": "Evidence: documented behavior; model abstraction.\n\nGossip helps catch-up. A read still needs a freshness check.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "replication"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "demo-region-doc",
       "title": "Illustrative region",
-      "plain": "Hypothetical physical boundary. The article does not establish this region or host count.",
+      "plain": "**Evidence: illustrative.**\n\nHypothetical physical boundary. The article does not establish this region or host count.",
       "ste": {
-        "text": "Hypothetical physical boundary. The article does not establish this region or host count.",
+        "text": "Evidence: illustrative.\n\nThis region is a teaching boundary. Do not use it as evidence of the actual deployment.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "demo-host-a-doc",
       "title": "Illustrative host A",
-      "plain": "Hypothetical host, not a statement about actual processes or machines.",
+      "plain": "**Evidence: illustrative.**\n\nHypothetical host, not a statement about actual processes or machines.",
       "ste": {
-        "text": "Hypothetical host, not a statement about actual processes or machines.",
+        "text": "Evidence: illustrative.\n\nThis host is a teaching example. The article does not specify a machine or a process at this location.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "demo-host-b-doc",
       "title": "Illustrative host B",
-      "plain": "A second hypothetical host demonstrates distinct replica identities.",
+      "plain": "**Evidence: illustrative.**\n\nA second hypothetical host demonstrates distinct replica identities.",
       "ste": {
-        "text": "A second hypothetical host demonstrates distinct replica identities.",
+        "text": "Evidence: illustrative.\n\nThis second host lets you inspect a different replica. The host count is invented.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "server-a-doc",
       "title": "Continuity replica A",
-      "plain": "Illustrative instance of the logical server role. Its exact process boundary is not asserted.",
+      "plain": "**Evidence: illustrative.**\n\nIllustrative instance of the logical server role. Its exact process boundary is not asserted.",
       "ste": {
-        "text": "Illustrative instance of the logical server role. Its exact process boundary is not asserted.",
+        "text": "Evidence: illustrative.\n\nInspect replica A as a separate model identity. Follow its link to logical detail. Its process boundary is unknown.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "server-b-doc",
       "title": "Continuity replica B",
-      "plain": "A distinct illustrative replica of the same logical server, not evidence of actual replica count.",
+      "plain": "**Evidence: illustrative.**\n\nA distinct illustrative replica of the same logical server, not evidence of actual replica count.",
       "ste": {
-        "text": "A distinct illustrative replica of the same logical server, not evidence of actual replica count.",
+        "text": "Evidence: illustrative.\n\nInspect replica B as a separate model identity. The example does not specify the actual number of replicas.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "repository-a-doc",
       "title": "Local cache instance",
-      "plain": "Illustrative placement of the local repository cache role.",
+      "plain": "**Evidence: illustrative.**\n\nIllustrative placement of the local repository cache role.",
       "ste": {
-        "text": "Illustrative placement of the local repository cache role.",
+        "text": "Evidence: illustrative.\n\nThis cache is placed on host A for the example. The placement is not production evidence.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "demo-storage-doc",
       "title": "Illustrative durable storage",
-      "plain": "The article describes S3-backed durability; this drawn physical placement is hypothetical.",
+      "plain": "**Evidence: illustrative.**\n\nThe article describes S3-backed durability; this drawn physical placement is hypothetical.",
       "ste": {
-        "text": "The article describes S3-backed durability; this drawn physical placement is hypothetical.",
+        "text": "Evidence: illustrative.\n\nThe article describes S3 durability. The physical placement in this view is an example only.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
-      ]
-    },
-    {
-      "id": "server-handler-doc",
-      "title": "Illustrative request handler",
-      "plain": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
-      "ste": {
-        "text": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
-        "issue": "ASD-STE100 Issue 9",
-        "reviewStatus": "draft"
-      },
-      "sourceIds": [
-        "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "deployment-overview",
       "title": "Illustrative deployment",
-      "plain": "This topology is hypothetical. It demonstrates nested hosts, distinct server replicas, a cache, and durable storage. The article supports the logical roles and S3 durability. It does not establish the host count, regions, replica placement, process boundaries, or implementation language shown here. Collapsing a host hides its descendants and their relationships; no ancestor relationship is invented.",
+      "plain": "**Evidence: illustrative.**\n\nThis topology is hypothetical. It demonstrates nested hosts, distinct server replicas, a cache, and durable storage. The article supports the logical roles and S3 durability. It does not establish the host count, regions, replica placement, process boundaries, or implementation language shown here. Collapsing a host hides its descendants and their relationships; no ancestor relationship is invented.",
       "ste": {
-        "text": "This topology is hypothetical. It demonstrates nested hosts, distinct server replicas, a cache, and durable storage. The article supports the logical roles and S3 durability. It does not establish the host count, regions, replica placement, process boundaries, or implementation language shown here. Collapsing a host hides its descendants and their relationships; no ancestor relationship is invented.",
+        "text": "Evidence: illustrative.\n\nUse this topology as an example only. The article does not specify these hosts, region, counts or process boundaries. Inspect each replica separately. Follow a replica link to the logical server detail. Collapse a host to hide its children and their relationships. The model does not create relationships for hidden endpoints.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     },
     {
       "id": "server-components-doc",
       "title": "Illustrative logical detail",
-      "plain": "This single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.",
+      "plain": "**Evidence: inferred decomposition.**\n\nThis single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.\n\nThese four inferred responsibilities summarize article behavior. They are not named source classes or evidence of four processes. Placement/rebuild, publication, freshness and maintenance may share an implementation.",
       "ste": {
-        "text": "This single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.",
+        "text": "Evidence: inferred decomposition.\n\nThis single request handler is a hypothetical decomposition for navigation. It is not a claim about Cursor source code or process boundaries.\n\nThese four inferred responsibilities summarize article behavior. They are not named source classes or evidence of four processes. Placement/rebuild, publication, freshness and maintenance may share an implementation.",
         "issue": "ASD-STE100 Issue 9",
         "reviewStatus": "draft"
       },
       "sourceIds": [
         "article"
+      ],
+      "termIds": [
+        "rendezvous",
+        "cas",
+        "etag",
+        "compaction"
+      ]
+    },
+    {
+      "id": "server-handler-doc",
+      "title": "Request and placement role",
+      "plain": "**Evidence: inferred decomposition.** Ranks preferred hosts with rendezvous hashing. A missing local repository is rebuilt from the WAL. These responsibilities are not evidence of source classes, implementation language or separately running processes.",
+      "ste": {
+        "text": "Evidence: inferred decomposition.\n\nThis role is inferred. Ranks preferred hosts with rendezvous hashing. A missing local repository is rebuilt from the WAL. The article does not specify source classes or process boundaries.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "consensus"
+      ],
+      "termIds": [
+        "rendezvous",
+        "cache",
+        "materialize",
+        "wal"
+      ]
+    },
+    {
+      "id": "publication-doc",
+      "title": "Publication role",
+      "plain": "**Evidence: inferred decomposition.** Uploads push data and prepares local references before CAS publication. Upload alone does not make a push visible. These responsibilities are not evidence of source classes, implementation language or separately running processes.",
+      "ste": {
+        "text": "Evidence: inferred decomposition.\n\nThis role is inferred. Uploads push data and prepares local references before CAS publication. Upload alone does not make a push visible. The article does not specify source classes or process boundaries.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "consensus",
+        "continuity-source"
+      ],
+      "termIds": [
+        "wal",
+        "cas",
+        "publish"
+      ]
+    },
+    {
+      "id": "freshness-doc",
+      "title": "Freshness role",
+      "plain": "**Evidence: inferred decomposition.** Checks the expected ETag before serving. A 304 permits serving; a 200 requires catch-up. Gossip only accelerates catch-up. These responsibilities are not evidence of source classes, implementation language or separately running processes.",
+      "ste": {
+        "text": "Evidence: inferred decomposition.\n\nThis role is inferred. Checks the expected ETag before serving. A 304 permits serving; a 200 requires catch-up. Gossip only accelerates catch-up. The article does not specify source classes or process boundaries.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ],
+      "termIds": [
+        "etag",
+        "wal"
+      ]
+    },
+    {
+      "id": "maintenance-doc",
+      "title": "Maintenance role",
+      "plain": "**Evidence: inferred decomposition.** The primary compacts the repository and WAL. Replicas download the compacted packs instead of repacking independently. These responsibilities are not evidence of source classes, implementation language or separately running processes.",
+      "ste": {
+        "text": "Evidence: inferred decomposition.\n\nThis role is inferred. The primary compacts the repository and WAL. Replicas download the compacted packs instead of repacking independently. The article does not specify source classes or process boundaries.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "compaction"
+      ],
+      "termIds": [
+        "compaction",
+        "packfile",
+        "wal"
+      ]
+    },
+    {
+      "id": "rebuild-doc",
+      "title": "Rebuild a disposable cache",
+      "plain": "**Evidence: documented behavior; inferred reading sequence.** If a local repository is absent, Continuity materializes it from the WAL. Rendezvous hashing chooses preferred healthy nodes; a changed ranking does not make a discarded cache authoritative. This story does not specify recovery time or a real machine count.",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nIf the local repository is absent, rebuild it from the WAL. Then serve the request. Preferred nodes can change. The WAL remains the source of truth.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "consensus",
+        "wal-truth"
+      ],
+      "termIds": [
+        "cache",
+        "rendezvous",
+        "materialize",
+        "wal"
+      ]
+    },
+    {
+      "id": "git-explanation",
+      "title": "Pushes and fetches changes",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nPushes and fetches changes",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "wal-explanation",
+      "title": "Stores and reads the WAL",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nStores and reads the WAL",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "server-local-explanation",
+      "title": "Prepares reference transactions",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nPrepares reference transactions",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "server-wal-explanation",
+      "title": "Persists and verifies WAL entries",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nPersists and verifies WAL entries",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "client-server-explanation",
+      "title": "Exchanges Git operations",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nExchanges Git operations",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "consensus"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "replica-storage-explanation",
+      "title": "Checks and reads WAL data",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nChecks and reads WAL data",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "server-replica-explanation",
+      "title": "Notifies about WAL changes",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nNotifies about WAL changes",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "client-replica-explanation",
+      "title": "Requests and receives repository data",
+      "plain": "**Evidence: documented behavior; model abstraction.**\n\nRequests and receives repository data",
+      "ste": {
+        "text": "Evidence: documented behavior; model abstraction.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "replication"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "deployment-local-a-explanation",
+      "title": "Illustrative cache access",
+      "plain": "**Evidence: illustrative.**\n\nIllustrative cache access",
+      "ste": {
+        "text": "Evidence: illustrative.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "deployment-wal-explanation",
+      "title": "Illustrative durable write",
+      "plain": "**Evidence: illustrative.**\n\nIllustrative durable write",
+      "ste": {
+        "text": "Evidence: illustrative.\n\nRead this model with the cited source. The boundaries are abstractions.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "wal"
+      ]
+    },
+    {
+      "id": "deployment-local-b-explanation",
+      "title": "Illustrative cache access",
+      "plain": "**Evidence: illustrative.** This declared connection demonstrates a relationship across hypothetical host boundaries. It does not establish remote cache access in Cursor production. Protocol and process boundaries are unknown.",
+      "ste": {
+        "text": "Evidence: illustrative. This connection is a teaching example. Do not infer actual remote cache access. The protocol and process boundaries are unknown.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "sourceIds": [
+        "article"
+      ],
+      "termIds": [
+        "cache"
       ]
     }
   ],
@@ -342,6 +694,9 @@
         "status": "existing",
         "docIds": [
           "user-doc"
+        ],
+        "sourceIds": [
+          "article"
         ]
       },
       {
@@ -352,6 +707,9 @@
         "status": "existing",
         "docIds": [
           "system-doc"
+        ],
+        "sourceIds": [
+          "article"
         ]
       },
       {
@@ -365,6 +723,9 @@
         ],
         "docIds": [
           "storage-doc"
+        ],
+        "sourceIds": [
+          "article"
         ]
       },
       {
@@ -380,7 +741,9 @@
           "server-doc"
         ],
         "sourceIds": [
-          "article"
+          "article",
+          "consensus",
+          "continuity-source"
         ]
       },
       {
@@ -396,7 +759,9 @@
           "repository-doc"
         ],
         "sourceIds": [
-          "article"
+          "article",
+          "consensus",
+          "continuity-source"
         ]
       },
       {
@@ -555,8 +920,8 @@
       {
         "id": "server-handler",
         "kind": "component",
-        "name": "Illustrative request handler",
-        "description": "Hypothetical decomposition of the server role for logical drill-down. No implementation language or actual process boundary is asserted.",
+        "name": "Request and placement role",
+        "description": "Ranks preferred hosts with rendezvous hashing. A missing local repository is rebuilt from the WAL.",
         "status": "planned",
         "tags": [],
         "plannedNotes": [
@@ -566,10 +931,65 @@
           "server-handler-doc"
         ],
         "sourceIds": [
-          "article"
+          "consensus"
         ],
         "parentId": "server",
-        "technology": "Unspecified implementation"
+        "technology": "Responsibility abstraction (inferred)"
+      },
+      {
+        "id": "publication",
+        "kind": "component",
+        "parentId": "server",
+        "name": "Publication role",
+        "description": "Uploads push data and prepares local references before CAS publication. Upload alone does not make a push visible.",
+        "technology": "Responsibility abstraction (inferred)",
+        "status": "planned",
+        "plannedNotes": [
+          "Inferred decomposition; not Cursor source classes or actual process boundaries."
+        ],
+        "docIds": [
+          "publication-doc"
+        ],
+        "sourceIds": [
+          "consensus",
+          "continuity-source"
+        ]
+      },
+      {
+        "id": "freshness",
+        "kind": "component",
+        "parentId": "server",
+        "name": "Freshness role",
+        "description": "Checks the expected ETag before serving. A 304 permits serving; a 200 requires catch-up. Gossip only accelerates catch-up.",
+        "technology": "Responsibility abstraction (inferred)",
+        "status": "planned",
+        "plannedNotes": [
+          "Inferred decomposition; not Cursor source classes or actual process boundaries."
+        ],
+        "docIds": [
+          "freshness-doc"
+        ],
+        "sourceIds": [
+          "replication"
+        ]
+      },
+      {
+        "id": "maintenance",
+        "kind": "component",
+        "parentId": "server",
+        "name": "Maintenance role",
+        "description": "The primary compacts the repository and WAL. Replicas download the compacted packs instead of repacking independently.",
+        "technology": "Responsibility abstraction (inferred)",
+        "status": "planned",
+        "plannedNotes": [
+          "Inferred decomposition; not Cursor source classes or actual process boundaries."
+        ],
+        "docIds": [
+          "maintenance-doc"
+        ],
+        "sourceIds": [
+          "compaction"
+        ]
       }
     ],
     "relationships": [
@@ -582,6 +1002,9 @@
         "status": "existing",
         "sourceIds": [
           "article"
+        ],
+        "docIds": [
+          "git-explanation"
         ]
       },
       {
@@ -593,6 +1016,9 @@
         "status": "existing",
         "sourceIds": [
           "article"
+        ],
+        "docIds": [
+          "wal-explanation"
         ]
       },
       {
@@ -604,6 +1030,9 @@
         "status": "existing",
         "sourceIds": [
           "article"
+        ],
+        "docIds": [
+          "server-local-explanation"
         ]
       },
       {
@@ -615,6 +1044,9 @@
         "status": "existing",
         "sourceIds": [
           "article"
+        ],
+        "docIds": [
+          "server-wal-explanation"
         ]
       },
       {
@@ -626,6 +1058,9 @@
         "status": "existing",
         "sourceIds": [
           "consensus"
+        ],
+        "docIds": [
+          "client-server-explanation"
         ]
       },
       {
@@ -637,6 +1072,9 @@
         "status": "existing",
         "sourceIds": [
           "replication"
+        ],
+        "docIds": [
+          "replica-storage-explanation"
         ]
       },
       {
@@ -648,6 +1086,9 @@
         "status": "existing",
         "sourceIds": [
           "replication"
+        ],
+        "docIds": [
+          "server-replica-explanation"
         ]
       },
       {
@@ -659,6 +1100,9 @@
         "status": "existing",
         "sourceIds": [
           "replication"
+        ],
+        "docIds": [
+          "client-replica-explanation"
         ]
       },
       {
@@ -671,7 +1115,24 @@
         "sourceIds": [
           "article"
         ],
-        "modelRelationshipId": "server-local"
+        "modelRelationshipId": "server-local",
+        "docIds": [
+          "deployment-local-a-explanation"
+        ]
+      },
+      {
+        "id": "deployment-wal",
+        "sourceId": "server-a",
+        "targetId": "demo-storage",
+        "label": "Illustrative durable write",
+        "technology": "Protocol unspecified",
+        "status": "planned",
+        "sourceIds": [
+          "article"
+        ],
+        "docIds": [
+          "deployment-wal-explanation"
+        ]
       },
       {
         "id": "deployment-local-b",
@@ -683,17 +1144,9 @@
         "sourceIds": [
           "article"
         ],
-        "modelRelationshipId": "server-local"
-      },
-      {
-        "id": "deployment-wal",
-        "sourceId": "server-a",
-        "targetId": "demo-storage",
-        "label": "Illustrative durable write",
-        "technology": "Protocol unspecified",
-        "status": "planned",
-        "sourceIds": [
-          "article"
+        "modelRelationshipId": "server-local",
+        "docIds": [
+          "deployment-local-b-explanation"
         ]
       }
     ]
@@ -791,20 +1244,12 @@
           "diagramId": "push"
         },
         {
-          "label": "Read: freshness already matches",
-          "diagramId": "read-current"
+          "label": "Continuity: illustrative deployment",
+          "diagramId": "deployment"
         },
         {
-          "label": "Read: catch up before serving",
-          "diagramId": "read-catch-up"
-        },
-        {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
-          "label": "Gossip: optional catch-up notification",
-          "diagramId": "gossip"
+          "label": "Rebuild: missing local cache",
+          "diagramId": "rebuild"
         }
       ]
     },
@@ -824,6 +1269,9 @@
           "position": {
             "x": 40,
             "y": 260
+          },
+          "detail": {
+            "diagramId": "server-components"
           }
         },
         {
@@ -853,7 +1301,9 @@
         "container-overview"
       ],
       "sourceIds": [
-        "article"
+        "article",
+        "consensus",
+        "continuity-source"
       ],
       "layout": {
         "mode": "manual",
@@ -901,24 +1351,12 @@
           "diagramId": "push"
         },
         {
-          "label": "Read: freshness already matches",
-          "diagramId": "read-current"
-        },
-        {
-          "label": "Read: catch up before serving",
-          "diagramId": "read-catch-up"
-        },
-        {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
-          "label": "Gossip: optional catch-up notification",
-          "diagramId": "gossip"
-        },
-        {
-          "label": "Illustrative deployment",
+          "label": "Continuity: illustrative deployment",
           "diagramId": "deployment"
+        },
+        {
+          "label": "Rebuild: missing local cache",
+          "diagramId": "rebuild"
         }
       ]
     },
@@ -1093,7 +1531,8 @@
         "push-doc"
       ],
       "sourceIds": [
-        "consensus"
+        "consensus",
+        "continuity-source"
       ],
       "related": [
         {
@@ -1103,18 +1542,6 @@
         {
           "label": "Read: catch up before serving",
           "diagramId": "read-catch-up"
-        },
-        {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
-          "label": "Gossip: optional catch-up notification",
-          "diagramId": "gossip"
-        },
-        {
-          "label": "Return to containers",
-          "diagramId": "containers"
         }
       ]
     },
@@ -1248,24 +1675,12 @@
       ],
       "related": [
         {
-          "label": "Push: durable publication",
-          "diagramId": "push"
-        },
-        {
           "label": "Read: catch up before serving",
           "diagramId": "read-catch-up"
         },
         {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
           "label": "Gossip: optional catch-up notification",
           "diagramId": "gossip"
-        },
-        {
-          "label": "Return to containers",
-          "diagramId": "containers"
         }
       ]
     },
@@ -1413,24 +1828,12 @@
       ],
       "related": [
         {
-          "label": "Push: durable publication",
-          "diagramId": "push"
-        },
-        {
           "label": "Read: freshness already matches",
           "diagramId": "read-current"
         },
         {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
           "label": "Gossip: optional catch-up notification",
           "diagramId": "gossip"
-        },
-        {
-          "label": "Return to containers",
-          "diagramId": "containers"
         }
       ]
     },
@@ -1570,24 +1973,12 @@
       ],
       "related": [
         {
-          "label": "Push: durable publication",
-          "diagramId": "push"
+          "label": "Rebuild: missing local cache",
+          "diagramId": "rebuild"
         },
         {
-          "label": "Read: freshness already matches",
-          "diagramId": "read-current"
-        },
-        {
-          "label": "Read: catch up before serving",
-          "diagramId": "read-catch-up"
-        },
-        {
-          "label": "Gossip: optional catch-up notification",
-          "diagramId": "gossip"
-        },
-        {
-          "label": "Return to containers",
-          "diagramId": "containers"
+          "label": "Continuity: illustrative deployment",
+          "diagramId": "deployment"
         }
       ]
     },
@@ -1707,24 +2098,12 @@
       ],
       "related": [
         {
-          "label": "Push: durable publication",
-          "diagramId": "push"
-        },
-        {
-          "label": "Read: freshness already matches",
-          "diagramId": "read-current"
-        },
-        {
           "label": "Read: catch up before serving",
           "diagramId": "read-catch-up"
         },
         {
-          "label": "Compaction: reuse compacted packs",
-          "diagramId": "compaction"
-        },
-        {
-          "label": "Return to containers",
-          "diagramId": "containers"
+          "label": "Rebuild: missing local cache",
+          "diagramId": "rebuild"
         }
       ]
     },
@@ -1822,12 +2201,22 @@
       ],
       "sourceIds": [
         "article"
+      ],
+      "related": [
+        {
+          "label": "Continuity: logical containers",
+          "diagramId": "containers"
+        },
+        {
+          "label": "Continuity: inferred responsibilities",
+          "diagramId": "server-components"
+        }
       ]
     },
     {
       "id": "server-components",
       "kind": "component",
-      "title": "Continuity: illustrative server detail",
+      "title": "Continuity: inferred responsibilities",
       "scopeId": "server",
       "status": "planned",
       "parent": {
@@ -1837,6 +2226,15 @@
       "nodes": [
         {
           "elementId": "server-handler"
+        },
+        {
+          "elementId": "publication"
+        },
+        {
+          "elementId": "freshness"
+        },
+        {
+          "elementId": "maintenance"
         }
       ],
       "edges": [],
@@ -1845,37 +2243,16 @@
         "direction": "TB"
       },
       "legend": {
-        "title": "Deployment key",
+        "title": "Component key",
         "entries": [
           {
-            "id": "physical",
-            "label": "Physical boundary",
-            "description": "Nested hypothetical region or host. Expand and collapse changes this view only.",
-            "swatch": {
-              "shape": "boundary",
-              "tone": "default",
-              "stroke": "dashed"
-            }
-          },
-          {
-            "id": "instance",
-            "label": "Instance or infrastructure",
-            "description": "Each card is one declared physical identity; instances name a logical element.",
+            "id": "inferred",
+            "label": "Inferred responsibility",
+            "description": "A logical teaching boundary; no source classes or process separation asserted.",
             "swatch": {
               "shape": "box",
               "tone": "default",
               "stroke": "dashed"
-            }
-          },
-          {
-            "id": "edge",
-            "label": "Illustrative relationship",
-            "description": "Only declared instance/service endpoints are connected. Hidden endpoints hide their edges.",
-            "swatch": {
-              "shape": "line",
-              "tone": "default",
-              "stroke": "dashed",
-              "arrow": "forward"
             }
           }
         ]
@@ -1885,7 +2262,209 @@
       ],
       "sourceIds": [
         "article"
+      ],
+      "related": [
+        {
+          "label": "Push: durable publication",
+          "diagramId": "push"
+        }
       ]
+    },
+    {
+      "id": "rebuild",
+      "kind": "dynamic",
+      "title": "Rebuild: missing local cache",
+      "status": "existing",
+      "parent": {
+        "diagramId": "containers"
+      },
+      "nodes": [
+        {
+          "elementId": "developer"
+        },
+        {
+          "elementId": "replica"
+        },
+        {
+          "elementId": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "client-replica"
+        },
+        {
+          "relationshipId": "replica-storage"
+        }
+      ],
+      "scenario": {
+        "kind": "sequence",
+        "id": "rebuild-story",
+        "children": [
+          {
+            "kind": "interaction",
+            "id": "request-cold",
+            "relationshipId": "client-replica",
+            "direction": "forward",
+            "label": "Request a missing repository"
+          },
+          {
+            "kind": "interaction",
+            "id": "read-published-index",
+            "relationshipId": "replica-storage",
+            "direction": "forward",
+            "label": "Read the published WAL index"
+          },
+          {
+            "kind": "interaction",
+            "id": "restore-cache",
+            "relationshipId": "replica-storage",
+            "direction": "reverse",
+            "label": "Materialize the local Git cache from WAL data"
+          },
+          {
+            "kind": "interaction",
+            "id": "serve-restored",
+            "relationshipId": "client-replica",
+            "direction": "reverse",
+            "label": "Serve the rebuilt repository"
+          }
+        ]
+      },
+      "legend": {
+        "title": "Diagram key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A user of the system",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "scope",
+            "label": "System in focus",
+            "description": "The context being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External system",
+            "description": "Outside this system boundary",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "dependency",
+            "label": "Directed dependency",
+            "description": "Arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          },
+          {
+            "id": "scenario-id",
+            "label": "Scenario identifier",
+            "description": "Tree position, not global execution order; B identifies an unordered branch. Orange arrows follow selected interactions.",
+            "swatch": {
+              "shape": "line",
+              "tone": "accent",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "layout": {
+        "mode": "auto",
+        "direction": "LR"
+      },
+      "docIds": [
+        "rebuild-doc"
+      ],
+      "sourceIds": [
+        "consensus",
+        "wal-truth"
+      ],
+      "related": [
+        {
+          "label": "Compaction: reuse compacted packs",
+          "diagramId": "compaction"
+        },
+        {
+          "label": "Gossip: optional catch-up notification",
+          "diagramId": "gossip"
+        }
+      ]
+    }
+  ],
+  "terms": [
+    {
+      "id": "wal",
+      "text": "write-ahead log (WAL)",
+      "definition": "Durable pushes and maintenance events; Continuity’s source of truth.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "cas",
+      "text": "compare-and-swap (CAS)",
+      "definition": "Atomic conditional update of the WAL index.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "etag",
+      "text": "ETag",
+      "definition": "Version identifier used for conditional freshness checks.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "cache",
+      "text": "local Git cache",
+      "definition": "Disposable normal Git repository on local disk.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "rendezvous",
+      "text": "rendezvous hashing",
+      "definition": "Ranks preferred nodes from repository ID and healthy-node set.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "packfile",
+      "text": "packfile",
+      "definition": "Packed Git objects used for storage and transfer.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "compaction",
+      "text": "compaction",
+      "definition": "Consolidates Git packs and WAL data; replicas reuse the primary’s result.",
+      "category": "technicalNoun"
+    },
+    {
+      "id": "publish",
+      "text": "publish",
+      "definition": "Make a persisted push visible through reference preparation and WAL-index update.",
+      "category": "technicalVerb"
+    },
+    {
+      "id": "materialize",
+      "text": "materialize",
+      "definition": "Rebuild a missing local repository from the WAL.",
+      "category": "technicalVerb"
     }
   ]
 }
