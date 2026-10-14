@@ -1,0 +1,10 @@
+import * as ui from 'c4-sdk'
+import {decodeArchitecture,formatRoute,type Route,type Result,type ValidatedArchitecture} from 'c4-sdk/core'
+const result:Result<ValidatedArchitecture>=decodeArchitecture({})
+const route:Route={architectureId:'shop',diagramId:'context'}
+formatRoute(route);ui.createElkLayoutPort()
+// @ts-expect-error Unknown data requires successful promotion.
+const viewer:ui.ArchitectureViewerProps={validatedBundle:{}}
+// @ts-expect-error Result must be narrowed.
+result.value
+void viewer

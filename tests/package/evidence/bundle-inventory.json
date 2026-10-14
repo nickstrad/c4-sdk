@@ -1,0 +1,1239 @@
+{
+  "modules": [
+    "node_modules/@base-ui/react/dialog/backdrop/DialogBackdrop.mjs",
+    "node_modules/@base-ui/react/dialog/backdrop/DialogBackdropDataAttributes.mjs",
+    "node_modules/@base-ui/react/dialog/close/DialogClose.mjs",
+    "node_modules/@base-ui/react/dialog/close/DialogCloseDataAttributes.mjs",
+    "node_modules/@base-ui/react/dialog/description/DialogDescription.mjs",
+    "node_modules/@base-ui/react/dialog/index.mjs",
+    "node_modules/@base-ui/react/dialog/index.parts.mjs",
+    "node_modules/@base-ui/react/dialog/popup/DialogPopup.mjs",
+    "node_modules/@base-ui/react/dialog/popup/DialogPopupCssVars.mjs",
+    "node_modules/@base-ui/react/dialog/popup/DialogPopupDataAttributes.mjs",
+    "node_modules/@base-ui/react/dialog/portal/DialogPortal.mjs",
+    "node_modules/@base-ui/react/dialog/portal/DialogPortalContext.mjs",
+    "node_modules/@base-ui/react/dialog/root/DialogRoot.mjs",
+    "node_modules/@base-ui/react/dialog/root/DialogRootContext.mjs",
+    "node_modules/@base-ui/react/dialog/root/useDialogRoot.mjs",
+    "node_modules/@base-ui/react/dialog/root/useRenderDialogRoot.mjs",
+    "node_modules/@base-ui/react/dialog/store/DialogHandle.mjs",
+    "node_modules/@base-ui/react/dialog/store/DialogStore.mjs",
+    "node_modules/@base-ui/react/dialog/title/DialogTitle.mjs",
+    "node_modules/@base-ui/react/dialog/trigger/DialogTrigger.mjs",
+    "node_modules/@base-ui/react/dialog/trigger/DialogTriggerDataAttributes.mjs",
+    "node_modules/@base-ui/react/dialog/utils/stateAttributesMapping.mjs",
+    "node_modules/@base-ui/react/dialog/viewport/DialogViewport.mjs",
+    "node_modules/@base-ui/react/dialog/viewport/DialogViewportDataAttributes.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingDelayGroup.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingPortal.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingRootStore.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingTree.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/components/FloatingTreeStore.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useClick.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useClientPoint.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useDismiss.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useFloatingRootContext.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useFocus.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useHoverFloatingInteraction.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useHoverInteractionSharedState.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useHoverReferenceInteraction.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useHoverShared.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useListNavigation.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useSyncedFloatingRootContext.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/hooks/useTypeahead.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/index.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/safePolygon.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/composite.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/constants.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/createAttribute.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/createEventEmitter.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/element.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/enqueueFocus.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/event.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/markOthers.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/nodes.mjs",
+    "node_modules/@base-ui/react/floating-ui-react/utils/tabbable.mjs",
+    "node_modules/@base-ui/react/internals/TransitionStatusDataAttributes.mjs",
+    "node_modules/@base-ui/react/internals/composite/composite.mjs",
+    "node_modules/@base-ui/react/internals/composite/root/CompositeRootContext.mjs",
+    "node_modules/@base-ui/react/internals/constants.mjs",
+    "node_modules/@base-ui/react/internals/createBaseUIEventDetails.mjs",
+    "node_modules/@base-ui/react/internals/getStateAttributesProps.mjs",
+    "node_modules/@base-ui/react/internals/reason-parts.mjs",
+    "node_modules/@base-ui/react/internals/reasons.mjs",
+    "node_modules/@base-ui/react/internals/stateAttributesMapping.mjs",
+    "node_modules/@base-ui/react/internals/use-button/index.mjs",
+    "node_modules/@base-ui/react/internals/use-button/useButton.mjs",
+    "node_modules/@base-ui/react/internals/useAnimationsFinished.mjs",
+    "node_modules/@base-ui/react/internals/useBaseUiId.mjs",
+    "node_modules/@base-ui/react/internals/useOpenChangeComplete.mjs",
+    "node_modules/@base-ui/react/internals/useRenderElement.mjs",
+    "node_modules/@base-ui/react/internals/useTransitionStatus.mjs",
+    "node_modules/@base-ui/react/internals/useUnmountAfterClose.mjs",
+    "node_modules/@base-ui/react/internals/useValueChanged.mjs",
+    "node_modules/@base-ui/react/merge-props/index.mjs",
+    "node_modules/@base-ui/react/merge-props/mergeProps.mjs",
+    "node_modules/@base-ui/react/tooltip/trigger/TooltipTriggerDataAttributes.mjs",
+    "node_modules/@base-ui/react/utils/CommonPopupDataAttributes.mjs",
+    "node_modules/@base-ui/react/utils/CommonTriggerDataAttributes.mjs",
+    "node_modules/@base-ui/react/utils/FocusGuard.mjs",
+    "node_modules/@base-ui/react/utils/InternalBackdrop.mjs",
+    "node_modules/@base-ui/react/utils/NullStore.mjs",
+    "node_modules/@base-ui/react/utils/dispatchClickWithModifiers.mjs",
+    "node_modules/@base-ui/react/utils/getFiniteAnimations.mjs",
+    "node_modules/@base-ui/react/utils/popupStateMapping.mjs",
+    "node_modules/@base-ui/react/utils/popups/index.mjs",
+    "node_modules/@base-ui/react/utils/popups/inlineRect.mjs",
+    "node_modules/@base-ui/react/utils/popups/popupHandle.mjs",
+    "node_modules/@base-ui/react/utils/popups/popupStoreUtils.mjs",
+    "node_modules/@base-ui/react/utils/popups/popupTriggerMap.mjs",
+    "node_modules/@base-ui/react/utils/popups/store.mjs",
+    "node_modules/@base-ui/react/utils/popups/usePopupHandleStore.mjs",
+    "node_modules/@base-ui/react/utils/resolveClassName.mjs",
+    "node_modules/@base-ui/react/utils/resolveRef.mjs",
+    "node_modules/@base-ui/react/utils/resolveStyle.mjs",
+    "node_modules/@base-ui/react/utils/useFocusableWhenDisabled.mjs",
+    "node_modules/@base-ui/react/utils/useOpenInteractionType.mjs",
+    "node_modules/@base-ui/utils/addEventListener.mjs",
+    "node_modules/@base-ui/utils/createLogOnce.mjs",
+    "node_modules/@base-ui/utils/empty.mjs",
+    "node_modules/@base-ui/utils/error.mjs",
+    "node_modules/@base-ui/utils/fastHooks.mjs",
+    "node_modules/@base-ui/utils/formatErrorMessage.mjs",
+    "node_modules/@base-ui/utils/getReactElementRef.mjs",
+    "node_modules/@base-ui/utils/inertValue.mjs",
+    "node_modules/@base-ui/utils/lruMemoize.mjs",
+    "node_modules/@base-ui/utils/mergeCleanups.mjs",
+    "node_modules/@base-ui/utils/mergeObjects.mjs",
+    "node_modules/@base-ui/utils/owner.mjs",
+    "node_modules/@base-ui/utils/platform/engine.mjs",
+    "node_modules/@base-ui/utils/platform/env.mjs",
+    "node_modules/@base-ui/utils/platform/index.mjs",
+    "node_modules/@base-ui/utils/platform/media-query.mjs",
+    "node_modules/@base-ui/utils/platform/os.mjs",
+    "node_modules/@base-ui/utils/platform/parts.mjs",
+    "node_modules/@base-ui/utils/platform/screen-reader.mjs",
+    "node_modules/@base-ui/utils/platform/shared.mjs",
+    "node_modules/@base-ui/utils/reactVersion.mjs",
+    "node_modules/@base-ui/utils/safeReact.mjs",
+    "node_modules/@base-ui/utils/shadowDom.mjs",
+    "node_modules/@base-ui/utils/store/ReactStore.mjs",
+    "node_modules/@base-ui/utils/store/Store.mjs",
+    "node_modules/@base-ui/utils/store/StoreInspector.mjs",
+    "node_modules/@base-ui/utils/store/createSelector.mjs",
+    "node_modules/@base-ui/utils/store/createSelectorMemoized.mjs",
+    "node_modules/@base-ui/utils/store/index.mjs",
+    "node_modules/@base-ui/utils/store/useStore.mjs",
+    "node_modules/@base-ui/utils/useAnimationFrame.mjs",
+    "node_modules/@base-ui/utils/useEnhancedClickHandler.mjs",
+    "node_modules/@base-ui/utils/useForcedRerendering.mjs",
+    "node_modules/@base-ui/utils/useId.mjs",
+    "node_modules/@base-ui/utils/useIsoLayoutEffect.mjs",
+    "node_modules/@base-ui/utils/useMergedRefs.mjs",
+    "node_modules/@base-ui/utils/useOnMount.mjs",
+    "node_modules/@base-ui/utils/useRefWithInit.mjs",
+    "node_modules/@base-ui/utils/useScrollLock.mjs",
+    "node_modules/@base-ui/utils/useStableCallback.mjs",
+    "node_modules/@base-ui/utils/useTimeout.mjs",
+    "node_modules/@base-ui/utils/useValueAsRef.mjs",
+    "node_modules/@base-ui/utils/visuallyHidden.mjs",
+    "node_modules/@base-ui/utils/warn.mjs",
+    "node_modules/@floating-ui/core/dist/floating-ui.core.mjs",
+    "node_modules/@floating-ui/dom/dist/floating-ui.dom.mjs",
+    "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.mjs",
+    "node_modules/@floating-ui/utils/dist/floating-ui.utils.dom.mjs",
+    "node_modules/@floating-ui/utils/dist/floating-ui.utils.mjs",
+    "node_modules/@ungap/structured-clone/esm/deserialize.js",
+    "node_modules/@ungap/structured-clone/esm/index.js",
+    "node_modules/@ungap/structured-clone/esm/serialize.js",
+    "node_modules/@ungap/structured-clone/esm/types.js",
+    "node_modules/@xyflow/react/dist/esm/index.js",
+    "node_modules/@xyflow/react/dist/style.css",
+    "node_modules/@xyflow/system/dist/esm/index.js",
+    "node_modules/bail/index.js",
+    "node_modules/character-entities/index.js",
+    "node_modules/classcat/index.js",
+    "node_modules/comma-separated-tokens/index.js",
+    "node_modules/d3-color/src/color.js",
+    "node_modules/d3-color/src/cubehelix.js",
+    "node_modules/d3-color/src/define.js",
+    "node_modules/d3-color/src/index.js",
+    "node_modules/d3-color/src/lab.js",
+    "node_modules/d3-color/src/math.js",
+    "node_modules/d3-dispatch/src/dispatch.js",
+    "node_modules/d3-dispatch/src/index.js",
+    "node_modules/d3-drag/src/constant.js",
+    "node_modules/d3-drag/src/drag.js",
+    "node_modules/d3-drag/src/event.js",
+    "node_modules/d3-drag/src/index.js",
+    "node_modules/d3-drag/src/nodrag.js",
+    "node_modules/d3-drag/src/noevent.js",
+    "node_modules/d3-ease/src/back.js",
+    "node_modules/d3-ease/src/bounce.js",
+    "node_modules/d3-ease/src/circle.js",
+    "node_modules/d3-ease/src/cubic.js",
+    "node_modules/d3-ease/src/elastic.js",
+    "node_modules/d3-ease/src/exp.js",
+    "node_modules/d3-ease/src/index.js",
+    "node_modules/d3-ease/src/linear.js",
+    "node_modules/d3-ease/src/math.js",
+    "node_modules/d3-ease/src/poly.js",
+    "node_modules/d3-ease/src/quad.js",
+    "node_modules/d3-ease/src/sin.js",
+    "node_modules/d3-interpolate/src/array.js",
+    "node_modules/d3-interpolate/src/basis.js",
+    "node_modules/d3-interpolate/src/basisClosed.js",
+    "node_modules/d3-interpolate/src/color.js",
+    "node_modules/d3-interpolate/src/constant.js",
+    "node_modules/d3-interpolate/src/cubehelix.js",
+    "node_modules/d3-interpolate/src/date.js",
+    "node_modules/d3-interpolate/src/discrete.js",
+    "node_modules/d3-interpolate/src/hcl.js",
+    "node_modules/d3-interpolate/src/hsl.js",
+    "node_modules/d3-interpolate/src/hue.js",
+    "node_modules/d3-interpolate/src/index.js",
+    "node_modules/d3-interpolate/src/lab.js",
+    "node_modules/d3-interpolate/src/number.js",
+    "node_modules/d3-interpolate/src/numberArray.js",
+    "node_modules/d3-interpolate/src/object.js",
+    "node_modules/d3-interpolate/src/piecewise.js",
+    "node_modules/d3-interpolate/src/quantize.js",
+    "node_modules/d3-interpolate/src/rgb.js",
+    "node_modules/d3-interpolate/src/round.js",
+    "node_modules/d3-interpolate/src/string.js",
+    "node_modules/d3-interpolate/src/transform/decompose.js",
+    "node_modules/d3-interpolate/src/transform/index.js",
+    "node_modules/d3-interpolate/src/transform/parse.js",
+    "node_modules/d3-interpolate/src/value.js",
+    "node_modules/d3-interpolate/src/zoom.js",
+    "node_modules/d3-selection/src/array.js",
+    "node_modules/d3-selection/src/constant.js",
+    "node_modules/d3-selection/src/create.js",
+    "node_modules/d3-selection/src/creator.js",
+    "node_modules/d3-selection/src/index.js",
+    "node_modules/d3-selection/src/local.js",
+    "node_modules/d3-selection/src/matcher.js",
+    "node_modules/d3-selection/src/namespace.js",
+    "node_modules/d3-selection/src/namespaces.js",
+    "node_modules/d3-selection/src/pointer.js",
+    "node_modules/d3-selection/src/pointers.js",
+    "node_modules/d3-selection/src/select.js",
+    "node_modules/d3-selection/src/selectAll.js",
+    "node_modules/d3-selection/src/selection/append.js",
+    "node_modules/d3-selection/src/selection/attr.js",
+    "node_modules/d3-selection/src/selection/call.js",
+    "node_modules/d3-selection/src/selection/classed.js",
+    "node_modules/d3-selection/src/selection/clone.js",
+    "node_modules/d3-selection/src/selection/data.js",
+    "node_modules/d3-selection/src/selection/datum.js",
+    "node_modules/d3-selection/src/selection/dispatch.js",
+    "node_modules/d3-selection/src/selection/each.js",
+    "node_modules/d3-selection/src/selection/empty.js",
+    "node_modules/d3-selection/src/selection/enter.js",
+    "node_modules/d3-selection/src/selection/exit.js",
+    "node_modules/d3-selection/src/selection/filter.js",
+    "node_modules/d3-selection/src/selection/html.js",
+    "node_modules/d3-selection/src/selection/index.js",
+    "node_modules/d3-selection/src/selection/insert.js",
+    "node_modules/d3-selection/src/selection/iterator.js",
+    "node_modules/d3-selection/src/selection/join.js",
+    "node_modules/d3-selection/src/selection/lower.js",
+    "node_modules/d3-selection/src/selection/merge.js",
+    "node_modules/d3-selection/src/selection/node.js",
+    "node_modules/d3-selection/src/selection/nodes.js",
+    "node_modules/d3-selection/src/selection/on.js",
+    "node_modules/d3-selection/src/selection/order.js",
+    "node_modules/d3-selection/src/selection/property.js",
+    "node_modules/d3-selection/src/selection/raise.js",
+    "node_modules/d3-selection/src/selection/remove.js",
+    "node_modules/d3-selection/src/selection/select.js",
+    "node_modules/d3-selection/src/selection/selectAll.js",
+    "node_modules/d3-selection/src/selection/selectChild.js",
+    "node_modules/d3-selection/src/selection/selectChildren.js",
+    "node_modules/d3-selection/src/selection/size.js",
+    "node_modules/d3-selection/src/selection/sort.js",
+    "node_modules/d3-selection/src/selection/sparse.js",
+    "node_modules/d3-selection/src/selection/style.js",
+    "node_modules/d3-selection/src/selection/text.js",
+    "node_modules/d3-selection/src/selector.js",
+    "node_modules/d3-selection/src/selectorAll.js",
+    "node_modules/d3-selection/src/sourceEvent.js",
+    "node_modules/d3-selection/src/window.js",
+    "node_modules/d3-timer/src/index.js",
+    "node_modules/d3-timer/src/interval.js",
+    "node_modules/d3-timer/src/timeout.js",
+    "node_modules/d3-timer/src/timer.js",
+    "node_modules/d3-transition/src/active.js",
+    "node_modules/d3-transition/src/index.js",
+    "node_modules/d3-transition/src/interrupt.js",
+    "node_modules/d3-transition/src/selection/index.js",
+    "node_modules/d3-transition/src/selection/interrupt.js",
+    "node_modules/d3-transition/src/selection/transition.js",
+    "node_modules/d3-transition/src/transition/attr.js",
+    "node_modules/d3-transition/src/transition/attrTween.js",
+    "node_modules/d3-transition/src/transition/delay.js",
+    "node_modules/d3-transition/src/transition/duration.js",
+    "node_modules/d3-transition/src/transition/ease.js",
+    "node_modules/d3-transition/src/transition/easeVarying.js",
+    "node_modules/d3-transition/src/transition/end.js",
+    "node_modules/d3-transition/src/transition/filter.js",
+    "node_modules/d3-transition/src/transition/index.js",
+    "node_modules/d3-transition/src/transition/interpolate.js",
+    "node_modules/d3-transition/src/transition/merge.js",
+    "node_modules/d3-transition/src/transition/on.js",
+    "node_modules/d3-transition/src/transition/remove.js",
+    "node_modules/d3-transition/src/transition/schedule.js",
+    "node_modules/d3-transition/src/transition/select.js",
+    "node_modules/d3-transition/src/transition/selectAll.js",
+    "node_modules/d3-transition/src/transition/selection.js",
+    "node_modules/d3-transition/src/transition/style.js",
+    "node_modules/d3-transition/src/transition/styleTween.js",
+    "node_modules/d3-transition/src/transition/text.js",
+    "node_modules/d3-transition/src/transition/textTween.js",
+    "node_modules/d3-transition/src/transition/transition.js",
+    "node_modules/d3-transition/src/transition/tween.js",
+    "node_modules/d3-zoom/src/constant.js",
+    "node_modules/d3-zoom/src/event.js",
+    "node_modules/d3-zoom/src/index.js",
+    "node_modules/d3-zoom/src/noevent.js",
+    "node_modules/d3-zoom/src/transform.js",
+    "node_modules/d3-zoom/src/zoom.js",
+    "node_modules/decode-named-character-reference/index.js",
+    "node_modules/devlop/lib/default.js",
+    "node_modules/elkjs/lib/elk-api.js",
+    "node_modules/elkjs/lib/elk-worker.min.js",
+    "node_modules/estree-util-is-identifier-name/index.js",
+    "node_modules/estree-util-is-identifier-name/lib/index.js",
+    "node_modules/extend/index.js",
+    "node_modules/hast-util-to-jsx-runtime/index.js",
+    "node_modules/hast-util-to-jsx-runtime/lib/index.js",
+    "node_modules/hast-util-whitespace/index.js",
+    "node_modules/hast-util-whitespace/lib/index.js",
+    "node_modules/html-url-attributes/index.js",
+    "node_modules/html-url-attributes/lib/index.js",
+    "node_modules/inline-style-parser/cjs/index.js",
+    "node_modules/is-plain-obj/index.js",
+    "node_modules/mdast-util-from-markdown/index.js",
+    "node_modules/mdast-util-from-markdown/lib/index.js",
+    "node_modules/mdast-util-to-hast/index.js",
+    "node_modules/mdast-util-to-hast/lib/footer.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/blockquote.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/break.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/code.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/delete.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/emphasis.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/footnote-reference.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/heading.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/html.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/image-reference.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/image.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/index.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/inline-code.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/link-reference.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/link.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/list-item.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/list.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/paragraph.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/root.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/strong.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/table-cell.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/table-row.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/table.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/text.js",
+    "node_modules/mdast-util-to-hast/lib/handlers/thematic-break.js",
+    "node_modules/mdast-util-to-hast/lib/index.js",
+    "node_modules/mdast-util-to-hast/lib/revert.js",
+    "node_modules/mdast-util-to-hast/lib/state.js",
+    "node_modules/mdast-util-to-string/index.js",
+    "node_modules/mdast-util-to-string/lib/index.js",
+    "node_modules/micromark-core-commonmark/index.js",
+    "node_modules/micromark-core-commonmark/lib/attention.js",
+    "node_modules/micromark-core-commonmark/lib/autolink.js",
+    "node_modules/micromark-core-commonmark/lib/blank-line.js",
+    "node_modules/micromark-core-commonmark/lib/block-quote.js",
+    "node_modules/micromark-core-commonmark/lib/character-escape.js",
+    "node_modules/micromark-core-commonmark/lib/character-reference.js",
+    "node_modules/micromark-core-commonmark/lib/code-fenced.js",
+    "node_modules/micromark-core-commonmark/lib/code-indented.js",
+    "node_modules/micromark-core-commonmark/lib/code-text.js",
+    "node_modules/micromark-core-commonmark/lib/content.js",
+    "node_modules/micromark-core-commonmark/lib/definition.js",
+    "node_modules/micromark-core-commonmark/lib/hard-break-escape.js",
+    "node_modules/micromark-core-commonmark/lib/heading-atx.js",
+    "node_modules/micromark-core-commonmark/lib/html-flow.js",
+    "node_modules/micromark-core-commonmark/lib/html-text.js",
+    "node_modules/micromark-core-commonmark/lib/label-end.js",
+    "node_modules/micromark-core-commonmark/lib/label-start-image.js",
+    "node_modules/micromark-core-commonmark/lib/label-start-link.js",
+    "node_modules/micromark-core-commonmark/lib/line-ending.js",
+    "node_modules/micromark-core-commonmark/lib/list.js",
+    "node_modules/micromark-core-commonmark/lib/partial-non-lazy-continuation.js",
+    "node_modules/micromark-core-commonmark/lib/setext-underline.js",
+    "node_modules/micromark-core-commonmark/lib/thematic-break.js",
+    "node_modules/micromark-factory-destination/index.js",
+    "node_modules/micromark-factory-label/index.js",
+    "node_modules/micromark-factory-space/index.js",
+    "node_modules/micromark-factory-title/index.js",
+    "node_modules/micromark-factory-whitespace/index.js",
+    "node_modules/micromark-util-character/index.js",
+    "node_modules/micromark-util-chunked/index.js",
+    "node_modules/micromark-util-classify-character/index.js",
+    "node_modules/micromark-util-combine-extensions/index.js",
+    "node_modules/micromark-util-decode-numeric-character-reference/index.js",
+    "node_modules/micromark-util-decode-string/index.js",
+    "node_modules/micromark-util-edit-map/index.js",
+    "node_modules/micromark-util-encode/index.js",
+    "node_modules/micromark-util-html-tag-name/index.js",
+    "node_modules/micromark-util-normalize-identifier/index.js",
+    "node_modules/micromark-util-resolve-all/index.js",
+    "node_modules/micromark-util-sanitize-uri/index.js",
+    "node_modules/micromark-util-subtokenize/index.js",
+    "node_modules/micromark-util-subtokenize/lib/splice-buffer.js",
+    "node_modules/micromark/index.js",
+    "node_modules/micromark/lib/compile.js",
+    "node_modules/micromark/lib/constructs.js",
+    "node_modules/micromark/lib/create-tokenizer.js",
+    "node_modules/micromark/lib/initialize/content.js",
+    "node_modules/micromark/lib/initialize/document.js",
+    "node_modules/micromark/lib/initialize/flow.js",
+    "node_modules/micromark/lib/initialize/text.js",
+    "node_modules/micromark/lib/parse.js",
+    "node_modules/micromark/lib/postprocess.js",
+    "node_modules/micromark/lib/preprocess.js",
+    "node_modules/property-information/index.js",
+    "node_modules/property-information/lib/aria.js",
+    "node_modules/property-information/lib/find.js",
+    "node_modules/property-information/lib/hast-to-react.js",
+    "node_modules/property-information/lib/html.js",
+    "node_modules/property-information/lib/normalize.js",
+    "node_modules/property-information/lib/svg.js",
+    "node_modules/property-information/lib/util/case-insensitive-transform.js",
+    "node_modules/property-information/lib/util/case-sensitive-transform.js",
+    "node_modules/property-information/lib/util/create.js",
+    "node_modules/property-information/lib/util/defined-info.js",
+    "node_modules/property-information/lib/util/info.js",
+    "node_modules/property-information/lib/util/merge.js",
+    "node_modules/property-information/lib/util/schema.js",
+    "node_modules/property-information/lib/util/types.js",
+    "node_modules/property-information/lib/xlink.js",
+    "node_modules/property-information/lib/xml.js",
+    "node_modules/property-information/lib/xmlns.js",
+    "node_modules/react-markdown/index.js",
+    "node_modules/react-markdown/lib/index.js",
+    "node_modules/remark-parse/index.js",
+    "node_modules/remark-parse/lib/index.js",
+    "node_modules/remark-rehype/index.js",
+    "node_modules/remark-rehype/lib/index.js",
+    "node_modules/reselect/dist/reselect.mjs",
+    "node_modules/space-separated-tokens/index.js",
+    "node_modules/style-to-js/cjs/index.js",
+    "node_modules/style-to-js/cjs/utilities.js",
+    "node_modules/style-to-object/cjs/index.js",
+    "node_modules/trim-lines/index.js",
+    "node_modules/trough/index.js",
+    "node_modules/trough/lib/index.js",
+    "node_modules/unified/index.js",
+    "node_modules/unified/lib/callable-instance.js",
+    "node_modules/unified/lib/index.js",
+    "node_modules/unist-util-is/index.js",
+    "node_modules/unist-util-is/lib/index.js",
+    "node_modules/unist-util-position/index.js",
+    "node_modules/unist-util-position/lib/index.js",
+    "node_modules/unist-util-stringify-position/index.js",
+    "node_modules/unist-util-stringify-position/lib/index.js",
+    "node_modules/unist-util-visit-parents/index.js",
+    "node_modules/unist-util-visit-parents/lib/color.js",
+    "node_modules/unist-util-visit-parents/lib/index.js",
+    "node_modules/unist-util-visit/index.js",
+    "node_modules/unist-util-visit/lib/index.js",
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.development.js",
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.js",
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.development.js",
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js",
+    "node_modules/use-sync-external-store/shim/index.js",
+    "node_modules/use-sync-external-store/shim/with-selector.js",
+    "node_modules/vfile-message/index.js",
+    "node_modules/vfile-message/lib/index.js",
+    "node_modules/vfile/index.js",
+    "node_modules/vfile/lib/index.js",
+    "node_modules/vfile/lib/minpath.browser.js",
+    "node_modules/vfile/lib/minproc.browser.js",
+    "node_modules/vfile/lib/minurl.browser.js",
+    "node_modules/vfile/lib/minurl.shared.js",
+    "node_modules/zod/index.js",
+    "node_modules/zod/v4/classic/checks.js",
+    "node_modules/zod/v4/classic/coerce.js",
+    "node_modules/zod/v4/classic/compat.js",
+    "node_modules/zod/v4/classic/deep-partial.js",
+    "node_modules/zod/v4/classic/errors.js",
+    "node_modules/zod/v4/classic/external.js",
+    "node_modules/zod/v4/classic/from-json-schema.js",
+    "node_modules/zod/v4/classic/in-out.js",
+    "node_modules/zod/v4/classic/iso.js",
+    "node_modules/zod/v4/classic/parse.js",
+    "node_modules/zod/v4/classic/schemas.js",
+    "node_modules/zod/v4/core/api.js",
+    "node_modules/zod/v4/core/checks.js",
+    "node_modules/zod/v4/core/compile.js",
+    "node_modules/zod/v4/core/core.js",
+    "node_modules/zod/v4/core/doc.js",
+    "node_modules/zod/v4/core/errors.js",
+    "node_modules/zod/v4/core/index.js",
+    "node_modules/zod/v4/core/json-schema-generator.js",
+    "node_modules/zod/v4/core/json-schema-processors.js",
+    "node_modules/zod/v4/core/json-schema.js",
+    "node_modules/zod/v4/core/memoizer.js",
+    "node_modules/zod/v4/core/parse.js",
+    "node_modules/zod/v4/core/regexes.js",
+    "node_modules/zod/v4/core/registries.js",
+    "node_modules/zod/v4/core/schemas.js",
+    "node_modules/zod/v4/core/to-json-schema.js",
+    "node_modules/zod/v4/core/util.js",
+    "node_modules/zod/v4/core/versions.js",
+    "node_modules/zod/v4/core/visit.js",
+    "node_modules/zod/v4/locales/ar.js",
+    "node_modules/zod/v4/locales/az.js",
+    "node_modules/zod/v4/locales/be.js",
+    "node_modules/zod/v4/locales/bg.js",
+    "node_modules/zod/v4/locales/bn.js",
+    "node_modules/zod/v4/locales/ca.js",
+    "node_modules/zod/v4/locales/ckb.js",
+    "node_modules/zod/v4/locales/cs.js",
+    "node_modules/zod/v4/locales/da.js",
+    "node_modules/zod/v4/locales/de.js",
+    "node_modules/zod/v4/locales/el.js",
+    "node_modules/zod/v4/locales/en.js",
+    "node_modules/zod/v4/locales/eo.js",
+    "node_modules/zod/v4/locales/es.js",
+    "node_modules/zod/v4/locales/fa.js",
+    "node_modules/zod/v4/locales/fi.js",
+    "node_modules/zod/v4/locales/fr-CA.js",
+    "node_modules/zod/v4/locales/fr.js",
+    "node_modules/zod/v4/locales/gu.js",
+    "node_modules/zod/v4/locales/he.js",
+    "node_modules/zod/v4/locales/hi.js",
+    "node_modules/zod/v4/locales/hr.js",
+    "node_modules/zod/v4/locales/hu.js",
+    "node_modules/zod/v4/locales/hy.js",
+    "node_modules/zod/v4/locales/id.js",
+    "node_modules/zod/v4/locales/index.js",
+    "node_modules/zod/v4/locales/is.js",
+    "node_modules/zod/v4/locales/it.js",
+    "node_modules/zod/v4/locales/ja.js",
+    "node_modules/zod/v4/locales/ka.js",
+    "node_modules/zod/v4/locales/kh.js",
+    "node_modules/zod/v4/locales/km.js",
+    "node_modules/zod/v4/locales/kn.js",
+    "node_modules/zod/v4/locales/ko.js",
+    "node_modules/zod/v4/locales/lt.js",
+    "node_modules/zod/v4/locales/mk.js",
+    "node_modules/zod/v4/locales/ms.js",
+    "node_modules/zod/v4/locales/ne.js",
+    "node_modules/zod/v4/locales/nl.js",
+    "node_modules/zod/v4/locales/nn.js",
+    "node_modules/zod/v4/locales/no.js",
+    "node_modules/zod/v4/locales/ota.js",
+    "node_modules/zod/v4/locales/pl.js",
+    "node_modules/zod/v4/locales/ps.js",
+    "node_modules/zod/v4/locales/pt-BR.js",
+    "node_modules/zod/v4/locales/pt.js",
+    "node_modules/zod/v4/locales/ro.js",
+    "node_modules/zod/v4/locales/ru.js",
+    "node_modules/zod/v4/locales/sk.js",
+    "node_modules/zod/v4/locales/sl.js",
+    "node_modules/zod/v4/locales/sv.js",
+    "node_modules/zod/v4/locales/ta.js",
+    "node_modules/zod/v4/locales/tg.js",
+    "node_modules/zod/v4/locales/th.js",
+    "node_modules/zod/v4/locales/tk.js",
+    "node_modules/zod/v4/locales/tr.js",
+    "node_modules/zod/v4/locales/ua.js",
+    "node_modules/zod/v4/locales/uk.js",
+    "node_modules/zod/v4/locales/ur.js",
+    "node_modules/zod/v4/locales/uz.js",
+    "node_modules/zod/v4/locales/vi.js",
+    "node_modules/zod/v4/locales/yo.js",
+    "node_modules/zod/v4/locales/zh-CN.js",
+    "node_modules/zod/v4/locales/zh-TW.js",
+    "node_modules/zustand/esm/shallow.mjs",
+    "node_modules/zustand/esm/traditional.mjs",
+    "node_modules/zustand/esm/vanilla.mjs",
+    "src/core/index.ts",
+    "src/core/public/editor-schema.ts",
+    "src/index.ts",
+    "src/lib/c4/adapters/layout/client.ts",
+    "src/lib/c4/adapters/layout/elk-input.ts",
+    "src/lib/c4/adapters/layout/elk-output.ts",
+    "src/lib/c4/adapters/layout/worker.ts",
+    "src/lib/c4/adapters/loaders/fetch.ts",
+    "src/lib/c4/adapters/router/hash.ts",
+    "src/lib/c4/domain/architecture.ts",
+    "src/lib/c4/domain/codeview.ts",
+    "src/lib/c4/domain/deployment.ts",
+    "src/lib/c4/domain/documentation.ts",
+    "src/lib/c4/domain/groups.ts",
+    "src/lib/c4/domain/layout.ts",
+    "src/lib/c4/domain/navigation.ts",
+    "src/lib/c4/domain/presentation.ts",
+    "src/lib/c4/domain/scenario.ts",
+    "src/lib/c4/domain/scene.ts",
+    "src/lib/c4/domain/viewport.ts",
+    "src/lib/c4/react/containers/ArchitectureViewer.tsx",
+    "src/lib/c4/react/containers/CatalogViewer.tsx",
+    "src/lib/c4/react/containers/DiagramCanvas.tsx",
+    "src/lib/c4/react/containers/NamedDiagrams.tsx",
+    "src/lib/c4/react/hooks/useArchitectureBundle.ts",
+    "src/lib/c4/react/hooks/useCatalogViewer.ts",
+    "src/lib/c4/react/hooks/useContext.ts",
+    "src/lib/c4/react/hooks/useDeployment.ts",
+    "src/lib/c4/react/hooks/useDiagramLayout.ts",
+    "src/lib/c4/react/hooks/useDiagramMeasurements.ts",
+    "src/lib/c4/react/hooks/useDiagramRenderer.ts",
+    "src/lib/c4/react/hooks/useDocumentation.ts",
+    "src/lib/c4/react/hooks/useDynamicSteps.ts",
+    "src/lib/c4/react/hooks/useNavigation.ts",
+    "src/lib/c4/react/hooks/useViewerController.ts",
+    "src/lib/c4/react/hooks/useViewerSession.ts",
+    "src/lib/c4/react/views/CanvasEdge.tsx",
+    "src/lib/c4/react/views/CanvasGroup.tsx",
+    "src/lib/c4/react/views/CanvasNode.tsx",
+    "src/lib/c4/react/views/CatalogView.tsx",
+    "src/lib/c4/react/views/CodeMembers.tsx",
+    "src/lib/c4/react/views/ContextView.tsx",
+    "src/lib/c4/react/views/DeploymentTreeView.tsx",
+    "src/lib/c4/react/views/DiagnosticView.tsx",
+    "src/lib/c4/react/views/DiagramFallback.tsx",
+    "src/lib/c4/react/views/DocumentationSheet.tsx",
+    "src/lib/c4/react/views/DocumentationView.tsx",
+    "src/lib/c4/react/views/Legend.tsx",
+    "src/lib/c4/react/views/NavigationView.tsx",
+    "src/lib/c4/react/views/SourceList.tsx",
+    "src/lib/c4/react/views/StepControlsView.tsx",
+    "src/lib/c4/react/views/StepListView.tsx",
+    "src/lib/c4/schema/decode.ts",
+    "src/lib/c4/styles/canvas.css",
+    "src/lib/c4/styles/deployment.css",
+    "src/lib/c4/styles/documentation.css",
+    "src/lib/c4/styles/dynamic.css"
+  ],
+  "packages": [
+    {
+      "name": "@base-ui/react",
+      "version": "1.9.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@base-ui/react/LICENSE"
+      ]
+    },
+    {
+      "name": "@base-ui/utils",
+      "version": "0.5.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@base-ui/utils/LICENSE"
+      ]
+    },
+    {
+      "name": "@floating-ui/core",
+      "version": "1.8.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@floating-ui/core/LICENSE"
+      ]
+    },
+    {
+      "name": "@floating-ui/dom",
+      "version": "1.8.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@floating-ui/dom/LICENSE"
+      ]
+    },
+    {
+      "name": "@floating-ui/react-dom",
+      "version": "2.1.9",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@floating-ui/react-dom/LICENSE"
+      ]
+    },
+    {
+      "name": "@floating-ui/utils",
+      "version": "0.2.12",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@floating-ui/utils/LICENSE"
+      ]
+    },
+    {
+      "name": "@ungap/structured-clone",
+      "version": "1.4.0",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/@ungap/structured-clone/LICENSE"
+      ]
+    },
+    {
+      "name": "@xyflow/react",
+      "version": "12.12.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@xyflow/react/LICENSE"
+      ]
+    },
+    {
+      "name": "@xyflow/system",
+      "version": "0.0.83",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/@xyflow/system/LICENSE"
+      ]
+    },
+    {
+      "name": "bail",
+      "version": "2.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/bail/license"
+      ]
+    },
+    {
+      "name": "character-entities",
+      "version": "2.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/character-entities/license"
+      ]
+    },
+    {
+      "name": "classcat",
+      "version": "5.0.5",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/classcat/LICENSE.md"
+      ]
+    },
+    {
+      "name": "comma-separated-tokens",
+      "version": "2.0.3",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/comma-separated-tokens/license"
+      ]
+    },
+    {
+      "name": "d3-color",
+      "version": "3.1.0",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-color/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-dispatch",
+      "version": "3.0.1",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-dispatch/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-drag",
+      "version": "3.0.0",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-drag/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-ease",
+      "version": "3.0.1",
+      "license": "BSD-3-Clause",
+      "licenseFiles": [
+        "node_modules/d3-ease/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-interpolate",
+      "version": "3.0.1",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-interpolate/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-selection",
+      "version": "3.0.0",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-selection/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-timer",
+      "version": "3.0.1",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-timer/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-transition",
+      "version": "3.0.1",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-transition/LICENSE"
+      ]
+    },
+    {
+      "name": "d3-zoom",
+      "version": "3.0.0",
+      "license": "ISC",
+      "licenseFiles": [
+        "node_modules/d3-zoom/LICENSE"
+      ]
+    },
+    {
+      "name": "decode-named-character-reference",
+      "version": "1.3.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/decode-named-character-reference/license"
+      ]
+    },
+    {
+      "name": "devlop",
+      "version": "1.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/devlop/license"
+      ]
+    },
+    {
+      "name": "elkjs",
+      "version": "0.12.0",
+      "license": "EPL-2.0 OR GPL-3.0-or-later",
+      "licenseFiles": [
+        "node_modules/elkjs/LICENSE.md"
+      ]
+    },
+    {
+      "name": "estree-util-is-identifier-name",
+      "version": "3.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/estree-util-is-identifier-name/license"
+      ]
+    },
+    {
+      "name": "extend",
+      "version": "3.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/extend/LICENSE"
+      ]
+    },
+    {
+      "name": "hast-util-to-jsx-runtime",
+      "version": "2.3.6",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/hast-util-to-jsx-runtime/license"
+      ]
+    },
+    {
+      "name": "hast-util-whitespace",
+      "version": "3.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/hast-util-whitespace/license"
+      ]
+    },
+    {
+      "name": "html-url-attributes",
+      "version": "3.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/html-url-attributes/license"
+      ]
+    },
+    {
+      "name": "inline-style-parser",
+      "version": "0.2.7",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/inline-style-parser/LICENSE"
+      ]
+    },
+    {
+      "name": "is-plain-obj",
+      "version": "4.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/is-plain-obj/license"
+      ]
+    },
+    {
+      "name": "mdast-util-from-markdown",
+      "version": "2.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/mdast-util-from-markdown/license"
+      ]
+    },
+    {
+      "name": "mdast-util-to-hast",
+      "version": "13.2.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/mdast-util-to-hast/license"
+      ]
+    },
+    {
+      "name": "mdast-util-to-string",
+      "version": "4.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/mdast-util-to-string/license"
+      ]
+    },
+    {
+      "name": "micromark",
+      "version": "4.0.3",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark/license"
+      ]
+    },
+    {
+      "name": "micromark-core-commonmark",
+      "version": "2.0.4",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-core-commonmark/license"
+      ]
+    },
+    {
+      "name": "micromark-factory-destination",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-factory-destination/license"
+      ]
+    },
+    {
+      "name": "micromark-factory-label",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-factory-label/license"
+      ]
+    },
+    {
+      "name": "micromark-factory-space",
+      "version": "2.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-factory-space/license"
+      ]
+    },
+    {
+      "name": "micromark-factory-title",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-factory-title/license"
+      ]
+    },
+    {
+      "name": "micromark-factory-whitespace",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-factory-whitespace/license"
+      ]
+    },
+    {
+      "name": "micromark-util-character",
+      "version": "2.1.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-character/license"
+      ]
+    },
+    {
+      "name": "micromark-util-chunked",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-chunked/license"
+      ]
+    },
+    {
+      "name": "micromark-util-classify-character",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-classify-character/license"
+      ]
+    },
+    {
+      "name": "micromark-util-combine-extensions",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-combine-extensions/license"
+      ]
+    },
+    {
+      "name": "micromark-util-decode-numeric-character-reference",
+      "version": "2.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-decode-numeric-character-reference/license"
+      ]
+    },
+    {
+      "name": "micromark-util-decode-string",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-decode-string/license"
+      ]
+    },
+    {
+      "name": "micromark-util-edit-map",
+      "version": "1.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-edit-map/license"
+      ]
+    },
+    {
+      "name": "micromark-util-encode",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-encode/license"
+      ]
+    },
+    {
+      "name": "micromark-util-html-tag-name",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-html-tag-name/license"
+      ]
+    },
+    {
+      "name": "micromark-util-normalize-identifier",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-normalize-identifier/license"
+      ]
+    },
+    {
+      "name": "micromark-util-resolve-all",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-resolve-all/license"
+      ]
+    },
+    {
+      "name": "micromark-util-sanitize-uri",
+      "version": "2.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-sanitize-uri/license"
+      ]
+    },
+    {
+      "name": "micromark-util-subtokenize",
+      "version": "2.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/micromark-util-subtokenize/license"
+      ]
+    },
+    {
+      "name": "property-information",
+      "version": "7.2.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/property-information/license"
+      ]
+    },
+    {
+      "name": "react-markdown",
+      "version": "10.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/react-markdown/license"
+      ]
+    },
+    {
+      "name": "remark-parse",
+      "version": "11.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/remark-parse/license"
+      ]
+    },
+    {
+      "name": "remark-rehype",
+      "version": "11.1.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/remark-rehype/license"
+      ]
+    },
+    {
+      "name": "reselect",
+      "version": "5.3.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/reselect/LICENSE"
+      ]
+    },
+    {
+      "name": "space-separated-tokens",
+      "version": "2.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/space-separated-tokens/license"
+      ]
+    },
+    {
+      "name": "style-to-js",
+      "version": "1.1.21",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/style-to-js/LICENSE"
+      ]
+    },
+    {
+      "name": "style-to-object",
+      "version": "1.0.14",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/style-to-object/LICENSE"
+      ]
+    },
+    {
+      "name": "trim-lines",
+      "version": "3.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/trim-lines/license"
+      ]
+    },
+    {
+      "name": "trough",
+      "version": "2.2.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/trough/license"
+      ]
+    },
+    {
+      "name": "unified",
+      "version": "11.0.5",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unified/license"
+      ]
+    },
+    {
+      "name": "unist-util-is",
+      "version": "6.0.1",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unist-util-is/license"
+      ]
+    },
+    {
+      "name": "unist-util-position",
+      "version": "5.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unist-util-position/license"
+      ]
+    },
+    {
+      "name": "unist-util-stringify-position",
+      "version": "4.0.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unist-util-stringify-position/license"
+      ]
+    },
+    {
+      "name": "unist-util-visit",
+      "version": "5.1.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unist-util-visit/license"
+      ]
+    },
+    {
+      "name": "unist-util-visit-parents",
+      "version": "6.0.2",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/unist-util-visit-parents/license"
+      ]
+    },
+    {
+      "name": "use-sync-external-store",
+      "version": "1.7.0",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/use-sync-external-store/LICENSE"
+      ]
+    },
+    {
+      "name": "vfile",
+      "version": "6.0.3",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/vfile/license"
+      ]
+    },
+    {
+      "name": "vfile-message",
+      "version": "4.0.3",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/vfile-message/license"
+      ]
+    },
+    {
+      "name": "zod",
+      "version": "4.6.7",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/zod/LICENSE"
+      ]
+    },
+    {
+      "name": "zustand",
+      "version": "4.5.7",
+      "license": "MIT",
+      "licenseFiles": [
+        "node_modules/zustand/LICENSE"
+      ]
+    }
+  ],
+  "styles": [
+    "node_modules/@xyflow/react/dist/style.css",
+    "src/lib/c4/styles/c4.css",
+    "src/lib/c4/styles/canvas.css",
+    "src/lib/c4/styles/deployment.css",
+    "src/lib/c4/styles/documentation.css",
+    "src/lib/c4/styles/dynamic.css"
+  ]
+}

@@ -1,0 +1,91 @@
+[
+  {
+    "id": "c4-sdk@0.1.0-beta.1",
+    "name": "c4-sdk",
+    "version": "0.1.0-beta.1",
+    "size": 859203,
+    "unpackedSize": 3739725,
+    "shasum": "17ded9239cd5c233ae53f82ecc2fccb2d374e3b6",
+    "integrity": "sha512-jdA7bdOMcgJHU0q+ENbPpHOenTP5BsUq+4FZ8aaK1HIidYYts3oXrS6sU7bcfNGCvi1QZswrIsusIfxDaSI22w==",
+    "filename": "c4-sdk-0.1.0-beta.1.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 14063,
+        "mode": 420
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "size": 108203,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/core.cjs",
+        "size": 871,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/core.d.cts",
+        "size": 14318,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/core.d.mts",
+        "size": 14318,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/core.mjs",
+        "size": 634,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/index.cjs",
+        "size": 1150647,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/index.d.cts",
+        "size": 23750,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/index.d.mts",
+        "size": 23750,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/index.mjs",
+        "size": 1250,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/layout-worker.js",
+        "size": 2107546,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/shared-Fjju4RBi.cjs",
+        "size": 240060,
+        "mode": 420
+      },
+      {
+        "path": "dist-sdk/styles.css",
+        "size": 35693,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 3555,
+        "mode": 420
+      }
+    ],
+    "entryCount": 15,
+    "bundled": []
+  }
+]
