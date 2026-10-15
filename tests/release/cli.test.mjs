@@ -65,6 +65,58 @@ describe('release-pack', () => {
     expect(io.calls.some(c => c.args[0] === 'pack')).toBe(false)
   })
 
+  describe('ALLOW_DIRTY provenance', () => {
+    const mutate = patch => packRuns({ 'node sdk-build.mjs': ({ io: self }) => { Object.assign(self.state, patch); return { status: 0, stdout: '', stderr: '' } } })
+    const publishWith = evidence => {
+      const files = goodFiles()
+      const stored = { ...evidenceFor('c4-sdk-0.1.0.tgz', files, { sha256: tarSha }), ...evidence }
+      const evidenceText = JSON.stringify(stored)
+      const report = { passed: true, sha256: tarSha, version: '0.1.0', sourceSha: 'a'.repeat(40), evidenceSha256: sha256Hex(Buffer.from(evidenceText)), stages: { inventory: 'passed', package: 'passed', browser: 'passed', readme: 'passed' } }
+      const io = fakeIo({ files: repoFiles({ [TARBALL]: 'tarball-bytes', [EVIDENCE]: evidenceText, [VERIFY]: JSON.stringify(report) }), hashes })
+      const confirm = publishConfirmation({ name: 'c4-sdk', version: '0.1.0', sha256: tarSha })
+      return { io, result: run(() => releasePublish(io, ctx(), { tarball: TARBALL, tag: 'beta', registry: 'https://registry.example.test/', confirm })) }
+    }
+
+    it('records a build that dirties a clean tree as dirty and refuses to publish it', () => {
+      const io = packedIo({ runs: mutate({ dirty: true }) })
+      const { evidence } = releasePack(io, ctx({ ALLOW_DIRTY: '1' }))
+      expect(evidence).toMatchObject({ dirty: true, dirtyBefore: false, dirtyAfter: true, allowDirty: true })
+      const { io: pub, result } = publishWith(evidence)
+      expect(result).toMatch(/dirty/)
+      expect(pub.calls.some(call => call.args[0] === 'publish')).toBe(false)
+    })
+
+    it('records a build that moves HEAD as dirty and refuses to publish it', () => {
+      const io = packedIo({ runs: mutate({ sha: 'b'.repeat(40) }) })
+      const { evidence } = releasePack(io, ctx({ ALLOW_DIRTY: '1' }))
+      expect(evidence).toMatchObject({ dirty: true, sourceSha: 'a'.repeat(40), sourceShaAfter: 'b'.repeat(40) })
+      const { io: pub, result } = publishWith(evidence)
+      expect(result).toMatch(/dirty/)
+      expect(pub.calls.some(call => call.args[0] === 'publish')).toBe(false)
+    })
+
+    it('treats every override run as unpublishable even when the tree stayed clean, and a normal clean run as publishable', () => {
+      const overridden = releasePack(packedIo(), ctx({ ALLOW_DIRTY: '1' })).evidence
+      expect(overridden.dirty).toBe(true)
+      expect(publishWith(overridden).result).toMatch(/dirty/)
+      const normal = releasePack(packedIo(), ctx()).evidence
+      expect(normal).toMatchObject({ dirty: false, dirtyBefore: false, dirtyAfter: false, allowDirty: false })
+      const { io, result } = publishWith(normal)
+      expect(result).toBeNull()
+      expect(io.calls.filter(call => call.args[0] === 'publish')).toHaveLength(1)
+    })
+  })
+
+  it('rejects an unsafe artifacts root before building or writing anything', () => {
+    const io = packedIo()
+    io.state.symlinked = [`${ROOT}/artifacts`]
+    expect(run(() => releasePack(io, ctx()))).toMatch(/unsafe artifacts root.*symbolic link/)
+    expect(io.calls).toHaveLength(0)
+    for (const ARTIFACTS of ['src', 'node_modules/x', '/tmp/elsewhere', '..', '.']) {
+      expect(run(() => releasePack(packedIo(), ctx({ ARTIFACTS })))).toMatch(/unsafe artifacts root/)
+    }
+  })
+
   it('stops on build, pack or malformed pack failures', () => {
     expect(run(() => releasePack(packedIo({ runs: packRuns({ 'node sdk-build.mjs': () => ({ status: 2 }) }) }), ctx()))).toMatch(/build once failed/)
     expect(run(() => releasePack(packedIo({ runs: packRuns({ 'npm pack': () => ({ status: 1, stdout: '', stderr: 'boom' }) }) }), ctx()))).toMatch(/npm pack failed/)

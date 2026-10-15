@@ -135,7 +135,11 @@ function resolvesInTarball(fromPath, specifier, paths) {
     if (part === '..') { if (base.length === 0) return false; base.pop() } else if (part !== '.') base.push(part)
   }
   const target = base.join('/')
-  const candidates = [target, target.replace(/\.mjs$/, '.d.mts'), target.replace(/\.cjs$/, '.d.cts'), `${target}.d.mts`, `${target}.d.cts`, `${target}/index.d.mts`, `${target}/index.d.cts`]
+  // A runtime .mjs/.cjs file is not a declaration: only a packed declaration counterpart resolves.
+  const candidates = [`${target}.d.mts`, `${target}.d.cts`, `${target}/index.d.mts`, `${target}/index.d.cts`]
+  if (/\.d\.[cm]ts$/.test(target)) candidates.push(target)
+  if (/\.mjs$/.test(target)) candidates.push(target.replace(/\.mjs$/, '.d.mts'))
+  if (/\.cjs$/.test(target)) candidates.push(target.replace(/\.cjs$/, '.d.cts'))
   return candidates.some(candidate => paths.has(candidate))
 }
 
@@ -198,14 +202,21 @@ export function checkPackageReport(report, { sha256, version, sourceSha }) {
   return errors
 }
 
+// A location is a nonempty string; arrays and plain objects must be nonempty and contain only valid locations.
+function validLocations(value) {
+  if (typeof value === 'string') return value.trim() !== ''
+  if (Array.isArray(value)) return value.length > 0 && value.every(validLocations)
+  if (value !== null && typeof value === 'object') { const values = Object.values(value); return values.length > 0 && values.every(validLocations) }
+  return false
+}
+
 export function checkReadmeReport(report, { sha256, version }) {
   if (!report || typeof report !== 'object') return ['README report missing']
   const errors = []
   if (report.passed !== true) errors.push('README report did not pass')
   if (report.sha256 !== sha256) errors.push(`README report sha256 ${report.sha256} does not match artifact`)
   if (report.version !== version) errors.push(`README report version ${report.version} does not match artifact`)
-  const locations = report.evidence ?? report.evidenceLocations
-  if (locations === undefined || locations === null || (typeof locations === 'object' && Object.keys(locations).length === 0)) errors.push('README report names no evidence locations')
+  if (!validLocations(report.evidence ?? report.evidenceLocations)) errors.push('README report names no valid evidence locations (expected nonempty strings, arrays or objects of them)')
   return errors
 }
 
@@ -266,20 +277,30 @@ export function childEnv(env, { credentials = false } = {}) {
 
 // Cleanup is limited to a marked directory strictly inside the artifacts root, which is itself
 // a strict descendant of the repository and never the repository, its ancestors or its sources.
-export function checkCleanTarget({ target, artifactsRoot, repoRoot, marked }) {
+const inside = (parent, child) => { const rel = relative(parent, child); return rel !== '' && !rel.startsWith('..') && !isAbsolute(rel) }
+
+// Lexical rules for the artifacts root; physical (symlink) containment is checked by process.mjs.
+export function checkArtifactsRoot({ artifactsRoot, repoRoot }) {
   const errors = []
-  for (const [label, value] of [['target', target], ['artifacts root', artifactsRoot], ['repository root', repoRoot]]) {
+  for (const [label, value] of [['artifacts root', artifactsRoot], ['repository root', repoRoot]]) {
     if (typeof value !== 'string' || !isAbsolute(value)) errors.push(`${label} must be an absolute path`)
   }
   if (errors.length) return errors
   const root = resolve(artifactsRoot)
   const repo = resolve(repoRoot)
-  const path = resolve(target)
-  const inside = (parent, child) => { const rel = relative(parent, child); return rel !== '' && !rel.startsWith('..') && !isAbsolute(rel) }
   if (!inside(repo, root)) errors.push('artifacts root must be a strict descendant of the repository')
   for (const forbidden of ['src', 'tests', 'node_modules', '.git', 'work-scripts', 'agent-work', 'docs', 'public']) {
     if (root === resolve(repo, forbidden) || root.startsWith(resolve(repo, forbidden) + sep)) errors.push(`artifacts root overlaps ${forbidden}`)
   }
+  return errors
+}
+
+export function checkCleanTarget({ target, artifactsRoot, repoRoot, marked }) {
+  const errors = checkArtifactsRoot({ artifactsRoot, repoRoot })
+  if (typeof target !== 'string' || !isAbsolute(target)) errors.push('target must be an absolute path')
+  if (errors.length) return errors
+  const root = resolve(artifactsRoot)
+  const path = resolve(target)
   if (!inside(root, path)) errors.push('cleanup target is outside the artifacts root')
   if (!marked) errors.push('cleanup target lacks the release artifact marker')
   return errors

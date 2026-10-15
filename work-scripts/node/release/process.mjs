@@ -2,9 +2,9 @@
 // the object returned by createIo(), so tests replace it wholesale and no test can publish.
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, lstatSync, realpathSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join } from 'node:path'
+import { dirname, join, relative, sep } from 'node:path'
 import { isSafePackagePath } from './policy.mjs'
 
 export const MARKER = '.c4-release-artifacts'
@@ -17,6 +17,28 @@ const modeOf = perms => {
   if (/[sS]/.test(perms[6])) mode |= 0o2000
   if (/[tT]/.test(perms[9])) mode |= 0o1000
   return mode
+}
+
+// Physical containment: every existing component from repoRoot (exclusive) to path (inclusive) must be a
+// real directory (no symlinks), and the real path must equal the lexical path under the real repo root.
+export function physicalContainmentErrors(repoRoot, path) {
+  const rel = relative(repoRoot, path)
+  if (rel === '' || rel.startsWith('..')) return [`${path} is not inside ${repoRoot}`]
+  const errors = []
+  let current = repoRoot
+  for (const part of rel.split(sep)) {
+    current = join(current, part)
+    let stat
+    try { stat = lstatSync(current) } catch (error) { if (error.code === 'ENOENT') break; errors.push(`cannot inspect ${current}: ${error.code}`); break }
+    if (stat.isSymbolicLink()) { errors.push(`${current} is a symbolic link; refusing to follow it`); break }
+    if (!stat.isDirectory()) { errors.push(`${current} is not a directory`); break }
+  }
+  if (errors.length === 0) {
+    try {
+      if (existsSync(path) && realpathSync(path) !== join(realpathSync(repoRoot), rel)) errors.push(`${path} resolves outside the repository tree`)
+    } catch (error) { errors.push(`cannot resolve ${path}: ${error.code}`) }
+  }
+  return errors
 }
 
 export function parseTarListing(text) {
@@ -52,6 +74,7 @@ export function createIo({ cwd = process.cwd(), log = text => process.stdout.wri
       writeFileSync(temp, text)
       renameSync(temp, path)
     },
+    physicalContainmentErrors,
     removeFile: path => rmSync(path, { force: true }),
     // Only called after policy.checkCleanTarget approved the exact directory.
     removeTree: path => rmSync(path, { recursive: true, force: true }),

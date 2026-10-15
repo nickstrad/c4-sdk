@@ -44,6 +44,7 @@ export function fakeIo({ version = '0.1.0', dirty = false, inspections = {}, has
     readBytes: path => Buffer.from(fs.get(path)),
     isRegularFile: path => fs.has(path) && !String(path).endsWith('/'),
     mkdirp() {},
+    physicalContainmentErrors: (repoRoot, path) => (state.symlinked?.some(link => path === link || path.startsWith(`${link}/`)) ? [`${path} is a symbolic link`] : []),
     writeAtomic: (path, text) => { fs.set(path, text) },
     removeFile: path => { fs.delete(path) },
     removeTree(path) { for (const key of [...fs.keys()]) if (key === path || key.startsWith(`${path}/`)) fs.delete(key) },

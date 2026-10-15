@@ -1,0 +1,9 @@
+# P-05 repair — release guard failures
+
+Prepared; wait for exact committed P-05 FAIL verdict. Fresh Sonnet builder, new `fix/p-05-release-guards` worktree `/tmp/c4-sdk-p-05-fixup`, base final reviewer commit recorded at dispatch. One repair round; fresh Sol re-review follows, a second FAIL goes to fresh Muse Wonder Full arbitration under global protocol.
+
+Read original P-05 brief/claims/STATE and exact review findings, root instructions/checkpoints/knowledge/event index. Repair every blocking finding with focused adversarial regression tests; do not weaken guard criteria. In particular: ensure artifact cleanup containment uses real filesystem ancestry and rejects symlinked ancestors before mutation; source mutation after build must never be represented as clean when ALLOW_DIRTY is enabled; require meaningful nonempty README evidence matching the agreed interface. Independently assess full review for additional required repairs. Preserve publish separation and never actually publish. Avoid unrelated changes.
+
+Owns `work-scripts/node/release/{cli,policy,process}.mjs`, `tests/release/**`, `docs/release/runbook.md` if behavior needs documentation, and this fixup STATE/claims. Everything else read-only including original review. No shared STATE/index/coordination, manifest/lock, README, P-04 tests or product source edits. Browser4185/4186 after reviewer releases; never4187/4188 concurrently. Local installs/build/tests and commits allowed. No tag/push/merge/auth/real publication. Workspace permission profile auto.
+
+Run release unit/property/adversarial tests and SDK checks, repeat relevant real pack/verify and failure paths. Combined README integration remains coordinator gate. Commit implementation/evidence then separate knowledge/script assessment checkpoint. Record exact SHAs/tests/evidence, clean own worktree after commits durable. No delegation/reuse. Event skip exception applies.

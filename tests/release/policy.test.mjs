@@ -74,7 +74,7 @@ describe('inventory allowlist', () => {
       fc.pre(other !== files[index].sha256)
       const mutate = patch => files.map((f, i) => (i === index ? { ...f, ...patch } : f))
       const base = inventoryDigest(files)
-      return inventoryDigest(mutate({ sha256: other })) !== base && inventoryDigest(mutate({ size: f => f })) !== base && inventoryDigest(mutate({ mode: 0o600 })) !== base
+      return inventoryDigest(mutate({ sha256: other })) !== base && inventoryDigest(mutate({ size: files[index].size + 1 })) !== base && inventoryDigest(mutate({ mode: 0o600 })) !== base
     }))
   })
 })
@@ -127,6 +127,16 @@ describe('declarations', () => {
     expect(bad("import '@scope/pkg/deep'").join()).toMatch(/undeclared package @scope\/pkg/)
     expect(bad("import '/abs/x'").join()).toMatch(/absolute|undeclared/)
     expect(bad("import 'node:fs'").join()).toMatch(/Node builtin/)
+  })
+
+  it('requires a packed declaration counterpart, not just the runtime file', () => {
+    const runtimeOnly = new Set([...paths, 'dist-sdk/only-runtime.mjs', 'dist-sdk/only-runtime.cjs'])
+    const check = text => checkDeclarations([{ path: 'dist-sdk/index.d.mts', text }], { paths: runtimeOnly, externals })
+    expect(check("export * from './only-runtime.mjs'").join()).toMatch(/unresolved relative/)
+    expect(check("export * from './only-runtime.cjs'").join()).toMatch(/unresolved relative/)
+    expect(check("export * from './only-runtime'").join()).toMatch(/unresolved relative/)
+    const withDecl = new Set([...runtimeOnly, 'dist-sdk/only-runtime.d.mts'])
+    expect(checkDeclarations([{ path: 'dist-sdk/index.d.mts', text: "export * from './only-runtime.mjs'" }], { paths: withDecl, externals })).toEqual([])
   })
 })
 
@@ -189,6 +199,11 @@ describe('reports', () => {
     expect(checkReadmeReport({ ...good, version: '9.9.9' }, id).join()).toMatch(/version/)
     expect(checkReadmeReport({ ...good, evidence: {} }, id).join()).toMatch(/evidence locations/)
     expect(checkReadmeReport(undefined, id).join()).toMatch(/missing/)
+    for (const bad of ['', '  ', false, 0, true, 7, null, [], [''], [{}], { a: '' }, { a: { b: [] } }, { a: 0 }]) {
+      expect(checkReadmeReport({ ...good, evidence: bad }, id).join(), JSON.stringify(bad)).toMatch(/evidence locations/)
+    }
+    for (const fine of ['/tmp/x', ['/tmp/a', '/tmp/b'], { a: { b: ['/tmp/c'] } }]) expect(checkReadmeReport({ ...good, evidence: fine }, id)).toEqual([])
+    expect(checkReadmeReport({ passed: true, sha256: id.sha256, version: id.version, evidenceLocations: ['/tmp/y'] }, id)).toEqual([])
   })
 
   it('requires every verification stage, same evidence file and source', () => {

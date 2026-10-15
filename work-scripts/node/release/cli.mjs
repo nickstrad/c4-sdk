@@ -4,7 +4,7 @@
 import { basename, dirname, isAbsolute, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import {
-  EVIDENCE_SCHEMA, buildPackArgs, buildPublishArgs, checkCleanTarget, checkDeclarations, checkEvidence, checkInventory, checkManifest,
+  EVIDENCE_SCHEMA, buildPackArgs, buildPublishArgs, checkArtifactsRoot, checkCleanTarget, checkDeclarations, checkEvidence, checkInventory, checkManifest,
   checkPackJson, checkPackageReport, checkPublishRequest, checkReadmeReport, checkVerifyReport, childEnv, declaredExternals,
   inventoryDigest, isRecursiveInvocation, parseVersion, sha256Hex, tarballName,
 } from './policy.mjs'
@@ -88,19 +88,28 @@ export function releasePack(io, ctx) {
   const allowDirty = ctx.env.ALLOW_DIRTY === '1'
   // Generated outputs are not source: the build recreates dist-sdk and .sdk-types, and artifacts are ours.
   const excludes = ['dist-sdk', '.sdk-types', ...(ctx.artifactsRoot.startsWith(`${ctx.repoRoot}/`) ? [ctx.artifactsRoot.slice(ctx.repoRoot.length + 1)] : [])]
+  // Validate the destination root (lexically and physically) before any build, write or status exclusion.
+  failIf([...checkArtifactsRoot({ artifactsRoot: ctx.artifactsRoot, repoRoot: ctx.repoRoot }), ...io.physicalContainmentErrors(ctx.repoRoot, ctx.artifactsRoot)].map(message => `unsafe artifacts root: ${message}`))
   const before = io.gitState({ excludes })
   if (before.dirty && !allowDirty) fail(['source tree is dirty; commit first or set ALLOW_DIRTY=1 for a non-releasable rehearsal'])
   runStep(io, ctx, 'release-pack: build once', 'node', ['sdk-build.mjs'])
   const after = io.gitState({ excludes })
   if (!allowDirty && (after.dirty || after.sha !== before.sha)) fail([`build modified tracked sources:\n${after.status}`])
 
+  // With the override, any change of source state across the build makes the evidence dirty; an override run is never publishable.
+  const dirty = allowDirty || before.dirty || after.dirty || after.sha !== before.sha
   const destination = join(ctx.artifactsRoot, `${manifest.name}-${manifest.version}-${before.sha.slice(0, 12)}`)
   if (io.exists(destination)) {
-    const guard = checkCleanTarget({ target: destination, artifactsRoot: ctx.artifactsRoot, repoRoot: ctx.repoRoot, marked: io.exists(join(destination, MARKER)) })
+    // Re-examined immediately before deletion: lexical rules, no symlink on the path, marker is a real file.
+    const guard = [
+      ...checkCleanTarget({ target: destination, artifactsRoot: ctx.artifactsRoot, repoRoot: ctx.repoRoot, marked: io.isRegularFile(join(destination, MARKER)) }),
+      ...io.physicalContainmentErrors(ctx.repoRoot, destination),
+    ]
     failIf(guard.map(message => `refusing to replace existing artifacts: ${message}`))
     io.removeTree(destination)
   }
   io.mkdirp(destination)
+  failIf(io.physicalContainmentErrors(ctx.repoRoot, destination).map(message => `unsafe artifacts destination: ${message}`))
   io.writeAtomic(join(destination, MARKER), 'managed by work-scripts/node/release/cli.mjs\n')
 
   io.log('release: pack once')
@@ -131,7 +140,11 @@ export function releasePack(io, ctx) {
     name: manifest.name,
     version: manifest.version,
     sourceSha: before.sha,
-    dirty: before.dirty,
+    dirty,
+    dirtyBefore: before.dirty,
+    dirtyAfter: after.dirty,
+    sourceShaAfter: after.sha,
+    allowDirty,
     tarball: basename(tarball),
     sha256: hash.sha256,
     sha1: hash.sha1,

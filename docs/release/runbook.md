@@ -11,14 +11,14 @@ All targets are thin wrappers over `node work-scripts/node/release/cli.mjs <comm
 | `make` / `make help` | Prints help. Builds and publishes nothing. |
 | `make sdk-check` | `npm run sdk:check` (typecheck, lint, unit, property, API snapshot) then the release unit/property tests (`tests/release`). |
 | `make sdk-build` | Runs `node sdk-build.mjs`; cleans only `dist-sdk`. |
-| `make release-pack` | Requires a clean tree (or `ALLOW_DIRTY=1`, recorded as `dirty: true` and unpublishable). Builds once, `npm pack --json --ignore-scripts` once into `artifacts/release/<name>-<version>-<sha12>/`, inspects the exact tarball, and writes `<tarball>.evidence.json`. |
+| `make release-pack` | Requires a clean tree (or `ALLOW_DIRTY=1`, a rehearsal always recorded as `dirty: true` and unpublishable; the evidence also records `dirtyBefore`, `dirtyAfter`, `sourceShaAfter` and `allowDirty`). Builds once, `npm pack --json --ignore-scripts` once into `artifacts/release/<name>-<version>-<sha12>/`, inspects the exact tarball, and writes `<tarball>.evidence.json`. |
 | `make release-verify TARBALL=<abs path>` | Never builds or packs. Re-hashes and re-inspects the tarball against its evidence, then runs `tests/package/verify.mjs` (ESM/CJS/NodeNext/bundler consumers), the packaged browser tests on ports 4185/4186, and `tests/readme/verify.mjs` with `README_REPORT` (ports 4187/4188). Writes `<tarball>.verify.json`. |
 | `make release-check` | `sdk-check` then `release-pack` then `release-verify` on the freshly packed artifact. CI gate. No network publication, no tags. |
 | `make release-publish TARBALL=… TAG=… REGISTRY=… CONFIRM=…` | Operator action, see below. Never builds. `DRY_RUN=1` passes `--dry-run` to npm. |
 
 ## Files beside a tarball
 
-`<name>-<version>.tgz`, `.evidence.json` (sha256/sha1/integrity, size, version, source SHA, dirty flag, per-file inventory with hashes, inventory digest, Node/npm versions), `.verify.json` (stage results, bound to the tarball hash and the evidence file's hash), `.readme.json` (P-04 report). Artifacts live under `artifacts/release/` (add `/artifacts/` to `.gitignore`); a directory is only ever replaced when it carries the driver's `.c4-release-artifacts` marker and sits strictly inside that root.
+`<name>-<version>.tgz`, `.evidence.json` (sha256/sha1/integrity, size, version, source SHA, dirty flag, per-file inventory with hashes, inventory digest, Node/npm versions), `.verify.json` (stage results, bound to the tarball hash and the evidence file's hash), `.readme.json` (P-04 report). Artifacts live under `artifacts/release/` (add `/artifacts/` to `.gitignore`); a directory is only ever replaced when it carries the driver's `.c4-release-artifacts` marker and sits strictly inside that root. The artifacts root and every ancestor below the repository must be real directories: a symbolic link anywhere on the path is refused before any build or write, and the target and its marker are re-checked immediately before deletion.
 
 ## What verification rejects (fail closed)
 
