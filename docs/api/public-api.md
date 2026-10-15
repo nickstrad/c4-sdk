@@ -224,8 +224,9 @@ is the supported UI feature; SSR rendering/hydration has not been demonstrated.
 
 Schema version and package SemVer are separate. Unknown schema versions/fields are rejected; schema1
 changes must preserve accepted data and meaning or introduce an explicit new schema version. During
-`0.1.0-beta.*`, compatibility changes require review, changelog entries and downstream revalidation;
-the prerelease is not a 1.0 stability guarantee. Once stable, removal/renaming or incompatible changes to
+`0.x` (the first release is `0.1.0`; supersedes the earlier `0.1.0-beta.*` candidate identity, 2026-10-15),
+compatibility changes require review, changelog entries and downstream revalidation; `0.x` is not a 1.0
+stability guarantee. Once stable, removal/renaming or incompatible changes to
 public symbols, fields, callbacks, diagnostics, CSS tokens, ports or worker configuration require a major
 package version. Compatible additions use a minor version, compatible bug fixes a patch. Changes to
 internal helpers do not permit changing externally observed contracts silently.

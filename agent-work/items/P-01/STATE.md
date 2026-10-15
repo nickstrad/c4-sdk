@@ -83,3 +83,7 @@ No new indexed work-script is justified. The compiler snapshot generator is a ma
 - P-01 payload and both review records are integrated on local main at coordinator merge `dbd8875`. The linked builder and reviewer worktrees were cleaned by their agents. The shared knowledge reconciliation is committed separately after the payload.
 
 P-02 and P-03 may now be dispatched as the plan's concurrent next batch. Do not publish; Nick must be present for npm login/2FA.
+
+## Superseding note — 2026-10-15 (P-06)
+
+The identity recommendation above (`c4-sdk@0.1.0-beta.1`) is superseded by Nick's direction relayed by Twin: the first published version is **`0.1.0`** (no beta). Manifest and lock are `c4-sdk@0.1.0`; the frozen API contract, support targets and TypeScript `6.0.3`/Vite `8.3.4` pins are unchanged. `docs/api/public-api.md` and `docs/api/support-matrix.md` were updated accordingly by P-06. The beta text above remains as historical evidence. See [`docs/release/0.1.0.md`](../../../docs/release/0.1.0.md).

@@ -1,5 +1,12 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+// Canvas nodes can lie outside the viewport. Playwright's native scroll-into-view races React Flow's scroll reset
+// (@xyflow wrapperOnScroll), so focus first: the viewer's own focus-reveal pans the target into view, then deliver a real click.
+async function reveal(target: Locator) {
+  await target.focus()
+  await expect(target).toBeInViewport()
+  return target
+}
 // Exercise the responsive reader before returning to the navigation/canvas journey.
 async function withExplanation(page: Page, check: () => Promise<void>) {
   const trigger = page.getByRole('button', { name: 'Open explanation', exact: true })
@@ -27,7 +34,7 @@ test('invalid replacement reports a precise path and preserves the last complete
   await expect(page.getByText('Resource rejected. The last valid architecture remains visible.')).toBeVisible()
   await expect(page.getByLabel('Resource diagnostics')).toContainText('$.model.relationships[0].targetId')
   await expect(page.locator('.c4-node')).toHaveCount(3)
-  await page.getByRole('button', { name: 'Inspect Continuity', exact: true }).click()
+  await (await reveal(page.getByRole('button', { name: 'Inspect Continuity', exact: true }))).click()
   await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Continuity') })
   await withExplanation(page, async () => { await page.getByRole('button', { name: 'STE100 text' }).click(); await expect(page.locator('.c4-documentation:visible .c4-review')).toContainText('draft') })
   await page.screenshot({ path: info.outputPath('invalid-preserved.png'), fullPage: true })

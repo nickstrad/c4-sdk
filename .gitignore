@@ -26,3 +26,8 @@ dist-ssr
 dist-demo
 playwright-report
 /test-results*/
+
+# SDK build and release outputs (regenerated; never committed)
+/artifacts/
+/dist-sdk/
+/.sdk-types/
