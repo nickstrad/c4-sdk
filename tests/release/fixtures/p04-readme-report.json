@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "tarball": "/tmp/p04-review-evidence/c4-sdk-0.1.0-beta.1.tgz",
+  "sha256": "bfdfaf8c3404e139360d08df07972f33f9e42361d6bc04c034071f98ed704263",
+  "version": "0.1.0-beta.1",
+  "sourceSha": "b2b2a90e63135c1c8852fda846e84741b7ad0993",
+  "versions": {
+    "node": "v22.23.2",
+    "npm": "10.9.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.4"
+  },
+  "snippets": [
+    "examples/readme/index.html",
+    "examples/readme/main.tsx",
+    "examples/readme/bundle.json",
+    "examples/readme/compose.tsx",
+    "examples/readme/node-esm.mts",
+    "examples/readme/node-cjs.cts",
+    "examples/readme/static.tsx",
+    "examples/readme/misuse.tsx"
+  ],
+  "evidence": {
+    "consumer": "/tmp/c4-sdk-readme-POGZyz",
+    "output": {
+      "esm": [
+        {
+          "title": "Shop architecture",
+          "nodes": 4,
+          "legend": "Context key",
+          "ste": "This diagram shows the Shop and its neighbours."
+        },
+        {
+          "code": "missing-reference",
+          "path": "$.diagrams[0].nodes[0].elementId"
+        }
+      ],
+      "cjs": [
+        {
+          "title": "Shop architecture",
+          "nodes": 4,
+          "legend": "Context key",
+          "ste": "This diagram shows the Shop and its neighbours."
+        },
+        {
+          "code": "missing-reference",
+          "path": "$.diagrams[0].nodes[0].elementId"
+        }
+      ]
+    },
+    "screenshots": [
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-composition-exampl-f0b1f-TE-text-and-uses-controller-desktop--compose.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-composition-exampl-f0b1f-TE-text-and-uses-controller-mobile--compose.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-quick-start-render-1b7e7-tes-to-detail-and-goes-back-desktop--quick-start-context.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-quick-start-render-1b7e7-tes-to-detail-and-goes-back-desktop--quick-start-landscape.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-quick-start-render-1b7e7-tes-to-detail-and-goes-back-mobile--quick-start-context.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-quick-start-render-1b7e7-tes-to-detail-and-goes-back-mobile--quick-start-landscape.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-static-recipe-uses-layout-worker-js-beside-the-page-desktop--static.png",
+      "/tmp/p04-review-evidence/readme-evidence-bfdfaf8c3404/browser-static-recipe-uses-layout-worker-js-beside-the-page-mobile--static.png"
+    ]
+  }
+}
