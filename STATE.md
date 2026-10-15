@@ -1,5 +1,9 @@
 # C4 SDK build state
 
+## P-06 final candidate active — 2026-10-15
+
+P05 landed and pushed through316c4b6 after combined actual release-check PASS. Fresh Sonnet P06 ACTIVE alone at base316c4b6, branch item/p-06-final-candidate, worktree /tmp/c4-sdk-p-06. Dispatch /tmp/c4-p06-build.md; JSON/stderr/exit prefix /tmp/c4-p06-build, session74602. Own exact P06 brief paths only. Version0.1.0, rolldown1.2.14/plugin-dts0.28.8 BEFORE final pack; clean committed-source checkout rehearsal/full matrix/source browsers, notice reconciliation/six-area report. Retain exact final artifacts outside worktree at /tmp/c4-sdk-release-0.1.0 before cleanup. No publish/tag/auth work. Fresh independent Sol review follows final committed output. Browser ports all P06-exclusive. Prior integration artifacts retained /tmp/c4-p04-p05-passed-artifacts; staged integration worktree can be cleaned after evidence retained.
+
 ## P-05 landed after full combined PASS — 2026-10-15
 
 P-05 Opusd7183b7 exact Sol PASS8847703/3f0ecee and test-only integration27c909a PASS1d3a384/995ff63 landed at86fa3ea. Combined full make release-check on stagingfc484e0 PASSED:206unit,34property,5API,108release,typecheck/lint; exact package matrix,10package-browser and6README-browser. Actual real README report accepted. Tarball beta preliminary SHA256bfdfaf8c3404e139360d08df07972f33f9e42361d6bc04c034071f98ed704263, sourcefc484e0. Retained evidence/artifact/screenshots copied to /tmp/c4-p04-p05-passed-artifacts, log /tmp/c4-p04-p05-integration-final.log exit0. Earlier failed stale-test run remains documented.
