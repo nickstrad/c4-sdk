@@ -1,5 +1,12 @@
 # C4 SDK build state
 
+## P-06 browser comparison continues — 2026-10-15
+
+Nick's mobile component-docs exception is committed in P-06 acceptance (31b39a4), root coordination (84d200d), and provided to active builder through its read-only brief/coordination files and /tmp/c4-p06-build.md. No source/test changes authorized by the exception. Fresh Sol review template at /tmp/c4-p06-review-template.md includes the exact ruling.
+
+Candidate fb74a91 source full runs still have intermittent non-waived failures. First baseline316c4b6 run passed65/skip1; additional baseline-a reproduced desktop native-new-tab and mobile navigation history/focus failures (63pass/skip1/fail2), proving those predate P06. Baseline-b comparison is running. Candidate mobile invalid-replacement failure remains under comparison. All logs in /tmp/c4-sdk-release-0.1.0. Builder still active, no final report/exit yet; do not dispatch review prematurely. Exact package release-check remains PASS. Codex display showed8% weekly allowance remaining; Claude last known ample, Muse gauge not exposed by old login terminal. Do not claim final readiness or publish.
+
+
 ## Nick's P-06 mobile-docs ruling — 2026-10-15
 
 Nick: "Don't block on mobile docs test but note it." Authoritative ruling: /root/c4-lead-mobile-nonblocking.md. The intermittent mobile component-docs Playwright failure is NON-BLOCKING for P-06, six-area signoff, and readiness. Final P-06 report must explicitly record recurrence across C4-07/C4-10/P-06 and passing isolated reruns. Publication still requires separate explicit authorization. Other browser failures are not waived.
