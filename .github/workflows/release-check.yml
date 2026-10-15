@@ -1,0 +1,35 @@
+name: Release check
+
+# Verification only: builds, packs and verifies the exact tarball. Never publishes, tags or pushes.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Exactly the version package.json engines.node declares; the driver refuses any other.
+          node-version: 22.23.2
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Release check (sdk-check, pack once, verify exact tarball)
+        run: make release-check
+      - name: Keep artifact and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: artifacts/release/
+          if-no-files-found: ignore
