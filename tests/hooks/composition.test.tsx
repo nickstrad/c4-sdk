@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import fixture from '../../fixtures/seven-types.json'
@@ -89,16 +90,69 @@ describe('shared provider composition', () => {
     expect(screen.getByLabelText('Custom documentation').textContent).toBe('Shop landscape')
     expect(screen.queryByRole('navigation', { name: 'Diagram navigation' })).toBeNull()
   })
-  it('the README composition example is the tested, compile-checked example', async () => {
-    const readme = readFileSync('README.md', 'utf8')
-    const block = /<!-- composition-example -->\s*```tsx\n([\s\S]*?)```/.exec(readme)?.[1]
-    expect(block).toBeTruthy()
-    const source = readFileSync('tests/hooks/composition-example.tsx', 'utf8').replaceAll("'../../src/lib/c4'", "'./src/lib/c4'")
-    expect(block!.trim()).toBe(source.trim())
+  it('the composition-example component keeps navigation, view and documentation in sync', async () => {
     window.location.hash = formatRoute({ architectureId: fixture.id, diagramId: 'code' })
     render(<ShopWorkspace validatedBundle={architecture} />)
     await waitFor(() => expect(screen.getByText('Showing a code diagram')).toBeTruthy())
     expect(screen.getByLabelText('Explanation').textContent).toBe('This view shows selected symbols of the order handling component and their typed relations.')
     window.location.hash = ''
+  })
+  it('the README composition snippet equals examples/readme/compose.tsx', () => {
+    const readme = readFileSync('README.md', 'utf8')
+    const block = /<!-- example: examples\/readme\/compose\.tsx -->\s*```tsx\n([\s\S]*?)```/.exec(readme)?.[1]
+    expect(block).toBeTruthy()
+    expect(block!.trim()).toBe(readFileSync('examples/readme/compose.tsx', 'utf8').trim())
+  })
+  it('the executable README public-import example composes parts in one provider and stays in sync', async () => {
+    // The example imports the published names (`c4-sdk`, `c4-sdk/core`, a worker URL, CSS). Run its
+    // source unchanged except for resolving those specifiers to the repo's public facades, with the
+    // ELK worker replaced by the fixed layout port. The copy lives in the git-ignored node_modules cache.
+    const root = resolve('.'); const dir = resolve('node_modules/.cache/c4-readme-compose'); mkdirSync(dir, { recursive: true })
+    const shim = resolve(dir, 'sdk.ts')
+    writeFileSync(shim, `export * from ${JSON.stringify(resolve(root, 'src/index.ts'))}
+import { fixedLayout } from ${JSON.stringify(resolve(root, 'src/lib/c4/domain/layout.ts'))}
+export const createElkLayoutPort = () => ({ layout: async (request: any) => ({ generation: request.generation, result: fixedLayout(request.scene) }) })
+`)
+    writeFileSync(resolve(dir, 'worker-url.ts'), 'export default "layout-worker.js"\n'); writeFileSync(resolve(dir, 'empty.css'), '')
+    const source = readFileSync('examples/readme/compose.tsx', 'utf8')
+    const rewritten = source
+      .replace("'c4-sdk/core'", JSON.stringify(resolve(root, 'src/core/index.ts')))
+      .replace("'c4-sdk/layout-worker.js?url'", JSON.stringify(resolve(dir, 'worker-url.ts')))
+      .replace("'c4-sdk/styles.css'", JSON.stringify(resolve(dir, 'empty.css')))
+      .replaceAll("'c4-sdk'", JSON.stringify(shim))
+      .replace("'./bundle.json'", JSON.stringify(resolve(root, 'examples/readme/bundle.json')))
+    expect(rewritten).not.toContain("'c4-sdk")
+    const entry = resolve(dir, 'compose.tsx'); writeFileSync(entry, rewritten)
+    document.body.innerHTML = '<div id="root"></div>'
+    window.location.hash = ''
+    // The example owns its React root; capture it so the test can unmount it.
+    const roots: { unmount(): void }[] = []
+    vi.resetModules()
+    vi.doMock('react-dom/client', async importOriginal => {
+      const original = await importOriginal<typeof import('react-dom/client')>()
+      return { ...original, createRoot: (...args: Parameters<typeof original.createRoot>) => { const created = original.createRoot(...args); roots.push(created); return created } }
+    })
+    try {
+      await act(async () => { await import(/* @vite-ignore */ entry) })
+      await waitFor(() => expect(document.getElementById('heading')?.textContent).toBe('Shop landscape'))
+      // Navigation, view and documentation all follow the one provider's route.
+      await waitFor(() => expect(screen.getByLabelText('Explanation').querySelector('h2')?.textContent).toBe('Shop landscape'))
+      const before = document.getElementById('explanation-text')?.textContent
+      expect(before).toBeTruthy()
+      act(() => { screen.getByRole('button', { name: 'STE' }).click() })
+      await waitFor(() => expect(screen.getByRole('button', { name: 'STE' }).getAttribute('aria-pressed')).toBe('true'))
+      expect(document.getElementById('explanation-text')?.textContent).toBeTruthy()
+      await waitFor(() => expect(screen.getAllByRole('link', { name: 'Open detail for Shop' }).length).toBeGreaterThan(0))
+      act(() => { screen.getAllByRole('link', { name: 'Open detail for Shop' })[0].click() })
+      await waitFor(() => expect(document.getElementById('heading')?.textContent).not.toBe('Shop landscape'))
+      const heading = document.getElementById('heading')!.textContent
+      await waitFor(() => expect(screen.getByLabelText('Explanation').querySelector('h2')?.textContent).toBeTruthy())
+      act(() => { screen.getByRole('button', { name: 'Go up' }).click() })
+      await waitFor(() => expect(document.getElementById('heading')?.textContent).not.toBe(heading))
+    } finally {
+      act(() => { roots.forEach(created => created.unmount()) })
+      vi.doUnmock('react-dom/client'); vi.resetModules()
+      document.body.innerHTML = ''; window.location.hash = ''
+    }
   })
 })
