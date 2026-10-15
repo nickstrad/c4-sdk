@@ -1,5 +1,9 @@
 # C4 SDK build state
 
+## P-02 landed; parallel batch prepared — 2026-10-15
+
+P-02 exact builder `c4722a6` independently passed Sonnet review `a0517a3`; merged at `393c5e9` without conflicts. Reviewer reproduced exact preliminary hash d7980de2…d33f8 and passed consumer matrix, packaged browser10/10, unit204, properties34, API5, typecheck/lint. Review worktree cleaned. Integration sdk-check running; push follows success. P-04/P-05 briefs and disjoint claims are ready; shared interface is `node tests/readme/verify.mjs <tarball>` with README_REPORT output and ports4187/4188; P-02 browser4185/4186 remains separate. Builders use fresh Sonnet seats to balance pools (Claude20%, Codex40%); fresh Codex Sol reviewers will supply cross-family review. Plan paired tier unchanged. P-06 brief reserves serial version/toolchain finalization and six-area report.
+
 ## Restart pickup — 2026-10-14 23:35 UTC
 
 Latest Nick directives: first published version **0.1.0**, npm login verified by Twin as `nickstrad`; no publication authorized. P-06 must serialize manifest/lock and identity-doc updates to rolldown **1.2.14**, rolldown-plugin-dts **0.28.8**, version **0.1.0** before its final rebuild/repack and full exact-tarball matrix. All beta packs are preliminary. This supersedes older version/login and paused-verification status below.
