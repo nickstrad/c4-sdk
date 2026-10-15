@@ -1,5 +1,14 @@
 # P-06 checkpoint
 
+## Published; productionization track closed — 2026-10-15
+
+Per Twin's handoff in `/root/c4-lead-published.md` (2026-10-15, approximately 07:40 CDT), Nick published the retained `c4-sdk@0.1.0` candidate from vm-1 after the 2FA web-auth flow. Twin verified the registry packument: `latest = 0.1.0`, 15 files, and `dist.shasum = c92d3d195384380d67b95604df3c4750617ad3ba`, matching the verified tarball (SHA-256 `6b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084`). This coordinator records Twin's verification; it did not republish or perform a new registry verification.
+
+The registry also contains `0.0.0-stage`, described as "Temporary package placeholder for staged publishing", under maintainer `nickstrad`. Twin reported that early `npm view` reads briefly exposed only this stub during replication; the confirmed `latest` tag targets `0.1.0`, so the stub does not affect default installs.
+
+P-01 through P-06 and the productionization track are complete and closed. Twin has triggered the npm module swap on the ts-db side; that work is separately owned. The publication-pending instructions below are historical and superseded. Existing browser limitations and Nick's mobile component-docs exception remain documented in the release report.
+
+
 ## Coordinator completion — 2026-10-15
 
 Landed9743c93 after bounded correctiond7ee5ef and fresh Sol PASS290f51e/checkpoint3d4b229, superseding original review FAIL2938f95. Integration206unit/34property/5API/108release/typecheck/lint PASS. See [final review](../P-06-browser-fix/review.md) and [release report](../../../docs/release/0.1.0.md). All six areas ready; mobile component-docs remains explicitly nonblocking per Nick, historical focus uncertainty disclosed. Builder/correction/review worktrees cleaned; exact artifact and evidence retained. No publication/tag/registrywrite. Separate explicit publish instruction remains required.

@@ -1,6 +1,6 @@
 # Final phase: productionize c4-sdk
 
-Plan drafted 2026-10-12, source blob `47bfe622ca0ec5500ad36a0897dfc744320427d8`. Status: approved active track, 2026-10-14, after C4-10 completion and Nick's STE acceptance sign-off for C4-08/C4-10. P-01 is authorized to start; later items remain gated by its reviewed contract.
+Plan drafted 2026-10-12, source blob `47bfe622ca0ec5500ad36a0897dfc744320427d8`. Status: complete and closed, 2026-10-15. P-01 through P-06 passed their final gates; Nick published the verified `c4-sdk@0.1.0` candidate and Twin confirmed `latest = 0.1.0`. See the [publication addendum](../release/0.1.0.md#publication-addendum--2026-10-15). The execution instructions below are historical; the ts-db npm swap is separately owned.
 
 This is that plan's closing phase, not a competing roadmap. Nick's productionization request supersedes
 its earlier publishing-parked decision. Deliver MIT licensing, npm release scaffolding, a deliberately
