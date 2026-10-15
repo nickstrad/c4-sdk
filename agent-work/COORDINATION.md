@@ -1,5 +1,12 @@
 # Work coordination
 
+## P-06 review FAIL; bounded correction active — 2026-10-15
+
+Sol review2938f95/checkpoint3acf790 of exactfd32c04 is FAIL. Independent six distribution areas PASS, exact-source release-verify10package/6README PASS, sdk206unit/34property/5API/108release PASS. Focused source6pass/2fail: desktop native-newtab click interception/offscreen and mobile showcase wrong explanation. Isolated navigation1pass does not close gate. Report/gotchas overclaim toolchain causal exclusion and isolated evidence. Human mobile-docs waiver honored; no request to fix waived test. Evidence /tmp/p06-review-evidence/review.md and source-browser traces.
+
+Fresh Sonnet correction ACTIVE from3acf790, branch fix/p-06-browser-evidence, worktree /tmp/c4-sdk-p06-fix. Dispatch /tmp/c4-p06-fix.md; JSON/stderr/exit /tmp/c4-p06-fix.*, session9511. Coordinator reserves three tests/browser/{navigation,context,showcase} specs, release report, P06gotchas entry, new P-06-browser-fix local records ONLY. Runtime/source/manifest/lock/release readonly. Bounded evidence-based canvas interaction correction, preserve real click/newtab/focus/history/explanation assertions; no forcedclick/retries/timeout workaround or mobile-docs edits. Tests/docs-only leaves original artifact unchanged. Any product need requires concrete reclaim. After finalized/exited repair fresh cross-family review; second FAIL goes remaining-family arbitration. No landing/publication.
+
+
 ## P-06 final independent review active — 2026-10-15
 
 Fresh Sonnet completed/exited0 at fd32c04 (release-input fb74a91, report74e9639). Clean release-check PASS, source serial Playwright65pass/skip1. Default-parallel candidate failures disclosed; baseline reproduced both navigation failures, not every failure. Mobile-docs explicitly nonblocking per Nick. Retained exact artifact SHA2566b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084 and all logs/screenshots at /tmp/c4-sdk-release-0.1.0.
