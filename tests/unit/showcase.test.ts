@@ -50,9 +50,17 @@ describe('source-grounded independent showcase', () => {
   expect(JSON.stringify(a.index.diagrams['read-catch-up'])).toContain('200')
   expect(JSON.stringify(a.index.diagrams['read-catch-up'])).not.toContain('Return unchanged status (304)')
  })
- it('reconciles only the delivered contract claims in root README', () => {
+ it('reconciles the delivered contract claims in the root README with the shipped surface', () => {
   const text = readFileSync('README.md','utf8')
-  expect(text).toContain('asynchronous ELK worker'); expect(text).toContain('Documentation renders Markdown'); expect(text).toContain('all seven diagram kinds')
+  // Delivered capabilities the current README states: all seven kinds, bundled ELK in a module worker, safe Markdown.
+  expect(text).toContain('all seven diagram kinds')
+  expect(text).toMatch(/^## Layout worker$/m); expect(text).toContain('Layout runs in a browser module worker')
+  expect(text).toContain('createElkLayoutPort'); expect(text).toContain('c4-sdk/layout-worker.js')
+  expect(text).toMatch(/Markdown in documentation supports safe links and literal text; HTML, images and components are rejected/)
+  // Every public entry the README documents must exist in the manifest exports.
+  const exportsMap = JSON.parse(readFileSync('package.json','utf8')).exports
+  for (const entry of ['c4-sdk/core','c4-sdk/styles.css','c4-sdk/layout-worker.js']) expect(exportsMap).toHaveProperty(['.' + entry.slice('c4-sdk'.length)])
+  // Retired claims from before layout and Markdown landed must stay absent.
   for (const stale of ['No ELK is implemented here','without graph routing or ELK','rather than interpreting Markdown/HTML','until C4-04 supplies']) expect(text).not.toContain(stale)
  })
 })
