@@ -1,4 +1,5 @@
 import fc from 'fast-check'
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import {
   APPROVED_EXPORT_KEYS, EVIDENCE_SCHEMA, REQUIRED_FILES, buildPublishArgs, checkCleanTarget, checkDeclarations, checkEvidence, checkInventory,
@@ -21,6 +22,7 @@ const goodManifest = () => ({
 const paths = new Set(REQUIRED_FILES)
 const hex = fc.stringMatching(/^[0-9a-f]{64}$/)
 const sha = fc.stringMatching(/^[0-9a-f]{40}$/)
+const realReport = JSON.parse(readFileSync(new URL('./fixtures/p04-readme-report.json', import.meta.url), 'utf8'))
 
 describe('version and path primitives', () => {
   it('accepts plain and prerelease semver, rejects build metadata and leading zeros', () => {
@@ -240,6 +242,163 @@ describe('reports', () => {
       expect(errorsFor({ evidence: real, passed: false })).toMatch(/did not pass/)
       expect(errorsFor({ evidence: real, sha256: 'f'.repeat(64) })).toMatch(/sha256/)
       expect(errorsFor({ evidence: real, version: '9.9.9' })).toMatch(/version/)
+    })
+  })
+
+  describe('README evidence: complete location schema', () => {
+    const base = { passed: true, sha256: id.sha256, version: id.version }
+    const errorsFor = fields => checkReadmeReport({ ...base, ...fields }, id).join()
+    const output = { esm: [{ title: 'Shop', nodes: 4 }, { code: 'missing-reference', path: '$.x' }], cjs: [{ title: 'Shop', nodes: 4 }] }
+    const producer = { consumer: '/tmp/consumer', output, screenshots: ['/tmp/a.png', '/tmp/b.png'] }
+    // Values that are never a valid location, location array or location object.
+    const defects = ['', ' \t', 0, 7, true, false, null, [], {}, [''], [[]], [{}], { k: '' }, { k: {} }, { k: [] }]
+
+    it('accepts the real P-04 report verbatim and binds it to its own identity', () => {
+      const ownId = { sha256: realReport.sha256, version: realReport.version }
+      expect(checkReadmeReport(realReport, ownId)).toEqual([])
+      expect(realReport.evidence.output.esm.some(result => result.nodes === 4)).toBe(true)
+      expect(checkReadmeReport(realReport, id).join()).toMatch(/sha256.*version/)
+      expect(checkReadmeReport({ ...realReport, passed: false }, ownId).join()).toMatch(/did not pass/)
+    })
+
+    it('rejects every final-review reproduction with a path-specific reason', () => {
+      const cases = [
+        [{ consumer: ['/tmp/x'] }, /evidence\.consumer must be a nonempty string/],
+        [{ consumer: { path: '/tmp/x' } }, /evidence\.consumer must be a nonempty string/],
+        [{ screenshots: '/tmp/x.png' }, /evidence\.screenshots must be a nonempty array of nonempty strings/],
+        [{ screenshots: { path: '/tmp/x.png' } }, /evidence\.screenshots must be/],
+        [{ screenshots: [['/tmp/x.png']] }, /evidence\.screenshots must be/],
+        [{ consumer: '/tmp/x', a: {} }, /evidence\.a is an empty object/],
+      ]
+      for (const [evidence, reason] of cases) expect(errorsFor({ evidence }), JSON.stringify(evidence)).toMatch(reason)
+      expect(errorsFor({ evidence: {}, evidenceLocations: ['/tmp/y'] })).toMatch(/evidence is an empty object/)
+    })
+
+    it('types designated fields beside valid siblings, in the producer shape and at any depth', () => {
+      const badConsumer = ['', '  ', ['/tmp/x'], { path: '/tmp/x' }, 7, true, null, [], {}]
+      const badScreenshots = ['/tmp/x.png', '', { path: '/tmp/x.png' }, [['/tmp/x.png']], [], [''], ['/tmp/x.png', ''], ['/tmp/x.png', 7], ['/tmp/x.png', null], ['/tmp/x.png', {}], [{ path: '/tmp/x.png' }], 7, null, {}]
+      for (const consumer of badConsumer) {
+        for (const evidence of [{ consumer }, { ...producer, consumer }, { browser: '/tmp/b', consumer }, [{ consumer }], { a: { consumer } }]) {
+          expect(errorsFor({ evidence }), JSON.stringify(evidence)).toMatch(/consumer must be a nonempty string/)
+        }
+      }
+      for (const screenshots of badScreenshots) {
+        for (const evidence of [{ screenshots }, { ...producer, screenshots }, { consumer: '/tmp/c', screenshots }, [{ screenshots }], { a: { screenshots } }]) {
+          expect(errorsFor({ evidence }), JSON.stringify(evidence)).toMatch(/screenshots must be a nonempty array of nonempty strings/)
+        }
+        expect(errorsFor({ evidence: producer, evidenceLocations: { screenshots } })).toMatch(/evidenceLocations\.screenshots must be/)
+      }
+      expect(errorsFor({ evidence: producer, evidenceLocations: { consumer: ['/tmp/x'] } })).toMatch(/evidenceLocations\.consumer must be/)
+      expect(errorsFor({ evidence: { consumer: ' /tmp/padded ', screenshots: ['/tmp/one.png'] } })).toBe('')
+    })
+
+    it('rejects empty nested objects and arrays even beside valid locations', () => {
+      for (const extra of [{}, { b: {} }, [{}], [[]], [], ['/tmp/ok', {}], { b: { c: [] } }]) {
+        expect(errorsFor({ evidence: { consumer: '/tmp/x', a: extra } }), JSON.stringify(extra)).toMatch(/empty (object|array)/)
+        expect(errorsFor({ evidence: { ...producer, a: extra } }), JSON.stringify(extra)).toMatch(/empty (object|array)/)
+        expect(errorsFor({ evidence: ['/tmp/x', extra] }), JSON.stringify(extra)).toMatch(/empty (object|array)/)
+        expect(errorsFor({ evidence: producer, evidenceLocations: { a: extra } }), JSON.stringify(extra)).toMatch(/empty (object|array)/)
+      }
+      expect(errorsFor({ evidence: producer, evidenceLocations: {} })).toMatch(/evidenceLocations is an empty object/)
+      expect(errorsFor({ evidence: producer, evidenceLocations: [] })).toMatch(/evidenceLocations is an empty array/)
+      expect(errorsFor({ evidence: producer, evidenceLocations: null })).toMatch(/evidenceLocations is null/)
+    })
+
+    it('treats only top-level evidence.output as execution evidence', () => {
+      for (const bad of [{}, [], null, '', '/tmp/x', 0, false]) expect(errorsFor({ evidence: { ...producer, output: bad } }), JSON.stringify(bad)).toMatch(/evidence\.output must be a nonempty object or array/)
+      expect(errorsFor({ evidence: { ...producer, output: [{}] } })).toBe('')
+      expect(errorsFor({ evidence: { ...producer, output: { esm: [], cjs: [{ nodes: 4 }] } } })).toBe('')
+      expect(errorsFor({ evidence: { consumer: '/tmp/x', a: { output: { nodes: 4 } } } })).toMatch(/evidence\.a\.output\.nodes is number/)
+      expect(errorsFor({ evidence: [{ output: [{ nodes: 4 }] }, '/tmp/x'] })).toMatch(/evidence\[0\]\.output\[0\]\.nodes is number/)
+      expect(errorsFor({ evidence: producer, evidenceLocations: { output } })).toMatch(/evidenceLocations\.output\.esm\[0\]\.nodes is number/)
+      expect(errorsFor({ evidence: { output } })).toMatch(/no valid evidence locations/)
+      expect(errorsFor({ evidence: { output }, evidenceLocations: '/tmp/y' })).toBe('')
+    })
+
+    it('checks every present field: both must be well-formed and together name a location', () => {
+      expect(errorsFor({})).toMatch(/neither evidence nor evidenceLocations/)
+      expect(errorsFor({ evidence: undefined, evidenceLocations: ['/tmp/y'] })).toBe('')
+      expect(errorsFor({ evidence: producer, evidenceLocations: ['/tmp/y'] })).toBe('')
+      for (const defect of defects) {
+        expect(errorsFor({ evidence: producer, evidenceLocations: defect }), `locations ${JSON.stringify(defect)}`).toMatch(/malformed evidence locations/)
+        expect(errorsFor({ evidence: defect, evidenceLocations: ['/tmp/y'] }), `evidence ${JSON.stringify(defect)}`).toMatch(/malformed evidence locations/)
+      }
+      const message = errorsFor({ evidence: { consumer: 7, screenshots: [''] }, evidenceLocations: [''] })
+      for (const path of ['evidence.consumer', 'evidence.screenshots', 'evidenceLocations[0]']) expect(message).toContain(path)
+    })
+
+    it('accepts only plain JSON objects and reports odd keys readably', () => {
+      class Located { constructor() { this.consumer = '/tmp/x' } }
+      expect(errorsFor({ evidence: new Located() })).toMatch(/evidence is object, not a location/)
+      expect(errorsFor({ evidence: Object.assign(Object.create(null), { consumer: '/tmp/x' }) })).toBe('')
+      expect(errorsFor({ evidence: { consumer: '/tmp/x', 'a b': '' } })).toContain('evidence["a b"] is an empty string')
+    })
+
+    // Generators build the contract independently of the validator: valid trees by construction, then single defects.
+    const location = fc.string({ minLength: 1, maxLength: 10 }).filter(text => text.trim() !== '')
+    const key = fc.string({ minLength: 1, maxLength: 6 }).filter(text => !['consumer', 'screenshots', 'output', '__proto__'].includes(text))
+    const { tree } = fc.letrec(tie => ({
+      tree: fc.oneof({ depthSize: 'small' }, location, fc.array(tie('tree'), { minLength: 1, maxLength: 3 }), fc.dictionary(key, tie('tree'), { minKeys: 1, maxKeys: 3 })),
+    }))
+    const executionOutput = fc.oneof(fc.array(fc.jsonValue(), { minLength: 1, maxLength: 3 }), fc.dictionary(fc.string().filter(text => text !== '__proto__'), fc.jsonValue(), { minKeys: 1, maxKeys: 3 }))
+    const producerShaped = fc.record(
+      { consumer: location, screenshots: fc.array(location, { minLength: 1, maxLength: 4 }), output: executionOutput, extra: fc.dictionary(key, tree, { minKeys: 1, maxKeys: 2 }) },
+      { requiredKeys: [] },
+    ).filter(shape => shape.consumer !== undefined || shape.screenshots !== undefined || shape.extra !== undefined)
+      .map(({ extra, ...shape }) => ({ ...extra, ...shape }))
+    const validEvidence = fc.oneof(tree, producerShaped)
+    // Every node path a defect can replace: all of the value except the inside of top-level evidence.output.
+    function nodePaths(value, path = [], top = true) {
+      const children = Array.isArray(value) ? value.map((item, index) => [index, item])
+        : value !== null && typeof value === 'object' ? Object.entries(value).filter(([name]) => !(top && name === 'output')) : []
+      return [path, ...children.flatMap(([name, item]) => nodePaths(item, [...path, name], false))]
+    }
+    const replaceAt = (value, [head, ...rest], next) => head === undefined ? next
+      : Array.isArray(value) ? value.map((item, index) => index === head ? replaceAt(item, rest, next) : item) : { ...value, [head]: replaceAt(value[head], rest, next) }
+
+    it('property: generated valid evidence is accepted in either field, alone or together', () => {
+      fc.assert(fc.property(validEvidence, tree, (evidence, locations) => {
+        expect(errorsFor({ evidence })).toBe('')
+        expect(errorsFor({ evidenceLocations: locations })).toBe('')
+        expect(errorsFor({ evidence, evidenceLocations: locations })).toBe('')
+      }))
+    })
+
+    it('property: any single defect anywhere outside execution output rejects, whatever the companion field', () => {
+      fc.assert(fc.property(validEvidence, fc.nat(), fc.constantFrom(...defects), tree, (evidence, pick, defect, locations) => {
+        const targets = nodePaths(evidence)
+        const broken = replaceAt(evidence, targets[pick % targets.length], defect)
+        expect(errorsFor({ evidence: broken })).toMatch(/malformed evidence locations/)
+        expect(errorsFor({ evidence: broken, evidenceLocations: locations })).toMatch(/malformed evidence locations/)
+        expect(errorsFor({ evidence: locations, evidenceLocations: replaceAt(locations, nodePaths(locations, [], false)[pick % nodePaths(locations, [], false).length], defect) })).toMatch(/malformed evidence locations/)
+      }))
+    })
+
+    it('property: designated fields reject every value outside their type', () => {
+      const notLocation = fc.jsonValue().filter(value => typeof value !== 'string' || value.trim() === '')
+      const notScreenshots = fc.jsonValue().filter(value => !(Array.isArray(value) && value.length > 0 && value.every(item => typeof item === 'string' && item.trim() !== '')))
+      fc.assert(fc.property(producerShaped, notLocation, notScreenshots, (evidence, consumer, screenshots) => {
+        expect(errorsFor({ evidence: { ...evidence, consumer } })).toMatch(/evidence\.consumer must be a nonempty string/)
+        expect(errorsFor({ evidence: { ...evidence, screenshots } })).toMatch(/evidence\.screenshots must be a nonempty array/)
+      }))
+    })
+
+    it('property: execution output never decides acceptance and never counts as a location', () => {
+      fc.assert(fc.property(producerShaped, executionOutput, tree, (evidence, results, locations) => {
+        const { output: _, ...withoutOutput } = evidence
+        expect(errorsFor({ evidence: { ...withoutOutput, output: results } })).toBe(errorsFor({ evidence: withoutOutput }))
+        expect(errorsFor({ evidence: { output: results } })).toMatch(/no valid evidence locations/)
+        expect(errorsFor({ evidence: { output: results }, evidenceLocations: locations })).toBe('')
+      }))
+    })
+
+    it('property: identity checks are independent of evidence validity', () => {
+      fc.assert(fc.property(validEvidence, fc.jsonValue().filter(value => value !== true), hex, (evidence, passed, other) => {
+        fc.pre(other !== id.sha256)
+        expect(errorsFor({ evidence, passed })).toMatch(/did not pass/)
+        expect(errorsFor({ evidence, sha256: other })).toMatch(/sha256/)
+        expect(errorsFor({ evidence, version: '9.9.9' })).toMatch(/version/)
+      }))
     })
   })
 

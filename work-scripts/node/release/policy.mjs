@@ -202,25 +202,63 @@ export function checkPackageReport(report, { sha256, version, sourceSha }) {
   return errors
 }
 
-// Location evidence: strings are nonempty, arrays nonempty, objects hold only locations. The top-level
-// `output` subtree is execution evidence (ESM/CJS results) and is never validated or counted as a location.
-function scanLocations(value, top = false) {
-  if (typeof value === 'string') return value.trim() === '' ? { malformed: true, count: 0 } : { malformed: false, count: 1 }
+// README evidence locations. A location is a non-whitespace string; arrays and plain objects that hold
+// locations must be nonempty at every depth. Designated fields of the P-04 producer shape
+// `{ consumer, output, screenshots }` are typed wherever they appear: `consumer` is one location and
+// `screenshots` a nonempty flat array of locations. Only the top-level `output` of `evidence` is execution
+// evidence (ESM/CJS results): it must be a nonempty object or array, its contents are not inspected, and it
+// never counts as a location. `evidence` and `evidenceLocations` are both checked when present; any
+// malformed node in either rejects, and together they must name at least one location.
+const isLocation = value => typeof value === 'string' && value.trim() !== ''
+const isPlainObject = value => value !== null && typeof value === 'object' && !Array.isArray(value) && [Object.prototype, null].includes(Object.getPrototypeOf(value))
+const nonemptyContainer = value => (Array.isArray(value) && value.length > 0) || (isPlainObject(value) && Object.keys(value).length > 0)
+const DESIGNATED = {
+  consumer: [isLocation, 'must be a nonempty string'],
+  screenshots: [value => Array.isArray(value) && value.length > 0 && value.every(isLocation), 'must be a nonempty array of nonempty strings'],
+}
+const childPath = (path, key) => /^[A-Za-z_$][\w$]*$/.test(key) ? `${path}.${key}` : `${path}[${JSON.stringify(key)}]`
+
+// Returns the number of locations under `value` and appends every malformed node to `problems`.
+function scanLocations(value, path, problems, executionOutput = false) {
+  if (typeof value === 'string') {
+    if (isLocation(value)) return 1
+    problems.push(`${path} is an empty string`)
+    return 0
+  }
   if (Array.isArray(value)) {
-    if (value.length === 0) return { malformed: true, count: 0 }
-    const parts = value.map(item => scanLocations(item))
-    return { malformed: parts.some(part => part.malformed), count: parts.reduce((sum, part) => sum + part.count, 0) }
+    if (value.length === 0) problems.push(`${path} is an empty array`)
+    return value.reduce((sum, item, index) => sum + scanLocations(item, `${path}[${index}]`, problems), 0)
   }
-  if (value !== null && typeof value === 'object') {
-    const parts = Object.entries(value).filter(([key]) => !(top && key === 'output')).map(([, item]) => scanLocations(item))
-    return { malformed: parts.some(part => part.malformed), count: parts.reduce((sum, part) => sum + part.count, 0) }
+  if (isPlainObject(value)) {
+    const entries = Object.entries(value)
+    if (entries.length === 0) problems.push(`${path} is an empty object`)
+    let count = 0
+    for (const [key, item] of entries) {
+      const at = childPath(path, key)
+      if (executionOutput && key === 'output') {
+        if (!nonemptyContainer(item)) problems.push(`${at} must be a nonempty object or array of execution results`)
+        continue
+      }
+      if (Object.hasOwn(DESIGNATED, key) && !DESIGNATED[key][0](item)) {
+        problems.push(`${at} ${DESIGNATED[key][1]}`)
+        continue
+      }
+      count += scanLocations(item, at, problems)
+    }
+    return count
   }
-  return { malformed: true, count: 0 }
+  problems.push(`${path} is ${value === null ? 'null' : typeof value}, not a location`)
+  return 0
 }
 
-function validEvidence(report) {
-  const present = [report.evidence, report.evidenceLocations].filter(value => value !== undefined).map(value => scanLocations(value, true))
-  return present.length > 0 && !present.some(part => part.malformed) && present.some(part => part.count > 0)
+function evidenceErrors(report) {
+  const present = ['evidence', 'evidenceLocations'].filter(field => report[field] !== undefined)
+  if (present.length === 0) return ['README report names no evidence locations (neither evidence nor evidenceLocations is present)']
+  const problems = []
+  const count = present.reduce((sum, field) => sum + scanLocations(report[field], field, problems, field === 'evidence'), 0)
+  if (problems.length > 0) return [`README report has malformed evidence locations: ${problems.join('; ')}`]
+  if (count === 0) return ['README report names no valid evidence locations (output is execution evidence, not a location)']
+  return []
 }
 
 export function checkReadmeReport(report, { sha256, version }) {
@@ -229,7 +267,7 @@ export function checkReadmeReport(report, { sha256, version }) {
   if (report.passed !== true) errors.push('README report did not pass')
   if (report.sha256 !== sha256) errors.push(`README report sha256 ${report.sha256} does not match artifact`)
   if (report.version !== version) errors.push(`README report version ${report.version} does not match artifact`)
-  if (!validEvidence(report)) errors.push('README report names no valid evidence locations (expected nonempty strings, arrays or objects of them)')
+  errors.push(...evidenceErrors(report))
   return errors
 }
 

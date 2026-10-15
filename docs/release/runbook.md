@@ -27,6 +27,7 @@ All targets are thin wrappers over `node work-scripts/node/release/cli.mjs <comm
 - Export map keys other than `.`, `./core`, `./styles.css`, `./layout-worker.js`; wildcard exports; targets outside `dist-sdk` or absent from the tarball; consumer-visible install/publish lifecycle scripts; non-registry dependency specifiers.
 - Declarations with unresolved relative imports or imports of packages the manifest does not declare.
 - A missing or failing `tests/readme/verify.mjs`, or a README/package report whose hash, version or source SHA differs from the evidence.
+- A README report whose evidence locations are malformed or absent. `evidence` and `evidenceLocations` are both checked when present and together must name at least one location. A location is a non-whitespace string; arrays and objects of locations must be nonempty at every depth. `consumer` must be one location and `screenshots` a nonempty flat array of locations. Only the top-level `evidence.output` (P-04 ESM/CJS execution results) may hold other values: it must be a nonempty object or array, its contents are not inspected, and it never counts as a location.
 - Lifecycle recursion: the driver sets `C4_RELEASE_ACTIVE` for its children and refuses to start when it is already set. npm runs with `--ignore-scripts`, and non-publication children never receive `NODE_AUTH_TOKEN`/`NPM_TOKEN`.
 
 ## Operator gate for publication

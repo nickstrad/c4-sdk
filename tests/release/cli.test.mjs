@@ -1,5 +1,6 @@
 import fc from 'fast-check'
 import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ReleaseError, context, inspectCandidate, main, releaseCheck, releasePack, releasePublish, releaseVerify, sdkBuild, sdkCheck } from '../../work-scripts/node/release/cli.mjs'
 import { publishConfirmation, sha256Hex } from '../../work-scripts/node/release/policy.mjs'
@@ -181,6 +182,18 @@ describe('release-verify', () => {
     const io = verifiedIo({ runs: { 'node tests/readme/verify.mjs': readmeWrites({ evidence }) } })
     releaseVerify(io, ctx(), TARBALL)
     expect(JSON.parse(io.fs.get(VERIFY)).stages.readme).toBe('passed')
+  })
+
+  it('passes the README stage with the real P-04 report evidence verbatim and fails it for malformed designated fields', () => {
+    const { evidence } = JSON.parse(readFileSync(new URL('./fixtures/p04-readme-report.json', import.meta.url), 'utf8'))
+    const io = verifiedIo({ runs: { 'node tests/readme/verify.mjs': readmeWrites({ evidence }) } })
+    releaseVerify(io, ctx(), TARBALL)
+    expect(JSON.parse(io.fs.get(VERIFY)).stages.readme).toBe('passed')
+    for (const [bad, reason] of [[{ ...evidence, screenshots: evidence.screenshots[0] }, /evidence\.screenshots must be/], [{ ...evidence, consumer: [evidence.consumer] }, /evidence\.consumer must be/], [{ ...evidence, extra: {} }, /evidence\.extra is an empty object/]]) {
+      const failing = verifiedIo({ runs: { 'node tests/readme/verify.mjs': readmeWrites({ evidence: bad }) } })
+      expect(run(() => releaseVerify(failing, ctx(), TARBALL))).toMatch(reason)
+      expect(JSON.parse(failing.fs.get(VERIFY))).toMatchObject({ passed: false, stages: { readme: 'failed' } })
+    }
   })
 
   it('fails closed without evidence, with a different hash, or with a tampered inventory', () => {
