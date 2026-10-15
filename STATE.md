@@ -1,5 +1,9 @@
 # C4 SDK build state
 
+## P-06 clean release rehearsal PASS; source browsers running — 2026-10-15
+
+P06 release-input commitfb74a91 (version0.1.0, rolldown1.2.14/plugin-dts0.28.8, identity/support/changelog/gitignore). Clean checkout /tmp/c4-sdk-p06-rehearsal ran full make release-check PASS exit0. Exact final tarball SHA2566b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084. Artifact/sidecars/log/screenshots retained /tmp/c4-sdk-release-0.1.0. Both source builds PASS; full66case source Playwright running, log source-playwright.log there. Final report/notice reconciliation/checkpoint and independent Sol review still pending. Builder active, do not dispatch review before exit/finalSHA. No publication.
+
 ## P-06 final candidate active — 2026-10-15
 
 P05 landed and pushed through316c4b6 after combined actual release-check PASS. Fresh Sonnet P06 ACTIVE alone at base316c4b6, branch item/p-06-final-candidate, worktree /tmp/c4-sdk-p-06. Dispatch /tmp/c4-p06-build.md; JSON/stderr/exit prefix /tmp/c4-p06-build, session74602. Own exact P06 brief paths only. Version0.1.0, rolldown1.2.14/plugin-dts0.28.8 BEFORE final pack; clean committed-source checkout rehearsal/full matrix/source browsers, notice reconciliation/six-area report. Retain exact final artifacts outside worktree at /tmp/c4-sdk-release-0.1.0 before cleanup. No publish/tag/auth work. Fresh independent Sol review follows final committed output. Browser ports all P06-exclusive. Prior integration artifacts retained /tmp/c4-p04-p05-passed-artifacts; staged integration worktree can be cleaned after evidence retained.
