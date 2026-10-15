@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".sdk-types",
+    "rootDir": "src",
+    "types": [
+      "vite/client"
+    ]
+  },
+  "include": [
+    "src/index.ts",
+    "src/core/index.ts"
+  ]
+}

@@ -1,13 +1,109 @@
 # P-02 checkpoint
 
-Status: assigned; not started.
+Status: exact tarball packed; clean consumer verification underway, browser pending; building in `/tmp/c4-sdk-p-02`, branch `item/p-02-sdk-package`, exact base `d1c228ca1a72278cf8df67813bc251cacb8a8374`; independent review/landing pending. No publish/tag/push/merge is authorized for this builder.
 
-Goal: implement and prove the installable dual-module `c4-sdk` package candidate after P-01 contract freeze. Never publish or tag. Actual npm publication requires Nick present for login/2FA.
+Goal and ownership: [`brief.md`](brief.md), [`claims.md`](claims.md), [`productionization plan`](../../../docs/plans/productionization.md). Own manifest/lock, SDK build/declaration wiring, tests/package, and this checkpoint only. Source/API, README, P-03 notice paths, shared status/knowledge/scripts remain read-only.
 
-Plan: [`docs/plans/productionization.md`](../../../docs/plans/productionization.md). Brief: [`brief.md`](brief.md). Claims: [`claims.md`](claims.md). Root checkpoint: [`STATE.md`](../../../STATE.md).
+## Registry gate — 2026-10-14
 
-Builder: fresh Codex Sol in a dedicated worktree/branch. Reviewer: fresh Claude Sonnet, exact final builder head after cleanup.
+Authorized command: `npm view c4-sdk name version --json`.
+Started in sandbox at `2026-10-14T18:06:46Z`; failed EAI_AGAIN DNS, no registry result. Per sandbox policy retried the same read-only operation with require_escalated. npm log timestamp `2026-10-14T18:08:05.061Z`; exit1, E404: `Not Found - GET https://registry.npmjs.org/c4-sdk - Not found`, detail `'c4-sdk@*' is not in this registry.` Name currently unregistered, not proof of account ownership. No alternative name chosen. Actual publication requires Nick present for login/2FA.
 
-## Handoff
+## Progress
 
-Before artifact creation, make the one authorized read-only current availability query for `c4-sdk`; record exact result and time. Then implement only claimed paths. Coordinate final package inclusion/verification against P-03's notice files. Capture exact tarball SHA and source SHA and all consumer/browser outcomes. Commit implementation and post-work knowledge/scripts assessment separately where applicable; clean the worktree and report.
+- Candidate manifest c4-sdk0.1.0-beta.1, MIT, exact Node22.23.2 and matching React/ReactDOM19.3.0 peers; independent dist-sdk allowlist and explicit four public subpaths. Bundled implementation dependencies are dev/build inputs, React peers remain external including JSX runtime.
+- Canonical CJS UI/core implementation and shared runtime chunk, thin ESM wrappers preserve identity. Library transform isolates CSS imports and changes only generated default worker URL to host-base `layout-worker.js`; explicit host factory is exercised by Vite fixtures. Existing source worker path is unchanged.
+- Added exact build dependencies rolldown1.2.13, rolldown-plugin-dts0.28.6, PostCSS8.5.29, and exact tested TS/Vite/React targets. Coordinator explicitly authorized build dependency install/lock changes. First sandbox npm install failed DNS EAI_AGAIN; escalated identical install succeeded (541 packages), no credentials or publication.
+- Initial SDK build exposed CSS loader module-type requirement (fixed), then declaration-plugin empty JS entries (fix under validation). Initial successful output is preliminary and no tarball created yet.
+- Clean artifact consumer fixtures prepared for ESM/CJS import parity, mixed context, React-free core, strict .mts/.cts/TSX compilation, worker cancellation/failure, and ESM/CJS browser builds at `/consumer/subpath/`.
+- P-03 requested inventory; generated exact module/package/license-source inventory at tests/package/evidence/bundle-inventory.json. Chosen ELK dual-license option is EPL-2.0. Final packed notices must be reconciled with P-03 before candidate verification.
+
+## Environment / events
+
+Read orientation, root/item instructions, root checkpoint, relevant coordination/events, knowledge/script indexes and P-01 frozen contract. Environment kb search373 yielded no useful packaging hits; feedback command failed because SQLite database unavailable (same existing root-checkpoint limitation). No environment finding to save. Event publication skipped under Nick's existing exception; no event fabricated.
+
+## Next
+
+Finish SDK build/declarations and tests; send exact inventory to P-03; coordinate license/notice overlay for final npm pack. Validate exact tarball outside source checkout and production browser fixtures plus existing regressions. Commit implementation/evidence, then separate knowledge/scripts assessment within checkpoint; final checkpoint records exact SHAs/hash/tests. Clean only builder worktree and retain branch for fresh Sonnet review.
+
+## Exact preliminary candidate — 2026-10-14 18:53 UTC
+
+Tarball `/tmp/c4-sdk-p-02-artifacts/c4-sdk-0.1.0-beta.1.tgz`; SHA256 `0b7d00a873ab25d87047174d0351303a6cde3310d146b192d46ff445d28647fc`. Exact pack inventory `/tmp/c4-sdk-p-02-artifacts/pack.json`: 15 files,855244B compressed/3720205B unpacked. Package roots LICENSE/README.md/THIRD_PARTY_NOTICES.md/package.json; dist-sdk index/core .cjs/.mjs/.d.mts/.d.cts,shared-Fjju4RBi.cjs,styles.css,layout-worker.js. Notice content from pushed P-03 `68b155c`. No source/maps/demo/fonts/images/tests/status/tooling paths ship. Candidate built from base SHA d1c228c plus current owned working diff, not yet committed/reviewed. Final source SHA must be captured after implementation commit.
+
+Root typecheck PASS after isolating consumer NodeNext fixture templates from the root runner's bundler/verbatimModuleSyntax settings. Clean consumer dependency install PASS after initial sandbox offline npm cache ENOTCACHED; prefer-offline install escalated. Initial Node smoke used hostile fake window getter and failed dependency `typeof window` detection; corrected to actual absent Node globals and constructor/fetch invocation traps. Corrected smoke passed parity/shared context/decode/worker checks, then its core-only subprocess failed harness regex syntax from template escaping. Regex trap corrected to explicit React package-name checks; final rerun pending. These are harness failures; no changed candidate runtime code or tarball. Consumer log `/tmp/c4-sdk-p-02-consumer.log`; prior scratch consumers remain under /tmp.
+
+Required lease KB search initially unavailable in sandbox; escalated search374/show read lifecycle guidance; feedback374 rank1 useful and earlier feedback373 none recorded successfully. `ss -ltn '( sport = :4185 or sport = :4186 )'` showed both ports free; coordinator leased them for packaged run. Browser has not started yet. Event skip remains existing exception. Scratch Node `execFileSync(git show)` stalled then returned EPERM with valid captured blob; required escalated retry passed. npm pack sandbox EROFS cache access was retried outside sandbox and passed. Substantial pending-tool return delays observed, not hung test processes. Current command phase: corrected consumer matrix, then browser.
+
+## Passing consumer matrix / browser phase — 2026-10-14 19:04 UTC
+
+Final corrected consumer command PASS: `npm run test:package -- /tmp/c4-sdk-p-02-artifacts/c4-sdk-0.1.0-beta.1.tgz`, log `/tmp/c4-sdk-p-02-consumer-final.log`, isolated consumer `/tmp/c4-sdk-consumer-8tuLMo`, report `report.json` there. ESM/CJS import safety/name parity/function/context identity, React-free core subprocess, decode/navigation, cancellation/failure/worker-handler cleanup PASS. Strict skipLibCheck:false NodeNext .mts/.cts and bundler TSX with full reused P-01 structural fixture/intentional misuse checks PASS. Both Vite8.3.4 production ESM and CJS build fixtures PASS at /consumer/subpath/. Tested Node22.23.2/npm10.9.8, React+ReactDOM19.3.0, TypeScript6.0.3, Vite8.3.4. Builds emit browser-externalized node:path/node:url/node:process warnings from bundled ELK and use-client directive warning; runtime browser outcome pending. Source SHA in preliminary report is base d1c228c plus owned diff; final commit binding still pending.
+
+Starting `CONSUMER_DIR=/tmp/c4-sdk-consumer-8tuLMo npm run test:package:browser`, log `/tmp/c4-sdk-p-02-browser.log`, screenshots/traces `/tmp/c4-sdk-p-02-browser`. Ports4185/4186 leased and free at startup. API source snapshot runner in parallel, Vitest suites remain sequential per checkout.
+
+## First packaged browser failure — 2026-10-14 19:17 UTC
+
+API runner5/5 PASS. Initial sandbox preview startup failed before tests, log `/tmp/c4-sdk-p-02-browser.log`; mandatory escalated rerun started both previews and ran8 tests, all8 FAIL in `/tmp/c4-sdk-p-02-browser-escalated.log`, traces `/tmp/c4-sdk-p-02-browser`. Trace pageError shows real build defect: `node_process.default.cwd is not a function` in VFile/Markdown, preventing viewer mount. Rolldown inferred node platform from CJS output and resolved VFile Node-specific conditional imports. Correcting explicit runtime platform:browser selects dependency browser implementations while Node import/core safety remain gates. Rebuild/repack and complete matrix rerun required; preliminary hash above is FAILED browser and cannot be release candidate.
+
+VFile browser minpath implementation contains embedded James Halliday/browserify and Joyent/Node MIT notices in its source comments. Package set remains76 but module paths change; coordinator will dispatch separate fresh P-03 notice supplement if needed. P-03 files untouched. Lint initial command scanned generated dist-sdk and reported generated third-party hook errors; claimed manifest lint now ignores dist-sdk and .sdk-types using installed oxlint --ignore-pattern.
+
+## Second dependency-selection correction — 2026-10-14 19:36 UTC
+
+Explicit browser platform fixed VFile resolution but the repacked Node smoke failed `document is not defined`: decode-named-character-reference browser export constructs a DOM element at import. Its 75-package inventory e8939350...ec36 drops character-entities. Final correction is neutral platform, conditions import/default: VFile default uses its browser-safe helpers; character decoder default uses the DOM-free character table. Expect final inventory76 with restored character-entities; coordinator notified before P-03 supplement finalizes. These are real acceptance-found packaging defects, neither intermediate tarball can release. Unit/hooks204PASS, properties34PASS, generic and demo builds PASS.
+
+## Final neutral graph — 2026-10-14 19:40 UTC
+
+Final SDK build uses platform:neutral and explicit module/main fields. Exact generated inventory SHA256 `88f62f2709fb334629bf36035bd57c7753721295b3c803f460367a041bd01ebc`;76 packages, DOM-free decoder with character-entities restored and VFile browser path/process/url implementations. Initial neutral attempt omitted3 old main-only dependencies; explicit mainFields fixed this before packing, and unresolved imports now fail build. Build PASS with clean log `/tmp/c4-sdk-p-02-build-neutral.log`. P-03 supplemental notice agent holding/reconciling against this inventory; no notice edits by P-02.
+
+Current phase: repack neutral runtime for Node smoke/types/browser confirmation. Final notice inclusion/repack is pending supplemental notice landing. Browser rerun queued behind clean neutral Node/type/build checks. Added static default-worker host test at non-root base and live page.workers zero assertion using KB lifecycle guidance. Source unit/hooks204,properties34,generic/demo production builds PASS; root typecheck PASS before these harness-only additions, final typecheck/lint planned. Preliminary tarball hashes are intermediate failed candidates; current final artifact hash not yet established.
+
+## Neutral consumer PASS / browser rerun — 2026-10-14 19:46 UTC
+
+Neutral intermediate tarball SHA256 `62e26b76fed319ceb9d7ef9c31077924439bc86325ed364de7a0a75690a551e0`; exact pack JSON `pack-neutral.json` in artifact directory. Clean matrix PASS in `/tmp/c4-sdk-p-02-consumer-neutral.log`: Node/module/API/mixed context/core/worker tests, strict .mts/.cts and bundler TSX, ESM/CJS Vite production builds. Consumer `/tmp/c4-sdk-consumer-zjkfXV`, report.json there. Final source typecheck and lint PASS, only inherited button warning. Browser rerun command `CONSUMER_DIR=/tmp/c4-sdk-consumer-zjkfXV npm run test:package:browser`, log `/tmp/c4-sdk-p-02-browser-neutral.log`,10 desktop/mobile tests on held4185/4186 (static default worker added). Browser result pending. Updated notice addendum being independently reviewed; final tarball hash/source commit binding pending its landing. Exact76-package inventory88f62f... retained at owned `tests/package/evidence/bundle-inventory.json` for commit and durable repo links.
+
+## Neutral browser result / complete stylesheet fix — 2026-10-14 19:49 UTC
+
+Neutral browser rerun6PASS/4FAIL: both static default-worker tests and4 ESM/CJS worker lifecycle/cancellation/failure-fallback tests PASS. Four all-kind journeys fail immediately on missing --c4-accent CSS token. Actual root facade does not import base c4.css (the source App does), so import-only extraction missed the base stylesheet. Fix explicitly includes all5 SDK stylesheet sources in addition to transitive React Flow CSS, scopes each rule to .c4-sdk, and leaves source app imports unchanged. This is a real package completeness gap caught before acceptance, not test relaxation. Package license graph76 unchanged; stylesheet evidence gains c4.css. Rebuild/repack/clean matrix/browser rerun needed. Full log `/tmp/c4-sdk-p-02-browser-neutral.log`; lifecycle runtime crash is fixed.
+
+Complete stylesheet build PASS. Inventory SHA256 now `b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`,76 unchanged package/module records; styles evidence additionally contains base c4.css. All5 first-party styles plus React Flow CSS ship scoped without host reset/fonts. Latest P-03 supplemental content346a113 staged read-only for artifact reconciliation; coordinator independent re-review/landing pending. No P-03 paths edited. Final browser rerun queued behind repack and clean matrix.
+
+## Styles-inclusive clean matrix PASS / final browser running — 2026-10-14
+
+Refreshed exact tarball SHA256 `ebb52ec3bccb5f048d3bd3b35de92e07a974a89d8422fe5c15f9e96cf0850d71`, pack JSON `/tmp/c4-sdk-p-02-artifacts/pack-styles.json`, source runtime from current uncommitted P-02 diff plus supplemental P-03 notice346a113. Clean matrix PASS, log `/tmp/c4-sdk-p-02-consumer-styles.log`, consumer `/tmp/c4-sdk-consumer-X9gqeo`. Node ESM/CJS every entry, frozen API names, mixed context, core React isolation, worker safety/cancellation/failure/termination, strict MTS/CTS/TSX, both Vite production builds PASS. Complete35.69KB packed CSS includes all6 theme tokens and no host styles.
+
+Final10-case packaged browser command has started as session73062 after pending escalated cell73 returned; log `/tmp/c4-sdk-p-02-browser-styles.log`, outputs `/tmp/c4-sdk-p-02-browser`. Held ports4185/4186. No hung CLI/test process; orchestration tool return/approval delays occur before sessions return. Next: finish/browser screenshots, exact notice inventory comparison, source production regressions after lease handoff, commit implementation/evidence and separate assessment/checkpoint, then cleanup. No publish/tag/push/merge.
+
+## Mobile portal scoping correction — 2026-10-14 20:01 UTC
+
+Styles-inclusive packed browser8PASS/2FAIL: all desktop ESM/CJS7-kind journeys and all static-worker/lifecycle tests pass; mobile ESM/CJS time out closing the first explanation sheet. Trace proves real package scope mismatch: Popup itself has c4-sdk+c4-docs-sheet, while blanket CSS ancestor prefix `.c4-sdk .c4-docs-sheet` loses the sheet's fixed positioning/z-index. Backdrop is also portaled outside the viewer root. Correcting generated package wiring only: add SDK scope class to generated backdrop; scope portal self rules to `.c4-sdk.c4-docs-sheet`/`.c4-sdk.c4-docs-backdrop`. Source components/CSS unchanged. New browser assertion requires fixed dialog position and still clicks Close normally. No test weakening. Retained failed run outputs at `/tmp/c4-sdk-p-02-browser-styles-first`, log browser-styles.log. Full10-case browser rerun after rebuild/repack/clean matrix required.76-package inventory/license list unaffected.
+
+Earlier browser output directory was reused by Playwright, so original node-platform/neutral-CSS failure traces are superseded; their complete logs, identified causes and checkpoint history are preserved, and no claim of retained original traces is made. Current failed8/2 trace artifacts preserved separately before rerun.
+
+## Fresh builder takeover — 2026-10-14
+
+Fresh Codex Sol builder took ownership in `/tmp/c4-sdk-p-02-final`, branch `item/p-02-sdk-package-final`, base `d1c228ca1a72278cf8df67813bc251cacb8a8374`. Restored lockfile dependencies with `npm ci --ignore-scripts --no-audit --no-fund` (541 packages). The transferred implementation already contains the pending generated-output portal correction: generated `DocumentationSheet` backdrop receives `c4-sdk`, portal root selectors are `.c4-sdk.c4-docs-sheet` and `.c4-sdk.c4-docs-backdrop`, and browser coverage checks `position: fixed` while clicking Close.
+
+Rebuilt `npm run sdk:build` successfully. Artifact overlay is in `/tmp/c4-sdk-p-02-final-candidate`, using package output plus `LICENSE`, `README.md`, and `THIRD_PARTY_NOTICES.md` from current `main` `00bf66a2c14c962662314d46f3b0fe80c2bf7396`; `docs/release/licenses.md` was also copied there as comparison evidence only. Notice text includes James Halliday and Joyent minpath notices. Exact pack has the 15 allowlisted files. Candidate SHA256 `d7980de2c97d008e41c5ce6592eadfffea7eed36d3d8c4f6c214d0595edd33f8`; pack JSON `/tmp/c4-sdk-p-02-artifacts/pack-final.json`; inventory has 76 packages, SHA256 `b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`.
+
+Current action: exact-tarball consumer matrix running as session 52555 against the new hash. Next run all 10 packaged browser tests, then required source regressions and record precise results. Registry lookup history remains in the earlier checkpoint; no network write/publish/tag/push/merge is authorized. KB search and feedback were both unavailable because `/root/Raw/knowledge/.kb/kb.sqlite` could not be opened in this environment.
+
+## Fresh verification completion — 2026-10-14
+
+Fresh builder: `/tmp/c4-sdk-p-02-verify`, branch `item/p-02-sdk-package-verify`, exact base `00bf66a2c14c962662314d46f3b0fe80c2bf7396`. Repeated the required current read-only registry query at `2026-10-14T20:20:38Z`: `npm view c4-sdk name version --json` returned E404, so the package name is unregistered; this does not prove account ownership. No registry write, login, tag, push, or merge occurred.
+
+`npm ci` succeeded (543 packages); `npm run sdk:build` succeeded. Exact `npm pack --json` output is committed at `tests/package/evidence/pack.json`: exactly 15 files, 3,739,725 unpacked bytes. Tarball SHA256: `d7980de2c97d008e41c5ce6592eadfffea7eed36d3d8c4f6c214d0595edd33f8`. Actual tar entries match the pack list and exclude source, maps, tests, demo, and repository state. The clean external consumer report is `/tmp/c4-sdk-consumer-2y6qjh/report.json`; ESM/CJS imports and name parity, mixed context identity, React-free core, worker lifecycle/failure/cancellation, strict `.mts`/`.cts`/TSX type checks, and Vite 8.3.4 ESM/CJS production builds all passed on Node 22.23.2, npm 10.9.8, React/ReactDOM 19.3.0 and TypeScript 6.0.3.
+
+Packaged Playwright suite: 10/10 passed on desktop Chromium and Pixel 7, both ESM and CJS. It covers all seven diagrams, CSS/theme isolation, navigation/focus, mobile explanation-sheet fixed position and actual Close click, worker disposal/cancellation/failure fallback, and default worker loading from a non-root static base. Screenshots/traces are in `/tmp/c4-sdk-p-02-browser`. No page or console errors were reported.
+
+Source gates: API snapshot 5/5; unit/hooks 204/204; property 34/34; `npm run typecheck`, `npm run lint`, `npm run build`, and `npm run build:demo` succeeded. Lint retains the existing button fast-refresh warning; production builds retain large-chunk warnings, and clean Vite consumers warn that the `use client` directive may not be preserved. npm reported seven high-severity dependency audit findings during install. The existing copy-policy tests are included in the 204 unit suite. C4-09 and its intended copied-consumer workflow were removed, so there is no ts-db npm-consumer regression to run in P-02.
+
+Notice audit compared each of the 76 package/version rows in `tests/package/evidence/bundle-inventory.json` to the packed source notices: 76 exact matches, no missing or unexpected rows. Both supplemental `vfile` minpath MIT notices (James Halliday and Joyent/Node contributors) are present. Inventory SHA256 remains `b1613ddd1e889f00380ba5c436fe922f86131ec967434c4f637d7bd929a9d93b`.
+
+The artifact and checks above ran against the implementation content that is being committed in this worktree. Exact implementation commit SHA will be recorded in the separate post-work assessment/checkpoint commit. Independent fresh Sonnet review and coordinator landing remain pending. Only this assigned worktree may be removed after both commits are durable.
+
+## Post-work assessment — 2026-10-14
+
+Implementation/evidence commit: `dc20b45848736ec1e1a8ef04047114b9bb5a7044` (`sdk: verify packed package candidate`). Rebuilt and ran `npm pack --json` from that committed source; its JSON is byte-identical to `tests/package/evidence/pack.json`, and the tarball remains SHA256 `d7980de2c97d008e41c5ce6592eadfffea7eed36d3d8c4f6c214d0595edd33f8`. The prior exact-tarball consumer and Playwright checks therefore cover the artifact generated from this exact source commit. P-02 implementation evidence and test fixtures are committed; generated `dist-sdk/` remains untracked and is excluded.
+
+Reviewed `docs/knowledge/index.md`, existing decisions/gotchas, and `work-scripts/INDEX.md`. No reusable work script is warranted: the package verifier is an owned, repeatable SDK acceptance command, while pack comparison and notice reconciliation were one-time candidate evidence. A durable bundler-selection gotcha was identified: browser platform resolution broke import-safe Node core by selecting a DOM-constructing decoder export; neutral platform plus explicit main fields passed both Node and browser checks. P-02 claims currently make `docs/knowledge/**` read-only, so this assessment records the finding and requests coordinator direction before any knowledge-path change. Existing gotchas already record the separate portal scope behavior. No script or knowledge entry was added in this checkpoint commit.
+
+Handoff: fresh independent Claude Sonnet review of exact final builder head `dc20b45848736ec1e1a8ef04047114b9bb5a7044` remains pending. This builder will remove only `/tmp/c4-sdk-p-02-verify` after this assessment commit is durable; no merge, push, tag, or publication occurred.

@@ -1,0 +1,19 @@
+import React, {useState} from 'react'
+import {createRoot} from 'react-dom/client'
+import * as esm from 'c4-sdk'
+import {decodeArchitecture,buildScene} from 'c4-sdk/core'
+import workerUrl from 'c4-sdk/layout-worker.js?url'
+import 'c4-sdk/styles.css'
+import data from './bundle.json'
+// Vite's CJS conversion exercises the package require export condition in this mode.
+import cjs from './require.cjs'
+const sdk:typeof esm=import.meta.env.MODE==='cjs'?cjs:esm
+const decoded=decodeArchitecture(data)
+if(!decoded.ok)throw new Error(JSON.stringify(decoded.diagnostics))
+const architecture=decoded.value
+const metrics={starts:0,stops:0};Object.assign(window,{packageMetrics:metrics})
+const workerFactory=()=>{metrics.starts++;const worker=new Worker(workerUrl,{type:'module'});const terminate=worker.terminate.bind(worker);worker.terminate=()=>{metrics.stops++;terminate()};return worker}
+const layoutPort=new URLSearchParams(location.search).has('static')?sdk.createElkLayoutPort():sdk.createElkLayoutPort(workerFactory)
+async function cancel(){const scene=buildScene(architecture.index,'code');if(!scene.ok)throw Error('scene');const abort=new AbortController();const task=sdk.createElkLayoutPort(workerFactory).layout({scene:scene.value,generation:500,signal:abort.signal,timeoutMs:1000});abort.abort();const response=await task;document.getElementById('cancel-result')!.textContent=response.result.ok?'unexpected success':'cancelled'}
+function App(){const [mounted,setMounted]=useState(true);const [broken,setBroken]=useState(false);return <main><button id="toggle" onClick={()=>setMounted(!mounted)}>Toggle viewer</button><button id="failure" onClick={()=>setBroken(!broken)}>Toggle failure</button><button onClick={()=>void cancel()}>Cancel layout</button><output id="cancel-result"/>{mounted&&<sdk.ArchitectureViewer validatedBundle={architecture} layoutPort={broken?sdk.createElkLayoutPort(()=>{throw Error('test worker failure')}):layoutPort}/>}</main>}
+createRoot(document.getElementById('root')!).render(<App/> )
