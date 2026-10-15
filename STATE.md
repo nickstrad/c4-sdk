@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## P-04/P-05 independent reviews — 2026-10-15
+
+Both fresh Sonnet builders completed. P-04 `b2b2a90` (implementation `e4d9500`): exact README artifact bfdfaf8c…04263, 8snippet matches, strict MTS/CTS/TSX, ESM/CJS, Vite/static builds and browser6/6 pass. P-05 `bc33229` (implementation `ab9f347`, CI/runbook `b00ffea`): release79 tests/sdk-check pass, real package matrix/browser10 pass, absent README fails closed; combined check unclaimed. Builder worktrees cleaned (P-04 cleanup by lead because builder left ignored dependencies).
+
+Fresh headless Codex Sol reviews active: `review/p-04-sol` in `/tmp/c4-sdk-p-04-review` exact b2b2a90, session56526, output `/tmp/c4-p04-review.jsonl`, final `/tmp/c4-p04-review-result.md`, exit `/tmp/c4-p04-review.exit`; `review/p-05-sol` in `/tmp/c4-sdk-p-05-review` exact bc33229, session41144, analogous p05 paths. Reviewers own only each item's review.md/review-STATE.md, product read-only. Automatic approval review enabled. Ports remain04=4187/4188,05=4185/4186. No verdict yet. Integrate04 then05 on PASS, combined release-check afterward; fresh fixup/re-review if needed. P-05 requests /artifacts/ ignore; reserve in P-06 rather than changing unreviewed root config now. Coordinator collects final helper index/knowledge after review.
+
 ## Active parallel batch — 2026-10-15 00:07 UTC
 
 P-02 merged `393c5e9`, reviewed `a0517a3` exact builder `c4722a6`, integration sdk-check PASS (204unit,34property,5API,typecheck/lint). Main pushed through `a1929e4`. Fresh Sonnet builders now running headlessly from that exact base:

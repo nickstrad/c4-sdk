@@ -12,6 +12,7 @@ Run clean-checkout rehearsal of the landed release command. Candidate tarball mu
 ## Owns (serial reservation, effective only at dispatch)
 
 - `package.json`, `package-lock.json`
+- `.gitignore` (ignore `/artifacts/`, `/dist-sdk/`, `/.sdk-types/` generated outputs)
 - `docs/api/public-api.md`, `docs/api/support-matrix.md`
 - `agent-work/items/P-01/STATE.md`, `agent-work/items/P-02/STATE.md` (append superseding final-version/toolchain notes)
 - `tests/package/evidence/**`
