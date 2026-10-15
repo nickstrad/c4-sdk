@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## Test integration builder completed; review active — 2026-10-15
+
+Fresh Sonnet test-only fix finished/exited0 at27c909a (implementation23fe559), base927740f. Two owned test files only plus item records; current composition sync/behavior checked, legacy behavior retained. Builder make sdk-check PASS206unit/34property/5API/108release,typecheck/lint(two documented warnings). No P04 or release edits.
+
+Fresh Sol review ACTIVE in /tmp/c4-sdk-doc-tests-review, branch review/p-04-doc-tests-sol, exact27c909a; dispatch /tmp/c4-doc-tests-review.md, JSONL/stderr/exit prefix /tmp/c4-doc-tests-review, final /tmp/c4-doc-tests-review-result.md, session15228. Owns item review/checkpoint only. Await PASS then merge into integration/p-04-p-05 and rerun full release-check. Opus guard review already PASS; no guard repair loop. Main P05 still not landed. No publish.
+
 ## Combined gate found stale README tests; test-only integration fix active — 2026-10-15
 
 Actual `make release-check` at integration927740f exited2 during sdk-check:202/204source tests pass, two failures in tests/hooks/composition.test.tsx (retired composition-example README marker) and tests/unit/showcase.test.ts (retired exact phrase asynchronous ELK worker). Log `/tmp/c4-p04-p05-integration.log`. P05 Opus Sol PASS remains valid; guards/P04 untouched. No full combined gate success yet.
