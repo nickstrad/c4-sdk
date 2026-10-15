@@ -1,5 +1,12 @@
 # C4 SDK build state
 
+## P-06 correction re-review active — 2026-10-15
+
+Sonnet correction finalized/exited0 at d7ee5ef (tests fcc7f88, docs7e3f80a), cleaned own worktree. Only3browser specs, release report/gotchas and item records changed. Actual realclick preserved after viewer focus-reveal/inviewport assertion. CPU4before reproduced five click failures; CPU4after26hostedpass plus2known scratch generic-host failures, repetitions36pass, CPU6repeat16pass. Standard fullsource --workers=1 PASS65/skip1. No runtime/package inputs changed; exactartifact unchanged. Historical mobilefocus-afterUp remains unreproduced/unresolved, waived component-docs unchanged and noted. No defaultparallelfull repeat.
+
+Fresh Sol re-review ACTIVE exactd7ee5ef, /tmp/c4-sdk-p06-rereview branch review/p-06-browser-sol. Dispatch /tmp/c4-p06-rereview.md; JSONL/stderr/exit prefix /tmp/c4-p06-rereview; finalresult /tmp/c4-p06-rereview-result.md; session16058. Own newitem review/checkpoint only. Review R1preservedinteractions/evidence and R2accuracy; no redundant unchangedartifactmatrix, no concurrent browser suites. Await finalizedverdict. SecondFAIL -> Muse arbitration per protocol. No landing/publish yet.
+
+
 ## P-06 correction evidence in progress — 2026-10-15
 
 Sonnet fix still ACTIVE, not finalized. Three owned specs now focus targets, assert in-viewport, then deliver original real clicks; no runtime/manifest/artifact changes. Scratch CPU4 before-change reproduced relevant context/navigation/showcase failures. After-change CPU4 hosted checks26pass (two excluded generic-host harness failures); focused CPU4 repetition36/36pass. Agent started CPU6 repetition, standard full suite and documentation correction still pending. Logs /tmp/c4-p06-fix-evidence. Preserve original exact tarball. Await finalized/exited fix then fresh independent review; second FAIL arbitration. Mobile-docs ruling unchanged.

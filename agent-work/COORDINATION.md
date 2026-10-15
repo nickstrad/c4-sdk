@@ -1,5 +1,12 @@
 # Work coordination
 
+## P-06 correction re-review active — 2026-10-15
+
+Sonnet correction finalized/exited0 at d7ee5ef (tests fcc7f88, docs7e3f80a), cleaned own worktree. Only3browser specs, release report/gotchas and item records changed. Actual realclick preserved after viewer focus-reveal/inviewport assertion. CPU4before reproduced five click failures; CPU4after26hostedpass plus2known scratch generic-host failures, repetitions36pass, CPU6repeat16pass. Standard fullsource --workers=1 PASS65/skip1. No runtime/package inputs changed; exactartifact unchanged. Historical mobilefocus-afterUp remains unreproduced/unresolved, waived component-docs unchanged and noted. No defaultparallelfull repeat.
+
+Fresh Sol re-review ACTIVE exactd7ee5ef, /tmp/c4-sdk-p06-rereview branch review/p-06-browser-sol. Dispatch /tmp/c4-p06-rereview.md; JSONL/stderr/exit prefix /tmp/c4-p06-rereview; finalresult /tmp/c4-p06-rereview-result.md; session16058. Own newitem review/checkpoint only. Review R1preservedinteractions/evidence and R2accuracy; no redundant unchangedartifactmatrix, no concurrent browser suites. Await finalizedverdict. SecondFAIL -> Muse arbitration per protocol. No landing/publish yet.
+
+
 ## P-06 review FAIL; bounded correction active — 2026-10-15
 
 Sol review2938f95/checkpoint3acf790 of exactfd32c04 is FAIL. Independent six distribution areas PASS, exact-source release-verify10package/6README PASS, sdk206unit/34property/5API/108release PASS. Focused source6pass/2fail: desktop native-newtab click interception/offscreen and mobile showcase wrong explanation. Isolated navigation1pass does not close gate. Report/gotchas overclaim toolchain causal exclusion and isolated evidence. Human mobile-docs waiver honored; no request to fix waived test. Evidence /tmp/p06-review-evidence/review.md and source-browser traces.
