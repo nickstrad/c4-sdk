@@ -1,5 +1,12 @@
 # C4 SDK build state
 
+## Nick's P-06 mobile-docs ruling — 2026-10-15
+
+Nick: "Don't block on mobile docs test but note it." Authoritative ruling: /root/c4-lead-mobile-nonblocking.md. The intermittent mobile component-docs Playwright failure is NON-BLOCKING for P-06, six-area signoff, and readiness. Final P-06 report must explicitly record recurrence across C4-07/C4-10/P-06 and passing isolated reruns. Publication still requires separate explicit authorization. Other browser failures are not waived.
+
+Candidate source fb74a91 passed the clean exact-artifact release-check (SHA-256 6b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084). Three source-suite runs had varying failures; baseline 316c4b6 passed 65 with one intended skip. Builder is checking candidate rehearsal again; retain all failed-run evidence. Independent review and landing remain pending.
+
+
 ## P-06 clean release rehearsal PASS; source browsers running — 2026-10-15
 
 P06 release-input commitfb74a91 (version0.1.0, rolldown1.2.14/plugin-dts0.28.8, identity/support/changelog/gitignore). Clean checkout /tmp/c4-sdk-p06-rehearsal ran full make release-check PASS exit0. Exact final tarball SHA2566b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084. Artifact/sidecars/log/screenshots retained /tmp/c4-sdk-release-0.1.0. Both source builds PASS; full66case source Playwright running, log source-playwright.log there. Final report/notice reconciliation/checkpoint and independent Sol review still pending. Builder active, do not dispatch review before exit/finalSHA. No publication.

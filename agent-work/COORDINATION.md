@@ -1,5 +1,12 @@
 # Work coordination
 
+## Nick's P-06 mobile-docs ruling — 2026-10-15
+
+Nick: "Don't block on mobile docs test but note it." Authoritative ruling: /root/c4-lead-mobile-nonblocking.md. The intermittent mobile component-docs Playwright failure is NON-BLOCKING for P-06, six-area signoff, and readiness. Final P-06 report must explicitly record recurrence across C4-07/C4-10/P-06 and passing isolated reruns. Publication still requires separate explicit authorization. Other browser failures are not waived.
+
+Candidate source fb74a91 passed the clean exact-artifact release-check (SHA-256 6b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084). Three source-suite runs had varying failures; baseline 316c4b6 passed 65 with one intended skip. Builder is checking candidate rehearsal again; retain all failed-run evidence. Independent review and landing remain pending.
+
+
 Build authorized by Nick on 2026-10-12 in `build-kickoff.md`. Root checkpoint: [`STATE.md`](../STATE.md). The lead owns this file; fresh builders own item-local claims/state in isolated worktrees.
 
 The temporary Codex-only staffing instruction ended at 2026-10-13 05:59 UTC, as Nick directed after the reset. Return to plan-assigned paired model seats: Sol/Sonnet (`gpt-6.1-sol` / Claude Sonnet), Astra/Opus (`gpt-6-astra` / Claude Opus), and Luna/Haiku (`gpt-6-luna` / Haiku 5.5+ at high effort). Respect each provider's actual usage budget. Reviews use a new, independent agent at the plan's assigned review tier; every fix/review is also a fresh agent. See mandatory lifecycle in [`AGENTS.md`](../AGENTS.md#fresh-agent-work-lifecycle).
