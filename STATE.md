@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## Opus PASS; combined integration gate running — 2026-10-15
+
+Fresh Sol PASS8847703/checkpoint3f0ecee on exact Opusd7183b7, no defects/nits. Independently108release/204unit/34property/5API,264malformed-schema cases, real producer, mutation and closed-guard checks PASS. Nick ruling fulfilled through review; no further repair needed.
+
+Isolated integration/p-04-p-05 created after PASS, worktree `/tmp/c4-sdk-release-integration`, merge927740f combines main84e8a46 and review/p-05-opus-sol. Four add/add conflicts only item STATE/claims scaffolds; kept reviewed completed versions, no product conflict. `npm ci` then `make release-check` running as session49774; log `/tmp/c4-p04-p05-integration.log`, exit `/tmp/c4-p04-p05-integration.exit`. Await exact-artifact package+README gates before landing/push. Main still does not contain P-05. After PASS land integration, reconcile helper index/knowledge, dispatch P-06 alone. No publish.
+
 ## Opus completed; single Sol review active — 2026-10-15
 
 Opus finished/exited0 and cleaned worktree. Exact final `d7183b7`, implementation0026e49, base216d7f9. Complete evidence-schema correction only; policy/tests/fixture/one runbook line plus item records. Builder reports108release,204unit,34property,5API,typecheck/lint PASS, real P-04 report/injected verification PASS, original failures rejected, ten mutation checks effective. F2/cli/process/P-04 unchanged. No generated files committed.
