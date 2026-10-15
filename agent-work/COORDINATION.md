@@ -28,7 +28,7 @@ Twin's GitHub Pages workflow is complete: `.github/workflows/pages.yml` landed a
 
 ## Current productionization batch — 2026-10-15
 
-P-02 landed at `393c5e9` after exact Sonnet PASS `a0517a3` on `c4722a6`; integration/push pending. Review worktree cleaned. P-04/P-05 claims reserved in item briefs: P-04 README/examples/tests-readme, P-05 Makefile/release driver/tests-release/workflow/runbook. Sonnet builders and independent Sol reviewers keep plan middle tier and balance pools. Shared README verifier interface and report shape are frozen in both briefs. Integrate04 then05; P-06 runs alone. Browser leases: P-04 4187/4188, P-05 4185/4186 after P-02 review release. Coordinator owns knowledge/index/status.
+P-02 landed at `393c5e9` after exact Sonnet PASS `a0517a3` on `c4722a6`; integration sdk-check PASS and pushed through `a1929e4`. Review worktree cleaned. P-04/P-05 fresh headless Sonnet builders ACTIVE from base `a1929e4` in `/tmp/c4-sdk-p-04` / `/tmp/c4-sdk-p-05`, branches `item/p-04-documented-consumer` / `item/p-05-repeatable-release`. Claims reserved in item briefs: P-04 README/examples/tests-readme, P-05 Makefile/release driver/tests-release/workflow/runbook. Sonnet builders and independent Sol reviewers keep plan middle tier and balance pools. Shared README verifier interface and report shape are frozen in both briefs. Integrate04 then05; P-06 runs alone. Browser leases: P-04 4187/4188, P-05 4185/4186 after P-02 review release. Coordinator owns knowledge/index/status.
 
 ## Restart directive — 2026-10-14
 

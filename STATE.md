@@ -1,5 +1,13 @@
 # C4 SDK build state
 
+## Active parallel batch — 2026-10-15 00:07 UTC
+
+P-02 merged `393c5e9`, reviewed `a0517a3` exact builder `c4722a6`, integration sdk-check PASS (204unit,34property,5API,typecheck/lint). Main pushed through `a1929e4`. Fresh Sonnet builders now running headlessly from that exact base:
+- P-04 branch `item/p-04-documented-consumer`, `/tmp/c4-sdk-p-04`; brief `/tmp/c4-p04-build.md`; JSON/stderr/exit prefix `/tmp/c4-p04-build`; execution session95704. Owns README/examples/readme/tests/readme/item claims+STATE. Browser4187/4188.
+- P-05 branch `item/p-05-repeatable-release`, `/tmp/c4-sdk-p-05`; brief `/tmp/c4-p05-build.md`; JSON/stderr/exit prefix `/tmp/c4-p05-build`; execution session77457. Owns Makefile/release driver/tests/release/release-check workflow/runbook/item claims+STATE. Browser4185/4186.
+
+Monitor item checkpoints and output; no completed-agent reuse. Fresh independent Codex Sol reviewers next, each own worktree; land only PASS, integrate04 before05 then full combined release-check. P-06 alone follows at0.1.0 with required toolchain bumps. Never publish. Shared README command/report contract is in both briefs; new helpers pre-registered in work-scripts INDEX. Source plan and historical status below retained; current section supersedes stale pending statuses.
+
 ## P-02 landed; parallel batch prepared — 2026-10-15
 
 P-02 exact builder `c4722a6` independently passed Sonnet review `a0517a3`; merged at `393c5e9` without conflicts. Reviewer reproduced exact preliminary hash d7980de2…d33f8 and passed consumer matrix, packaged browser10/10, unit204, properties34, API5, typecheck/lint. Review worktree cleaned. Integration sdk-check running; push follows success. P-04/P-05 briefs and disjoint claims are ready; shared interface is `node tests/readme/verify.mjs <tarball>` with README_REPORT output and ports4187/4188; P-02 browser4185/4186 remains separate. Builders use fresh Sonnet seats to balance pools (Claude20%, Codex40%); fresh Codex Sol reviewers will supply cross-family review. Plan paired tier unchanged. P-06 brief reserves serial version/toolchain finalization and six-area report.
