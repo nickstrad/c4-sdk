@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## P-05 arbitration complete; final bounded correction active — 2026-10-15
+
+Muse verdict `173f12f` upheld second FAIL, independently reproduced F1/F2 on corrected97648b6 and verified generated-file cleanup. Final remedy: exactly one fresh bounded correction, fresh cross-family PASS, and actual combined04+05gate before landing. A further NITS/FAIL returns to human, no automatic repair loop. Full binding contract at `173f12f:agent-work/items/P-05-fixup/arbitration.md`.
+
+Fresh Sonnet correction active from173f12f in `/tmp/c4-sdk-p-05-correction`, branch `fix/p-05-arbitrated-correction`. Brief `/tmp/c4-p05-correction.md`; JSON/stderr/exit prefix `/tmp/c4-p05-correction`, session30657. Owns only policy README-evidence logic, cli pack ordering, release tests, runbook if needed, new P-05-correction local records. No process semantics or P-04 changes. Must satisfy all arbitration cases and mutation test, stage exact files only, record final commit AFTER completion. Fresh Sol final review follows. Do not dispatch review before builder exits (previous amended checkpoint race recorded above). P-06 remains gated; no publish.
+
 ## P-05 second FAIL / Muse arbitration active — 2026-10-15
 
 Fresh Sonnet repair implementation `3e8af96`; final corrected checkpoint HEAD `97648b6`. Intermediate checkpoint `5203fb3` accidentally contained generated artifacts/dist-sdk, amended out in97648b6 (guard source identical). Sol re-review ran on5203fb3 and committed second FAIL `f258963`: actual P-04 mixed evidence rejected (F1), post-build symlink permits outside mkdir before rejection (F2). Original destructive deletion and dirty-provenance blockers repaired,89release tests pass. Never merge5203fb3/f258963 ancestry; collect f258963 review-only changes by cherry-pick or path copy later. Correct code lineage is97648b6.
