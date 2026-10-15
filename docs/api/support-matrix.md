@@ -6,8 +6,15 @@ established until P-02 installs and tests the exact tarball. There is no registr
 
 ## Identity and version
 
-Recommend the unscoped `c4-sdk` with initial candidate `0.1.0-beta.1`, keeping API/distribution
-acceptance explicitly prerelease. Nick's 2026-10-14 approval note relayed verification that this exact
+> **Superseded 2026-10-15 (P-06):** Nick directed that the first published version is `0.1.0`, not
+> `0.1.0-beta.1`; the manifest is `c4-sdk@0.1.0`, built with rolldown `1.2.14` and rolldown-plugin-dts
+> `0.28.8` (TypeScript `6.0.3` and Vite `8.3.4` unchanged). The version text below is retained as
+> P-01 history; the supported-version targets in the matrix are unchanged. npm login (`nickstrad`) was
+> verified by Twin; publication remains a separate human action. See
+> [`docs/release/0.1.0.md`](../release/0.1.0.md).
+
+Recommend the unscoped `c4-sdk` with first published version `0.1.0`, keeping API/distribution
+acceptance explicitly pre-1.0. Nick's 2026-10-14 approval note relayed verification that this exact
 name was available on 2026-10-12. This documentation fixup made no npm registry query and proves neither
 present-day availability nor account ownership; no account login or package access was attempted.
 P-02 must revalidate current registry availability before building its package artifact. The repository

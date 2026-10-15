@@ -1,13 +1,13 @@
 [
   {
-    "id": "c4-sdk@0.1.0-beta.1",
+    "id": "c4-sdk@0.1.0",
     "name": "c4-sdk",
-    "version": "0.1.0-beta.1",
-    "size": 859203,
-    "unpackedSize": 3739725,
-    "shasum": "17ded9239cd5c233ae53f82ecc2fccb2d374e3b6",
-    "integrity": "sha512-jdA7bdOMcgJHU0q+ENbPpHOenTP5BsUq+4FZ8aaK1HIidYYts3oXrS6sU7bcfNGCvi1QZswrIsusIfxDaSI22w==",
-    "filename": "c4-sdk-0.1.0-beta.1.tgz",
+    "version": "0.1.0",
+    "size": 859988,
+    "unpackedSize": 3749468,
+    "shasum": "c92d3d195384380d67b95604df3c4750617ad3ba",
+    "integrity": "sha512-+QWCUwjnaofv4q4qAQXuzCPmFLhwGT9vBdPAzI2gOpmm6jAwbIoc4VgtDY27x/CJOpMQJM0m0bPZyqhtrKH+Fw==",
+    "filename": "c4-sdk-0.1.0.tgz",
     "files": [
       {
         "path": "LICENSE",
@@ -16,7 +16,7 @@
       },
       {
         "path": "README.md",
-        "size": 14063,
+        "size": 23798,
         "mode": 420
       },
       {
@@ -46,7 +46,7 @@
       },
       {
         "path": "dist-sdk/index.cjs",
-        "size": 1150647,
+        "size": 1150648,
         "mode": 420
       },
       {
@@ -66,12 +66,12 @@
       },
       {
         "path": "dist-sdk/layout-worker.js",
-        "size": 2107546,
+        "size": 2107559,
         "mode": 420
       },
       {
-        "path": "dist-sdk/shared-Fjju4RBi.cjs",
-        "size": 240060,
+        "path": "dist-sdk/shared-CLmsJL9r.cjs",
+        "size": 240061,
         "mode": 420
       },
       {
@@ -81,7 +81,7 @@
       },
       {
         "path": "package.json",
-        "size": 3555,
+        "size": 3548,
         "mode": 420
       }
     ],
