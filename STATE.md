@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## Opus completed; single Sol review active — 2026-10-15
+
+Opus finished/exited0 and cleaned worktree. Exact final `d7183b7`, implementation0026e49, base216d7f9. Complete evidence-schema correction only; policy/tests/fixture/one runbook line plus item records. Builder reports108release,204unit,34property,5API,typecheck/lint PASS, real P-04 report/injected verification PASS, original failures rejected, ten mutation checks effective. F2/cli/process/P-04 unchanged. No generated files committed.
+
+Fresh Sol review ACTIVE per Nick ruling in `/tmp/c4-sdk-p-05-opus-review`, branch `review/p-05-opus-sol`, exactd7183b7; brief `/tmp/c4-p05-opus-review.md`, JSONL/stderr/exit prefix `/tmp/c4-p05-opus-review`, final `/tmp/c4-p05-opus-review-result.md`, session65492. Owns only Opus review/checkpoint. Integration branch/worktree still absent and must WAIT for PASS. If FAIL stop and escalate Nick, no further loop. After PASS stage integration with P-04, real combined release-check then land/push, then P-06 final0.1.0 with mandated toolchain bumps/full matrix. No publish.
+
 ## Nick human ruling / fresh Opus active — 2026-10-15
 
 Latest instruction `/root/c4-lead-p05-human-ruling.md`: fresh Opus corrects remaining evidence-schema defect; preserve closed F2, no P-04 edits; one fresh Sol exact-commit review. If FAIL, STOP and escalate Nick, no further loop. Integration waits until PASS; no publication. This supersedes prior arbitration stop only to authorize this one Opus attempt.
