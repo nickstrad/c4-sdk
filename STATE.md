@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## P-04 landed / P-05 repair active — 2026-10-15
+
+P-04 independent Sol PASS `f9cd615` on exact `b2b2a90`; landed `a65f293`. Reviewer reproduced hash,6/6 browser, all8screenshots/rendered README inspected,8linksHTTP200. Combined main typecheck/lint PASS (two documented fast-refresh warnings). Push follows this checkpoint. P-05 Sol FAIL `20cbece` on `bc33229`: R1 symlink ancestor cleanup escape, R2 ALLOW_DIRTY false-clean provenance; actionable notes on README evidence shape, declaration counterparts and numeric property mutation.
+
+Fresh Sonnet repair active in `/tmp/c4-sdk-p-05-fixup`, branch `fix/p-05-release-guards`, base `20cbece`, own brief under `agent-work/items/P-05-fixup/`; copied scaffold from main committed by builder. Dispatch `/tmp/c4-p05-fixup.md`, JSON/stderr/exit prefix `/tmp/c4-p05-fixup`, session15443. Own release helper/test/runbook/fixup records only; all5findings assigned. Browser4185/4186. No P-05 landing. Fresh Sol re-review next; second FAIL -> fresh Muse Wonder Full arbitration. Both first-review worktrees cleaned. Then integrate05 after already-landed04, combined release-check, serial06 final0.1.0/toolchain/full candidate. No publication.
+
 ## P-04/P-05 independent reviews — 2026-10-15
 
 Both fresh Sonnet builders completed. P-04 `b2b2a90` (implementation `e4d9500`): exact README artifact bfdfaf8c…04263, 8snippet matches, strict MTS/CTS/TSX, ESM/CJS, Vite/static builds and browser6/6 pass. P-05 `bc33229` (implementation `ab9f347`, CI/runbook `b00ffea`): release79 tests/sdk-check pass, real package matrix/browser10 pass, absent README fails closed; combined check unclaimed. Builder worktrees cleaned (P-04 cleanup by lead because builder left ignored dependencies).

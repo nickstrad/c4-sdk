@@ -85,3 +85,7 @@ Hosts may lower JSON/count/byte and node/edge/cache/geometry limits; invalid set
 ## 2026-10-15 — one package graph must satisfy Node and browsers
 
 P-02 found that choosing a bundler platform solely from CJS output selected VFile Node helpers and crashed browser rendering; choosing browser platform selected a decoder that constructs DOM state during Node import. The reviewed build uses neutral resolution with explicit module/main fields and fails unresolved imports. Verify both Node import safety and real packaged browser rendering after resolution/toolchain changes. Its thin ESM wrappers share the canonical CJS implementation and React context. CSS extraction must explicitly include the base SDK stylesheet and scope portal roots/backdrops on the element itself, since portals escape the viewer ancestor. Evidence: [P-02 checkpoint](../../agent-work/items/P-02/STATE.md), [independent review](../../agent-work/items/P-02/review.md).
+
+## 2026-10-15 — README evidence follows the packed bytes
+
+The [P-04 verifier](../../tests/readme/verify.mjs) compares installed README bytes to the checkout before checking synchronized examples, strict declarations and browser journeys. Repack after any README change. Vite preview needs the matching mode for each base-path build; non-index HTML needs the full page URL for Playwright readiness. Capture screenshots after async layout settles, not the temporary list fallback. Evidence: [P-04 review](../../agent-work/items/P-04/review.md).
