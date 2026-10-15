@@ -25,3 +25,8 @@ Any implementation fix beyond those paths requires coordinator reservation and i
 ## Lifecycle
 
 Fresh Sol/Sonnet builder, fresh cross-family review. Read instructions/checkpoints/knowledge/events. Commit implementation and evidence, then separate durable-knowledge/script assessment and final checkpoint. No useful reusable helper is required if existing release driver suffices. Record hashes, exact commands/results, artifact locations, limitations and concrete next action. Clean own worktree after commits are durable. Existing event skip exception applies. Coordinator lands/pushes on PASS; final publication still requires separate explicit instruction.
+
+
+## Nick's mobile-docs ruling (2026-10-15)
+
+Nick: "Don't block on mobile docs test but note it." Per /root/c4-lead-mobile-nonblocking.md, the intermittent mobile component-docs Playwright failure is non-blocking for this item, six-area signoff, and release readiness. The final report must note its recurrence across C4-07/C4-10/P-06 and passing isolated reruns. Other failures are not waived. Publication still needs separate explicit authorization.
