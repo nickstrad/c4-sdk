@@ -1,5 +1,12 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+// Canvas nodes can lie outside the viewport. Playwright's native scroll-into-view races React Flow's scroll reset
+// (@xyflow wrapperOnScroll), so focus first: the viewer's own focus-reveal pans the target into view, then deliver a real click.
+async function reveal(target: Locator) {
+  await target.focus()
+  await expect(target).toBeInViewport()
+  return target
+}
 test.setTimeout(60_000)
 const path = '#/architectures/cursor-continuity/diagrams/'
 async function openDocs(page: import('@playwright/test').Page) {
@@ -28,7 +35,7 @@ test('guided source reading, keyboard drill, legend, draft STE and scenario alte
  await system.focus(); await page.keyboard.press('Enter')
  await expect(page).toHaveURL(/diagrams\/containers$/)
  await expect(page.locator('[data-layout-ready=true]')).toBeVisible()
- await page.getByRole('button', { name: 'Inspect Local Git repository', exact: true }).click()
+ await (await reveal(page.getByRole('button', { name: 'Inspect Local Git repository', exact: true }))).click()
  docs = await openDocs(page); await expect(docs).toContainText('warm cache'); await closeDocs(page)
  const server = page.getByRole('link', { name: 'Open detail for Continuity server', exact: true })
  await server.focus(); await page.keyboard.press('Enter')

@@ -1,6 +1,13 @@
 import { readFileSync } from 'node:fs'
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+// Canvas nodes can lie outside the viewport. Playwright's native scroll-into-view races React Flow's scroll reset
+// (@xyflow wrapperOnScroll), so focus first: the viewer's own focus-reveal pans the target into view, then deliver a real click.
+async function reveal(target: Locator) {
+  await target.focus()
+  await expect(target).toBeInViewport()
+  return target
+}
 const context = '#/architectures/cursor-continuity/diagrams/context'
 const containers = '#/architectures/cursor-continuity/diagrams/containers'
 // Exercise the responsive reader before returning to the navigation/canvas journey.
@@ -16,7 +23,7 @@ test('drill, explicit Inspect, canonical Up and actual Back/Forward restore rout
   await page.goto('./')
   const linked = page.getByRole('link', { name: 'Open detail for Continuity', exact: true })
   await linked.waitFor()
-  await page.getByRole('button', { name: 'Inspect Continuity', exact: true }).click()
+  await (await reveal(page.getByRole('button', { name: 'Inspect Continuity', exact: true }))).click()
   await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Continuity') })
   await expect(page).toHaveURL(new RegExp(`${context}/elements/continuity$`))
   await linked.focus(); await page.keyboard.press('Enter')
@@ -25,7 +32,7 @@ test('drill, explicit Inspect, canonical Up and actual Back/Forward restore rout
   await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible')).toContainText('inferred C4 decomposition') })
   await page.screenshot({ path: info.outputPath('containers.png'), fullPage: true })
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
-  await page.getByRole('button', { name: 'Inspect Local Git repository', exact: true }).click()
+  await (await reveal(page.getByRole('button', { name: 'Inspect Local Git repository', exact: true }))).click()
   await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Local Git repository') })
   await page.getByRole('button', { name: 'Back', exact: true }).click()
   await expect(page).toHaveURL(new RegExp(`${containers}$`))
@@ -66,7 +73,7 @@ test('Back after reload follows the visited cross-link rather than canonical Up'
     await route.fulfill({ json: bundle })
   })
   await page.goto('./')
-  await page.getByRole('button', { name: 'Inspect Git developer', exact: true }).click()
+  await (await reveal(page.getByRole('button', { name: 'Inspect Git developer', exact: true }))).click()
   await page.getByRole('link', { name: 'Container cross-link', exact: true }).click()
   await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Local Git repository') })
   await page.reload(); await withExplanation(page, async () => { await expect(page.locator('.c4-documentation:visible h2')).toHaveText('Local Git repository') })
@@ -103,7 +110,7 @@ test('native detail, Up and breadcrumb hrefs preserve desktop new-tab and keyboa
   expect(await linked.evaluate(node => getComputedStyle(node).borderTopStyle)).toBe('dashed')
   const priorUrl = page.url()
   if (info.project.name.startsWith('desktop')) {
-    const [tab] = await Promise.all([browserContext.waitForEvent('page'), linked.click({ modifiers: ['Control'] })])
+    const [tab] = await Promise.all([browserContext.waitForEvent('page'), reveal(linked).then(target => target.click({ modifiers: ['Control'] }))])
     await expect(tab).toHaveURL(new RegExp(`${containers}$`))
     await expect(tab.getByRole('heading', { name: 'Continuity: logical containers', exact: true }).first()).toBeVisible()
     expect(page.url()).toBe(priorUrl)
@@ -136,7 +143,7 @@ test('delayed catalog replacement publishes only declared non-context defaults a
   await page.route('**/diagrams/broken.json', route => { const broken = structuredClone(alpha); broken.model.relationships[0].targetId = 'missing'; return route.fulfill({ json: broken }) })
   await page.goto('./')
   await expect(page).toHaveURL(/architectures\/alpha\/diagrams\/alpha-detail$/)
-  await page.getByRole('button', { name: 'Inspect Alpha server', exact: true }).click()
+  await (await reveal(page.getByRole('button', { name: 'Inspect Alpha server', exact: true }))).click()
   const alphaUrl = page.url()
   await page.getByLabel('Architecture resource').selectOption({ label: 'Beta' })
   await expect(page.getByRole('status')).toContainText('Loading architecture')
