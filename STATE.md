@@ -1,5 +1,10 @@
 # C4 SDK build state
 
+## P-06 correction evidence in progress — 2026-10-15
+
+Sonnet fix still ACTIVE, not finalized. Three owned specs now focus targets, assert in-viewport, then deliver original real clicks; no runtime/manifest/artifact changes. Scratch CPU4 before-change reproduced relevant context/navigation/showcase failures. After-change CPU4 hosted checks26pass (two excluded generic-host harness failures); focused CPU4 repetition36/36pass. Agent started CPU6 repetition, standard full suite and documentation correction still pending. Logs /tmp/c4-p06-fix-evidence. Preserve original exact tarball. Await finalized/exited fix then fresh independent review; second FAIL arbitration. Mobile-docs ruling unchanged.
+
+
 ## P-06 review FAIL; bounded correction active — 2026-10-15
 
 Sol review2938f95/checkpoint3acf790 of exactfd32c04 is FAIL. Independent six distribution areas PASS, exact-source release-verify10package/6README PASS, sdk206unit/34property/5API/108release PASS. Focused source6pass/2fail: desktop native-newtab click interception/offscreen and mobile showcase wrong explanation. Isolated navigation1pass does not close gate. Report/gotchas overclaim toolchain causal exclusion and isolated evidence. Human mobile-docs waiver honored; no request to fix waived test. Evidence /tmp/p06-review-evidence/review.md and source-browser traces.
