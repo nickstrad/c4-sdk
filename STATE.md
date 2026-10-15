@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## P-05 second FAIL / Muse arbitration active — 2026-10-15
+
+Fresh Sonnet repair implementation `3e8af96`; final corrected checkpoint HEAD `97648b6`. Intermediate checkpoint `5203fb3` accidentally contained generated artifacts/dist-sdk, amended out in97648b6 (guard source identical). Sol re-review ran on5203fb3 and committed second FAIL `f258963`: actual P-04 mixed evidence rejected (F1), post-build symlink permits outside mkdir before rejection (F2). Original destructive deletion and dirty-provenance blockers repaired,89release tests pass. Never merge5203fb3/f258963 ancestry; collect f258963 review-only changes by cherry-pick or path copy later. Correct code lineage is97648b6.
+
+Fresh Muse Wonder Full Standard-mode arbitration ACTIVE in `/tmp/c4-sdk-p-05-arbitration`, branch `arbitration/p-05-muse`, base97648b6. Brief `/tmp/c4-p05-arbitration.md`, JSONL/stderr/exit prefix `/tmp/c4-p05-arbitration`, session29415. Owns P-05-fixup arbitration.md/arbitration-STATE.md only; read-only code, bounded adjudication, no publication. Request final disposition/remedy, not bypass. Root must await adjudication before further repair/landing. Then fresh bounded builder/reviewer if directed, combined04+05check, serial06final candidate. P-04 already pushed eb3b7a5.
+
 ## P-04 landed / P-05 repair active — 2026-10-15
 
 P-04 independent Sol PASS `f9cd615` on exact `b2b2a90`; landed `a65f293`. Reviewer reproduced hash,6/6 browser, all8screenshots/rendered README inspected,8linksHTTP200. Combined main typecheck/lint PASS (two documented fast-refresh warnings). Push follows this checkpoint. P-05 Sol FAIL `20cbece` on `bc33229`: R1 symlink ancestor cleanup escape, R2 ALLOW_DIRTY false-clean provenance; actionable notes on README evidence shape, declaration counterparts and numeric property mutation.
