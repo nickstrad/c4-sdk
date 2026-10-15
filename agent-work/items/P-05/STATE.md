@@ -36,3 +36,12 @@ Goal/ownership/acceptance: [brief.md](brief.md), [claims.md](claims.md). Latest 
 ## Next
 
 Fresh Codex Sol independent review of the exact final builder commit; then coordinator integrates after P-04 and reruns combined `make release-check`.
+
+## Knowledge and script assessment (2026-10-15)
+
+Durable lessons exist but `docs/knowledge/` and `work-scripts/INDEX.md` are outside this item's claims; proposals for the coordinator to place:
+
+- **gotchas.md**: (1) `sdk-build.mjs` is deterministic — rebuilding the same commit reproduced the P-02 preliminary tarball hash `d7980de2…`, so hash drift means a source/toolchain change. (2) `dist-sdk/` and `.sdk-types/` are not gitignored; any "clean tree" check must exclude generated output (the driver does). (3) The P-02 verifier prints its consumer location only in its JSON stdout; the release driver depends on that shape. (4) Verify and publish are bound by two sidecars (`.evidence.json`, `.verify.json`); a stale pass is deleted before each run.
+- **decisions.md**: publication requires explicit TAG, https REGISTRY and `CONFIRM="publish <name>@<version> <sha12>"`; prerelease versions can never use `latest`; driver never rebuilds on publish failure.
+- **work-scripts/INDEX.md rows** (replace the P-05 reservation table): `node/release/cli.mjs` (Makefile dispatcher; `node work-scripts/node/release/cli.mjs <sdk-check|sdk-build|pack|verify|check|publish>`), `node/release/policy.mjs` (pure validators; imported by tests/release), `node/release/process.mjs` (fs/process/tar adapter; imported by cli and tests). Dated 2026-10-15, author P-05, notes: Node 22.23.2, GNU tar, no network except `publish`.
+- No additional helper filenames were needed; no one-off command was turned into a script.
