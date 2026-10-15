@@ -1,5 +1,13 @@
 # C4 SDK build state
 
+## Nick human ruling / fresh Opus active — 2026-10-15
+
+Latest instruction `/root/c4-lead-p05-human-ruling.md`: fresh Opus corrects remaining evidence-schema defect; preserve closed F2, no P-04 edits; one fresh Sol exact-commit review. If FAIL, STOP and escalate Nick, no further loop. Integration waits until PASS; no publication. This supersedes prior arbitration stop only to authorize this one Opus attempt.
+
+Prior final Sol review9e1dd9c/checkpoint216d7f9 on7850005 returned FAIL/HUMAN: malformed consumer/screenshots types and empty nested objects accepted. F2 and earlier guards passed. Aborted integration command did NOT execute: no integration branch/worktree exists. Main51c12db before this checkpoint, origin eb3b7a5; P-04 landed, P-05 not landed.
+
+Fresh Opus5.5 headless builder ACTIVE from216d7f9, branch `fix/p-05-opus-human-ruling`, worktree `/tmp/c4-sdk-p-05-opus`. Brief/claims/checkpoint `agent-work/items/P-05-opus/`; dispatch `/tmp/c4-p05-opus-build.md`; JSON/stderr/exit prefix `/tmp/c4-p05-opus-build`, session17338. Owns policy README-validation only, release tests, optional runbook clarification, item records; no cli/process/P-04 changes. Explicit staged files, separate postwork assessment, wait for finalized commits/exited builder before review. Latest gauges: Claude27% weekly/35% current window, Codex54% weekly, Muse last gauge unavailable (successful arbitration completed). Do not confuse prior Sonnet attempts with Opus: this is first Opus product correction.
+
 ## P-05 arbitration complete; final bounded correction active — 2026-10-15
 
 Muse verdict `173f12f` upheld second FAIL, independently reproduced F1/F2 on corrected97648b6 and verified generated-file cleanup. Final remedy: exactly one fresh bounded correction, fresh cross-family PASS, and actual combined04+05gate before landing. A further NITS/FAIL returns to human, no automatic repair loop. Full binding contract at `173f12f:agent-work/items/P-05-fixup/arbitration.md`.
