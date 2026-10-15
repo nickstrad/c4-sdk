@@ -1,5 +1,10 @@
 # P-06 checkpoint
 
+## Coordinator completion — 2026-10-15
+
+Landed9743c93 after bounded correctiond7ee5ef and fresh Sol PASS290f51e/checkpoint3d4b229, superseding original review FAIL2938f95. Integration206unit/34property/5API/108release/typecheck/lint PASS. See [final review](../P-06-browser-fix/review.md) and [release report](../../../docs/release/0.1.0.md). All six areas ready; mobile component-docs remains explicitly nonblocking per Nick, historical focus uncertainty disclosed. Builder/correction/review worktrees cleaned; exact artifact and evidence retained. No publication/tag/registrywrite. Separate explicit publish instruction remains required.
+
+
 Status: builder complete 2026-10-15; awaiting fresh independent cross-family review. Nothing published, tagged, pushed or merged.
 
 - Branch `item/p-06-final-candidate`, worktree `/tmp/c4-sdk-p-06`, base `316c4b6`.

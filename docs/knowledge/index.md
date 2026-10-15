@@ -7,7 +7,7 @@ This is the entry point to durable c4-sdk knowledge. Read it before planning wor
 | Page | Contents |
 | --- | --- |
 | [decisions.md](decisions.md) | Decisions and the rationale behind them |
-| [gotchas.md](gotchas.md) | Tooling, environment, and behavior traps; dynamic partial order, resource bounds, stable overlays, physical topology, asynchronous focus restoration, routed-kind wrappers and code symbol rendering |
+| [gotchas.md](gotchas.md) | Tooling, environment, and behavior traps; dynamic partial order, resource bounds, stable overlays, physical topology, asynchronous focus restoration, routed-kind wrappers, code symbol rendering, and evidence-backed canvas test interaction |
 | [glossary.md](glossary.md) | Terms used in this repository's work process |
 
 ## Project orientation

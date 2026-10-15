@@ -1,5 +1,16 @@
 # Work coordination
 
+## P-06 complete: reviewed prepublication readiness — 2026-10-15
+
+P-06 and its bounded browser correction landed at 9743c93. Fresh Sol final PASS290f51e/checkpoint3d4b229 on exact d7ee5ef resolves original R1/R2 FAIL2938f95. Independent48focused passes (24normal+24CPU4); builder fullsource65pass/1intendedskip, controlledCPU4/6 repeats36+16pass. Test changes reveal offscreen targets using existing focus-pan, assert viewport, then realclick; runtime/package inputs unchanged. Report/gotchas correct causality and disclose historical focus-return uncertainty. Nick mobile component-docs NONBLOCKING ruling explicitly retained with C4-07/C4-10/P06 recurrence and isolatedpasses.
+
+Integration on main9743c93 PASS: typecheck/lint (two known warnings),206unit/hooks,34property,5API,108release. Logs /tmp/c4-p06-integration-{install,check}.log, check.exit0. Earlier exact clean release-check and independent exact-source release-verify PASS: package10browser/README6browser, module/types/mixed-context/React-freecore,15files/76noticepackages. Six requested distribution areas signed off.
+
+Release report docs/release/0.1.0.md; final review agent-work/items/P-06-browser-fix/review.md. Version0.1.0, rolldown1.2.14/plugin-dts0.28.8, TS6.0.3/Vite8.3.4. EXACT retained candidate /tmp/c4-sdk-release-0.1.0/c4-sdk-0.1.0.tgz, SHA2566b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084, release-input sourcefb74a91c539614542769e97e3ebbfe0677dcc356. Preserve tarball/sidecars/screenshots; later report/test commits did NOT rebuild artifact. Corrected report copied alongside artifact. Final correction/review trees cleaned; branches/evidence retained.
+
+Next: separate explicit Nick instruction for publication using docs/release/runbook.md and retained artifact. NO npm publish, tag or registry write occurred. npm identity nickstrad already verified by Twin; no new login work. Push this completion checkpoint to origin/main; automatic existing Pages workflow may redeploy. Preserve untracked build-kickoff.md/kickoff-brief.md. All older sections below are historical, superseded by this completion status.
+
+
 ## P-06 correction re-review active — 2026-10-15
 
 Sonnet correction finalized/exited0 at d7ee5ef (tests fcc7f88, docs7e3f80a), cleaned own worktree. Only3browser specs, release report/gotchas and item records changed. Actual realclick preserved after viewer focus-reveal/inviewport assertion. CPU4before reproduced five click failures; CPU4after26hostedpass plus2known scratch generic-host failures, repetitions36pass, CPU6repeat16pass. Standard fullsource --workers=1 PASS65/skip1. No runtime/package inputs changed; exactartifact unchanged. Historical mobilefocus-afterUp remains unreproduced/unresolved, waived component-docs unchanged and noted. No defaultparallelfull repeat.
