@@ -1,108 +1,704 @@
 # c4-sdk
 
-A React C4 SDK with a generic reference viewer and a small Cursor-based showcase. All seven C4 diagram kinds (landscape, context, container, component, code, dynamic, deployment) render through one pipeline; the [implementation plan](docs/plans/implementation.md) tracks the showcase and consumer work.
+React components and pure TypeScript functions for rendering [C4 model](https://c4model.com/) architecture diagrams from validated JSON. One pipeline draws all seven diagram kinds:
 
-## Run and validate
+| Kind | Wrapper component | Shows |
+| --- | --- | --- |
+| `landscape` | `SystemLandscape` | People and systems across an organisation |
+| `context` | `SystemContext` | One system and its neighbours |
+| `container` | `ContainerDiagram` | Deployable parts inside a system |
+| `component` | `ComponentDiagram` | Parts inside one container |
+| `code` | `CodeDiagram` | Declared classes, interfaces and members as display text |
+| `dynamic` | `DynamicDiagram` | Numbered or parallel interaction scenarios |
+| `deployment` | `DeploymentDiagram` | Physical nodes and replicas |
+
+> **Publication status.** The package name `c4-sdk` is a candidate. Nothing in this document claims that it has been published to the npm registry. Until Nick publishes it, install the packed `.tgz` that your release process produced (`npm install ./c4-sdk-<version>.tgz`). The commands below use the registry name that publication will provide.
+
+## Install
 
 ```sh
-npm install
-npm run dev                 # generic viewer, own sample catalog
-npm run dev:demo            # Git at any scale showcase
-npm run build
-npm run build:demo
-npm run typecheck           # SDK, both apps, configs and tests
-npm run lint
-npm run test:unit           # Node unit tests and jsdom hook tests
-npm run test:prop           # fast-check: architecture seed4012026; navigation seed4022026
-npx playwright install chromium
-npm run test:browser        # actual production builds, desktop/mobile Chromium
-npm run check               # all of the above checks and builds
+npm install c4-sdk react@19.3.0 react-dom@19.3.0
 ```
 
-Browser tests build the demo at `/c4-preview/`, serve it with that base, and test the generic production app separately. They cover valid/invalid resources, preserved last-valid state, keyboard focus, drill/Inspect/Up, actual Back/Forward across reload, deep URLs, native destination links/new tabs, delayed and failed catalog selections, separate fixture catalogs, axe, reduced motion and 200% zoom. Screenshots and failure traces go to ignored `test-results/`; a human must inspect the screenshots. Tests use local ports 4173/4174. No hosting or publication occurs.
+`react` and `react-dom` are **peer dependencies** (exactly `19.3.0`); the package never bundles a second copy. Zod, React Flow, ELK and the Markdown renderer are bundled and need no separate install.
 
-Vitest discovers future `tests/copy-consumer/policy/**/*.test.ts` and `tests/hooks/**/*.test.{ts,tsx}`. Pure tests run in Node; hooks use jsdom. Existing Vite/React/Tailwind/shadcn primitives are preserved. Effect is installed by the scaffold but is not used in domain logic.
+## Supported and exercised versions
 
-## Source SDK API
+Only the versions below are tested against the exact packed tarball. Other versions may work but are not promised.
 
-Import from `src/lib/c4/index.ts` and import `src/lib/c4/styles/c4.css` once in the host. The CSS is scoped under `.c4-sdk`, has no global reset, and provides `--c4-ink`, `--c4-muted`, `--c4-surface`, `--c4-border`, `--c4-accent` and `--c4-external` tokens. React, React DOM and Zod are runtime dependencies; Tailwind is used by the generic host, not required by SDK views.
+| Area | Exercised version |
+| --- | --- |
+| Node.js | 22.23.2 (Linux x64) |
+| npm | 10.9.8 |
+| React / React DOM | 19.3.0 |
+| TypeScript | 6.0.3, `strict`, `skipLibCheck: false`; NodeNext `.mts`/`.cts` and bundler-resolution TSX |
+| Vite | 8.3.4, non-root base path |
+| Browser | Chromium from Playwright 1.64.0, desktop and Pixel 7 emulation |
 
+Server rendering and hydration, Node workers, Firefox/WebKit and other bundlers are not tested.
+
+## Quick start
+
+This is a complete app: valid data, decoding with error handling, a worker, the stylesheet and the viewer. Create these three files in a Vite + React + TypeScript project (Vite 8, `"jsx": "react-jsx"`, `"resolveJsonModule": true`, `"types": ["vite/client"]`).
+
+`index.html`:
+
+<!-- example: examples/readme/index.html -->
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4-sdk quick start</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>
+```
+
+`main.tsx`:
+
+<!-- example: examples/readme/main.tsx -->
 ```tsx
-import { decodeArchitecture, ArchitectureViewer, Legend } from './src/lib/c4'
-import './src/lib/c4/styles/c4.css'
+import { createRoot } from 'react-dom/client'
+import { ArchitectureViewer, createElkLayoutPort } from 'c4-sdk'
+import { decodeArchitecture } from 'c4-sdk/core'
+import workerUrl from 'c4-sdk/layout-worker.js?url'
+import 'c4-sdk/styles.css'
+import bundle from './bundle.json'
 
-const decoded = decodeArchitecture(json)
+const layoutPort = createElkLayoutPort(() => new Worker(workerUrl, { type: 'module' }))
+const decoded = decodeArchitecture(bundle)
+const root = createRoot(document.getElementById('root')!)
+
 if (decoded.ok) {
-  const viewer = <ArchitectureViewer validatedBundle={decoded.value} />
-  const independentKey = <Legend {...decoded.value.bundle.diagrams[0].legend} />
+  root.render(<ArchitectureViewer validatedBundle={decoded.value} layoutPort={layoutPort} />)
+} else {
+  root.render(
+    <ul role="alert">
+      {decoded.diagnostics.map(item => (
+        <li key={`${item.code}${item.path}`}>{item.code} at {item.path}: {item.message}</li>
+      ))}
+    </ul>,
+  )
 }
 ```
 
-`decodeArchitecture(unknown)` returns either a whole immutable validated value with indexes and warnings, or structured diagnostics with code/path/severity/message. `ArchitectureViewer` renders whatever diagram the route selects; the seven named wrappers below are kind-checked entries to the same pipeline. `projectDiagram`, `selectDocumentation`, `resolveLegend`, `validateArchitecture` and `buildIndex` are pure functions; callers should index only successfully validated data. `architectureSchema` and `architectureJsonSchema` expose the runtime shape and editor schema; reference, URL safety and metadata checks additionally run in the decoder.
+`bundle.json` (a landscape and a context diagram with legends and an STE explanation):
 
-`CatalogViewer` accepts a `catalogUrl`, optional loader/route ports and title. Catalog entry IDs must match their valid bundle IDs so a deep architecture URL selects its resource; mismatches reject the replacement. Selecting a resource keeps the current route/history until its whole valid bundle loads, then opens that bundle’s declared default diagram. `createFetchLoader` reads a strict `{entries:[{id,title,url}]}` catalog, resolves relative URLs against its location, bounds catalog bytes at 256 KiB and bundle bytes at 5 MiB before JSON parsing, and forwards AbortSignals. Failed replacements retain the entire last valid dataset. Stale requests cannot replace a newer resource or catalog. The generic app accepts `VITE_C4_CATALOG_URL` at its application boundary; the SDK contains no consumer-specific resource paths.
+<details>
+<summary>bundle.json</summary>
 
-### Seven named wrappers and composition
+<!-- example: examples/readme/bundle.json -->
+```json
+{
+  "schemaVersion": 1,
+  "id": "shop",
+  "title": "Shop architecture",
+  "revision": "readme-1",
+  "defaultDiagramId": "landscape",
+  "model": {
+    "elements": [
+      {
+        "id": "customer",
+        "kind": "person",
+        "name": "Customer",
+        "description": "A person who buys goods from the shop.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-landscape"
+        ],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop",
+        "kind": "softwareSystem",
+        "name": "Shop",
+        "description": "Retail system that takes and tracks orders.",
+        "status": "existing",
+        "tags": [
+          "owner-retail"
+        ],
+        "plannedNotes": [],
+        "docIds": [
+          "d-context"
+        ],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "billing",
+        "kind": "softwareSystem",
+        "name": "Billing",
+        "description": "Finance system that charges customers.",
+        "status": "existing",
+        "tags": [
+          "owner-finance",
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "mail",
+        "kind": "softwareSystem",
+        "name": "Mail service",
+        "description": "Sends order notices to customers.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "c-shop",
+        "sourceId": "customer",
+        "targetId": "shop",
+        "label": "Places orders",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "c-billing",
+        "sourceId": "customer",
+        "targetId": "billing",
+        "label": "Receives invoices",
+        "technology": "Email",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop-billing",
+        "sourceId": "shop",
+        "targetId": "billing",
+        "label": "Requests charges",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop-mail",
+        "sourceId": "shop",
+        "targetId": "mail",
+        "label": "Sends notices",
+        "technology": "SMTP",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "landscape",
+      "kind": "landscape",
+      "title": "Shop landscape",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop",
+          "detail": {
+            "diagramId": "context"
+          }
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "c-billing"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Landscape key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-landscape"
+      ],
+      "sourceIds": [
+        "guide"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      }
+    },
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Shop context",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop"
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Context key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "accent",
+            "label": "Element in focus",
+            "description": "The scope being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-context"
+      ],
+      "sourceIds": [
+        "guide"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "landscape"
+      },
+      "scopeId": "shop"
+    }
+  ],
+  "documents": [
+    {
+      "id": "d-landscape",
+      "title": "Shop landscape",
+      "plain": "The landscape shows people and systems across the organisation. Retail and finance own different systems that share one customer.",
+      "ste": {
+        "text": "This diagram shows people and systems. Two groups own the systems.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "guide"
+      ]
+    },
+    {
+      "id": "d-context",
+      "title": "Shop context",
+      "plain": "The context shows the Shop and the people and systems around it.",
+      "ste": {
+        "text": "This diagram shows the Shop and its neighbours.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "guide"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "guide",
+      "title": "Shop teaching example",
+      "url": "https://example.com/shop",
+      "notes": "Invented teaching data."
+    }
+  ]
+}
+```
 
-| Wrapper | Accepts | Natural drill target |
-| --- | --- | --- |
-| `SystemLandscape` | `landscape`: people and software systems, optional scoped system | a system's `context` |
-| `SystemContext` | `context`: one system with people and external systems | its `container` view |
-| `ContainerDiagram` | `container` | a container's `component` view |
-| `ComponentDiagram` | `component` | a component's `code` view |
-| `CodeDiagram` | `code`: selected symbols of one component with member compartments | — |
-| `DynamicDiagram` | `dynamic`: ordered interactions | — |
-| `DeploymentDiagram` | `deployment`: nested physical nodes and instances | an instance's logical container or component |
+</details>
 
-Every wrapper takes the same `NamedDiagramProps` as `ArchitectureViewer` and renders it with `expectedKind` set. The check uses the **routed** diagram, after the route port, direct URL or a followed drill link has chosen it, so a wrapper never silently renders another kind: it shows a `diagram-kind` diagnostic naming the expected and actual kinds. Use `ArchitectureViewer` when any kind is acceptable (the catalog viewer does).
+Notes:
 
-For a custom layout, wrap parts in one `ArchitectureProvider`. The provider owns the single route, navigation and session controller; `DiagramNavigation`, `DiagramView`, `DiagramLegend` and `DiagramDocumentation` read it from context, and `useViewerController()` gives custom parts the current route, diagram and `navigate`. Parts throw outside a provider, and there is no exported hook that starts a second route controller. `navigationSlot`, `legendSlot` and `documentationSlot` (on `ArchitectureViewer`, or `slot`/`legendSlot` on the parts) replace the default navigation, key and explanation with props-only render functions.
+- `decodeArchitecture` accepts parsed JSON (`unknown`), not a JSON string. Parse text yourself and handle `SyntaxError` in your host.
+- It returns `{ ok: true, value, diagnostics }` or `{ ok: false, diagnostics }`. Each diagnostic has `code`, `path`, `severity` and `message`. Treat codes as an open set; do not parse `message`.
+- `import 'c4-sdk/styles.css'` once. It is scoped under `.c4-sdk`, has no global reset, and exposes the tokens `--c4-ink`, `--c4-muted`, `--c4-surface`, `--c4-border`, `--c4-accent` and `--c4-external`.
 
-<!-- composition-example -->
+## Choosing a diagram and navigating
+
+The seven wrappers each require one kind and show a `diagram-kind` diagnostic when the routed diagram has another kind:
+
+Pass `diagramId` to choose the starting diagram. See `SystemContext` in the strict-TypeScript example below for a wrapper.
+
+The route (a URL hash such as `#/architectures/shop/diagrams/context/elements/shop`) owns the selection. Inject a `RoutePort` to control it from your router; `createHashRoutePort()` is the default.
+
+## Composing legend, navigation and documentation
+
+`ArchitectureViewer` composes navigation, the diagram, the legend and the explanation. To place the parts yourself, wrap them in one `ArchitectureProvider`. A separate `DiagramLegend` pairs with `DiagramView legendSlot={() => null}`, so the key is not shown twice. The documentation slot receives the selected `document`, the `mode` (`'plain'` or `'ste'`) and callbacks. `useViewerController` reads the same provider and offers `navigate`.
+
+<!-- example: examples/readme/compose.tsx -->
 ```tsx
-import { ArchitectureProvider, DiagramDocumentation, DiagramLegend, DiagramNavigation, DiagramView, useViewerController } from './src/lib/c4'
-import type { ValidatedArchitecture } from './src/lib/c4'
+import { createRoot } from 'react-dom/client'
+import {
+  ArchitectureProvider,
+  DiagramDocumentation,
+  DiagramLegend,
+  DiagramNavigation,
+  DiagramView,
+  createElkLayoutPort,
+  useViewerController,
+} from 'c4-sdk'
+import type { DocumentationSlot } from 'c4-sdk'
+import { decodeArchitecture } from 'c4-sdk/core'
+import workerUrl from 'c4-sdk/layout-worker.js?url'
+import 'c4-sdk/styles.css'
+import bundle from './bundle.json'
 
-function CurrentKind() {
-  const { diagram } = useViewerController()
-  return <p>Showing a {diagram?.kind} diagram</p>
+const layoutPort = createElkLayoutPort(() => new Worker(workerUrl, { type: 'module' }))
+const decoded = decodeArchitecture(bundle)
+if (!decoded.ok) throw new Error(decoded.diagnostics.map(item => item.message).join('\n'))
+
+// A documentation slot receives the selection, the active mode and mode callbacks.
+const steSlot: DocumentationSlot = ({ document, mode, onPlain, onSte }) => (
+  <section aria-label="Explanation">
+    <button aria-pressed={mode === 'plain'} onClick={onPlain}>Plain</button>
+    <button aria-pressed={mode === 'ste'} onClick={onSte}>STE</button>
+    <h2>{document?.title ?? 'No explanation'}</h2>
+    <p id="explanation-text">{mode === 'ste' ? document?.ste.text : document?.plain}</p>
+  </section>
+)
+
+function Heading() {
+  const { diagram, navigate } = useViewerController()
+  return (
+    <header>
+      <h1 id="heading">{diagram?.title}</h1>
+      <button onClick={() => navigate({ type: 'up' })}>Go up</button>
+    </header>
+  )
 }
 
-export function ShopWorkspace({ validatedBundle }: { validatedBundle: ValidatedArchitecture }) {
-  return <ArchitectureProvider validatedBundle={validatedBundle}>
-    <aside><DiagramNavigation /><DiagramLegend /></aside>
-    <main><CurrentKind /><DiagramView legendSlot={() => null} /></main>
-    <DiagramDocumentation slot={props => <section aria-label="Explanation">{props.document?.plain}</section>} />
-  </ArchitectureProvider>
-}
+createRoot(document.getElementById('root')!).render(
+  <ArchitectureProvider validatedBundle={decoded.value} layoutPort={layoutPort}>
+    <Heading />
+    <DiagramNavigation />
+    <DiagramView legendSlot={() => null} />
+    <DiagramLegend />
+    <DiagramDocumentation slot={steSlot} />
+  </ArchitectureProvider>,
+)
 ```
 
-The example above is `tests/hooks/composition-example.tsx`; a hooks test type-checks it, renders it and fails if this README block drifts.
+`compose.html` is the same HTML shell as `index.html` with `compose.tsx` as its module.
 
-### Code views
+STE text is draft guidance with advisory review metadata. The package makes no claim of ASD-STE100 certification.
 
-A `code` element has `parentId` (a component, or another code element for nested symbols, up to depth 32), `symbolKind` (`class`, `interface`, `function`, `type`, `enum`, `table`, `module`) and optional `members`: each `name`, optional `signature` and `visibility` (`public`, `protected`, `private`, `package`; default `public`). Members are literal display text, never parsed, fetched or executed, and are rendered as an accessible list inside the symbol card and in the text alternative. A code view's scope is a component; its members must descend from that component unless tagged `external`. Relationship `kind` adds `inheritance`, `implementation` (target interface or type) and `composition`, which connect code elements only. Symbol and member rendering keys (`symbolKey`, `memberKey`) are derived from element ID and member index, never from member names. The fixture `fixtures/seven-types.json` is generic, invented teaching data; the Cursor showcase has no code view.
+## ESM and CommonJS
 
-This is source-copy consumption, with one private root package and lockfile. There is no npm package publication. See the plan for the later reviewed copy/provenance workflow.
+The package ships `.mjs` and `.cjs` with matching `.d.mts` and `.d.cts` declarations. Both entry points have the same runtime names, share one React context, and import without touching `window` or `document`. Import `c4-sdk/core` in Node for decoding and pure selectors.
 
-## Supported contract and current limits
+ESM (`.mts`, NodeNext):
 
-Version 1 uses separate model identities and diagram membership. The model supports person/softwareSystem/container/component/code/deployment elements; containers require a software-system `parentId` and `technology`, with application/datastore `containerType`; dependency/association/inheritance/implementation/composition relationships; all seven diagram kinds: landscape (optional system scope), context, container, component, code, dynamic scenarios and deployment environments; declared detail/parent/related targets, manual positions/sizes or deterministic auto LR/TB arrangements; legend swatches; sources, technical terms and Plain/STE documents. Unsupported element/diagram kinds, relationship kinds, later containment kinds, arbitrary HTML/SVG and unknown keys are rejected explicitly. See `fixtures/context.json` and `fixtures/navigation.json` for complete inputs. Optional arrays normalize to empty without mutating caller data.
+<!-- example: examples/readme/node-esm.mts -->
+```ts
+import { readFileSync } from 'node:fs'
+import { buildScene, decodeArchitecture, resolveLegend, selectDocumentation } from 'c4-sdk/core'
+import type { Diagnostic } from 'c4-sdk/core'
 
-Validation rejects duplicate IDs/members/edges, invalid scopes/containment, wrong detail scopes, cyclic canonical parents, hidden navigation targets/edge endpoints, absent document/source/term references, mixed entities without planned notes, reviewed STE without reviewer/date, unsafe sources and incomplete manual positions. Missing protocols, missing key notation and large views are visible warnings. Default enforced limits are 5,000 elements, 10,000 relationships, 200 diagrams and raw JSON depth 32 (96 inside dynamic scenarios); these are guardrails, not performance benchmarks.
+const text = readFileSync(new URL('./bundle.json', import.meta.url), 'utf8')
+const decoded = decodeArchitecture(JSON.parse(text))
+if (!decoded.ok) throw new Error(decoded.diagnostics.map(item => item.code).join())
 
-Groups validate and project with separate IDs, direct membership and bounded parent ancestry. Auto layout uses an asynchronous ELK worker for compound groups, measured cards and routed edges in LR/TB directions; manual positions remain authored. Geometry validation rejects unsafe or non-finite spans and invalid sizes. The canvas offers pan/zoom and a complete directed relationship list; dynamic views also provide a scenario text alternative. Documentation renders Markdown with safe links and no executable HTML, images or user components, plus sources, technical terms and review metadata. STE100 text remains draft unless human review metadata exists; diagnostics are advisory and schema validation does not certify language compliance. The [implementation plan](docs/plans/implementation.md) tracks remaining consumer and hardening work.
+const { index } = decoded.value
+const scene = buildScene(index, 'context')
+const docs = selectDocumentation(index, 'context')
+console.log(JSON.stringify({
+  title: decoded.value.bundle.title,
+  nodes: scene.ok ? scene.value.nodes.length : -1,
+  legend: resolveLegend(index, 'context')?.title,
+  ste: docs.documents[0]?.ste.text,
+}))
 
-## Navigation and extension seams
+// Failures are values, not exceptions. Paths point into the JSON document.
+const broken = JSON.parse(text)
+broken.diagrams[0].nodes[0].elementId = 'missing'
+const rejected = decodeArchitecture(broken)
+if (rejected.ok) throw new Error('expected rejection')
+const first: Diagnostic = rejected.diagnostics[0]!
+console.log(JSON.stringify({ code: first.code, path: first.path }))
+```
 
-The default browser adapter uses hash URLs such as `#/architectures/cursor-continuity/diagrams/containers/elements/repository`, preserving the host’s base path. A single injected `RoutePort` owns the route snapshot, subscriptions and history operations; `getSnapshot()` must return the same object until the URL or history availability changes. The pure `parseRoute`, `formatRoute`, `transition`, `validateRoute` and `breadcrumbs` functions own route decisions. Detail, related, breadcrumb, Up and recovery destinations are native anchors with codec-derived hash hrefs. Ordinary primary activation goes through the route port; modified clicks and new-tab actions retain browser behavior. Nodes without a detail remain Inspect buttons; linked nodes also have an explicit Inspect button for their own explanation. Up selects the canonical parent anchor. Back uses real same-tab viewer history, including after reload; a new visitor falls back to Up then the dataset root. Invalid diagrams/elements show diagnostics and an Open diagram recovery action. Related cycles are permitted; canonical parent cycles are rejected.
+CommonJS (`.cts`, NodeNext):
 
-Focus and canvas scroll are retained per dataset revision and diagram for the mounted viewer. Up restores the parent node; route changes announce the diagram title. Browser history carries only route entry ownership/depth, not a separate private route stack. Session storage carries the tab’s viewer identity so reload retains safe Back availability; if storage is unavailable, Back falls back safely after recreation.
+<!-- example: examples/readme/node-cjs.cts -->
+```ts
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { buildScene, decodeArchitecture, resolveLegend, selectDocumentation } from 'c4-sdk/core'
+import type { Diagnostic } from 'c4-sdk/core'
 
-`buildScene` produces pure membership/relationship inputs in `domain/scene.ts`. `domain/documentation.ts` owns document selection. `domain/layout.ts`, `ports/layout.ts`, `useDiagramLayout.ts` and `DiagramCanvas.tsx` form the replaceable layout/canvas seam. An injected `LayoutPort` receives an abort signal and request generation, then returns that generation and a geometry result or diagnostics. Stale, aborted and mismatched generations cannot publish; accepted geometry must preserve scene membership/endpoints and be finite and positive. Initial async layout shows a link-enabled text alternative while geometry is pending; a previously published scene for the same input can remain visible during measurement replacement. Optional measured sizes and a measurement revision extend the port without changing unmeasured adapters. SceneInput includes architecture/revision, groups and pure presentation attributes; geometry uses absolute bounds, parent IDs and optional routed sections/label bounds. Workers must return geometry and reattach original validated objects before publication. The default adapter uses an ELK worker with cancellation, bounded geometry caching and font/resize measurement; authored manual positions remain exact. See the [reviewed seam contract](docs/plans/batch-c-contracts.md) for cache and two-pass contracts.
+const text = readFileSync(join(__dirname, 'bundle.json'), 'utf8')
+const decoded = decodeArchitecture(JSON.parse(text))
+if (!decoded.ok) throw new Error(decoded.diagnostics.map(item => item.code).join())
 
-`ArchitectureViewer` also accepts a `documentationSlot(props)` with the same props as `DocumentationView`; the slot receives selected documents and format callbacks without owning navigation or geometry. Document and layout adapters can change separate modules. Viewer containers compose hooks and views; useViewerSession owns focus/scroll lifecycle, useCatalogViewer owns route/resource lifecycle, and pure domain selectors choose related/detail targets. Browser tests inject independent fixture catalogs through the same production `CatalogViewer`, so future slices need not edit the showcase JSON.
+const { index } = decoded.value
+const scene = buildScene(index, 'context')
+const docs = selectDocumentation(index, 'context')
+console.log(JSON.stringify({
+  title: decoded.value.bundle.title,
+  nodes: scene.ok ? scene.value.nodes.length : -1,
+  legend: resolveLegend(index, 'context')?.title,
+  ste: docs.documents[0]?.ste.text,
+}))
 
-## Project workflow
+// Failures are values, not exceptions. Paths point into the JSON document.
+const broken = JSON.parse(text)
+broken.diagrams[0].nodes[0].elementId = 'missing'
+const rejected = decodeArchitecture(broken)
+if (rejected.ok) throw new Error('expected rejection')
+const first: Diagnostic = rejected.diagnostics[0]!
+console.log(JSON.stringify({ code: first.code, path: first.path }))
+```
 
-[AGENTS.md](AGENTS.md), [CLAUDE.md](CLAUDE.md), [coordination](agent-work/COORDINATION.md), [event log](agent-work/event-log.md) and [work-script index](work-scripts/INDEX.md) define repository work and review.
+Both examples print the title, node count, legend title and STE text, then print the `code` and `path` of the first diagnostic for a deliberately broken copy.
+
+Named React wrappers and core diagram types share names (`ContainerDiagram` and so on). Alias one when you import both into one module.
+
+## Layout worker
+
+Layout runs in a browser module worker. There are two supported recipes.
+
+**Vite (bundler asset URL).** Import the asset with `?url` and pass a factory, as in `main.tsx` above. Vite fingerprints the file and respects `base`.
+
+**Static host at a sub-path.** With no factory, `createElkLayoutPort()` requests `layout-worker.js` relative to `document.baseURI`. Copy `node_modules/c4-sdk/dist-sdk/layout-worker.js` next to your page and serve it from the same base path:
+
+<!-- example: examples/readme/static.tsx -->
+```tsx
+import { createRoot } from 'react-dom/client'
+import { ArchitectureViewer, createElkLayoutPort } from 'c4-sdk'
+import { decodeArchitecture } from 'c4-sdk/core'
+import 'c4-sdk/styles.css'
+import bundle from './bundle.json'
+
+// Default port: requests layout-worker.js relative to document.baseURI.
+// Copy node_modules/c4-sdk/dist-sdk/layout-worker.js beside the page.
+const decoded = decodeArchitecture(bundle)
+if (!decoded.ok) throw new Error('Invalid architecture')
+createRoot(document.getElementById('root')!).render(
+  <ArchitectureViewer validatedBundle={decoded.value} layoutPort={createElkLayoutPort()} />,
+)
+```
+
+Each layout request creates a worker and terminates it on completion, failure, timeout or abort. There is no public message protocol.
+
+## Strict TypeScript and misuse
+
+The declarations compile under `strict` with `skipLibCheck: false`. Misuse is a compile error:
+
+<!-- example: examples/readme/misuse.tsx -->
+```tsx
+import { ArchitectureViewer, SystemContext } from 'c4-sdk'
+import type { ValidatedArchitecture } from 'c4-sdk/core'
+
+declare const validated: ValidatedArchitecture
+
+export const ok = <ArchitectureViewer validatedBundle={validated} />
+export const kindChecked = <SystemContext validatedBundle={validated} />
+
+// @ts-expect-error validatedBundle is required.
+export const missing = <ArchitectureViewer />
+// @ts-expect-error Raw JSON is not validated data.
+export const raw = <ArchitectureViewer validatedBundle={{ schemaVersion: 1 }} />
+// @ts-expect-error Named wrappers fix the expected kind.
+export const kind = <SystemContext validatedBundle={validated} expectedKind="container" />
+```
+
+## API reference
+
+- [Public API contract](https://github.com/nickstrad/c4-sdk/blob/main/docs/api/public-api.md): every export, signature, diagnostic code and limit.
+- [Support matrix](https://github.com/nickstrad/c4-sdk/blob/main/docs/api/support-matrix.md)
+- [Acceptance and resource envelope](https://github.com/nickstrad/c4-sdk/blob/main/docs/api/acceptance.md)
+- [License and attribution record](https://github.com/nickstrad/c4-sdk/blob/main/docs/release/licenses.md)
+
+Package entries: `c4-sdk` (React components, ports, adapters), `c4-sdk/core` (decoding, selectors, navigation, types), `c4-sdk/styles.css`, `c4-sdk/layout-worker.js`.
+
+## Demo
+
+The repository contains a showcase application, "Git at any scale". To run it:
+
+```sh
+git clone https://github.com/nickstrad/c4-sdk.git
+cd c4-sdk
+npm ci
+npm run dev:demo
+```
+
+`npm run dev` starts the generic reference viewer on its own sample catalog.
+
+## Tests and release verification
+
+From a repository checkout:
+
+```sh
+npm run sdk:check            # typecheck, lint, unit, property and API-snapshot tests
+npm run sdk:build            # builds dist-sdk/
+npm pack                     # creates c4-sdk-<version>.tgz
+npm run test:package         # needs TARBALL=<absolute path>; installs it in a clean consumer
+node tests/readme/verify.mjs <absolute-tarball-path>
+```
+
+`tests/readme/verify.mjs` installs the exact tarball in a clean temporary consumer, checks that every snippet above equals its file in `examples/readme/`, compiles the ESM, CJS and TSX examples with strict declarations, runs the Node examples, builds the Vite app at a sub-path and drives the quick start in Chromium (ports 4187 and 4188). It never builds or packs. Set `README_REPORT=<path>` to write a JSON report with the tarball `sha256`, `version` and `passed`.
+
+Publication is a separate, manual step that is not part of these commands.
+
+## Limitations
+
+- Browser rendering only; no server rendering or hydration.
+- Read-only: no editing, dragging or persistence.
+- Layout of very large views is slow: a 200-node/400-edge diagram took about 4.8 to 5.2 seconds in tests on 4 shared vCPUs. Limits (5,000 elements, 10,000 relationships, 200 diagrams and others) are resource guards, not timing guarantees.
+- Markdown in documentation supports safe links and literal text; HTML, images and components are rejected.
+- Only the versions in the table above are exercised.
+
+## Schema evolution
+
+`schemaVersion` is exactly `1` and is independent of the package version. Unknown versions and unknown fields are rejected. A change to schema 1 must keep accepted data and its meaning or introduce a new schema version. In `0.x` releases, API changes are reviewed and recorded; from `1.0` removal or renaming of public symbols, fields, diagnostics or CSS tokens needs a major version. There is no cross-version migration tool.
+
+## Contributing and bug reports
+
+Report bugs and request features at [github.com/nickstrad/c4-sdk/issues](https://github.com/nickstrad/c4-sdk/issues). Pull requests are welcome: run `npm run sdk:check` first and keep one logical change per commit.
+
+## License
+
+MIT, Copyright (c) 2026 Nick Strad. See [LICENSE](https://github.com/nickstrad/c4-sdk/blob/main/LICENSE). Bundled third-party code keeps its own licenses in [THIRD_PARTY_NOTICES.md](https://github.com/nickstrad/c4-sdk/blob/main/THIRD_PARTY_NOTICES.md).
