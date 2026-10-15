@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "id": "shop",
+  "title": "Shop architecture",
+  "revision": "readme-1",
+  "defaultDiagramId": "landscape",
+  "model": {
+    "elements": [
+      {
+        "id": "customer",
+        "kind": "person",
+        "name": "Customer",
+        "description": "A person who buys goods from the shop.",
+        "status": "existing",
+        "tags": [],
+        "plannedNotes": [],
+        "docIds": [
+          "d-landscape"
+        ],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop",
+        "kind": "softwareSystem",
+        "name": "Shop",
+        "description": "Retail system that takes and tracks orders.",
+        "status": "existing",
+        "tags": [
+          "owner-retail"
+        ],
+        "plannedNotes": [],
+        "docIds": [
+          "d-context"
+        ],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "billing",
+        "kind": "softwareSystem",
+        "name": "Billing",
+        "description": "Finance system that charges customers.",
+        "status": "existing",
+        "tags": [
+          "owner-finance",
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "mail",
+        "kind": "softwareSystem",
+        "name": "Mail service",
+        "description": "Sends order notices to customers.",
+        "status": "existing",
+        "tags": [
+          "external"
+        ],
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "c-shop",
+        "sourceId": "customer",
+        "targetId": "shop",
+        "label": "Places orders",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "c-billing",
+        "sourceId": "customer",
+        "targetId": "billing",
+        "label": "Receives invoices",
+        "technology": "Email",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop-billing",
+        "sourceId": "shop",
+        "targetId": "billing",
+        "label": "Requests charges",
+        "technology": "HTTPS",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      },
+      {
+        "id": "shop-mail",
+        "sourceId": "shop",
+        "targetId": "mail",
+        "label": "Sends notices",
+        "technology": "SMTP",
+        "status": "existing",
+        "plannedNotes": [],
+        "docIds": [],
+        "sourceIds": [
+          "guide"
+        ]
+      }
+    ]
+  },
+  "diagrams": [
+    {
+      "id": "landscape",
+      "kind": "landscape",
+      "title": "Shop landscape",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop",
+          "detail": {
+            "diagramId": "context"
+          }
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "c-billing"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Landscape key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "box",
+            "label": "Element",
+            "description": "A system, container, component or code symbol",
+            "swatch": {
+              "shape": "box",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-landscape"
+      ],
+      "sourceIds": [
+        "guide"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      }
+    },
+    {
+      "id": "context",
+      "kind": "context",
+      "title": "Shop context",
+      "status": "existing",
+      "nodes": [
+        {
+          "elementId": "customer"
+        },
+        {
+          "elementId": "shop"
+        },
+        {
+          "elementId": "billing"
+        },
+        {
+          "elementId": "mail"
+        }
+      ],
+      "edges": [
+        {
+          "relationshipId": "c-shop"
+        },
+        {
+          "relationshipId": "shop-billing"
+        },
+        {
+          "relationshipId": "shop-mail"
+        }
+      ],
+      "legend": {
+        "title": "Context key",
+        "entries": [
+          {
+            "id": "person",
+            "label": "Person",
+            "description": "A human user",
+            "swatch": {
+              "shape": "person",
+              "tone": "default",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "accent",
+            "label": "Element in focus",
+            "description": "The scope being explored",
+            "swatch": {
+              "shape": "box",
+              "tone": "accent",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "external",
+            "label": "External element",
+            "description": "Outside the scope of this view",
+            "swatch": {
+              "shape": "box",
+              "tone": "external",
+              "stroke": "solid"
+            }
+          },
+          {
+            "id": "edge",
+            "label": "Relationship",
+            "description": "The arrow points to the supplier",
+            "swatch": {
+              "shape": "line",
+              "tone": "default",
+              "stroke": "solid",
+              "arrow": "forward"
+            }
+          }
+        ]
+      },
+      "docIds": [
+        "d-context"
+      ],
+      "sourceIds": [
+        "guide"
+      ],
+      "layout": {
+        "mode": "auto",
+        "direction": "TB"
+      },
+      "parent": {
+        "diagramId": "landscape"
+      },
+      "scopeId": "shop"
+    }
+  ],
+  "documents": [
+    {
+      "id": "d-landscape",
+      "title": "Shop landscape",
+      "plain": "The landscape shows people and systems across the organisation. Retail and finance own different systems that share one customer.",
+      "ste": {
+        "text": "This diagram shows people and systems. Two groups own the systems.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "guide"
+      ]
+    },
+    {
+      "id": "d-context",
+      "title": "Shop context",
+      "plain": "The context shows the Shop and the people and systems around it.",
+      "ste": {
+        "text": "This diagram shows the Shop and its neighbours.",
+        "issue": "ASD-STE100 Issue 9",
+        "reviewStatus": "draft"
+      },
+      "termIds": [],
+      "sourceIds": [
+        "guide"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "guide",
+      "title": "Shop teaching example",
+      "url": "https://example.com/shop",
+      "notes": "Invented teaching data."
+    }
+  ]
+}
