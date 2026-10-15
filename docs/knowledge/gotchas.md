@@ -89,3 +89,9 @@ P-02 found that choosing a bundler platform solely from CJS output selected VFil
 ## 2026-10-15 — README evidence follows the packed bytes
 
 The [P-04 verifier](../../tests/readme/verify.mjs) compares installed README bytes to the checkout before checking synchronized examples, strict declarations and browser journeys. Repack after any README change. Vite preview needs the matching mode for each base-path build; non-index HTML needs the full page URL for Playwright readiness. Capture screenshots after async layout settles, not the temporary list fallback. Evidence: [P-04 review](../../agent-work/items/P-04/review.md).
+
+## 2026-10-15 — release evidence and cleanup need structural tests
+
+Validate every designated location field and every branch of nested evidence, including malformed fields beside valid siblings. Keep execution output separate from locations; use the real producer report as a fixture and generate valid structures before mutating one part. Example-only cases missed consumer/screenshots type errors and empty subobjects. Evidence: [Opus PASS](../../agent-work/items/P-05-opus/review.md), [arbitration](../../agent-work/items/P-05-fixup/arbitration.md).
+
+Lexical path containment cannot protect filesystem cleanup through symlink ancestors. Check actual ancestry again after build and before the first mutation, then before marker writes. Record post-build source state and make every ALLOW_DIRTY rehearsal unpublishable. Reusable regressions belong in tests/release; the [runbook](../release/runbook.md) describes the two sidecars binding exact tarball and verification hashes.

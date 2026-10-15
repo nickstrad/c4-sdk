@@ -1,5 +1,11 @@
 # C4 SDK build state
 
+## P-05 landed after full combined PASS — 2026-10-15
+
+P-05 Opusd7183b7 exact Sol PASS8847703/3f0ecee and test-only integration27c909a PASS1d3a384/995ff63 landed at86fa3ea. Combined full make release-check on stagingfc484e0 PASSED:206unit,34property,5API,108release,typecheck/lint; exact package matrix,10package-browser and6README-browser. Actual real README report accepted. Tarball beta preliminary SHA256bfdfaf8c3404e139360d08df07972f33f9e42361d6bc04c034071f98ed704263, sourcefc484e0. Retained evidence/artifact/screenshots copied to /tmp/c4-p04-p05-passed-artifacts, log /tmp/c4-p04-p05-integration-final.log exit0. Earlier failed stale-test run remains documented.
+
+Main merge has no product semantic conflict; completed checkpoints replaced scaffolds. Historical second-review records collected by path fromf258963 without generated-file ancestry. Helper index and knowledge reconciled. Push follows checkpoint; P-06 now authorized ALONE from resulting main:0.1.0, rolldown1.2.14/plugin-dts0.28.8 before final pack, clean rehearsal/full matrix/six-area signoff. No publish.
+
 ## Test integration builder completed; review active — 2026-10-15
 
 Fresh Sonnet test-only fix finished/exited0 at27c909a (implementation23fe559), base927740f. Two owned test files only plus item records; current composition sync/behavior checked, legacy behavior retained. Builder make sdk-check PASS206unit/34property/5API/108release,typecheck/lint(two documented warnings). No P04 or release edits.

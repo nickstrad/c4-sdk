@@ -11,11 +11,6 @@ Every reusable script under this directory must have one row here. Update the in
 | `node/copy-project/policy.ts` | 2026-10-13 | C4-09a | Pure manifest validation, copy planning and provenance | Imported by policy tests and future C4-09 CLI | SHA256 bytes + executable mode; caller must verify reviewed source commit/inventory |
 | `node/copy-project/filesystem.ts` | 2026-10-13 | C4-09a | Validate and apply a copy plan in trusted exclusively owned trees | Imported by filesystem tests and future C4-09 CLI | Refuses symlinks/hardlinks/local edits; best-effort rollback, no crash atomicity |
 | `node/copy-project/types.ts` | 2026-10-13 | C4-09a | Shared manifest and copy operation types | Type imports by policy/filesystem modules | No executable CLI; integration follows C4-09 |
-
-## Reserved for P-05 (not implemented yet)
-
-| Planned helper | Owner | Purpose |
-| --- | --- | --- |
-| `node/release/cli.mjs` | P-05 | Makefile command dispatcher and artifact validation flow |
-| `node/release/policy.mjs` | P-05 | Pure release inventory/evidence validation |
-| `node/release/process.mjs` | P-05 | Filesystem/process adapter with testable publication boundary |
+| `node/release/cli.mjs` | 2026-10-15 | P-05 | Makefile release dispatcher and exact-artifact pipeline | `node work-scripts/node/release/cli.mjs <sdk-check|sdk-build|pack|verify|check|publish>` | Publication is explicit and separate; [runbook](../docs/release/runbook.md) |
+| `node/release/policy.mjs` | 2026-10-15 | P-05 | Pure manifest, inventory and evidence validation | Imported by driver and tests/release | Validate complete location schema apart from execution output |
+| `node/release/process.mjs` | 2026-10-15 | P-05 | Filesystem/process/tar adapter | Imported by driver and tests/release | Node22.23.2 and GNU tar; physical cleanup containment |
