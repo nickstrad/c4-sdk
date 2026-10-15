@@ -206,6 +206,43 @@ describe('reports', () => {
     expect(checkReadmeReport({ passed: true, sha256: id.sha256, version: id.version, evidenceLocations: ['/tmp/y'] }, id)).toEqual([])
   })
 
+  describe('README evidence: locations validated separately from execution output', () => {
+    const base = { passed: true, sha256: id.sha256, version: id.version }
+    // Frozen producer shape of tests/readme/verify.mjs: { consumer, output: { esm, cjs }, screenshots }.
+    const real = {
+      consumer: '/tmp/consumer',
+      output: {
+        esm: [{ file: 'a.mjs', stdout: 'ok', nodes: 4 }],
+        cjs: [{ file: 'a.cjs', stdout: 'ok', nodes: 4 }],
+      },
+      screenshots: ['/tmp/shot-1.png', '/tmp/shot-2.png'],
+    }
+    const errorsFor = fields => checkReadmeReport({ ...base, ...fields }, id).join()
+
+    it('accepts the real producer shape including numeric execution results', () => {
+      expect(errorsFor({ evidence: real })).toBe('')
+    })
+    it('accepts previously accepted shapes and evidenceLocations alone or beside execution output', () => {
+      for (const fine of ['/tmp/x', ['/tmp/a', '/tmp/b'], { a: { b: ['/tmp/c'] } }, { browser: '/tmp/x' }]) expect(errorsFor({ evidence: fine })).toBe('')
+      expect(errorsFor({ evidenceLocations: ['/tmp/y'] })).toBe('')
+      expect(errorsFor({ evidence: { output: real.output }, evidenceLocations: ['/tmp/y'] })).toBe('')
+      expect(errorsFor({ evidence: real, evidenceLocations: '/tmp/z' })).toBe('')
+    })
+    it('rejects malformed or location-free evidence', () => {
+      const bad = ['', '  ', false, 0, true, 7, null, [], [''], [{}], { a: '' }, { a: { b: [] } }, { a: 0 }, {}, { consumer: '' }, { screenshots: [] }, { screenshots: [''] },
+        { output: [{ nodes: 4 }] }, { consumer: '/tmp/x', screenshots: [] }, { output: real.output }, { ...real, consumer: '' }, { ...real, screenshots: [] }]
+      for (const evidence of bad) expect(errorsFor({ evidence }), JSON.stringify(evidence)).toMatch(/evidence locations/)
+      expect(errorsFor({}), 'neither field').toMatch(/evidence locations/)
+      expect(errorsFor({ evidence: real, evidenceLocations: [''] })).toMatch(/evidence locations/)
+      expect(errorsFor({ evidenceLocations: [] })).toMatch(/evidence locations/)
+    })
+    it('leaves identity checks unchanged for the real shape', () => {
+      expect(errorsFor({ evidence: real, passed: false })).toMatch(/did not pass/)
+      expect(errorsFor({ evidence: real, sha256: 'f'.repeat(64) })).toMatch(/sha256/)
+      expect(errorsFor({ evidence: real, version: '9.9.9' })).toMatch(/version/)
+    })
+  })
+
   it('requires every verification stage, same evidence file and source', () => {
     const good = { passed: true, ...id, evidenceSha256: 'e'.repeat(64), stages: { inventory: 'passed', package: 'passed', browser: 'passed', readme: 'passed' } }
     const expected = { ...id, evidenceSha256: good.evidenceSha256 }

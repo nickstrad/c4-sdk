@@ -107,6 +107,9 @@ export function releasePack(io, ctx) {
     ]
     failIf(guard.map(message => `refusing to replace existing artifacts: ${message}`))
     io.removeTree(destination)
+  } else {
+    // A build can introduce a symlinked ancestor; reject before creating anything for a missing destination.
+    failIf(io.physicalContainmentErrors(ctx.repoRoot, destination).map(message => `unsafe artifacts destination: ${message}`))
   }
   io.mkdirp(destination)
   failIf(io.physicalContainmentErrors(ctx.repoRoot, destination).map(message => `unsafe artifacts destination: ${message}`))

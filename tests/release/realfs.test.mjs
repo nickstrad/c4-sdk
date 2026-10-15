@@ -90,6 +90,16 @@ describe('real filesystem cleanup containment', () => {
     expect(existsSync(join(candidate(root), 'precious'))).toBe(false)
   })
 
+  it('rejects a symlinked artifacts ancestor introduced by the build before creating anything outside', () => {
+    const io = realIo(repo, (command, args) => {
+      if (command === 'node' && args[0] === 'sdk-build.mjs') symlinkSync(outside, join(repo, 'artifacts'))
+    })
+    const message = attempt(() => releasePack(io, context({ ARTIFACTS: 'artifacts' }, repo)))
+    expect(message).toMatch(/symbolic link/)
+    expect(existsSync(candidate(outside))).toBe(false)
+    expect(existsSync(join(candidate(outside), MARKER))).toBe(false)
+  })
+
   it('physicalContainmentErrors accepts plain nested and missing paths, rejects links and files', () => {
     mkdirSync(join(repo, 'a', 'b'), { recursive: true })
     expect(physicalContainmentErrors(repo, join(repo, 'a', 'b'))).toEqual([])

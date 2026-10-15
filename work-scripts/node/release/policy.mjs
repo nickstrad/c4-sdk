@@ -202,12 +202,25 @@ export function checkPackageReport(report, { sha256, version, sourceSha }) {
   return errors
 }
 
-// A location is a nonempty string; arrays and plain objects must be nonempty and contain only valid locations.
-function validLocations(value) {
-  if (typeof value === 'string') return value.trim() !== ''
-  if (Array.isArray(value)) return value.length > 0 && value.every(validLocations)
-  if (value !== null && typeof value === 'object') { const values = Object.values(value); return values.length > 0 && values.every(validLocations) }
-  return false
+// Location evidence: strings are nonempty, arrays nonempty, objects hold only locations. The top-level
+// `output` subtree is execution evidence (ESM/CJS results) and is never validated or counted as a location.
+function scanLocations(value, top = false) {
+  if (typeof value === 'string') return value.trim() === '' ? { malformed: true, count: 0 } : { malformed: false, count: 1 }
+  if (Array.isArray(value)) {
+    if (value.length === 0) return { malformed: true, count: 0 }
+    const parts = value.map(item => scanLocations(item))
+    return { malformed: parts.some(part => part.malformed), count: parts.reduce((sum, part) => sum + part.count, 0) }
+  }
+  if (value !== null && typeof value === 'object') {
+    const parts = Object.entries(value).filter(([key]) => !(top && key === 'output')).map(([, item]) => scanLocations(item))
+    return { malformed: parts.some(part => part.malformed), count: parts.reduce((sum, part) => sum + part.count, 0) }
+  }
+  return { malformed: true, count: 0 }
+}
+
+function validEvidence(report) {
+  const present = [report.evidence, report.evidenceLocations].filter(value => value !== undefined).map(value => scanLocations(value, true))
+  return present.length > 0 && !present.some(part => part.malformed) && present.some(part => part.count > 0)
 }
 
 export function checkReadmeReport(report, { sha256, version }) {
@@ -216,7 +229,7 @@ export function checkReadmeReport(report, { sha256, version }) {
   if (report.passed !== true) errors.push('README report did not pass')
   if (report.sha256 !== sha256) errors.push(`README report sha256 ${report.sha256} does not match artifact`)
   if (report.version !== version) errors.push(`README report version ${report.version} does not match artifact`)
-  if (!validLocations(report.evidence ?? report.evidenceLocations)) errors.push('README report names no valid evidence locations (expected nonempty strings, arrays or objects of them)')
+  if (!validEvidence(report)) errors.push('README report names no valid evidence locations (expected nonempty strings, arrays or objects of them)')
   return errors
 }
 

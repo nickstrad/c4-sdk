@@ -176,6 +176,13 @@ describe('release-verify', () => {
     expect(report.evidenceSha256).toBe(sha256Hex(Buffer.from(io.fs.get(EVIDENCE))))
   })
 
+  it('passes the README stage with the real P-04 producer evidence shape', () => {
+    const evidence = { consumer: CONSUMER, output: { esm: [{ file: 'a.mjs', stdout: 'ok', nodes: 4 }], cjs: [{ file: 'a.cjs', stdout: 'ok', nodes: 4 }] }, screenshots: ['/tmp/shot.png'] }
+    const io = verifiedIo({ runs: { 'node tests/readme/verify.mjs': readmeWrites({ evidence }) } })
+    releaseVerify(io, ctx(), TARBALL)
+    expect(JSON.parse(io.fs.get(VERIFY)).stages.readme).toBe('passed')
+  })
+
   it('fails closed without evidence, with a different hash, or with a tampered inventory', () => {
     expect(run(() => releaseVerify(verifiedIo({ io: { files: repoFiles({ [TARBALL]: 'tarball-bytes' }) } }), ctx(), TARBALL))).toMatch(/evidence is missing/)
     const hashed = verifiedIo({ io: { hashes: { [TARBALL]: { size: 99, sha256: 'f'.repeat(64), sha1: '', integrity: '' } } } })
