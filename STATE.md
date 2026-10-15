@@ -1,5 +1,12 @@
 # C4 SDK build state
 
+## P-06 final independent review active — 2026-10-15
+
+Fresh Sonnet completed/exited0 at fd32c04 (release-input fb74a91, report74e9639). Clean release-check PASS, source serial Playwright65pass/skip1. Default-parallel candidate failures disclosed; baseline reproduced both navigation failures, not every failure. Mobile-docs explicitly nonblocking per Nick. Retained exact artifact SHA2566b22bbe7cff52dafb358261072b9237daa8de38dbf0e4e8674ece2142fc05084 and all logs/screenshots at /tmp/c4-sdk-release-0.1.0.
+
+Fresh Sol independent review ACTIVE at /tmp/c4-sdk-p06-review, branch review/p-06-sol, exact fd32c04. Dispatch /tmp/c4-p06-review.md; output /tmp/c4-p06-review-events.jsonl, .stderr, .exit and /tmp/c4-p06-review-result.md; session15309. Reviewer must assess causality claims and all nonwaived failures, while honoring mobile-docs ruling. Await final committed verdict before landing. Publication prohibited. Builder worktree remains only because coordinator edits to brief/COORDINATION were intentionally left; those rulings are already committed on main, safe to clean after preserving diff.
+
+
 ## P-06 browser comparison continues — 2026-10-15
 
 Nick's mobile component-docs exception is committed in P-06 acceptance (31b39a4), root coordination (84d200d), and provided to active builder through its read-only brief/coordination files and /tmp/c4-p06-build.md. No source/test changes authorized by the exception. Fresh Sol review template at /tmp/c4-p06-review-template.md includes the exact ruling.
